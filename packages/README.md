@@ -1,1 +1,1 @@
-temp file for project structure
+Packages Folder: contains frontend and backend codebases
