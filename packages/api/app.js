@@ -1,12 +1,13 @@
 import express from "express";
-
+import User from "./src/routes/User.js";
 import db from "./src/models/index.js";
 
 const app = express();
 
 app.use(express.json({ extended: true }));
-
 app.use(express.json());
+
+app.use("/user", User);
 
 try {
   db.sequelize.authenticate();
