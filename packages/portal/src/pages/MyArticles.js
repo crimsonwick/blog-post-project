@@ -6,8 +6,8 @@ function MyArticles() {
   let isLoggedIn = true;
   return (
     <div>
-      {!isLoggedIn && <Navbar></Navbar>}
-      {isLoggedIn && <NavbarLoggedIn></NavbarLoggedIn>}
+      {!isLoggedIn && <Navbar />}
+      {isLoggedIn && <NavbarLoggedIn />}
       <div>MyArticles</div>
     </div>
   );

@@ -9,7 +9,7 @@ import NavbarLoggedIn from '../components/NavbarLoggedIn';
 function CreateArticle() {
   return (
     <div>
-      <NavbarLoggedIn></NavbarLoggedIn>
+      <NavbarLoggedIn />
 
       <h1 style={{ color: 'blue', fontFamily: 'Poppins' }}>
         Create New Article

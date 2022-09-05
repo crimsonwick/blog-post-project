@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 function Home() {
   return (
     <>
-      <NavBar></NavBar>
+      <NavBar />
       <Container sx={{ marginY: 5 }}></Container>
       <div>Hi</div>
     </>

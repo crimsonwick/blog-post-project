@@ -7,7 +7,7 @@ import NavbarLoggedIn from '../components/NavbarLoggedIn';
 function ChangePassword() {
   return (
     <div>
-      <NavbarLoggedIn></NavbarLoggedIn>
+      <NavbarLoggedIn />
       <h1 style={{ color: 'blue', fontFamily: 'Poppins' }}>Account Settings</h1>
       <Divider />
 

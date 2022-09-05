@@ -1,14 +1,14 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import React from "react";
-import Divider from "@mui/material/Divider";
-import Checkbox from "@mui/material/Checkbox";
-import { Link } from "react-router-dom";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import React from 'react';
+import Divider from '@mui/material/Divider';
+import Checkbox from '@mui/material/Checkbox';
+import { Link } from 'react-router-dom';
 
 function Login() {
   return (
     <div>
-      <h1 style={{ color: "blue", fontFamily: "Poppins" }}>Login</h1>
+      <h1 style={{ color: 'blue', fontFamily: 'Poppins' }}>Login</h1>
 
       <label>Email address or username</label>
       <br />
@@ -27,16 +27,15 @@ function Login() {
       <label>Remember Me</label>
       <br />
 
-      <Link to="/CreateArticle">
+      <Link to="/create-article">
         <h5>Forgot your password?</h5>
       </Link>
 
       <Button
         variant="contained"
         color="primary"
-        onClick={() => alert("hello there fella")}
+        onClick={() => alert('hello there fella')}
       >
-        {" "}
         Login
       </Button>
 
@@ -45,14 +44,16 @@ function Login() {
       <Divider />
       <br />
       <Divider light />
-      <h1 style={{ fontFamily: "Poppins" }}>Don't have an account?</h1>
+      <h1 style={{ fontFamily: 'Poppins' }}>Don't have an account?</h1>
 
-      <Link to="/SignUp">
-        <Button variant="contained" color="secondary">
-          {" "}
-          Sign up
-        </Button>
-      </Link>
+      <Button
+        component={Link}
+        to="/signup"
+        variant="contained"
+        color="secondary"
+      >
+        Sign Up
+      </Button>
     </div>
   );
 }

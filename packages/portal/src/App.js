@@ -30,12 +30,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/Home" element={<LandingPage />} />
-          <Route path="/MyArticles" element={<MyArticles />} />
-          <Route path="/CreateArticle" element={<CreateArticle />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/ChangePassword" element={<ChangePassword />} />
+          <Route path="/my-articles" element={<MyArticles />} />
+          <Route path="/create-article" element={<CreateArticle />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/change-password" element={<ChangePassword />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

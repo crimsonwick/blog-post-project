@@ -28,7 +28,6 @@ function SignUp() {
         color="primary"
         onClick={() => alert('hello there fella')}
       >
-        {' '}
         Create An Account
       </Button>
     </div>
