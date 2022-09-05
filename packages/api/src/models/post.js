@@ -14,6 +14,12 @@ export default (sequelize, DataTypes) => {
   }
   Posts.init(
     {
+      p_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        primaryKey: true,
+        defaultValue: sequelize.fn("uuid_generate_v4"),
+      },
       userId: {
         type: DataTypes.UUID,
         allowNull: false,

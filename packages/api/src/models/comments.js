@@ -24,12 +24,18 @@ export default (sequelize, DataTypes) => {
   }
   Comments.init(
     {
+      c_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        primaryKey: true,
+        defaultValue: sequelize.fn("uuid_generate_v4"),
+      },
       postId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: "Posts",
-          key: "id",
+          key: "p_id",
         },
       },
       userId: {
@@ -41,10 +47,10 @@ export default (sequelize, DataTypes) => {
         },
       },
       parentId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         references: {
           model: "Comments",
-          key: "id",
+          key: "c_id",
         },
         defaultValue: null,
       },
