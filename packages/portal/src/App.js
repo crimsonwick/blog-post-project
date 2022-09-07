@@ -7,22 +7,8 @@ import NoPage from './pages/NoPage';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import ChangePassword from './pages/ChangePassword';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    type: 'light',
-    primary: {
-      main: '#ffffff',
-    },
-    secondary: {
-      main: '#000000',
-    },
-  },
-  typography: {
-    fontFamily: 'Poppins',
-  },
-});
+import { theme } from './themes/theme';
+import { ThemeProvider } from '@mui/private-theming';
 
 function App() {
   return (
