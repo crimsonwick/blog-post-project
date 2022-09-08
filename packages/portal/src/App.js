@@ -11,17 +11,22 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    type: 'light',
+    type: "light",
     primary: {
-      main: '#ffffff',
+      main: "#ffffff",
     },
     secondary: {
-      main: '#000000',
+      main: "#000000",
     },
   },
   typography: {
-    fontFamily: 'Poppins',
-  },
+    fontFamily: "Poppins",
+  
+    button: {
+      textTransform: 'none',
+      borderRadius: '25px'
+    }
+  }
 });
 
 function App() {

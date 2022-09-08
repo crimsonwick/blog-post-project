@@ -1,60 +1,117 @@
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import React from 'react';
-import Divider from '@mui/material/Divider';
-import Checkbox from '@mui/material/Checkbox';
-import { Link } from 'react-router-dom';
+import styles from "./Login.module.css";
+
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Container from "@mui/material/Container";
+import { useForm, Controller } from "react-hook-form";
+import Button from "@mui/material/Button";
+import React from "react";
+import Divider from "@mui/material/Divider";
+import { Link } from "react-router-dom";
+import FormLabel from "@mui/material/FormLabel";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import * as yup from "yup";
+
+// const schema = yup
+//   .object({
+//     email: yup.string().required(),
+//     password: yup.string().required(),
+//   })
+//   .required();
 
 function Login() {
+  const { control, handleSubmit } = useForm();
+  const onSubmit = (data) => console.log(data);
+
   return (
-    <div>
-      <h1 style={{ color: 'blue', fontFamily: 'Poppins' }}>Login</h1>
+    <Container maxWidth="md">
+      <h1 className={styles.headingOne}>Log In</h1>
 
-      <label>Email address or username</label>
-      <br />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormLabel htmlFor="my-input">Email address or username</FormLabel>
 
-      <TextField id="outlined-basic" />
-      <br />
+        <Controller
+          control={control}
+          name="email"
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState: { invalid, isTouched, isDirty, error },
+            formState,
+          }) => (
+            <OutlinedInput
+              onBlur={onBlur} // notify when input is touched
+              onChange={onChange} // send value to hook form
+              checked={value}
+              inputRef={ref}
+              sx={{
+                borderRadius: 18,
+              }}
+              fullWidth
+              variant="outlined"
+            />
+          )}
+        />
+        <br />
 
-      <label>Password</label>
-      <br />
+        <FormLabel htmlFor="my-input">Password</FormLabel>
+        <Controller
+          control={control}
+          name="password"
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState: { invalid, isTouched, isDirty, error },
+            formState,
+          }) => (
+            <OutlinedInput
+              onBlur={onBlur} // notify when input is touched
+              onChange={onChange} // send value to hook form
+              checked={value}
+              inputRef={ref}
+              style={{
+                borderRadius: 18,
+              }}
+              fullWidth
+              variant="outlined"
+            />
+          )}
+        />
+        <br />
 
-      <TextField id="outlined-basic" />
-      <br />
-      <br />
+        <Link to="/create-article">
+          <h5 className={styles.headingFive}>Forgot your password?</h5>
+        </Link>
 
-      <Checkbox />
-      <label>Remember Me</label>
-      <br />
-
-      <Link to="/create-article">
-        <h5>Forgot your password?</h5>
-      </Link>
-
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => alert('hello there fella')}
-      >
-        Login
-      </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          fullWidth
+          sx={{
+            borderRadius: 25,
+            fontSize: "18px",
+          }}
+        >
+          Log in
+        </Button>
+      </form>
 
       <br />
       <br />
       <Divider />
-      <br />
-      <Divider light />
-      <h1 style={{ fontFamily: 'Poppins' }}>Don't have an account?</h1>
 
-      <Button
-        component={Link}
-        to="/signup"
-        variant="contained"
-        color="secondary"
-      >
-        Sign Up
-      </Button>
-    </div>
+      <h3 className={styles.h3}>Don't have an account?</h3>
+
+      <Link to="/SignUp">
+        <Button
+          fullWidth
+          variant="outlined"
+          color="secondary"
+          sx={{ borderRadius: "25px" , fontSize: "18px"}}
+        >
+          Sign up
+        </Button>
+      </Link>
+      <br />
+    </Container>
   );
 }
 
