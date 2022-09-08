@@ -1,24 +1,36 @@
-import React from 'react';
 import { Container } from '@mui/system';
 import Header from '../components/Header';
 import InputField from '../components/InputField';
 import InputButton from '../components/InputButton';
 import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+// import { yupResolver } from '@hookform/resolvers/yup';
+// import * as yup from 'yup';
 
-function Signup() {
+const Signup = () => {
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+  const onSubmit = (data) => console.log(data);
   return (
     <Container maxWidth="sm">
-      <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
-        <Header />
-        <InputField field="email" />
-        <InputField field="password" />
-        <InputButton />
+      <Box mt={20} mb={5}>
+        <Header
+          heading="Create An Account"
+          desc="Already have an account? "
+          link="Log in"
+        />
+      </Box>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        <InputField name="email" control={control} />
+        <InputField name="password" control={control} />
+        <InputButton name="Create An Account" control={control} />
       </Box>
     </Container>
   );
-}
+};
 
 export default Signup;
