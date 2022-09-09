@@ -1,5 +1,4 @@
 import styles from "./Login.module.css";
-
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Container from "@mui/material/Container";
 import { useForm, Controller } from "react-hook-form";
@@ -8,30 +7,69 @@ import React from "react";
 import Divider from "@mui/material/Divider";
 import { Link } from "react-router-dom";
 import FormLabel from "@mui/material/FormLabel";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import * as yup from "yup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-// const schema = yup
-//   .object({
-//     email: yup.string().required(),
-//     password: yup.string().required(),
-//   })
-//   .required();
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+
+const schema = yup
+  .object({
+    email: yup.string().email().required(),
+    password: yup.string().required().min(4).max(15),
+
+  })
+  .required();
 
 function Login() {
-  const { control, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: yupResolver(schema)
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  const [values, setValues] = React.useState({
+    showPassword: false,
+  });
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <Container maxWidth="md">
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor="my-input">Email address or username</FormLabel>
-
+        <FormLabel htmlFor="my-input">Email address or username</FormLabel>{" "}
+        <br />
+        <br />
         <Controller
           control={control}
           name="email"
+          rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
             fieldState: { invalid, isTouched, isDirty, error },
@@ -44,51 +82,67 @@ function Login() {
               inputRef={ref}
               sx={{
                 borderRadius: 18,
+                marginBottom: 3,
               }}
               fullWidth
               variant="outlined"
             />
           )}
         />
-        <br />
 
+         {errors.email && <p>{errors.email.message}</p>}
+        <br />
         <FormLabel htmlFor="my-input">Password</FormLabel>
+        <br />
+        <br />
         <Controller
           control={control}
           name="password"
+          rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
             fieldState: { invalid, isTouched, isDirty, error },
             formState,
           }) => (
             <OutlinedInput
-              onBlur={onBlur} // notify when input is touched
+              type={values.showPassword ? "text" : "password"}
+              value={values.password}
               onChange={onChange} // send value to hook form
-              checked={value}
-              inputRef={ref}
-              style={{
+              sx={{
                 borderRadius: 18,
               }}
               fullWidth
-              variant="outlined"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
             />
           )}
         />
-        <br />
-
+        {errors.password && <p>{errors.password.message}</p>}
         <Link to="/create-article">
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
-
+        <FormControlLabel
+          control={<Checkbox color="secondary" />}
+          label="Remember Me"
+          sx={{ marginBottom: 2 }}
+        />
         <Button
           type="submit"
           variant="contained"
           color="secondary"
           fullWidth
-          sx={{
-            borderRadius: 25,
-            fontSize: "18px",
-          }}
+          sx={{ borderRadius: 25, fontSize: "22px" }}
         >
           Log in
         </Button>
@@ -105,7 +159,7 @@ function Login() {
           fullWidth
           variant="outlined"
           color="secondary"
-          sx={{ borderRadius: "25px" , fontSize: "18px"}}
+          sx={{ borderRadius: "25px", fontSize: "22px" }}
         >
           Sign up
         </Button>
