@@ -7,12 +7,12 @@ import { Container } from '@mui/system';
 import Header from '../components/Header';
 import { Box } from '@mui/system';
 
-function ChangePassword() {
+const ChangePassword = () => {
   return (
     <Container maxWidth="sm">
       <Box></Box>
     </Container>
   );
-}
+};
 
 export default ChangePassword;

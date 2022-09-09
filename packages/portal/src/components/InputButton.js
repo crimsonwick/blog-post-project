@@ -1,21 +1,23 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { Controller } from 'react-hook-form';
 
-export default function InputButton(props) {
+const InputButton = (props) => {
   return (
     <Button
       type="submit"
       variant="contained"
-      fullWidth
       sx={{
-        bgcolor: 'gray',
         marginTop: '30px',
         fontFamily: 'Montserrat',
-        borderRadius: '25px',
+        borderRadius: '20px',
+        height: '40px',
       }}
+      fullWidth
+      color="primary"
     >
       {props.name}
     </Button>
   );
-}
+};
+
+export default InputButton;

@@ -2,7 +2,7 @@ import React from 'react';
 import NavBar from '../components/NavBar';
 import Container from '@mui/material/Container';
 
-function Home() {
+const Home = () => {
   return (
     <>
       <NavBar />
@@ -10,6 +10,6 @@ function Home() {
       <div>Hi</div>
     </>
   );
-}
+};
 
 export default Home;

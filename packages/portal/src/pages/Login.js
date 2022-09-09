@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import InputField from '../components/InputField';
 import InputButton from '../components/InputButton';
 
-function Login() {
+const Login = () => {
   return (
     <Container maxWidth="sm">
       <Box mt={20} mb={5}>
@@ -19,6 +19,6 @@ function Login() {
       </Box>
     </Container>
   );
-}
+};
 
 export default Login;

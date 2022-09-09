@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import NavbarLoggedIn from '../components/NavbarLoggedIn';
 
-function CreateArticle() {
+const CreateArticle = () => {
   return (
     <div>
       <NavbarLoggedIn />
@@ -49,6 +49,6 @@ function CreateArticle() {
       </Button>
     </div>
   );
-}
+};
 
 export default CreateArticle;

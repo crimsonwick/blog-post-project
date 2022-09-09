@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { Search, SearchIconWrapper, StyledInputBase } from '../styles/NavBar';
 
-function NavbarLoggedIn() {
+const NavbarLoggedIn = () => {
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
@@ -34,6 +34,6 @@ function NavbarLoggedIn() {
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 export default NavbarLoggedIn;

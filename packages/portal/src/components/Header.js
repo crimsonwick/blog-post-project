@@ -1,12 +1,14 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-export default function Header(props) {
+const Header = (props) => {
   return (
     <Box
-      elevation={10}
+      mt={20}
+      mb={5}
       sx={{
-        width: '552px',
+        width: '100%',
         fontFamily: 'Montserrat',
       }}
     >
@@ -19,4 +21,6 @@ export default function Header(props) {
       </p>
     </Box>
   );
-}
+};
+
+export default Header;
