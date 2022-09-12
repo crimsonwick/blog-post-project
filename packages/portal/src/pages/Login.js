@@ -21,16 +21,20 @@ import * as yup from "yup";
 const schema = yup
   .object({
     email: yup.string().email().required(),
-    password: yup.string().required().min(4).max(15),
+    password: yup.string().required().matches( //.min(4).max(15) 
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+    ),
+    //.matches(/^[!@#$%^&*(),.?":{}|<>]+$/, " Must contain a special character"),//.matches( /^[!@#$%^&*(),.?":{}|<>]+$/, "special character "),
 
   })
   .required();
 
 function Login() {
-  const {
+   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {errors },
   } = useForm({
     defaultValues: {
       email: "",
@@ -129,7 +133,7 @@ function Login() {
           )}
         />
         {errors.password && <p>{errors.password.message}</p>}
-        <Link to="/create-article">
+        <Link to="/change-password">
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
