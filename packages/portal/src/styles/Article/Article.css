@@ -1,0 +1,11 @@
+.articleImg {
+    width: 25%;
+    height: 95%;
+    margin: 5px 10px 5px 2px;
+}
+
+.List {
+    display: flex;
+    direction: row;
+    padding: 0px; 
+}

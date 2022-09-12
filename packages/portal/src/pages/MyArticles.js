@@ -1,15 +1,26 @@
+import { Container } from '@mui/system';
 import React from 'react';
 import Navbar from '../components/NavBar';
-import NavbarLoggedIn from '../components/NavbarLoggedIn';
+import Article from '../components/Article';
+import { Box } from '@mui/system';
+import Footer from '../components/Footer';
 
 const MyArticles = () => {
-  let isLoggedIn = true;
   return (
-    <div>
-      {!isLoggedIn && <Navbar />}
-      {isLoggedIn && <NavbarLoggedIn />}
-      <div>MyArticles</div>
-    </div>
+    <>
+      <Navbar />
+      <Container maxWidth="lg" sx={{ position: 'relative' }}>
+        <Box mt={5}>
+          <Article />
+          <Article />
+          <Article />
+          <Article />
+          <Article />
+          <Article />
+        </Box>
+        <Footer />
+      </Container>
+    </>
   );
 };
 
