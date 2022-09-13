@@ -1,4 +1,4 @@
-import styles from './Login.module.css';
+import styles from '../styles/Login/Login.module.css';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';

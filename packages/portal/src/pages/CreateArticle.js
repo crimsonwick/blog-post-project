@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./CreateArticle.module.css";
+import styles from "../styles/CreateArticle/CreateArticle.module.css";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 

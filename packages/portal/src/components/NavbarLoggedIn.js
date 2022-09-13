@@ -28,8 +28,11 @@ const NavbarLoggedIn = () => {
   return (
     <AppBar position="static" style={{ background: "#FFFFFF" }}>
       <Toolbar>
-        <Link to="/">Home</Link>
-        <Link to="/my-articles">My Articles</Link>
+        <Link to="/">Home</Link>{"     "}
+
+        {/* <hr/> */}
+        <Link to="/my-articles">My Articles</Link>        <hr></hr>
+
         <Search style={{ color: "#111111" }}>
           <SearchIconWrapper>
             <SearchIcon style={{ color: "#111111" }} />

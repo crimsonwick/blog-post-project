@@ -1,5 +1,12 @@
+import NavbarX from "../components/NavBarX";
+
 const NoPage = () => {
-  return <h1>404</h1>;
+  return (
+    <>
+    <NavbarX login={true}></NavbarX>
+      <h1>404</h1>
+    </>
+  );
 };
 
 export default NoPage;

@@ -19,13 +19,13 @@ const MenuAppBar = () => {
           Home
         </Typography>
 
-        <Search style={{ color: '#111111' }}>
+        <Search sx={{ color: '#111111' }}>
           <SearchIconWrapper>
-            <SearchIcon style={{ color: '#111111' }} />
+            <SearchIcon sx={{ color: '#111111' }} />
           </SearchIconWrapper>
 
           <StyledInputBase
-            style={{ color: '#111111' }}
+            sx={{ color: '#111111' }}
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
           />
