@@ -159,7 +159,7 @@ function Login() {
 
       <h3 className={styles.h3}>Don't have an account?</h3>
 
-      <Link to="/sign-up">
+      <Link to="/signup">
         <Button
           fullWidth
           variant="outlined"
