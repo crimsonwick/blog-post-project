@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import Article from './Article';
 import { useState } from 'react';
 
 const Comment = (props) => {
