@@ -1,18 +1,18 @@
-import React from "react";
-import styles from "./CreateArticle.module.css";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import NavbarLoggedIn from "../components/NavbarLoggedIn";
-import { OutlinedInput } from "@mui/material";
+import React from 'react';
+import styles from '../styles/CreateArticle.module.css';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import NavbarLoggedIn from '../components/NavbarLoggedIn';
+import { OutlinedInput } from '@mui/material';
 
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 function CreateArticle() {
-  const [min, setMin] = React.useState("");
+  const [min, setMin] = React.useState('');
 
   const handleChange = (event) => {
     setMin(event.target.value);
@@ -104,13 +104,13 @@ function CreateArticle() {
           variant="contained"
           color="secondary"
           fullWidth
-          sx={{ borderRadius: "25px", fontSize: "22px", width: "350px" }}
+          sx={{ borderRadius: '25px', fontSize: '22px', width: '350px' }}
         >
           Publish Article
         </Button>
       </div>
     </div>
   );
-};
+}
 
 export default CreateArticle;

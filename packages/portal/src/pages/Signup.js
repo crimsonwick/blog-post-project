@@ -23,7 +23,7 @@ const Signup = () => {
   });
   const onSubmit = (data) => console.log(data);
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="sm">
       <Box>
         <Header
           heading="Create An Account"

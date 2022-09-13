@@ -6,34 +6,36 @@ import NoPage from './pages/NoPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ChangePassword from './pages/ChangePassword';
-// import { theme } from './themes/theme';
-// import { ThemeProvider } from '@mui/private-theming';
+import { theme } from './themes/theme';
+import { ThemeProvider } from '@mui/private-theming';
 import { useEffect } from 'react';
 import WebFont from 'webfontloader';
+import ArticleDetail from './pages/ArticleDetail';
 
 function App() {
   useEffect(() => {
     WebFont.load({
       google: {
-        families: ['Montserrat'],
+        families: ['Montserrat', 'Poppins'],
       },
     });
   }, []);
 
   return (
-    // <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/my-articles" element={<MyArticles />} />
-        <Route path="/create-article" element={<CreateArticle />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="*" element={<NoPage />} />
-      </Routes>
-    </BrowserRouter>
-    // </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/my-articles" element={<MyArticles />} />
+          <Route path="/article-detail" element={<ArticleDetail />} />
+          <Route path="/create-article" element={<CreateArticle />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="*" element={<NoPage />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
