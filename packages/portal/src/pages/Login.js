@@ -1,46 +1,48 @@
-import styles from "./Login.module.css";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import Container from "@mui/material/Container";
-import { useForm, Controller } from "react-hook-form";
-import Button from "@mui/material/Button";
-import React from "react";
-import Divider from "@mui/material/Divider";
-import { Link } from "react-router-dom";
-import FormLabel from "@mui/material/FormLabel";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import styles from './Login.module.css';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Container from '@mui/material/Container';
+import { useForm, Controller } from 'react-hook-form';
+import Button from '@mui/material/Button';
+import React from 'react';
+import Divider from '@mui/material/Divider';
+import { Link } from 'react-router-dom';
+import FormLabel from '@mui/material/FormLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 const schema = yup
   .object({
     email: yup.string().email().required(),
-    password: yup.string().required().matches( //.min(4).max(15) 
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-    ),
+    password: yup
+      .string()
+      .required()
+      .matches(
+        //.min(4).max(15)
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
+      ),
     //.matches(/^[!@#$%^&*(),.?":{}|<>]+$/, " Must contain a special character"),//.matches( /^[!@#$%^&*(),.?":{}|<>]+$/, "special character "),
-
   })
   .required();
 
 function Login() {
-   const {
+  const {
     control,
     handleSubmit,
-    formState: {errors },
+    formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
@@ -67,7 +69,7 @@ function Login() {
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor="my-input">Email address or username</FormLabel>{" "}
+        <FormLabel htmlFor="my-input">Email address or username</FormLabel>{' '}
         <br />
         <br />
         <Controller
@@ -93,8 +95,7 @@ function Login() {
             />
           )}
         />
-
-         {errors.email && <p>{errors.email.message}</p>}
+        {errors.email && <p>{errors.email.message}</p>}
         <br />
         <FormLabel htmlFor="my-input">Password</FormLabel>
         <br />
@@ -109,7 +110,7 @@ function Login() {
             formState,
           }) => (
             <OutlinedInput
-              type={values.showPassword ? "text" : "password"}
+              type={values.showPassword ? 'text' : 'password'}
               value={values.password}
               onChange={onChange} // send value to hook form
               sx={{
@@ -146,7 +147,7 @@ function Login() {
           variant="contained"
           color="secondary"
           fullWidth
-          sx={{ borderRadius: 25, fontSize: "22px" }}
+          sx={{ borderRadius: 25, fontSize: '22px' }}
         >
           Log in
         </Button>
@@ -158,12 +159,12 @@ function Login() {
 
       <h3 className={styles.h3}>Don't have an account?</h3>
 
-      <Link to="/SignUp">
+      <Link to="/sign-up">
         <Button
           fullWidth
           variant="outlined"
           color="secondary"
-          sx={{ borderRadius: "25px", fontSize: "22px" }}
+          sx={{ borderRadius: '25px', fontSize: '22px' }}
         >
           Sign up
         </Button>
@@ -171,6 +172,6 @@ function Login() {
       <br />
     </Container>
   );
-};
+}
 
 export default Login;

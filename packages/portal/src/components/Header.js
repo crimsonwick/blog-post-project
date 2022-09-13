@@ -15,9 +15,12 @@ const Header = (props) => {
       <h1 style={{ textAlign: 'center', margin: 0 }}>{props.heading}</h1>
       <p style={{ textAlign: 'center', margin: 0 }}>
         {props.desc}
-        <a href="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
-          {props.link}
-        </a>
+        <Link
+          to={props.link}
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          Log in
+        </Link>
       </p>
     </Box>
   );

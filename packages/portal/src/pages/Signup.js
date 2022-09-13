@@ -28,7 +28,7 @@ const Signup = () => {
         <Header
           heading="Create An Account"
           desc="Already have an account? "
-          link="Log in"
+          link="/login"
         />
       </Box>
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
