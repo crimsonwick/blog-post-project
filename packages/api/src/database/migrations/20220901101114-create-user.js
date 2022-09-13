@@ -1,14 +1,12 @@
 "use strict";
 
-import { sequelize } from "sequelize";
-
 export async function up(queryInterface, Sequelize) {
   await queryInterface.createTable("Users", {
     u_id: {
       type: Sequelize.UUID,
       allowNull: false,
       primaryKey: true,
-      defaultvalue: sequelize.fn("uuid_generate_v4"),
+      defaultValue: Sequelize.fn("uuid_generate_v4"),
     },
     name: {
       type: Sequelize.STRING,

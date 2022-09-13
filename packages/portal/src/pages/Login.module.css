@@ -1,0 +1,38 @@
+.h1 {
+  /* font-family: Poppins; */
+  text-align: center;
+  height: 38px;
+  padding-top: 98px;
+  padding-bottom: 77px;
+  font-size: 27px;
+
+}
+
+.headingOne {
+  font-family: Poppins;
+  text-align: center;
+  height: 38px;
+  padding-top: 98px;
+  padding-bottom: 77px;
+}
+
+.headingFive {
+  font-family: Poppins;
+  text-align: right;
+  text-decoration: none;
+  font-size: 16px
+}
+
+
+
+.h3 {
+  font-family: Poppins;
+  text-align: center;
+}
+
+ /* .btn {
+  border-radius: 25px;
+  font-size: 18px;
+  text-transform: none;
+  text-decoration: none;
+} */
