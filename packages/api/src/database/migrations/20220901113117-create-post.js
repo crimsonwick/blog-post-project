@@ -1,7 +1,7 @@
 "use strict";
 export async function up(queryInterface, Sequelize) {
   await queryInterface.createTable("Posts", {
-    p_id: {
+    id: {
       allowNull: false,
       defaultValue: Sequelize.fn("uuid_generate_v4"),
       primaryKey: true,
@@ -11,7 +11,7 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.UUID,
       references: {
         model: "Users",
-        key: "u_id",
+        key: "id",
       },
       allowNull: false,
     },

@@ -1,9 +1,14 @@
 import express from 'express';
-import { getData, PaginatedResults } from '../middleware/Pagination.js';
+import { getPosts } from '../controllers/Post.js';
 import model from '../models';
+import { PaginatedResults,getData } from '../middleware/Pagination.js';
 
-const { Posts } = model;
+
+
 const router = express.Router();
-router.get("/post", PaginatedResults(Posts),getData);
+const { Posts } = model;
+
+router.get("/allPosts",getPosts);
+router.get("/paginated", PaginatedResults(Posts),getData);
 
 export default router;

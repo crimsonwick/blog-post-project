@@ -1,7 +1,7 @@
 "use strict";
 export async function up(queryInterface, Sequelize) {
   await queryInterface.createTable("Comments", {
-    c_id: {
+    id: {
       allowNull: false,
       defaultValue: Sequelize.fn("uuid_generate_v4"),
       primaryKey: true,
@@ -11,7 +11,7 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.UUID,
       references: {
         model: "Posts",
-        key: "p_id",
+        key: "id",
       },
       allowNull: false,
     },
@@ -19,7 +19,7 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.UUID,
       references: {
         model: "Users",
-        key: "u_id",
+        key: "id",
       },
       allowNull: false,
     },
@@ -27,7 +27,7 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.UUID,
       references: {
         model: "Comments",
-        key: "c_id",
+        key: "id",
       },
       defaultValue: null,
     },

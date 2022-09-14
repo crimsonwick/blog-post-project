@@ -24,7 +24,7 @@ export default (sequelize, DataTypes) => {
   }
   Comments.init(
     {
-      c_id: {
+      id: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
@@ -35,7 +35,7 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         references: {
           model: "Posts",
-          key: "p_id",
+          key: "id",
         },
       },
       userId: {
@@ -43,14 +43,14 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         references: {
           model: "Users",
-          key: "u_id",
+          key: "id",
         },
       },
       parentId: {
         type: DataTypes.UUID,
         references: {
           model: "Comments",
-          key: "c_id",
+          key: "id",
         },
         defaultValue: null,
       },

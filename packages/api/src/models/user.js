@@ -9,7 +9,7 @@ export default (sequelize, DataTypes) => {
   }
   Users.init(
     {
-      u_id: {
+      id: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,

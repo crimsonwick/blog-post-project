@@ -27,3 +27,11 @@ export const production = {
   port: process.env.DB_PORT,
   logging: false,
 };
+export const elasticSearch = {
+  username: process.env.Cloud_USERNAME,
+  password: process.env.Cloud_PASSWORD,
+  cloud: process.env.Cloud_NAME,
+  host: process.env.Cloud_HOST,
+  cloudID: process.env.Cloud_ID,
+};
+

@@ -1,6 +1,5 @@
 import express from 'express';
 import { addComment, addReply, deleteComment, getComments, getRepliesfromComment, updateComment } from '../controllers/Comment.js';
-
 const router = express.Router();
 
 router.get("/",getComments);

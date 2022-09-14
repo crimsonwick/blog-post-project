@@ -14,7 +14,7 @@ export default (sequelize, DataTypes) => {
   }
   Posts.init(
     {
-      p_id: {
+      id: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
@@ -25,7 +25,7 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         references: {
           model: "Users",
-          key: "u_id",
+          key: "id",
         },
       },
       title: {

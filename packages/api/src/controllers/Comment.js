@@ -1,4 +1,5 @@
 import model from '../models';
+import { ErrorHandling } from '../middleware/Errors.js';
 
 const { Comments } = model;
 
@@ -8,7 +9,7 @@ export const addComment = async(req,res) => {
         const addC = await Comments.create({postId: postId,userId: userId,title: title,body: body});
         res.json(addC);
     } catch (error) {
-        console.log(error);
+        ErrorHandling(res);
     } 
 }
 
@@ -17,7 +18,7 @@ export const getComments = async(req,res) => {
         const getAll = await Comments.findAll();
         res.json(getAll);
     } catch (error) {
-        console.log(error);
+        ErrorHandling(res);
     }
 }
 
@@ -28,7 +29,7 @@ export const updateComment = async(req,res) => {
         const updateC = await Comments.update(update,{where: {id: id}})
         res.json(`Successfully Updated Id = ${id}`)
     } catch (error) {
-        console.log(error);
+        ErrorHandling(res);
     }
 }
 
@@ -38,7 +39,7 @@ export const deleteComment = async(req,res) => {
         const deleteC = await Comments.destroy({where: {id: id}})
         res.json(`Successfully Deleted Id = ${id}`) ;       
     } catch (error) {
-        console.log(error);
+        ErrorHandling(res);
     }
 }
 export const getRepliesfromComment = async(req,res) => {
@@ -51,7 +52,7 @@ export const getRepliesfromComment = async(req,res) => {
         })
         res.json(replies);
     } catch (error) {
-        console.log(error);
+        ErrorHandling(res);
     }
 }
 
@@ -61,6 +62,6 @@ export const addReply = async(req,res) => {
         const addReply = await Comments.create({userId: userId,postId: postId,parentId: parentId,title: title,body: body});
          return   res.json(addReply);
     } catch (error) {
-        console.log(error);
+        ErrorHandling(res);
     }
 }

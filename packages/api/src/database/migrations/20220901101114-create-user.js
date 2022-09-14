@@ -2,7 +2,7 @@
 
 export async function up(queryInterface, Sequelize) {
   await queryInterface.createTable("Users", {
-    u_id: {
+    id: {
       type: Sequelize.UUID,
       allowNull: false,
       primaryKey: true,
