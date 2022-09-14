@@ -11,13 +11,15 @@ const AddComment = () => {
   const onSubmit = (data) => console.log(data);
 
   return (
-    <>
-      <InputField
-        name="comment"
-        control={control}
-        width="1000px"
-        labelAbove="Add Comment"
-      />
+    <Box display="flex" gap={2} alignItems="flex-end">
+      <Box>
+        <InputField
+          name="comment"
+          control={control}
+          width="1000px"
+          labelAbove="Add Comment"
+        />
+      </Box>
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -25,7 +27,7 @@ const AddComment = () => {
       >
         <InputButton name="Post" width="100px" />
       </Box>
-    </>
+    </Box>
   );
 };
 

@@ -26,7 +26,7 @@ const ArticleDetail = () => {
         </Box>
         <Box mt={3}>
           <Comment count={4} />
-          <Comment count={4} />;
+          <Comment count={4} />
         </Box>
       </Container>
     </>
