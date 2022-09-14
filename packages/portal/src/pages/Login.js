@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import styles from '../styles/Login/Login.module.css';
+=======
+import styles from '../styles/Login.module.css';
+>>>>>>> nauman-3
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styles from "../styles/ChangePassword/ChangePassword.module.css"
 import React from "react";
 import Button from "@mui/material/Button";
@@ -8,11 +9,24 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+=======
+import styles from '../styles/ChangePassword.module.css';
 
-import { useForm, Controller } from "react-hook-form";
+import React from 'react';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import NavbarLoggedIn from '../components/NavbarLoggedIn';
+import { OutlinedInput } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+>>>>>>> nauman-3
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { useForm, Controller } from 'react-hook-form';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 const schema = yup
   .object({
@@ -21,15 +35,15 @@ const schema = yup
       .required()
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
       ),
     password2: yup
       .string()
       .required()
-      .oneOf([yup.ref("password1"), null], "Passwords must match")
+      .oneOf([yup.ref('password1'), null], 'Passwords must match')
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
       ),
   })
   .required();
@@ -41,8 +55,8 @@ function ChangePassword() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      password1: "",
-      password2: "",
+      password1: '',
+      password2: '',
     },
     resolver: yupResolver(schema),
   });
@@ -95,7 +109,7 @@ function ChangePassword() {
                 onChange={onChange} // send value to hook form
                 checked={value}
                 inputRef={ref}
-                type={values.showPassword ? "text" : "password"}
+                type={values.showPassword ? 'text' : 'password'}
                 value={values.password}
                 sx={{
                   borderRadius: 5,
@@ -140,7 +154,7 @@ function ChangePassword() {
                 onChange={onChange} // send value to hook form
                 checked={value}
                 inputRef={ref}
-                type={values.showPassword ? "text" : "password"}
+                type={values.showPassword ? 'text' : 'password'}
                 value={values.password}
                 sx={{
                   borderRadius: 5,
@@ -175,7 +189,7 @@ function ChangePassword() {
             variant="contained"
             color="secondary"
             fullWidth
-            sx={{ borderRadius: "25px", fontSize: "22px", width: "350px" }}
+            sx={{ borderRadius: '25px', fontSize: '22px', width: '350px' }}
           >
             Save Changes
           </Button>
@@ -183,6 +197,6 @@ function ChangePassword() {
       </div>
     </div>
   );
-};
+}
 
 export default ChangePassword;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import styles from "../styles/CreateArticle/CreateArticle.module.css";
 import Button from "@mui/material/Button";
@@ -28,6 +29,23 @@ const schema = yup
 
 function CreateArticle() {
  // const [min, setMin] = React.useState("");
+=======
+import React from 'react';
+import styles from '../styles/CreateArticle.module.css';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import NavbarLoggedIn from '../components/NavbarLoggedIn';
+import { OutlinedInput } from '@mui/material';
+
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
+function CreateArticle() {
+  const [min, setMin] = React.useState('');
+>>>>>>> nauman-3
 
   const {
     control,
@@ -210,6 +228,7 @@ function CreateArticle() {
             <PhotoCamera />
           </IconButton> */}
 
+<<<<<<< HEAD
           <br />
           <br/>
           <br/>
@@ -223,6 +242,49 @@ function CreateArticle() {
             Publish Article
           </Button>
         </form>
+=======
+        <br />
+        <br />
+
+        <label className={styles.poppins}>Write something about it</label>
+        <br />
+
+        <OutlinedInput
+          multiline
+          maxRows={Infinity}
+          sx={{
+            borderRadius: 5,
+            marginBottom: 3,
+            width: 700,
+            marginTop: 1,
+          }}
+        />
+        <br />
+        <br />
+
+        <Button variant="contained" component="label" color="primary">
+          Upload
+          <input hidden accept="image/*" multiple type="file" />
+        </Button>
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="label"
+        >
+          <input hidden accept="image/*" type="file" />
+          <PhotoCamera />
+        </IconButton>
+
+        <br />
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+          sx={{ borderRadius: '25px', fontSize: '22px', width: '350px' }}
+        >
+          Publish Article
+        </Button>
+>>>>>>> nauman-3
       </div>
     </div>
   );

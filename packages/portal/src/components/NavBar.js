@@ -11,7 +11,7 @@ import {
   StyledInputBase,
 } from '../styles/NavBar.js';
 
-const MenuAppBar = () => {
+const NavBar = () => {
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
@@ -51,4 +51,4 @@ const MenuAppBar = () => {
   );
 };
 
-export default MenuAppBar;
+export default NavBar;
