@@ -1,9 +1,0 @@
-node_modules/
-.vscode/
-App.js
-index.js
-package-lock.json
-package.json
-ChangePassword.js
-CreateArticle.js
-Login.js
