@@ -12,6 +12,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 // import { v4 as uuid } from 'uuid';
 import { useState } from 'react';
+import AddComment from './AddComment';
 
 const Comment = (props) => {
   const [replies, setReplies] = useState(false);
@@ -21,7 +22,7 @@ const Comment = (props) => {
   // ));
 
   return (
-    <Card sx={{ marginLeft: '20px' }}>
+    <Card elevation={2} sx={{ marginLeft: '20px', marginTop: '20px' }}>
       <Box sx={{ display: 'flex', allignItems: 'left' }}>
         <List>
           <ListItem>
@@ -50,6 +51,7 @@ const Comment = (props) => {
         Show Replies ({props.count})
       </Button>
       {replies && <Comment count={69} />}
+      <AddComment />
     </Card>
   );
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Box } from '@mui/system';
 import '../styles/Article/Article.css';
 import { Card, List } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
@@ -9,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import flexContainer from '../styles/Article/List';
 import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
 
 const ArticleBig = () => {

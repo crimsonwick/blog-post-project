@@ -49,7 +49,9 @@ const Signup = () => {
           labelBelow="Use 8 or more characters with a mix of letters, numbers & symbols"
         />
         <p>{errors.password?.message}</p>
-        <InputButton name="Create An Account" />
+        <Box mt={3}>
+          <InputButton name="Create An Account" />
+        </Box>
       </Box>
     </Container>
   );
