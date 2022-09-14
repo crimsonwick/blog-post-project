@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styles from "../styles/ChangePassword/ChangePassword.module.css"
 import React from "react";
 import Button from "@mui/material/Button";
@@ -8,6 +9,18 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+=======
+import styles from '../styles/ChangePassword/ChangePassword.module.css';
+import React from 'react';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import NavbarLoggedIn from '../components/NavbarLoggedIn';
+import { OutlinedInput } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+>>>>>>> nauman-3
 
 import { useForm, Controller } from 'react-hook-form';
 

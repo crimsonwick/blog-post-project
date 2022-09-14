@@ -5,11 +5,20 @@ import { FormLabel } from '@mui/material';
 
 const InputField = (props) => {
   const { register } = useForm();
+  const customWidth = props.width;
   return (
     <>
+<<<<<<< HEAD
       <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
+=======
+      <FormLabel
+        htmlFor="form-label-above"
+        sx={{ fontFamily: 'Poppins', display: 'block' }}
+      >
+>>>>>>> nauman-3
         {props.labelAbove}
       </FormLabel>
+
       <Controller
         name={props.name}
         control={props.control}
@@ -19,14 +28,18 @@ const InputField = (props) => {
             {...field}
             sx={{
               borderRadius: '20px',
-              fontFamily: 'Montserrat',
+              fontFamily: 'Poppins',
+              width: customWidth || '100%',
+              display: 'block',
             }}
-            fullWidth
             placeholder={props.placeholder}
           />
         )}
       />
-      <FormLabel htmlFor="form-label-below" sx={{ fontFamily: 'Montserrat' }}>
+      <FormLabel
+        htmlFor="form-label-below"
+        sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
+      >
         {props.labelBelow}
       </FormLabel>
     </>
