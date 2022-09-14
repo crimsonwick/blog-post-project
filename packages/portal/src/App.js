@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ChangePassword from './pages/ChangePassword';
 import { theme } from './themes/theme';
-import { ThemeProvider } from '@mui/private-theming';
+import { ThemeProvider } from '@mui/material/styles';
 import { useEffect } from 'react';
 import WebFont from 'webfontloader';
 import ArticleDetail from './pages/ArticleDetail';

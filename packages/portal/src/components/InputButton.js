@@ -13,7 +13,7 @@ const InputButton = (props) => {
         height: '40px',
       }}
       fullWidth
-      color="primary"
+      color="secondary"
     >
       {props.name}
     </Button>
