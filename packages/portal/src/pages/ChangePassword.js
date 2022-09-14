@@ -1,5 +1,4 @@
-import styles from '../styles/ChangePassword.module.css';
-
+import styles from '../styles/ChangePassword/ChangePassword.module.css';
 import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
