@@ -16,7 +16,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
+import {  useNavigate } from "react-router-dom";
+import {useEffect} from "react";
 const schema = yup
   .object({
     email: yup.string().email().required(),
@@ -45,8 +46,20 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
+  const login=()=>{
+    localStorage.setItem('login', true);
+  }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let login = localStorage.getItem('login');
+    // if(login){
+    //     navigate('/');
+    // }
+  });
   const onSubmit = (data) => {
     console.log(data);
+    login();
   };
 
   const [values, setValues] = React.useState({
@@ -65,7 +78,7 @@ function Login() {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="sm">
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -88,9 +101,10 @@ function Login() {
               inputRef={ref}
               sx={{
                 borderRadius: 18,
+                width: 550,
                 marginBottom: 3,
               }}
-              fullWidth
+              // fullWidth
               variant="outlined"
             />
           )}
@@ -115,8 +129,10 @@ function Login() {
               onChange={onChange} // send value to hook form
               sx={{
                 borderRadius: 18,
+                width: 550,
+
               }}
-              fullWidth
+//              fullWidth
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -140,7 +156,7 @@ function Login() {
         <FormControlLabel
           control={<Checkbox color="secondary" />}
           label="Remember Me"
-          sx={{ marginBottom: 2 }}
+          sx={{ marginBottom: 2 , }}
         />
         <Button
           type="submit"
@@ -164,6 +180,7 @@ function Login() {
           fullWidth
           variant="outlined"
           color="secondary"
+          // onClick = {login}
           sx={{ borderRadius: '25px', fontSize: '22px' }}
         >
           Sign up

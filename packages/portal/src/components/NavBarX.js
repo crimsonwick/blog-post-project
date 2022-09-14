@@ -21,10 +21,7 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 
-const MenuAppBar = ({login}) => {
-
-    console.log(login);
-
+const MenuAppBar = ({ login }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {

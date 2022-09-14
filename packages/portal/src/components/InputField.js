@@ -7,7 +7,7 @@ const InputField = (props) => {
   const { register } = useForm();
   return (
     <>
-      <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Montserrat' }}>
+      <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
         {props.labelAbove}
       </FormLabel>
       <Controller

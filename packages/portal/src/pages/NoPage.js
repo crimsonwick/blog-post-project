@@ -1,6 +1,5 @@
 import NavbarX from "../components/NavBarX";
 
-
 const NoPage = () => {
   return (
     <>
