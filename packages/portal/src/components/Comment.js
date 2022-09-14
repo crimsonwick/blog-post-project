@@ -10,12 +10,18 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+// import { v4 as uuid } from 'uuid';
 import { useState } from 'react';
 
 const Comment = (props) => {
   const [replies, setReplies] = useState(false);
+  // const comments = props.count;
+  // const commentItems = comments.map((comment) => (
+  //   <Comment key={comment.toString()} value={comment} />
+  // ));
+
   return (
-    <Card elevation={10}>
+    <Card sx={{ marginLeft: '20px' }}>
       <Box sx={{ display: 'flex', allignItems: 'left' }}>
         <List>
           <ListItem>
@@ -35,25 +41,17 @@ const Comment = (props) => {
           Did you come here for something in particular or just general
           Riker-bashing? And blowing into maximum
         </Typography>
-        <Button
-          variant="text"
-          onCLick={() => setReplies(!replies)}
-          sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
-        >
-          Show Replies ({props.count})
-        </Button>
-        {replies ? <Reply a={replies} /> : <SecondReply h={replies} />}
       </Box>
+      <Button
+        variant="text"
+        onClick={() => setReplies(!replies)}
+        sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
+      >
+        Show Replies ({props.count})
+      </Button>
+      {replies && <Comment count={69} />}
     </Card>
   );
-};
-
-const Reply = (props) => {
-  return <div>Replies {props.a}</div>;
-};
-
-const SecondReply = (props) => {
-  return <div>Second Reply {props.h}</div>;
 };
 
 export default Comment;

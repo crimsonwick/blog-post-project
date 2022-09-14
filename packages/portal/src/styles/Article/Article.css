@@ -9,3 +9,9 @@
     direction: row;
     padding: 0px; 
 }
+
+.articleBigImg {
+    width: 856px;
+    height: 432px;
+    margin: 5px 10px 5px 2px;
+}
