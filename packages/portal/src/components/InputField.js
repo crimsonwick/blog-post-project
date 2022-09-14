@@ -1,21 +1,17 @@
-import React from 'react';
-import { OutlinedInput } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
-import { FormLabel } from '@mui/material';
+import React from "react";
+import { OutlinedInput } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
+import { FormLabel } from "@mui/material";
 
 const InputField = (props) => {
   const { register } = useForm();
   const customWidth = props.width;
   return (
     <>
-<<<<<<< HEAD
-      <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
-=======
       <FormLabel
         htmlFor="form-label-above"
-        sx={{ fontFamily: 'Poppins', display: 'block' }}
+        sx={{ fontFamily: "Poppins", display: "block" }}
       >
->>>>>>> nauman-3
         {props.labelAbove}
       </FormLabel>
 
@@ -27,10 +23,10 @@ const InputField = (props) => {
           <OutlinedInput
             {...field}
             sx={{
-              borderRadius: '20px',
-              fontFamily: 'Poppins',
-              width: customWidth || '100%',
-              display: 'block',
+              borderRadius: "20px",
+              fontFamily: "Poppins",
+              width: customWidth || "100%",
+              display: "block",
             }}
             placeholder={props.placeholder}
           />
@@ -38,7 +34,7 @@ const InputField = (props) => {
       />
       <FormLabel
         htmlFor="form-label-below"
-        sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
+        sx={{ fontFamily: "Poppins", fontSize: "14px" }}
       >
         {props.labelBelow}
       </FormLabel>

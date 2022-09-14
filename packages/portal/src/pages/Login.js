@@ -68,7 +68,6 @@ function Login() {
 
   const handleClickShowPassword = () => {
     setValues({
-      ...values,
       showPassword: !values.showPassword,
     });
   };

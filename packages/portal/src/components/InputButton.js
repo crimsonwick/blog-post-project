@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { Button } from '@mui/material';
 
@@ -13,10 +15,6 @@ const InputButton = (props) => {
         height: '40px',
         width: customWidth || '100%',
       }}
-<<<<<<< HEAD
-      fullWidth
-=======
->>>>>>> nauman-3
       color="secondary"
     >
       {props.name}

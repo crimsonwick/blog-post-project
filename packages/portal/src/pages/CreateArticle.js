@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-import React from "react";
-import styles from "../styles/CreateArticle/CreateArticle.module.css";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-=======
 import React from 'react';
 import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
->>>>>>> nauman-3
 
 import NavbarLoggedIn from '../components/NavbarLoggedIn';
 import { OutlinedInput } from '@mui/material';
@@ -33,11 +26,7 @@ const schema = yup
   .required();
 
 function CreateArticle() {
-<<<<<<< HEAD
- // const [min, setMin] = React.useState("");
-=======
   // const [min, setMin] = React.useState("");
->>>>>>> nauman-3
 
   const {
     control,
