@@ -1,9 +1,38 @@
+<<<<<<< HEAD
 import React from "react";
 import { OutlinedInput } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel } from "@mui/material";
+=======
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { FormLabel, OutlinedInput } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+>>>>>>> nauman-3
 
 const InputField = (props) => {
+  const [values, setValues] = useState({
+    password: '',
+    showPassword: false,
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   const { register } = useForm();
   const customWidth = props.width;
   return (
@@ -22,6 +51,22 @@ const InputField = (props) => {
         render={({ field }) => (
           <OutlinedInput
             {...field}
+            // id="outlined-adornment-password"
+            // type={values.showPassword ? 'text' : 'password'}
+            // value={values.password}
+            // onChange={handleChange('password')}
+            // endAdornment={
+            //   <InputAdornment position="end">
+            //     <IconButton
+            //       aria-label="toggle password visibility"
+            //       onClick={handleClickShowPassword}
+            //       onMouseDown={handleMouseDownPassword}
+            //       edge="end"
+            //     >
+            //       {values.showPassword ? <VisibilityOff /> : <Visibility />}
+            //     </IconButton>
+            //   </InputAdornment>
+            // }
             sx={{
               borderRadius: "20px",
               fontFamily: "Poppins",
