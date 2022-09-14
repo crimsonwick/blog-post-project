@@ -1,10 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateArticle from "./pages/CreateArticle";
-import LandingPage from "./pages/LandingPage";
-import MyArticles from "./pages/MyArticles";
 import ArticleDetail from "./pages/ArticleDetail";
 
-import NoPage from "./pages/NoPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ChangePassword from "./pages/ChangePassword";
@@ -13,19 +9,10 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useEffect } from "react";
 import WebFont from "webfontloader";
 import Protected from "./components/Protected";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CreateArticle from './pages/CreateArticle';
 import LandingPage from './pages/LandingPage';
 import MyArticles from './pages/MyArticles';
 import NoPage from './pages/NoPage';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import ChangePassword from './pages/ChangePassword';
-import { theme } from './themes/theme';
-import { ThemeProvider } from '@mui/material/styles';
-import { useEffect } from 'react';
-import WebFont from 'webfontloader';
-import ArticleDetail from './pages/ArticleDetail';
 
 function App() {
   useEffect(() => {
