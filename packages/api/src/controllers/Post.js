@@ -5,12 +5,14 @@ import { ErrorHandling } from '../middleware/Errors.js';
 const {  Users,Posts,Comments } = model;
 
 export const AddPost = async (req, res) => {
-    const { userId, title, body } = req.body;
+    const { userId, title, body,image,timetoRead } = req.body;
     try {
       const addNewPost = await Posts.create({
         userId: userId,
         title: title,
         body: body,
+        image: image,
+        timetoRead: timetoRead
       });
       const C_post = await client.index({
         index: "posts",

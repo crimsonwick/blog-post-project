@@ -18,6 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {  useNavigate } from "react-router-dom";
 import {useEffect} from "react";
+import { getLoginDetails } from '../services/LoginApi';
 const schema = yup
   .object({
     email: yup.string().email().required(),
@@ -57,9 +58,9 @@ function Login() {
     //     navigate('/');
     // }
   });
-  const onSubmit = (data) => {
-    console.log(data);
-    login();
+  const onSubmit = async(data) => {
+    const response = await getLoginDetails(data);
+    console.log(response);
   };
 
   const [values, setValues] = React.useState({

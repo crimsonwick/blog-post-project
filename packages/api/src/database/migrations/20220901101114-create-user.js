@@ -8,10 +8,6 @@ export async function up(queryInterface, Sequelize) {
       primaryKey: true,
       defaultValue: Sequelize.fn("uuid_generate_v4"),
     },
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
     email: {
       type: Sequelize.STRING,
       allowNull: false,

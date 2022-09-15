@@ -33,9 +33,15 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
       },
       body: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(5000),
         allowNull: false,
       },
+      image: {
+        type: DataTypes.STRING(1000),
+      },
+      timetoRead: {
+        type: DataTypes.STRING,
+      }
     },
     {
       sequelize,
