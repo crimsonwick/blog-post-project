@@ -40,11 +40,14 @@ export const Login = async (req, res) => {
     const user = await Users.findOne({
       where: { email: email },
     });
-    if (!user) res.status(400).json({ error: "User Doesn't exist" });
+    if (!user) {
+
+      return ErrorHandling(res, 404)
+    }
     const dbpassword = user.password;
     bcrypt.compare(password, dbpassword).then((match) => {
       if (!match) {
-        res.status(400).json({ error: "Wrong credentials." });
+        return ErrorHandling(res, 401);
       } else {
         //Authorization
         const accessToken = generateAccessToken({ user });
@@ -60,7 +63,7 @@ export const Login = async (req, res) => {
       }
     });
   } catch (err) {
-    ErrorHandling(res);
+    ErrorHandling(err, 500);
   }
 };
 export const generateAccessToken = (user) => {
