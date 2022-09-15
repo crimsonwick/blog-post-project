@@ -5,8 +5,12 @@ import { FormLabel, OutlinedInput } from '@mui/material';
 // import InputAdornment from '@mui/material/InputAdornment';
 // import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { Box } from '@mui/material';
+import React from 'react';
 
 const InputField = (props) => {
+  const ref = React.createRef();
+
   // const [values, setValues] = useState({
   //   password: '',
   //   showPassword: false,
@@ -29,7 +33,7 @@ const InputField = (props) => {
   const { register } = useForm();
   const customWidth = props.width;
   return (
-    <>
+    <Box>
       <FormLabel
         htmlFor="form-label-above"
         sx={{ fontFamily: 'Poppins', display: 'block' }}
@@ -38,28 +42,12 @@ const InputField = (props) => {
       </FormLabel>
 
       <Controller
+        inputRef={ref}
         name={props.name}
         control={props.control}
         {...register(props.name)}
-        render={({ field }) => (
+        render={({ field: { onChange, onBlur, value, ref } }) => (
           <OutlinedInput
-            {...field}
-            // id="outlined-adornment-password"
-            // type={values.showPassword ? 'text' : 'password'}
-            // value={values.password}
-            // onChange={handleChange('password')}
-            // endAdornment={
-            //   <InputAdornment position="end">
-            //     <IconButton
-            //       aria-label="toggle password visibility"
-            //       onClick={handleClickShowPassword}
-            //       onMouseDown={handleMouseDownPassword}
-            //       edge="end"
-            //     >
-            //       {values.showPassword ? <VisibilityOff /> : <Visibility />}
-            //     </IconButton>
-            //   </InputAdornment>
-            // }
             sx={{
               borderRadius: '20px',
               fontFamily: 'Poppins',
@@ -67,6 +55,10 @@ const InputField = (props) => {
               display: 'block',
             }}
             placeholder={props.placeholder}
+            onChange={onChange}
+            onBlur={onBlur}
+            selected={value}
+            ref={ref}
           />
         )}
       />
@@ -76,7 +68,7 @@ const InputField = (props) => {
       >
         {props.labelBelow}
       </FormLabel>
-    </>
+    </Box>
   );
 };
 

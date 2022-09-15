@@ -6,11 +6,20 @@ import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import YupPassword from 'yup-password';
+import '../styles/signup.css';
+YupPassword(yup);
 
 const Signup = () => {
   const schema = yup.object().shape({
     email: yup.string().email().required(),
-    password: yup.string().min(8).max(20).required(),
+    password: yup
+      .string()
+      .min(8)
+      .max(20)
+      .minUppercase(1, 'Password must include atleast one upper-case letter')
+      .minSymbols(1, 'Password must include atleast one symbol')
+      .required(),
   });
 
   const {
