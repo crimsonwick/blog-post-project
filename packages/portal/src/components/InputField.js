@@ -1,37 +1,30 @@
-<<<<<<< HEAD
-import React from "react";
-import { OutlinedInput } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { FormLabel } from "@mui/material";
-=======
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+// import Visibility from '@mui/icons-material/Visibility';
+// import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { FormLabel, OutlinedInput } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import React, { useState } from 'react';
+// import IconButton from '@mui/material/IconButton';
+// import InputAdornment from '@mui/material/InputAdornment';
+// import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
->>>>>>> nauman-3
 
 const InputField = (props) => {
-  const [values, setValues] = useState({
-    password: '',
-    showPassword: false,
-  });
+  // const [values, setValues] = useState({
+  //   password: '',
+  //   showPassword: false,
+  // });
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  // const handleChange = (prop) => (event) => {
+  //   setValues({ ...values, [prop]: event.target.value });
+  // };
 
-  const handleClickShowPassword = () => {
-    setValues({
-      showPassword: !values.showPassword,
-    });
-  };
+  // const handleClickShowPassword = () => {
+  //   setValues({
+  //     showPassword: !values.showPassword,
+  //   });
+  // };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  // const handleMouseDownPassword = (event) => {
+  //   event.preventDefault();
+  // };
 
   const { register } = useForm();
   const customWidth = props.width;
@@ -39,7 +32,7 @@ const InputField = (props) => {
     <>
       <FormLabel
         htmlFor="form-label-above"
-        sx={{ fontFamily: "Poppins", display: "block" }}
+        sx={{ fontFamily: 'Poppins', display: 'block' }}
       >
         {props.labelAbove}
       </FormLabel>
@@ -68,10 +61,10 @@ const InputField = (props) => {
             //   </InputAdornment>
             // }
             sx={{
-              borderRadius: "20px",
-              fontFamily: "Poppins",
-              width: customWidth || "100%",
-              display: "block",
+              borderRadius: '20px',
+              fontFamily: 'Poppins',
+              width: customWidth || '100%',
+              display: 'block',
             }}
             placeholder={props.placeholder}
           />
@@ -79,7 +72,7 @@ const InputField = (props) => {
       />
       <FormLabel
         htmlFor="form-label-below"
-        sx={{ fontFamily: "Poppins", fontSize: "14px" }}
+        sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
       >
         {props.labelBelow}
       </FormLabel>
