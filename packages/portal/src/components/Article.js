@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box } from '@mui/system';
 import '../styles/Article/Article.css';
 import { Card, List } from '@mui/material';
@@ -11,15 +11,17 @@ import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
+import { AppContext } from '../App';
 
 const Article = () => {
+  const { newfile } = useContext(AppContext);
   return (
     <Card
       elevation={10}
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
       <img
-        src="https://c1.wallpaperflare.com/preview/395/809/250/glass-jar-flower-vase.jpg"
+        src={newfile}
         alt="vase in a room minimalist"
         className="articleImg"
       />

@@ -6,7 +6,7 @@ import Signup from "./pages/Signup";
 import ChangePassword from "./pages/ChangePassword";
 import { theme } from './themes/theme';
 import { ThemeProvider } from '@mui/material/styles';
-import { useEffect } from "react";
+import { useEffect,useState,createContext } from "react";
 import WebFont from "webfontloader";
 import Protected from "./components/Protected";
 import CreateArticle from './pages/CreateArticle';
@@ -14,7 +14,12 @@ import LandingPage from './pages/LandingPage';
 import MyArticles from './pages/MyArticles';
 import NoPage from './pages/NoPage';
 
+export const AppContext = createContext(null);
+
 function App() {
+
+  const [userData,setUserData] = useState({});
+  const [newfile,setNewFile] = useState(null);
   useEffect(() => {
     WebFont.load({
       google: {
@@ -23,9 +28,16 @@ function App() {
     });
   }, []);
 
-  
+  const parentTransfer = (object) => {
+    setUserData(object);
+  }
+  const uploadFile = (file) => {
+    setNewFile(URL.createObjectURL(file))
+  }
+
   return (
-    <ThemeProvider theme={theme}>
+    <AppContext.Provider value={{newfile,parentTransfer,uploadFile,userData}}>
+      <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -43,6 +55,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
+    </AppContext.Provider>
   );
 }
 

@@ -13,12 +13,12 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import { AppContext } from '../App';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {  useNavigate } from "react-router-dom";
-import {useEffect} from "react";
-import { getLoginDetails } from '../services/LoginApi';
+ import {  useNavigate } from "react-router-dom";
+import {useEffect,useContext} from "react";
+import { getLoginDetails, parseJwt } from '../services/LoginApi';
 const schema = yup
   .object({
     email: yup.string().email().required(),
@@ -47,20 +47,26 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const login=()=>{
-    localStorage.setItem('login', true);
-  }
+  const { parentTransfer } = useContext(AppContext);
   const navigate = useNavigate();
+  // const login=()=>{
+  //   localStorage.setItem('login', true);
+  // }
+  // const navigate = useNavigate();
 
   useEffect(() => {
-    let login = localStorage.getItem('login');
+    // let login = localStorage.getItem('login');
     // if(login){
     //     navigate('/');
     // }
   });
   const onSubmit = async(data) => {
     const response = await getLoginDetails(data);
-    console.log(response);
+    if(response.data.accessToken) {
+      const parsetoken = parseJwt(response.data.accessToken)
+      parentTransfer(parsetoken.user);
+      navigate('/create-article');
+    }
   };
 
   const [values, setValues] = React.useState({

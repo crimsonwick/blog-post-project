@@ -6,6 +6,7 @@ import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { getSignUpDetails } from '../services/LoginApi';
 
 const Signup = () => {
   const schema = yup.object().shape({
@@ -21,7 +22,10 @@ const Signup = () => {
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async(data) => {
+    const response = await getSignUpDetails(data);
+    alert(JSON.stringify(response.data))
+  }
   return (
     <Container maxWidth="sm">
       <Box>

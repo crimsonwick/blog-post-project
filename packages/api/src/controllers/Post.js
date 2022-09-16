@@ -26,13 +26,11 @@ export const AddPost = async (req, res) => {
 
 export const getPosts = async(req,res) => {
     try {
-        const getAll = await Posts.findAll({
-            include: {
-                model: Comments,
-                as: 'Comments'
-            }
-        });
-        res.json(getAll);
+        const getAll = await client.search({
+          index: 'posts',
+        })
+       const posts = getAll.body.hits.hits.map((s) => s._source);
+       return res.json(posts);
     } catch (error) {
         ErrorHandling(res);
     }

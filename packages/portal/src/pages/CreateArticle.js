@@ -1,8 +1,8 @@
-import React from 'react';
+import React,{ useContext,useState } from 'react';
 import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-
+import { AppContext } from '../App';
 import NavbarLoggedIn from '../components/NavbarLoggedIn';
 import { OutlinedInput } from '@mui/material';
 
@@ -27,7 +27,8 @@ const schema = yup
 
 function CreateArticle() {
   // const [min, setMin] = React.useState("");
-
+  const [image,setImage] = useState(null);
+  const { newfile,userData,uploadFile } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -48,8 +49,15 @@ function CreateArticle() {
   //
 
   const onSubmit = (data) => {
-    console.log(data);
+    const Object = {userId: userData.id,data,image: newfile}
+    console.log(Object)
   };
+
+  const handleChange = (event) => {
+    const [ file ] = event.target.files;
+    setImage(file);
+    uploadFile(image);
+  }
 
   return (
     <div>
@@ -196,7 +204,7 @@ function CreateArticle() {
 
           <Button variant="contained" component="label" color="primary">
             Upload
-            <input hidden accept="image/*" multiple type="file" />
+            <input type="file" onChange={(event) => handleChange(event)} value=''/>
           </Button>
 
           {/* <IconButton
