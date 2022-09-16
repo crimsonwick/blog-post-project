@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import YupPassword from 'yup-password';
 import '../styles/signup.css';
+import axios from 'axios';
 YupPassword(yup);
 
 const Signup = () => {
@@ -30,7 +31,10 @@ const Signup = () => {
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    console.log(data);
+    console.log(await axios.post('http://localhost:5000/user/signup', data));
+  };
   return (
     <Container maxWidth="sm">
       <Box>
@@ -56,6 +60,7 @@ const Signup = () => {
           control={control}
           placeholder="Enter your password"
           labelBelow="Use 8 or more characters with a mix of letters, numbers & symbols"
+          isPassword="yes"
         />
         <p>{errors.password?.message}</p>
         <Box mt={3}>
