@@ -25,7 +25,7 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING(1000),
     },
     timetoRead: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
     },
     createdAt: {
       allowNull: false,

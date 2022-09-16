@@ -40,7 +40,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING(1000),
       },
       timetoRead: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       }
     },
     {

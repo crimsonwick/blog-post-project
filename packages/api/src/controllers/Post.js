@@ -2,7 +2,7 @@ import model from '../models';
 import client from '../config/elasticsearch.js';
 import { ErrorHandling } from '../middleware/Errors.js';
 
-const {  Users,Posts,Comments } = model;
+const {  Users,Posts } = model;
 
 export const AddPost = async (req, res) => {
     const { userId, title, body,image,timetoRead } = req.body;
