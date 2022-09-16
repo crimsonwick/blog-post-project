@@ -33,6 +33,7 @@ function App() {
   }
   const uploadFile = (file) => {
     setNewFile(URL.createObjectURL(file))
+    return newfile;
   }
 
   return (

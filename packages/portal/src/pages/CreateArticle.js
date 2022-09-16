@@ -28,7 +28,7 @@ const schema = yup
 function CreateArticle() {
   // const [min, setMin] = React.useState("");
   const [image,setImage] = useState(null);
-  const { newfile,userData,uploadFile } = useContext(AppContext);
+  const { userData,uploadFile } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -49,14 +49,14 @@ function CreateArticle() {
   //
 
   const onSubmit = (data) => {
-    const Object = {userId: userData.id,data,image: newfile}
+    const linkOfFile = uploadFile(image);
+    const Object = {userId: userData.id,data,image: linkOfFile}
     console.log(Object)
   };
 
   const handleChange = (event) => {
     const [ file ] = event.target.files;
     setImage(file);
-    uploadFile(image);
   }
 
   return (

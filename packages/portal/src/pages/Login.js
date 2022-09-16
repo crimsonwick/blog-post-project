@@ -3,7 +3,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import React from 'react';
+import React,{useState} from 'react';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import FormLabel from '@mui/material/FormLabel';
@@ -48,6 +48,7 @@ function Login() {
   });
 
   const { parentTransfer } = useContext(AppContext);
+  const [message,setMessage] = useState(false);
   const navigate = useNavigate();
   // const login=()=>{
   //   localStorage.setItem('login', true);
@@ -66,6 +67,8 @@ function Login() {
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
       navigate('/create-article');
+    }else{
+        setMessage(true);
     }
   };
 
@@ -85,6 +88,7 @@ function Login() {
 
   return (
     <Container maxWidth="sm">
+      {message && <p style={{color: "red"}}>Wrong Credentials</p>}
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
