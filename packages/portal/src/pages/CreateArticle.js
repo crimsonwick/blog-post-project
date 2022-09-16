@@ -50,7 +50,7 @@ function CreateArticle() {
 
   const onSubmit = (data) => {
     const linkOfFile = uploadFile(image);
-    const Object = {userId: userData.id,data,image: linkOfFile}
+    const Object = {userId: userData.id,title: data.title,body: data.body,timetoRead: data.mins,image: linkOfFile}
     console.log(Object)
   };
 

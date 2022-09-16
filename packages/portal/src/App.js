@@ -20,6 +20,7 @@ function App() {
 
   const [userData,setUserData] = useState({});
   const [newfile,setNewFile] = useState(null);
+  const [getAccessToken,setAccessToken] = useState(null);
   useEffect(() => {
     WebFont.load({
       google: {
@@ -35,9 +36,12 @@ function App() {
     setNewFile(URL.createObjectURL(file))
     return newfile;
   }
+  const userToken = (token) => {
+    setAccessToken(token);
+  }
 
   return (
-    <AppContext.Provider value={{newfile,parentTransfer,uploadFile,userData}}>
+    <AppContext.Provider value={{newfile,parentTransfer,uploadFile,userData,userToken,getAccessToken}}>
       <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
