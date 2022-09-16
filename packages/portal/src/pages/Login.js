@@ -47,7 +47,7 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer } = useContext(AppContext);
+  const { parentTransfer,userToken } = useContext(AppContext);
   const [message,setMessage] = useState(false);
   const navigate = useNavigate();
   // const login=()=>{
@@ -64,6 +64,7 @@ function Login() {
   const onSubmit = async(data) => {
     const response = await getLoginDetails(data);
     if(response.data.accessToken) {
+      userToken(response.data.accessToken)
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
       navigate('/create-article');

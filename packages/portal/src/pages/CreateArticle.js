@@ -16,6 +16,7 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { addPost } from '../services/LoginApi';
 
 const schema = yup
   .object({
@@ -28,7 +29,7 @@ const schema = yup
 function CreateArticle() {
   // const [min, setMin] = React.useState("");
   const [image,setImage] = useState(null);
-  const { userData,uploadFile } = useContext(AppContext);
+  const { userData,uploadFile,getAccessToken } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -48,10 +49,14 @@ function CreateArticle() {
 
   //
 
-  const onSubmit = (data) => {
-    const linkOfFile = uploadFile(image);
-    const Object = {userId: userData.id,title: data.title,body: data.body,timetoRead: data.mins,image: linkOfFile}
-    console.log(Object)
+  const onSubmit = async(data) => {
+    const imageFile = URL.createObjectURL(image);
+    uploadFile(imageFile);
+    const Object = {userId: userData.id,title: data.title,body: data.body,image: imageFile,timetoRead: data.mins}
+    const config = {headers: {
+      "Authorization" : `Bearer ${getAccessToken}`
+    }}
+    await addPost(Object,config);
   };
 
   const handleChange = (event) => {

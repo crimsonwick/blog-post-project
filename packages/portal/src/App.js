@@ -32,9 +32,8 @@ function App() {
   const parentTransfer = (object) => {
     setUserData(object);
   }
-  const uploadFile = (file) => {
-    setNewFile(URL.createObjectURL(file))
-    return newfile;
+  const uploadFile = (value) => {
+    setNewFile(value)
   }
   const userToken = (token) => {
     setAccessToken(token);
