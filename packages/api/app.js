@@ -6,18 +6,20 @@ import Pagination from "./src/routes/Pagination.js";
 import db from "./src/models/index.js";
 import client from "./src/config/elasticsearch.js";
 import dotenv from "dotenv";
+import cors from 'cors';
 
 dotenv.config();
 const app = express();
+app.use(cors());
 app.use(express.json({ extended: true }));
 app.use("/user", User);
 app.use("/post", Post);
 app.use("/comment", Comment);
 app.use("/pagination", Pagination);
-client
-  .info()
-  .then(() => console.log("Application is Connected to ElasticSearch"))
-  .catch((error) => console.error(error));
+// client
+//   .info()
+//   .then(() => console.log("Application is Connected to ElasticSearch"))
+//   .catch((error) => console.error(error));
 db.sequelize
   .authenticate()
   .then(() => console.log(`Connected to db`))

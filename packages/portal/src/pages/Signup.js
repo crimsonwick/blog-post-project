@@ -1,13 +1,19 @@
-import { Container } from '@mui/system';
-import Header from '../components/Header';
-import InputField from '../components/InputField';
-import InputButton from '../components/InputButton';
-import { Box } from '@mui/system';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { Container } from "@mui/system";
+import Header from "../components/Header";
+import InputField from "../components/InputField";
+import InputButton from "../components/InputButton";
+import { Box } from "@mui/system";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import Alert from "@mui/material/Alert";
 
 const Signup = () => {
+  const [data, setData] = useState();
+
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(8).max(20).required(),
@@ -18,12 +24,37 @@ const Signup = () => {
     control,
     formState: { errors },
   } = useForm({
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: "", password: "" },
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => console.log(data);
+
+  const onSubmit = async (data) => {
+    const response = await axios.post(
+      "http://localhost:5000/user/signup",
+      data
+    );
+    console.log(response.data);
+    setData(response.data);
+  };
+
   return (
     <Container maxWidth="sm">
+      {data && (
+        <div className="form-group">
+          <div
+            className={data ? "alert alert-success" : "alert alert-danger"}
+            role="alert"
+          >
+            {data.message}
+          </div>
+
+          <Alert severity={data ? "success" : "error"}>{data?.message}</Alert>
+
+          <Alert severity="error"></Alert>
+
+        </div>
+      )}
+
       <Box>
         <Header
           heading="Create An Account"

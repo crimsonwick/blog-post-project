@@ -40,7 +40,7 @@ const InputField = (props) => {
       <Controller
         name={props.name}
         control={props.control}
-        {...register(props.name)}
+        //{...register(props.name)}
         render={({ field }) => (
           <OutlinedInput
             {...field}
