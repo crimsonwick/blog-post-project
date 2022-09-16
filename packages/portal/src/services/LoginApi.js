@@ -35,5 +35,5 @@ export const parseJwt = (token) =>  {
   }
 
   export const gettingPosts = async(config) => {
-    return await axios.get(`${baseURL}/post`,null,config)
+    return await axios.get(`${baseURL}/post`,config)
   }

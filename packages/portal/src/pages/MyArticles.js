@@ -15,7 +15,9 @@ const [data,setData] = useState([]);
 const { getAccessToken } = useContext(AppContext)
 
 const getAllPosts = async() => {
-  const config = {headers: {"Authorization": `Bearer ${getAccessToken}`}}
+  const config = {headers: {
+    "Authorization" : `Bearer ${getAccessToken}`
+  }}
   const details = await gettingPosts(config);
   console.log(details.data);
 }

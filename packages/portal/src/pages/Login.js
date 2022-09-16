@@ -17,7 +17,7 @@ import { AppContext } from '../App';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
  import {  useNavigate } from "react-router-dom";
-import {useEffect,useContext} from "react";
+import {useContext} from "react";
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
 const schema = yup
   .object({
@@ -55,12 +55,12 @@ function Login() {
   // }
   // const navigate = useNavigate();
 
-  useEffect(() => {
-    // let login = localStorage.getItem('login');
-    // if(login){
-    //     navigate('/');
-    // }
-  });
+  // useEffect(() => {
+  //   // let login = localStorage.getItem('login');
+  //   // if(login){
+  //   //     navigate('/');
+  //   // }
+  // });
   const onSubmit = async(data) => {
     const response = await getLoginDetails(data);
     if(response.data.accessToken) {
