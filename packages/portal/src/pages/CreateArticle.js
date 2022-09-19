@@ -2,18 +2,9 @@ import React from 'react';
 import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-
-import NavbarLoggedIn from '../components/NavbarLoggedIn';
+import NavBarX from '../components/NavBarX';
 import { OutlinedInput } from '@mui/material';
-
-// import IconButton from "@mui/material/IconButton";
-// import PhotoCamera from "@mui/icons-material/PhotoCamera";
-// import MenuItem from "@mui/material/MenuItem";
-// import Select from "@mui/material/Select";
-// import FormControl from "@mui/material/FormControl";
-
 import { useForm, Controller } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -26,8 +17,6 @@ const schema = yup
   .required();
 
 function CreateArticle() {
-  // const [min, setMin] = React.useState("");
-
   const {
     control,
     handleSubmit,
@@ -35,17 +24,10 @@ function CreateArticle() {
   } = useForm({
     defaultValues: {
       title: '',
-      //mins: "",
       body: '',
     },
     resolver: yupResolver(schema),
   });
-
-  // const handleChange = (event) => {
-  //   setMin(event.target.value);
-  // };
-
-  //
 
   const onSubmit = (data) => {
     console.log(data);
@@ -53,7 +35,8 @@ function CreateArticle() {
 
   return (
     <div>
-      <NavbarLoggedIn />
+      <NavBarX login={true}></NavBarX>
+
       <div className={styles.padding}>
         <h1 className={styles.headingOne}>Create New Article</h1>
         <Divider light />
@@ -119,42 +102,6 @@ function CreateArticle() {
               />
             )}
           />
-
-          {/* <Controller
-            control={control}
-            name="mins"
-            rules={{ required: true }}
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
-              formState,
-            }) => (
-              <FormControl>
-                <Select
-                  onBlur={onBlur} // notify when input is touched
-                  onChange={onChange} // send value to hook form
-                  onChange={handleChange}
-                  checked={value}
-                  inputRef={ref}
-                  value={min}
-                  displayEmpty
-                  sx={{
-                    borderRadius: 5,
-                    marginBottom: 3,
-                    width: 700,
-                    marginTop: 1,
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>Select</em>
-                  </MenuItem>
-                  <MenuItem value={1}>one</MenuItem>
-                  <MenuItem value={2}>two</MenuItem>
-                  <MenuItem value={3}>more than 3</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          /> */}
           {errors.mins && <p>{errors.mins.message}</p>}
 
           <br />
@@ -188,7 +135,6 @@ function CreateArticle() {
               />
             )}
           />
-
           {errors.body && <p>{errors.body.message}</p>}
 
           <br />
@@ -198,16 +144,6 @@ function CreateArticle() {
             Upload
             <input hidden accept="image/*" multiple type="file" />
           </Button>
-
-          {/* <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="label"
-          >
-            <input hidden accept="image/*" type="file" />
-            <PhotoCamera />
-          </IconButton> */}
-
           <br />
           <br />
           <br />

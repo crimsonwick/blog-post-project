@@ -16,8 +16,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {  useNavigate } from "react-router-dom";
-import {useEffect} from "react";
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 const schema = yup
   .object({
     email: yup.string().email().required(),
@@ -25,11 +25,9 @@ const schema = yup
       .string()
       .required()
       .matches(
-        //.min(4).max(15)
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
       ),
-    //.matches(/^[!@#$%^&*(),.?":{}|<>]+$/, " Must contain a special character"),//.matches( /^[!@#$%^&*(),.?":{}|<>]+$/, "special character "),
   })
   .required();
 
@@ -46,9 +44,9 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const login=()=>{
+  const login = () => {
     localStorage.setItem('login', true);
-  }
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -129,9 +127,8 @@ function Login() {
               sx={{
                 borderRadius: 18,
                 width: 550,
-
               }}
-//              fullWidth
+              //              fullWidth
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -155,7 +152,7 @@ function Login() {
         <FormControlLabel
           control={<Checkbox color="secondary" />}
           label="Remember Me"
-          sx={{ marginBottom: 2 , }}
+          sx={{ marginBottom: 2 }}
         />
         <Button
           type="submit"
@@ -179,7 +176,6 @@ function Login() {
           fullWidth
           variant="outlined"
           color="secondary"
-          // onClick = {login}
           sx={{ borderRadius: '25px', fontSize: '22px' }}
         >
           Sign up

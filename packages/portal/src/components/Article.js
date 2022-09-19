@@ -14,10 +14,7 @@ import Chip from '@mui/material/Chip';
 
 const Article = () => {
   return (
-    <Card
-      elevation={10}
-      sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
-    >
+    <Card sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}>
       <img
         src="https://c1.wallpaperflare.com/preview/395/809/250/glass-jar-flower-vase.jpg"
         alt="vase in a room minimalist"

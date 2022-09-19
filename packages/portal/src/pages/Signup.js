@@ -9,6 +9,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import YupPassword from 'yup-password';
 import '../styles/signup.css';
 import axios from 'axios';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import { useState } from 'react';
+import { Controller } from 'react-hook-form';
+import { OutlinedInput } from '@mui/material';
+import FormLabel from '@mui/material/FormLabel';
 YupPassword(yup);
 
 const Signup = () => {
@@ -35,6 +43,23 @@ const Signup = () => {
     console.log(data);
     console.log(await axios.post('http://localhost:5000/user/signup', data));
   };
+
+  //*hide pw functionality
+  const [values, setValues] = useState({
+    password: '',
+    showPassword: false,
+  });
+
+  const handleClickShowPassword = () => {
+    setValues({
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <Container maxWidth="sm">
       <Box>
@@ -54,14 +79,48 @@ const Signup = () => {
           />
           <p>{errors.email?.message}</p>
         </Box>
-        <InputField
-          name="password"
-          labelAbove="Create a password"
+        <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
+          Create a Password
+        </FormLabel>
+
+        <Controller
           control={control}
-          placeholder="Enter your password"
-          labelBelow="Use 8 or more characters with a mix of letters, numbers & symbols"
-          isPassword="yes"
+          name="password"
+          render={({ field }) => (
+            <OutlinedInput
+              variant="outlined"
+              color="secondary"
+              type={values.showPassword ? 'text' : 'password'}
+              value={values.password}
+              {...field}
+              sx={{
+                borderRadius: '20px',
+                fontFamily: 'Poppins',
+                width: '100%',
+              }}
+              placeholder="Enter your password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          )}
         />
+        <FormLabel
+          htmlFor="form-label-below"
+          sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
+        >
+          Use 8 or more characters with a mix of letters, numbers & symbols
+        </FormLabel>
         <p>{errors.password?.message}</p>
         <Box mt={3}>
           <InputButton name="Create An Account" />

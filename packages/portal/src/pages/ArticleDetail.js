@@ -1,15 +1,15 @@
 import { Container } from '@mui/system';
 import React from 'react';
-import NavBar from '../components/NavBar';
+import NavBarX from '../components/NavBar';
 import Comment from '../components/Comment';
 import { Box } from '@mui/material';
 import ArticleBig from '../components/ArticleBig';
 import AddComment from '../components/AddComment';
 
-const ArticleDetail = () => {
+export default function ArticleDetail() {
   return (
     <>
-      <NavBar />
+      <NavBarX />
       <Container maxWidth="lg">
         <Box mb={5}>
           <ArticleBig />
@@ -24,6 +24,4 @@ const ArticleDetail = () => {
       </Container>
     </>
   );
-};
-
-export default ArticleDetail;
+}
