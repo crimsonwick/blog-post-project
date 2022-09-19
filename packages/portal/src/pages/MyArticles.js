@@ -30,7 +30,7 @@ useEffect(() => {
   return (
     <>
       <NavBarX login = {true}></NavBarX>
-      <button onClick={() => alert(JSON.stringify(data))}>Click me</button>
+      {/* <button onClick={() => alert(JSON.stringify(data))}>Click me</button> */}
       <Container maxWidth="lg" sx={{ position: "relative" }}>
         <h1 style={{fontFamily:"Poppins", marginTop: "65px"}}>Recent Posts</h1>
         <Divider></Divider>
