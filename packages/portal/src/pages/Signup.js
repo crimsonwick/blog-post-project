@@ -40,18 +40,14 @@ const Signup = () => {
   return (
     <Container maxWidth="sm">
       {data && (
-        <div className="form-group">
-          <div
-            className={data ? "alert alert-success" : "alert alert-danger"}
-            role="alert"
-          >
-            {data.message}
-          </div>
+        <div>
+          {data.message !== undefined && (
+            <Alert severity="error">{data?.message}</Alert>
+          )}
 
-          <Alert severity={data ? "success" : "error"}>{data?.message}</Alert>
-
-          <Alert severity="error"></Alert>
-
+          {data === "undefined Account Already Exists" && (
+            <Alert severity="error">Already Exists</Alert>
+          )}
         </div>
       )}
 
