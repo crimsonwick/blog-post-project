@@ -2,4 +2,3 @@ node_modules
 /.env
 /.bebelrc
 /.sequelizerc
-../../packages/portal/node_modules
