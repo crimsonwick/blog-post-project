@@ -15,24 +15,13 @@ import { AppContext } from '../App';
 
 const Article = (props) => {
   const { newfile } = useContext(AppContext);
-  const blobToImage = (blob) => {
-    return new Promise(resolve => {
-      const url = URL.createObjectURL(blob)
-      let img = new Image()
-      img.onload = () => {
-        URL.revokeObjectURL(url)
-        resolve(img)
-      }
-      img.src = url
-    })
-  }
   return (
     <Card
       elevation={10}
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
       <img
-        src={blobToImage(props.object.image)}
+        src={newfile}
         alt="vase in a room minimalist"
         className="articleImg"
       />
