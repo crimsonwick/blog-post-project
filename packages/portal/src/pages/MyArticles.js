@@ -14,32 +14,33 @@ const MyArticles = () => {
 const [data,setData] = useState([]);
 const { getAccessToken } = useContext(AppContext)
 
-const getAllPosts = async() => {
+const allPosts = async() => {
   const config = {headers: {
     "Authorization" : `Bearer ${getAccessToken}`
-  }}
-  const details = await gettingPosts(config);
-  console.log(details.data);
+  }
 }
+  const details = await gettingPosts(config);
+  setData(details.data)
+}
+
 useEffect(() => {
-  getAllPosts();
-},[])
+  allPosts();
+},[]);
 
   return (
     <>
       <NavBarX login = {true}></NavBarX>
-
+      <button onClick={() => alert(JSON.stringify(data))}>Click me</button>
       <Container maxWidth="lg" sx={{ position: "relative" }}>
         <h1 style={{fontFamily:"Poppins", marginTop: "65px"}}>Recent Posts</h1>
         <Divider></Divider>
 
         <Box mt={5}>
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
+          {data.map((object) => {
+            return(
+              <Article object={object}/>
+            )
+          })}
         </Box>
         <Footer />
       </Container>
