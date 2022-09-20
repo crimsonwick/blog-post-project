@@ -1,6 +1,6 @@
 import { Container } from '@mui/system';
 import React from 'react';
-import NavBar from '../components/NavBar';
+import NavBarX from '../components/NavBarX';
 import Comment from '../components/Comment';
 import { Box } from '@mui/material';
 import ArticleBig from '../components/ArticleBig';
@@ -16,7 +16,7 @@ const ArticleDetail = () => {
   // const onSubmit = (data) => console.log(data);
   return (
     <>
-      <NavBar />
+      <NavBarX login={true} />
       <Container maxWidth="lg">
         <Box mb={5}>
           <ArticleBig />
