@@ -9,7 +9,6 @@ import AddComment from '../components/AddComment';
 export default function ArticleDetail() {
   return (
     <>
-      <NavBar />
 
       <Container maxWidth="lg">
         <Box mb={5}>
