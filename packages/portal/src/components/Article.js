@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Box } from '@mui/system';
 import '../styles/Article/Article.css';
 import { Card, List } from '@mui/material';
@@ -11,22 +11,21 @@ import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
-import { AppContext } from '../App';
 
-const Article = () => {
-  const { newfile } = useContext(AppContext);
+
+const Article = (props) => {
+
   return (
     <Card sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}>
       <img
-        src={newfile}
+        src={props.object.image}
         alt="vase in a room minimalist"
         className="articleImg"
       />
       <Box mt={1}>
         <Chip label="Travel" />
         <Typography variant="h4" component="h3">
-          I Created A Developer Rap Video - Here's What I Learned From It. Check
-          It Out.
+         {props.object.title}
         </Typography>
         <List style={flexContainer}>
           <ListItem className="user">
@@ -48,12 +47,11 @@ const Article = () => {
             <ListItemIcon>
               <QueryBuilderIcon />
             </ListItemIcon>
-            <ListItemText primary="3 Min. To Read" />
+            <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
           </ListItem>
         </List>
         <Typography variant="h6">
-          Did you come here for something in particular or just general
-          Riker-bashing? And blowing into maximum warp
+          {props.object.body}
         </Typography>
       </Box>
     </Card>

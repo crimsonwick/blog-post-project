@@ -37,3 +37,7 @@ export const parseJwt = (token) =>  {
   export const gettingPosts = async(config) => {
     return await axios.get(`${baseURL}/post`,config)
   }
+
+  export const allPostsComing = async() => {
+    return await axios.get(`${baseURL}/pagination/allPosts`)
+  }

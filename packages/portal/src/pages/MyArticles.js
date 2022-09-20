@@ -6,24 +6,30 @@ import Footer from '../components/Footer';
 import { Divider } from '@mui/material';
 import NavBar from '../components/NavBar';
 import { useState, useEffect, useContext, AppContext } from 'react';
+import { gettingPosts } from '../services/LoginApi';
 
 const MyArticles = () => {
   const [data, setData] = useState([]);
   const { getAccessToken } = useContext(AppContext);
 
-  // const getAllPosts = async() => {
-  //   const config = {headers: {
-  //     "Authorization" : `Bearer ${getAccessToken}`
-  //   }}
-  //   // const details = await gettingPosts(config);
-  //   console.log(details.data);
-  // }
-  // useEffect(() => {
-  //   getAllPosts();
-  // },[])
+  const allPosts = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getAccessToken}`,
+      },
+    };
+    const details = await gettingPosts(config);
+    setData(details.data);
+  };
+
+  useEffect(() => {
+    allPosts();
+  }, []);
 
   return (
     <>
+      <NavBar />
+      {/* <button onClick={() => alert(JSON.stringify(data))}>Click me</button> */}
       <Container maxWidth="lg" sx={{ position: 'relative' }}>
         <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>
           Recent Posts
@@ -31,12 +37,9 @@ const MyArticles = () => {
         <Divider></Divider>
 
         <Box mt={5}>
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
+          {data.map((object) => {
+            return <Article object={object} />;
+          })}
         </Box>
         <Footer />
       </Container>
