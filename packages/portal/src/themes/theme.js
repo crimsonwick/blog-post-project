@@ -2,6 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
   palette: {
+    borderColor: 'text-primary',
     type: 'light',
     primary: {
       main: '#ffffff',

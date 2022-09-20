@@ -36,3 +36,8 @@
   text-transform: none;
   text-decoration: none;
 } */
+
+.errorMsg{
+  font: 15px 'Poppins' , sans-serif;
+  color: red;
+}

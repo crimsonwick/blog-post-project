@@ -1,9 +1,8 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ArticleDetail from "./pages/ArticleDetail";
-
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import ChangePassword from "./pages/ChangePassword";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ArticleDetail from './pages/ArticleDetail';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import ChangePassword from './pages/ChangePassword';
 import { theme } from './themes/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import { useEffect,useState,createContext } from "react";
@@ -50,10 +49,19 @@ function App() {
           <Route path="/create-article" element={<CreateArticle />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/change-password" element={<ChangePassword />} /> */}
-          <Route path="/change-password" element={<Protected Component = {ChangePassword}></Protected>} />
-          <Route path="/create-article" element={<Protected Component = {CreateArticle}></Protected>} />
-          <Route path="/my-articles" element={<Protected Component = {MyArticles }></Protected>} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          {/* <Route
+            path="/change-password"
+            element={<Protected Component={ChangePassword}></Protected>}
+          /> */}
+          {/* <Route
+            path="/create-article"
+            element={<Protected Component={CreateArticle}></Protected>}
+          /> */}
+          {/* <Route
+            path="/my-articles"
+            element={<Protected Component={MyArticles}></Protected>}
+          /> */}
 
           <Route path="*" element={<NoPage />} />
         </Routes>

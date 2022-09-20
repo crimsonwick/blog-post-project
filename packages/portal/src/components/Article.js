@@ -16,10 +16,7 @@ import { AppContext } from '../App';
 const Article = () => {
   const { newfile } = useContext(AppContext);
   return (
-    <Card
-      elevation={10}
-      sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
-    >
+    <Card sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}>
       <img
         src={newfile}
         alt="vase in a room minimalist"

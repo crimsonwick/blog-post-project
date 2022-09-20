@@ -4,19 +4,13 @@ import NavBarX from '../components/NavBarX';
 import Comment from '../components/Comment';
 import { Box } from '@mui/material';
 import ArticleBig from '../components/ArticleBig';
-// import InputField from '../components/InputField';
-// import InputButton from '../components/InputButton';
-// import { useForm } from 'react-hook-form';
 import AddComment from '../components/AddComment';
 
-const ArticleDetail = () => {
-  // const { handleSubmit, control } = useForm({
-  //   defaultValues: { comment: '' },
-  // });
-  // const onSubmit = (data) => console.log(data);
+export default function ArticleDetail() {
   return (
     <>
-      <NavBarX login={true} />
+      <NavBar />
+
       <Container maxWidth="lg">
         <Box mb={5}>
           <ArticleBig />
@@ -31,6 +25,4 @@ const ArticleDetail = () => {
       </Container>
     </>
   );
-};
-
-export default ArticleDetail;
+}

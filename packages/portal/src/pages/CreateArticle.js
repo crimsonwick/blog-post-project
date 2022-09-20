@@ -209,7 +209,7 @@ function CreateArticle() {
                   marginTop: 1,
                 }}
                 variant="outlined"
-              color="secondary"
+                color="secondary"
               />
             )}
           />

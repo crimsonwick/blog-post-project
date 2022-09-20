@@ -10,13 +10,31 @@ import { getSignUpDetails } from '../services/LoginApi';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import "../styles/signup.css"
+import YupPassword from 'yup-password';
+import '../styles/signup.css';
+import axios from 'axios';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import { useState } from 'react';
+import { Controller } from 'react-hook-form';
+import { OutlinedInput } from '@mui/material';
+import FormLabel from '@mui/material/FormLabel';
+YupPassword(yup);
 
 const Signup = () => {
   const [data, setData] = useState();
 
   const schema = yup.object().shape({
     email: yup.string().email().required(),
-    password: yup.string().min(8).max(20).required(),
+    password: yup
+      .string()
+      .min(8)
+      .max(20)
+      .minUppercase(1, 'Password must include atleast one upper-case letter')
+      .minSymbols(1, 'Password must include atleast one symbol')
+      .required(),
   });
 
   const {
@@ -27,12 +45,33 @@ const Signup = () => {
     defaultValues: { email: "", password: "" },
     resolver: yupResolver(schema),
   });
-  const onSubmit = async(data) => {
-    setData(data);
+  // const onSubmit = async(data) => {
+  //   setData(data);
+  //   console.log(data);
+  //   const response = await getSignUpDetails(data);
+  //   alert(JSON.stringify(response.data))
+  // }
+  const onSubmit = async (data) => {
     console.log(data);
-    const response = await getSignUpDetails(data);
-    alert(JSON.stringify(response.data))
-  }
+    console.log(await axios.post('http://localhost:5000/user/signup', data));
+  };
+
+  //*hide pw functionality
+  const [values, setValues] = useState({
+    password: '',
+    showPassword: false,
+  });
+
+  const handleClickShowPassword = () => {
+    setValues({
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <Container maxWidth="sm">
       {data && (
@@ -64,18 +103,50 @@ const Signup = () => {
             variant="outlined"
               color="secondary"
           />
-          <p className='errorMsg'>{errors.email?.message}</p>
+          <p className="errorMsg">{errors.email?.message}</p>
         </Box>
-        <InputField
-        variant="outlined"
-        color="secondary"
-          name="password"
-          labelAbove="Create a password"
+        <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
+          Create a Password
+        </FormLabel>
+
+        <Controller
           control={control}
-          placeholder="Enter your password"
-          labelBelow="Use 8 or more characters with a mix of letters, numbers & symbols"
+          name="password"
+          render={({ field }) => (
+            <OutlinedInput
+              variant="outlined"
+              color="secondary"
+              type={values.showPassword ? 'text' : 'password'}
+              value={values.password}
+              {...field}
+              sx={{
+                borderRadius: '20px',
+                fontFamily: 'Poppins',
+                width: '100%',
+              }}
+              placeholder="Enter your password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          )}
         />
-        <p className='errorMsg'>{errors.password?.message}</p>
+        <FormLabel
+          htmlFor="form-label-below"
+          sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
+        >
+          Use 8 or more characters with a mix of letters, numbers & symbols
+        </FormLabel>
+        <p className="errorMsg">{errors.password?.message}</p>
         <Box mt={3}>
           <InputButton name="Create An Account" />
         </Box>
