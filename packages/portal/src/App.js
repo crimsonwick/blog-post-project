@@ -19,7 +19,7 @@ export const AppContext = createContext(null);
 function App() {
 
   const [userData,setUserData] = useState({});
-  const [newfile,setNewFile] = useState(null);
+
   const [getAccessToken,setAccessToken] = useState(null);
   useEffect(() => {
     WebFont.load({
@@ -32,15 +32,12 @@ function App() {
   const parentTransfer = (object) => {
     setUserData(object);
   }
-  const uploadFile = (value) => {
-    setNewFile(value)
-  }
   const userToken = (token) => {
     setAccessToken(token);
   }
 
   return (
-    <AppContext.Provider value={{newfile,parentTransfer,uploadFile,userData,userToken,getAccessToken}}>
+    <AppContext.Provider value={{parentTransfer,userData,userToken,getAccessToken}}>
       <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>

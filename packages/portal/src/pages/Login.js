@@ -67,7 +67,7 @@ function Login() {
       userToken(response.data.accessToken)
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
-      navigate('/');
+      navigate('/my-articles');
     }else{
         setMessage(true);
     }
