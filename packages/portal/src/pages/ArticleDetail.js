@@ -1,6 +1,6 @@
 import { Container } from '@mui/system';
 import React from 'react';
-import NavBarX from '../components/NavBar';
+import NavBar from '../components/NavBar';
 import Comment from '../components/Comment';
 import { Box } from '@mui/material';
 import ArticleBig from '../components/ArticleBig';
@@ -9,7 +9,8 @@ import AddComment from '../components/AddComment';
 export default function ArticleDetail() {
   return (
     <>
-      <NavBarX />
+      <NavBar />
+
       <Container maxWidth="lg">
         <Box mb={5}>
           <ArticleBig />

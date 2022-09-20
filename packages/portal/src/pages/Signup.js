@@ -77,7 +77,7 @@ const Signup = () => {
             control={control}
             placeholder="Enter your email address"
           />
-          <p>{errors.email?.message}</p>
+          <p className="errorMsg">{errors.email?.message}</p>
         </Box>
         <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
           Create a Password
@@ -111,7 +111,6 @@ const Signup = () => {
                   </IconButton>
                 </InputAdornment>
               }
-              label="Password"
             />
           )}
         />
@@ -121,7 +120,7 @@ const Signup = () => {
         >
           Use 8 or more characters with a mix of letters, numbers & symbols
         </FormLabel>
-        <p>{errors.password?.message}</p>
+        <p className="errorMsg">{errors.password?.message}</p>
         <Box mt={3}>
           <InputButton name="Create An Account" />
         </Box>

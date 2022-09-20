@@ -1,4 +1,4 @@
-p {
+.errorMsg {
     font: 15px 'Poppins', sans-serif;
     color: red;
 }
