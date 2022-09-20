@@ -111,7 +111,8 @@ function CreateArticle() {
               />
             )}
           />
-          {errors.title && <p>{errors.title.message}</p>}
+          <br/>
+          {errors.title && <span className={styles.errorMsg}>{errors.title.message}</span>}
 
           <br />
 
@@ -178,7 +179,8 @@ function CreateArticle() {
               </FormControl>
             )}
           /> */}
-          {errors.mins && <p>{errors.mins.message}</p>}
+          <br/>
+          {errors.mins && <span className={styles.errorMsg}>{errors.mins.message}</span>}
 
           <br />
           <br />
@@ -214,7 +216,8 @@ function CreateArticle() {
             )}
           />
 
-          {errors.body && <p>{errors.body.message}</p>}
+          <br/>
+          {errors.body && <span className={styles.errorMsg}>{errors.body.message}</span>}
 
           <br />
           <br />

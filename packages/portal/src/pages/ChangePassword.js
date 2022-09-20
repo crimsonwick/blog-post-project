@@ -13,24 +13,34 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import YupPassword from 'yup-password';
+YupPassword(yup);
+
 
 const schema = yup
   .object({
     password1: yup
       .string()
       .required()
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
-      ),
+      .min(8)
+      .max(20)
+      .minUppercase(1, 'Password must include atleast one upper-case letter'),
+      // .minSymbols(1, 'Password must include atleast one symbol'),
+      // .matches(
+      //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      //   'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
+      // ),
     password2: yup
       .string()
       .required()
-      .oneOf([yup.ref('password1'), null], 'Passwords must match')
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
-      ),
+      .oneOf([yup.ref('password1'), null], 'Passwords must match')      .min(8)
+      .max(20)
+      .minUppercase(1, 'Password must include atleast one upper-case letter')
+      .minSymbols(1, 'Password must include atleast one symbol'),
+      // .matches(
+      //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      //   'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
+      // ),
   })
   .required();
 
@@ -122,7 +132,7 @@ function ChangePassword() {
               />
             )}
           />
-          {errors.password1 && <p>{errors.password1.message}</p>}
+          {errors.password1 && <p className={styles.errorMsg}>{errors.password1.message}</p>}
           <br />
           <br />
           <br />
@@ -169,7 +179,7 @@ function ChangePassword() {
               />
             )}
           />
-          {errors.password2 && <p>{errors.password2.message}</p>}
+          {errors.password2 && <p className={styles.errorMsg}>{errors.password2.message}</p>}
 
           <br />
           <br />

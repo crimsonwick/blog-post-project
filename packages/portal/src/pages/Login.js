@@ -20,6 +20,9 @@ import * as yup from 'yup';
 import {useContext} from "react";
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
 import "../styles/signup.css"
+import YupPassword from 'yup-password';
+YupPassword(yup);
+
 
 
 const schema = yup
@@ -27,11 +30,16 @@ const schema = yup
     email: yup.string().email().required(),
     password: yup
       .string()
-      .required()
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-      ),
+      .min(8)
+      .max(20)
+      .minUppercase(1, 'Password must include atleast one upper-case letter')
+      .minSymbols(1, 'Password must include atleast one symbol'),
+      // .required(),
+      // .required()
+      // .matches(
+      //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      //   "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      // ),
   })
   .required();
 
@@ -94,9 +102,9 @@ function Login() {
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor="my-input">Email address or username</FormLabel>{" "}
-        <br />
-        <br />
+        <FormLabel htmlFor="my-input">Email address</FormLabel>{" "}
+        {/* <br />
+        <br /> */}
         <Controller
           control={control}
           name="email"
@@ -116,16 +124,16 @@ function Login() {
               sx={{
                 borderRadius: 18,
                 width: 550,
-                marginBottom: 3,
+                 marginBottom: 2,
               }}
             />
           )}
         />
-        {errors.email && <p className='errorMsg'>{errors.email.message}</p>}
+        {errors.email && <span className='errorMsg'>{errors.email.message}</span>}
         <br />
         <FormLabel htmlFor="my-input">Password</FormLabel>
-        <br />
-        <br />
+        {/* <br />
+        <br /> */}
         <Controller
           control={control}
           name="password"
@@ -144,6 +152,8 @@ function Login() {
               sx={{
                 borderRadius: 18,
                 width: 550,
+                marginBottom: 2,
+
               }}
               //              fullWidth
               endAdornment={
@@ -161,8 +171,8 @@ function Login() {
             />
           )}
         />
-        {errors.password && <p className='errorMsg'>{errors.password.message}</p>}
-        <Link to="/change-password">
+        {errors.password && <span className='errorMsg'>{errors.password.message}</span>}
+        <Link to="/change-password" sx={{color: "black"}}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
@@ -187,7 +197,7 @@ function Login() {
 
       <h3 className={styles.h3}>Don't have an account?</h3>
 
-      <Link to="/signup">
+      <Link to="/signup" style={{textDecoration: 'none'}}>
         <Button
           fullWidth
           variant="outlined"
