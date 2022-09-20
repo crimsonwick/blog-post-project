@@ -3,7 +3,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import FormLabel from '@mui/material/FormLabel';
@@ -16,11 +16,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { AppContext } from '../App';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
- import {  useNavigate } from "react-router-dom";
-import {useContext} from "react";
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
-import "../styles/signup.css"
-
+import '../styles/signup.css';
 
 const schema = yup
   .object({
@@ -30,7 +29,7 @@ const schema = yup
       .required()
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
       ),
   })
   .required();
@@ -42,14 +41,14 @@ function Login() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer,userToken } = useContext(AppContext);
-  const [message,setMessage] = useState(false);
+  const { parentTransfer, userToken } = useContext(AppContext);
+  const [message, setMessage] = useState(false);
   const navigate = useNavigate();
   // const login=()=>{
   //   localStorage.setItem('login', true);
@@ -62,15 +61,15 @@ function Login() {
   //   //     navigate('/');
   //   // }
   // });
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     const response = await getLoginDetails(data);
-    if(response.data.accessToken) {
-      userToken(response.data.accessToken)
-      const parsetoken = parseJwt(response.data.accessToken)
+    if (response.data.accessToken) {
+      userToken(response.data.accessToken);
+      const parsetoken = parseJwt(response.data.accessToken);
       parentTransfer(parsetoken.user);
       navigate('/my-articles');
-    }else{
-        setMessage(true);
+    } else {
+      setMessage(true);
     }
   };
 
@@ -90,11 +89,11 @@ function Login() {
 
   return (
     <Container maxWidth="sm">
-      {message && <p style={{color: "red"}}>Wrong Credentials</p>}
+      {message && <p style={{ color: 'red' }}>Wrong Credentials</p>}
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor="my-input">Email address or username</FormLabel>{" "}
+        <FormLabel htmlFor="my-input">Email address or username</FormLabel>{' '}
         <br />
         <br />
         <Controller
@@ -121,7 +120,7 @@ function Login() {
             />
           )}
         />
-        {errors.email && <p className='errorMsg'>{errors.email.message}</p>}
+        {errors.email && <p className="errorMsg">{errors.email.message}</p>}
         <br />
         <FormLabel htmlFor="my-input">Password</FormLabel>
         <br />
@@ -138,7 +137,7 @@ function Login() {
             <OutlinedInput
               variant="outlined"
               color="secondary"
-              type={values.showPassword ? "text" : "password"}
+              type={values.showPassword ? 'text' : 'password'}
               value={values.password}
               onChange={onChange} // send value to hook form
               sx={{
@@ -161,8 +160,10 @@ function Login() {
             />
           )}
         />
-        {errors.password && <p className='errorMsg'>{errors.password.message}</p>}
-        <Link to="/change-password">
+        {errors.password && (
+          <p className="errorMsg">{errors.password.message}</p>
+        )}
+        <Link to="/change-password" style={{ textDecoration: 'none' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
@@ -175,7 +176,7 @@ function Login() {
           variant="contained"
           color="secondary"
           fullWidth
-          sx={{ borderRadius: 25, fontSize: "22px" }}
+          sx={{ borderRadius: 25, fontSize: '22px' }}
         >
           Log in
         </Button>
@@ -187,12 +188,15 @@ function Login() {
 
       <h3 className={styles.h3}>Don't have an account?</h3>
 
-      <Link to="/signup">
+      <Link to="/signup" style={{ textDecoration: 'none' }}>
         <Button
           fullWidth
           variant="outlined"
           color="secondary"
-          sx={{ borderRadius: "25px", fontSize: "22px" }}
+          sx={{
+            borderRadius: '25px',
+            fontSize: '22px',
+          }}
         >
           Sign up
         </Button>

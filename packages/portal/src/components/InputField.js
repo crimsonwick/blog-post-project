@@ -23,7 +23,6 @@ const InputField = (props) => {
             variant="outlined"
             sx={{
               borderRadius: '20px',
-              fontFamily: 'Poppins',
               width: customWidth || '100%',
             }}
             placeholder={props.placeholder}

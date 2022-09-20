@@ -48,18 +48,18 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/change-password" element={<ChangePassword />} />
-            {/* <Route
-            path="/change-password"
-            element={<Protected Component={ChangePassword}></Protected>}
-          /> */}
-            {/* <Route
-            path="/create-article"
-            element={<Protected Component={CreateArticle}></Protected>}
-          /> */}
-            {/* <Route
-            path="/my-articles"
-            element={<Protected Component={MyArticles}></Protected>}
-          /> */}
+            <Route
+              path="/change-password"
+              element={<Protected Component={ChangePassword}></Protected>}
+            />
+            <Route
+              path="/create-article"
+              element={<Protected Component={CreateArticle}></Protected>}
+            />
+            <Route
+              path="/my-articles"
+              element={<Protected Component={MyArticles}></Protected>}
+            />
 
             <Route path="*" element={<NoPage />} />
           </Routes>

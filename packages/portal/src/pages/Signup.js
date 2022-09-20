@@ -44,12 +44,7 @@ const Signup = () => {
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
-  // const onSubmit = async(data) => {
-  //   setData(data);
-  //   console.log(data);
-  //   const response = await getSignUpDetails(data);
-  //   alert(JSON.stringify(response.data))
-  // }
+
   const onSubmit = async (data) => {
     console.log(data);
     console.log(await axios.post('http://localhost:5000/user/signup', data));

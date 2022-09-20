@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import Container from '@mui/material/Container';
 import { Box, Divider } from '@mui/material';
@@ -7,32 +7,31 @@ import Footer from '../components/Footer';
 import { allPostsComing } from '../services/LoginApi';
 
 const Home = () => {
-  const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
 
-const allPosts = async() => {
-  const details = await allPostsComing();
-  setData(details.data)
-}
+  const allPosts = async () => {
+    const details = await allPostsComing();
+    setData(details.data);
+  };
 
-useEffect(() => {
-  allPosts();
-},[]);
+  useEffect(() => {
+    allPosts();
+  }, []);
   return (
     <>
       <NavBar />
       <Container sx={{ marginY: 5 }}>
-      <h1 style={{fontFamily:"Poppins", marginTop: "65px"}}>All Posts</h1>
-        <Divider></Divider>
+        <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>All Posts</h1>
+        <Divider />
 
         <Box mt={5}>
-          {data.map((object) => {
-            return(
-              <Article object={object}/>
-            )
-          })}
+          {data &&
+            data.map((object) => {
+              return <Article key={object._id} object={object} />;
+            })}
         </Box>
         <Footer />
-        </Container>
+      </Container>
     </>
   );
 };

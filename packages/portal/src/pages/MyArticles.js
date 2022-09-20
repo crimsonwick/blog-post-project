@@ -3,15 +3,16 @@ import React from 'react';
 import Article from '../components/Article';
 import { Box } from '@mui/system';
 import Footer from '../components/Footer';
-import { Divider } from '@mui/material';
-import NavBar from '../components/NavBar';
-import { useState, useEffect, useContext, AppContext } from 'react';
+import { Divider, Typography } from '@mui/material';
+import NavBarX from '../components/NavBarX';
+import { useState, useEffect, useContext } from 'react';
 import { gettingPosts } from '../services/LoginApi';
+import { AppContext } from '../App';
 
 const MyArticles = () => {
-  const [data, setData] = useState([]);
+  const [array, setArray] = useState([]);
+  const [bool, setBool] = useState(true);
   const { getAccessToken } = useContext(AppContext);
-
   const allPosts = async () => {
     const config = {
       headers: {
@@ -19,27 +20,34 @@ const MyArticles = () => {
       },
     };
     const details = await gettingPosts(config);
-    setData(details.data);
+    setArray(details.data);
+    if (details.data === undefined || details.data.length === 0) {
+      setBool(false);
+    }
   };
-
   useEffect(() => {
     allPosts();
-  }, []);
+  });
 
   return (
     <>
-      <NavBar />
-      {/* <button onClick={() => alert(JSON.stringify(data))}>Click me</button> */}
+      <NavBarX login={true} />
       <Container maxWidth="lg" sx={{ position: 'relative' }}>
         <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>
-          Recent Posts
+          My Articles
         </h1>
-        <Divider></Divider>
+        <Divider />
 
         <Box mt={5}>
-          {data.map((object) => {
-            return <Article object={object} />;
-          })}
+          {bool ? (
+            array.map((object) => {
+              return <Article object={object} />;
+            })
+          ) : (
+            <Typography sx={{ fontFamily: 'Poppins' }}>
+              No articles to show
+            </Typography>
+          )}
         </Box>
         <Footer />
       </Container>

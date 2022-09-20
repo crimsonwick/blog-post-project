@@ -12,9 +12,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
 
-
 const Article = (props) => {
-
   return (
     <Card sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}>
       <img
@@ -25,7 +23,7 @@ const Article = (props) => {
       <Box mt={1}>
         <Chip label="Travel" />
         <Typography variant="h4" component="h3">
-         {props.object.title}
+          {props.object.title}
         </Typography>
         <List style={flexContainer}>
           <ListItem className="user">
@@ -50,9 +48,7 @@ const Article = (props) => {
             <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
           </ListItem>
         </List>
-        <Typography variant="h6">
-          {props.object.body}
-        </Typography>
+        <Typography variant="h6">{props.object.body}</Typography>
       </Box>
     </Card>
   );
