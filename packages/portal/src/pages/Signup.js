@@ -9,7 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { getSignUpDetails } from '../services/LoginApi';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
-import "../styles/signup.css"
+import '../styles/signup.css';
 import YupPassword from 'yup-password';
 import '../styles/signup.css';
 import axios from 'axios';
@@ -41,7 +41,7 @@ const Signup = () => {
     control,
     formState: { errors },
   } = useForm({
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
   // const onSubmit = async(data) => {
@@ -79,7 +79,7 @@ const Signup = () => {
             <Alert severity="error">{data?.message}</Alert>
           )}
 
-          {data === "undefined Account Already Exists" && (
+          {data === 'undefined Account Already Exists' && (
             <Alert severity="error">Already Exists</Alert>
           )}
         </div>
@@ -100,7 +100,7 @@ const Signup = () => {
             control={control}
             placeholder="Enter your email address"
             variant="outlined"
-              color="secondary"
+            color="secondary"
           />
           <p className="errorMsg">{errors.email?.message}</p>
         </Box>
