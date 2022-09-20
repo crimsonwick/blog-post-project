@@ -16,8 +16,7 @@ export default (sequelize, DataTypes) => {
         defaultValue: sequelize.fn("uuid_generate_v4"),
       },
       name: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.STRING
       },
       email: {
         type: DataTypes.STRING,
@@ -27,6 +26,10 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      resetLink: {
+        type: DataTypes.STRING,
+      },
+
     },
     {
       sequelize,
