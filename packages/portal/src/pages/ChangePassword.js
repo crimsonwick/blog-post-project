@@ -104,6 +104,8 @@ function ChangePassword() {
                   marginTop: 1,
                 }}
                 fullWidth
+                variant="outlined"
+              color="secondary"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -149,6 +151,8 @@ function ChangePassword() {
                   marginTop: 1,
                 }}
                 fullWidth
+                variant="outlined"
+              color="secondary"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton

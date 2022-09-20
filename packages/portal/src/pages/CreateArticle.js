@@ -1,10 +1,10 @@
-import React from 'react';
-import styles from '../styles/CreateArticle/CreateArticle.module.css';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-
-import NavbarLoggedIn from '../components/NavbarLoggedIn';
-import { OutlinedInput } from '@mui/material';
+import React, { useContext, useState } from "react";
+import styles from "../styles/CreateArticle/CreateArticle.module.css";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import { AppContext } from "../App";
+import NavbarLoggedIn from "../components/NavbarLoggedIn";
+import { OutlinedInput } from "@mui/material";
 
 // import IconButton from "@mui/material/IconButton";
 // import PhotoCamera from "@mui/icons-material/PhotoCamera";
@@ -12,10 +12,11 @@ import { OutlinedInput } from '@mui/material';
 // import Select from "@mui/material/Select";
 // import FormControl from "@mui/material/FormControl";
 
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { addPost } from "../services/LoginApi";
 
 const schema = yup
   .object({
@@ -27,16 +28,17 @@ const schema = yup
 
 function CreateArticle() {
   // const [min, setMin] = React.useState("");
-
+  const [image, setImage] = useState(null);
+  const { userData, uploadFile, getAccessToken } = useContext(AppContext);
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: '',
+      title: "",
       //mins: "",
-      body: '',
+      body: "",
     },
     resolver: yupResolver(schema),
   });
@@ -47,8 +49,27 @@ function CreateArticle() {
 
   //
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const imageFile = URL.createObjectURL(image);
+    uploadFile(imageFile);
+    const Object = {
+      userId: userData.id,
+      title: data.title,
+      body: data.body,
+      image: imageFile,
+      timetoRead: data.mins,
+    };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getAccessToken}`,
+      },
+    };
+    await addPost(Object, config);
+  };
+
+  const handleChange = (event) => {
+    const [file] = event.target.files;
+    setImage(file);
   };
 
   return (
@@ -86,6 +107,7 @@ function CreateArticle() {
                   marginTop: 1,
                 }}
                 variant="outlined"
+                color="secondary"
               />
             )}
           />
@@ -116,6 +138,7 @@ function CreateArticle() {
                   marginTop: 1,
                 }}
                 variant="outlined"
+                color="secondary"
               />
             )}
           />
@@ -185,6 +208,8 @@ function CreateArticle() {
                   width: 700,
                   marginTop: 1,
                 }}
+                variant="outlined"
+              color="secondary"
               />
             )}
           />
@@ -196,7 +221,11 @@ function CreateArticle() {
 
           <Button variant="contained" component="label" color="primary">
             Upload
-            <input hidden accept="image/*" multiple type="file" />
+            <input
+              type="file"
+              onChange={(event) => handleChange(event)}
+              value=""
+            />
           </Button>
 
           {/* <IconButton
@@ -216,7 +245,7 @@ function CreateArticle() {
             variant="contained"
             color="secondary"
             fullWidth
-            sx={{ borderRadius: '25px', fontSize: '22px', width: '350px' }}
+            sx={{ borderRadius: "25px", fontSize: "22px", width: "350px" }}
           >
             Publish Article
           </Button>

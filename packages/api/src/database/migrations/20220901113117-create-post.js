@@ -19,7 +19,13 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
     },
     body: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING(5000),
+    },
+    image: {
+      type: Sequelize.STRING(1000),
+    },
+    timetoRead: {
+      type: Sequelize.INTEGER,
     },
     createdAt: {
       allowNull: false,

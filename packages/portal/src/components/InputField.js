@@ -1,30 +1,27 @@
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import React from "react";
 import { FormLabel, OutlinedInput } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import React, { useState } from 'react';
+// import  { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 const InputField = (props) => {
-  const [values, setValues] = useState({
-    password: '',
-    showPassword: false,
-  });
+  // const [values, setValues] = useState({
+  //   password: '',
+  //   showPassword: false,
+  // });
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  // const handleChange = (prop) => (event) => {
+  //   setValues({ ...values, [prop]: event.target.value });
+  // };
 
-  const handleClickShowPassword = () => {
-    setValues({
-      showPassword: !values.showPassword,
-    });
-  };
+  // const handleClickShowPassword = () => {
+  //   setValues({
+  //     showPassword: !values.showPassword,
+  //   });
+  // };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  // const handleMouseDownPassword = (event) => {
+  //   event.preventDefault();
+  // };
 
   const { register } = useForm();
   const customWidth = props.width;

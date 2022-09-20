@@ -13,7 +13,7 @@ const { Users } = model;
 export var tokens = [];
 
 export const SignUp = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
   const hasedPassword = bcrypt.hashSync(password, salt);
   try {
     const checkAccount = await Users.findOne({
@@ -23,9 +23,9 @@ export const SignUp = async (req, res) => {
         },
       },
     });
-    if (checkAccount) return res.json(`${name} Account Already Exists`);
+    if (checkAccount) return res.json(`${email} Account Already Exists`);
     else {
-      const userArray = { name: name, email: email, password: hasedPassword };
+      const userArray = {email: email, password: hasedPassword };
       const newUser = await Users.create(userArray);
       return res.json(newUser.dataValues);
     }

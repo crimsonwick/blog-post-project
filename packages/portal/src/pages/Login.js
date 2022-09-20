@@ -3,7 +3,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import React from 'react';
+import React,{useState} from 'react';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import FormLabel from '@mui/material/FormLabel';
@@ -13,14 +13,13 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import { AppContext } from '../App';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {  useNavigate } from "react-router-dom";
-import {useEffect} from "react";
-import axios from "axios";
-import Alert from "@mui/material/Alert";
-import { useState } from "react";
+ import {  useNavigate } from "react-router-dom";
+import {useContext} from "react";
+import { getLoginDetails, parseJwt } from '../services/LoginApi';
+import "../styles/signup.css"
 
 
 const schema = yup
@@ -32,55 +31,49 @@ const schema = yup
       .matches(
         //.min(4).max(15)
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
       ),
     //.matches(/^[!@#$%^&*(),.?":{}|<>]+$/, " Must contain a special character"),//.matches( /^[!@#$%^&*(),.?":{}|<>]+$/, "special character "),
   })
   .required();
 
 function Login() {
-
-  const [data, setData] = useState();
-
-
-
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     resolver: yupResolver(schema),
   });
 
-
+  const { parentTransfer,userToken } = useContext(AppContext);
+  const [message,setMessage] = useState(false);
   const navigate = useNavigate();
+  // const login=()=>{
+  //   localStorage.setItem('login', true);
+  // }
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    let login = localStorage.getItem('login');
-    // if(login){
-    //     navigate('/');
-    // }
-  });
-
-  const login=()=>{
-    localStorage.setItem('login', true);
-  }
-
-  const onSubmit = async (data) => {
-    console.log(data);
-    login();
-
-    const response = await axios.post(
-      "http://localhost:5000/user/login",
-      data
-    );
-    console.log(response.data);
-    setData(response.data);
-
+  // useEffect(() => {
+  //   // let login = localStorage.getItem('login');
+  //   // if(login){
+  //   //     navigate('/');
+  //   // }
+  // });
+  const onSubmit = async(data) => {
+    const response = await getLoginDetails(data);
+    if(response.data.accessToken) {
+      userToken(response.data.accessToken)
+      const parsetoken = parseJwt(response.data.accessToken)
+      parentTransfer(parsetoken.user);
+      navigate('/create-article');
+    }else{
+        setMessage(true);
+    }
   };
 
   const [values, setValues] = React.useState({
@@ -99,10 +92,11 @@ function Login() {
 
   return (
     <Container maxWidth="sm">
+      {message && <p style={{color: "red"}}>Wrong Credentials</p>}
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor="my-input">Email address or username</FormLabel>{' '}
+        <FormLabel htmlFor="my-input">Email address or username</FormLabel>{" "}
         <br />
         <br />
         <Controller
@@ -115,6 +109,8 @@ function Login() {
             formState,
           }) => (
             <OutlinedInput
+              variant="outlined"
+              color="secondary"
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
               checked={value}
@@ -124,12 +120,10 @@ function Login() {
                 width: 550,
                 marginBottom: 3,
               }}
-              // fullWidth
-              variant="outlined"
             />
           )}
         />
-        {errors.email && <p>{errors.email.message}</p>}
+        {errors.email && <p className='errorMsg'>{errors.email.message}</p>}
         <br />
         <FormLabel htmlFor="my-input">Password</FormLabel>
         <br />
@@ -144,15 +138,16 @@ function Login() {
             formState,
           }) => (
             <OutlinedInput
-              type={values.showPassword ? 'text' : 'password'}
+              variant="outlined"
+              color="secondary"
+              type={values.showPassword ? "text" : "password"}
               value={values.password}
               onChange={onChange} // send value to hook form
               sx={{
                 borderRadius: 18,
                 width: 550,
-
               }}
-//              fullWidth
+              //              fullWidth
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -165,25 +160,24 @@ function Login() {
                   </IconButton>
                 </InputAdornment>
               }
-              label="Password"
             />
           )}
         />
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && <p className='errorMsg'>{errors.password.message}</p>}
         <Link to="/change-password">
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
           control={<Checkbox color="secondary" />}
           label="Remember Me"
-          sx={{ marginBottom: 2 , }}
+          sx={{ marginBottom: 2 }}
         />
         <Button
           type="submit"
           variant="contained"
           color="secondary"
           fullWidth
-          sx={{ borderRadius: 25, fontSize: '22px' }}
+          sx={{ borderRadius: 25, fontSize: "22px" }}
         >
           Log in
         </Button>
@@ -201,7 +195,7 @@ function Login() {
           variant="outlined"
           color="secondary"
           // onClick = {login}
-          sx={{ borderRadius: '25px', fontSize: '22px' }}
+          sx={{ borderRadius: "25px", fontSize: "22px" }}
         >
           Sign up
         </Button>

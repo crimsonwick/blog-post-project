@@ -2,15 +2,17 @@ import model from '../models';
 import client from '../config/elasticsearch.js';
 import { ErrorHandling } from '../middleware/Errors.js';
 
-const {  Users,Posts,Comments } = model;
+const {  Users,Posts } = model;
 
 export const AddPost = async (req, res) => {
-    const { userId, title, body } = req.body;
+    const { userId, title, body,image,timetoRead } = req.body;
     try {
       const addNewPost = await Posts.create({
         userId: userId,
         title: title,
         body: body,
+        image: image,
+        timetoRead: timetoRead
       });
       const C_post = await client.index({
         index: "posts",
@@ -24,13 +26,11 @@ export const AddPost = async (req, res) => {
 
 export const getPosts = async(req,res) => {
     try {
-        const getAll = await Posts.findAll({
-            include: {
-                model: Comments,
-                as: 'Comments'
-            }
-        });
-        res.json(getAll);
+        const getAll = await client.search({
+          index: 'posts',
+        })
+       const posts = getAll.body.hits.hits.map((s) => s._source);
+       return res.json(posts);
     } catch (error) {
         ErrorHandling(res);
     }

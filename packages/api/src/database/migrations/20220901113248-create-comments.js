@@ -31,12 +31,8 @@ export async function up(queryInterface, Sequelize) {
       },
       defaultValue: null,
     },
-    title: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
     body: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING(1000),
       allowNull: false,
     },
     createdAt: {

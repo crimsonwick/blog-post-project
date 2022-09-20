@@ -1,13 +1,29 @@
 import { Container } from "@mui/system";
-import React from "react";
-import NavBar from "../components/NavBar";
+import React, { useEffect,useState,useContext } from "react";
 import Article from "../components/Article";
 import { Box } from "@mui/system";
 import Footer from "../components/Footer";
 import { Divider } from "@mui/material";
 import NavBarX from "../components/NavBarX";
+import { AppContext } from "../App";
+import { gettingPosts } from "../services/LoginApi";
 
 const MyArticles = () => {
+    
+const [data,setData] = useState([]);
+const { getAccessToken } = useContext(AppContext)
+
+const getAllPosts = async() => {
+  const config = {headers: {
+    "Authorization" : `Bearer ${getAccessToken}`
+  }}
+  const details = await gettingPosts(config);
+  console.log(details.data);
+}
+useEffect(() => {
+  getAllPosts();
+},[])
+
   return (
     <>
       <NavBarX login = {true}></NavBarX>

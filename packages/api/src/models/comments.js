@@ -54,11 +54,7 @@ export default (sequelize, DataTypes) => {
         },
         defaultValue: null,
       },
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      body: { type: DataTypes.STRING, allowNull: false },
+      body: { type: DataTypes.STRING(1000), allowNull: false },
     },
     {
       sequelize,
