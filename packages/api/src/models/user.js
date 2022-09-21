@@ -15,9 +15,6 @@ export default (sequelize, DataTypes) => {
         primaryKey: true,
         defaultValue: sequelize.fn("uuid_generate_v4"),
       },
-      name: {
-        type: DataTypes.STRING
-      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
