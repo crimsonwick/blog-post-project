@@ -6,12 +6,6 @@ import { AppContext } from '../App';
 import NavbarLoggedIn from '../components/NavbarLoggedIn';
 import { OutlinedInput } from '@mui/material';
 
-// import IconButton from "@mui/material/IconButton";
-// import PhotoCamera from "@mui/icons-material/PhotoCamera";
-// import MenuItem from "@mui/material/MenuItem";
-// import Select from "@mui/material/Select";
-// import FormControl from "@mui/material/FormControl";
-
 import { useForm, Controller } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -27,9 +21,8 @@ const schema = yup
   .required();
 
 function CreateArticle() {
-  // const [min, setMin] = React.useState("");
-  const [image,setImage] = useState(null);
-  const { userData,uploadFile,getAccessToken } = useContext(AppContext);
+   const [image,setImage] = useState(null);
+  const { userData,getAccessToken } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -43,24 +36,22 @@ function CreateArticle() {
     resolver: yupResolver(schema),
   });
 
-  // const handleChange = (event) => {
-  //   setMin(event.target.value);
-  // };
-
-  //
-
   const onSubmit = async(data) => {
-    const imageFile = URL.createObjectURL(image);
-    uploadFile(imageFile);
-    const Object = {userId: userData.id,title: data.title,body: data.body,image: imageFile,timetoRead: data.mins}
+    let formData = new FormData();
+    formData.append('userId',userData.id)
+    formData.append('title',data.title)
+    formData.append('body',data.body)
+    formData.append('file',image)
+    formData.append('timetoRead',data.mins)
     const config = {headers: {
       "Authorization" : `Bearer ${getAccessToken}`
     }}
-    await addPost(Object,config);
+     const response = await addPost(formData,config);
+     console.log(response);
   };
 
-  const handleChange = (event) => {
-    const [ file ] = event.target.files;
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
     setImage(file);
   }
 
@@ -132,42 +123,6 @@ function CreateArticle() {
               />
             )}
           />
-
-          {/* <Controller
-            control={control}
-            name="mins"
-            rules={{ required: true }}
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
-              formState,
-            }) => (
-              <FormControl>
-                <Select
-                  onBlur={onBlur} // notify when input is touched
-                  onChange={onChange} // send value to hook form
-                  onChange={handleChange}
-                  checked={value}
-                  inputRef={ref}
-                  value={min}
-                  displayEmpty
-                  sx={{
-                    borderRadius: 5,
-                    marginBottom: 3,
-                    width: 700,
-                    marginTop: 1,
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>Select</em>
-                  </MenuItem>
-                  <MenuItem value={1}>one</MenuItem>
-                  <MenuItem value={2}>two</MenuItem>
-                  <MenuItem value={3}>more than 3</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          /> */}
           {errors.mins && <p>{errors.mins.message}</p>}
 
           <br />
@@ -207,20 +162,18 @@ function CreateArticle() {
           <br />
           <br />
 
-          <Button variant="contained" component="label" color="primary">
-            Upload
-            <input type="file" onChange={(event) => handleChange(event)} value=''/>
-          </Button>
-
-          {/* <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="label"
-          >
-            <input hidden accept="image/*" type="file" />
-            <PhotoCamera />
-          </IconButton> */}
-
+          <Button
+  variant="contained"
+  component="label"
+>
+  Upload
+  <input
+    type="file"
+    name='file'
+    hidden
+    onChange={(event) => handleFileChange(event)}
+  />
+</Button>
           <br />
           <br />
           <br />

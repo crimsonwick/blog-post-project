@@ -27,7 +27,7 @@ useEffect(() => {
         <Box mt={5}>
           {data.map((object) => {
             return(
-              <Article object={object}/>
+              <Article key={object._id} object={object}/>
             )
           })}
         </Box>

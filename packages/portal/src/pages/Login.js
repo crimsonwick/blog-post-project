@@ -26,11 +26,9 @@ const schema = yup
       .string()
       .required()
       .matches(
-        //.min(4).max(15)
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
       ),
-    //.matches(/^[!@#$%^&*(),.?":{}|<>]+$/, " Must contain a special character"),//.matches( /^[!@#$%^&*(),.?":{}|<>]+$/, "special character "),
   })
   .required();
 
@@ -50,17 +48,6 @@ function Login() {
   const { parentTransfer,userToken } = useContext(AppContext);
   const [message,setMessage] = useState(false);
   const navigate = useNavigate();
-  // const login=()=>{
-  //   localStorage.setItem('login', true);
-  // }
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   // let login = localStorage.getItem('login');
-  //   // if(login){
-  //   //     navigate('/');
-  //   // }
-  // });
   const onSubmit = async(data) => {
     const response = await getLoginDetails(data);
     if(response.data.accessToken) {

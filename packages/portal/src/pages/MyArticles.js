@@ -1,6 +1,5 @@
 import { Container } from "@mui/system";
 import React, { useEffect,useState,useContext } from "react";
-// import NavBar from "../components/NavBar";
 import Article from "../components/Article";
 import { Box } from "@mui/system";
 import Footer from "../components/Footer";
@@ -25,12 +24,11 @@ const allPosts = async() => {
 
 useEffect(() => {
   allPosts();
-},[]);
+});
 
   return (
     <>
       <NavBarX login = {true}></NavBarX>
-      {/* <button onClick={() => alert(JSON.stringify(data))}>Click me</button> */}
       <Container maxWidth="lg" sx={{ position: "relative" }}>
         <h1 style={{fontFamily:"Poppins", marginTop: "65px"}}>Recent Posts</h1>
         <Divider></Divider>
@@ -38,7 +36,7 @@ useEffect(() => {
         <Box mt={5}>
           {data.map((object) => {
             return(
-              <Article object={object}/>
+              <Article key={object._id} object={object}/>
             )
           })}
         </Box>

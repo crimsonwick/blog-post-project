@@ -20,11 +20,7 @@ const Article = (props) => {
       elevation={10}
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
-      <img
-        src={props.object.image}
-        alt="vase in a room minimalist"
-        className="articleImg"
-      />
+      <img src={require(`../uploads/${props.object.image}`)} alt="user_image" className="articleImg"/>
       <Box mt={1}>
         <Chip label="Travel" />
         <Typography variant="h4" component="h3">
