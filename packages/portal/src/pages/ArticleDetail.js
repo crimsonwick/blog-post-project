@@ -9,7 +9,7 @@ import AddComment from '../components/AddComment';
 export default function ArticleDetail() {
   return (
     <>
-
+      <NavBarX login={true} />
       <Container maxWidth="lg">
         <Box mb={5}>
           <ArticleBig />

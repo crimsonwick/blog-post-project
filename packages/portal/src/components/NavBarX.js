@@ -18,9 +18,13 @@ import Logout from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
+import { logout } from '../services/LoginApi.js';
+import { AppContext } from '../App.js';
+import { useContext } from 'react';
 
 const MenuAppBar = ({ login }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { getAccessToken } = useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,7 +32,10 @@ const MenuAppBar = ({ login }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleLogout = async () => {
+    console.log('inside handle logout');
+    await logout(getAccessToken);
+  };
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
@@ -145,7 +152,7 @@ const MenuAppBar = ({ login }) => {
               <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
                 <MenuItem>
                   <ListItemIcon>
-                    <Logout fontSize="small" />
+                    <Logout fontSize="small" onClick={handleLogout} />
                   </ListItemIcon>
                   Logout
                 </MenuItem>

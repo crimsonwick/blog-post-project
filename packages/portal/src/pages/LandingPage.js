@@ -27,7 +27,7 @@ const Home = () => {
         <Box mt={5}>
           {data &&
             data.map((object) => {
-              return <Article key={object._id} object={object} />;
+              return <Article key={object.toString()} object={object} />;
             })}
         </Box>
         <Footer />

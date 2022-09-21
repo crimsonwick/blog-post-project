@@ -8,27 +8,42 @@ import NavBarX from '../components/NavBarX';
 import { useState, useEffect, useContext } from 'react';
 import { gettingPosts } from '../services/LoginApi';
 import { AppContext } from '../App';
+import axios from 'axios';
 
 const MyArticles = () => {
   const [array, setArray] = useState([]);
   const [bool, setBool] = useState(true);
   const { getAccessToken } = useContext(AppContext);
+
   const allPosts = async () => {
     const config = {
       headers: {
         Authorization: `Bearer ${getAccessToken}`,
       },
     };
-    const details = await gettingPosts(config);
-    setArray(details.data);
-    if (details.data === undefined || details.data.length === 0) {
-      setBool(false);
+    // axios.get('http://localhost:5000/post', config).then((response) => {
+    //   setArray(response.data);
+    //   console.log('API WAS CALLED');
+    //   console.log(array, typeof array);
+    // });
+    try {
+      const details = await gettingPosts(config);
+      debugger;
+      if (details.data.length) await setArray(details.data);
+    } catch (error) {
+      debugger;
     }
+
+    // checkEmptyArray();
   };
+
   useEffect(() => {
     allPosts();
-  });
+  }, []);
 
+  // const checkEmptyArray = () => {
+  //   if (Object.keys(array).length === 0) setBool(false);
+  // };
   return (
     <>
       <NavBarX login={true} />
@@ -39,9 +54,9 @@ const MyArticles = () => {
         <Divider />
 
         <Box mt={5}>
-          {bool ? (
+          {array.length !== 0 ? (
             array.map((object) => {
-              return <Article object={object} />;
+              return <Article key={object.id} object={object} />;
             })
           ) : (
             <Typography sx={{ fontFamily: 'Poppins' }}>
