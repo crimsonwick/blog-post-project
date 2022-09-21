@@ -21,6 +21,7 @@ const MyArticles = () => {
         Authorization: `Bearer ${getAccessToken}`,
       },
     };
+
     // axios.get('http://localhost:5000/post', config).then((response) => {
     //   setArray(response.data);
     //   console.log('API WAS CALLED');
@@ -28,10 +29,9 @@ const MyArticles = () => {
     // });
     try {
       const details = await gettingPosts(config);
-      debugger;
-      if (details.data.length) await setArray(details.data);
+      if (details.data.length) setArray(details.data);
     } catch (error) {
-      debugger;
+      console.log(error);
     }
 
     // checkEmptyArray();

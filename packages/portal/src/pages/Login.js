@@ -47,7 +47,8 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer, userToken } = useContext(AppContext);
+  const { parentTransfer, userAccessToken, userRefreshToken } =
+    useContext(AppContext);
   const [message, setMessage] = useState(false);
   const navigate = useNavigate();
   // const login=()=>{
@@ -63,8 +64,12 @@ function Login() {
   // });
   const onSubmit = async (data) => {
     const response = await getLoginDetails(data);
-    if (response.data.accessToken) {
-      userToken(response.data.accessToken);
+    if (response.data.accessToken && response.data.refreshToken) {
+      userAccessToken(response.data.accessToken);
+      userRefreshToken(response.data.refreshToken);
+      console.log('access: ', response.data.accessToken);
+      console.log('refresh: ', response.data.refreshToken);
+
       const parsetoken = parseJwt(response.data.accessToken);
       parentTransfer(parsetoken.user);
       navigate('/my-articles');

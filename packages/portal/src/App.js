@@ -17,7 +17,7 @@ export const AppContext = createContext(null);
 
 function App() {
   const [userData, setUserData] = useState({});
-
+  const [getRefreshToken, setRefreshToken] = useState(null);
   const [getAccessToken, setAccessToken] = useState(null);
   useEffect(() => {
     WebFont.load({
@@ -30,13 +30,23 @@ function App() {
   const parentTransfer = (object) => {
     setUserData(object);
   };
-  const userToken = (token) => {
+  const userAccessToken = (token) => {
     setAccessToken(token);
+  };
+  const userRefreshToken = (token) => {
+    setRefreshToken(token);
   };
 
   return (
     <AppContext.Provider
-      value={{ parentTransfer, userData, userToken, getAccessToken }}
+      value={{
+        parentTransfer,
+        userData,
+        userAccessToken,
+        userRefreshToken,
+        getAccessToken,
+        getRefreshToken,
+      }}
     >
       <ThemeProvider theme={theme}>
         <BrowserRouter>

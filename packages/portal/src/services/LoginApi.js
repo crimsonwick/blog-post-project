@@ -43,5 +43,5 @@ export const allPostsComing = async () => {
 };
 
 export const logout = async (body) => {
-  return await axios.post(`${baseURL}/user/logout`, body);
+  return await axios.delete(`${baseURL}/user/logout`, body);
 };

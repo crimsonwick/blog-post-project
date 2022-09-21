@@ -24,7 +24,7 @@ import { useContext } from 'react';
 
 const MenuAppBar = ({ login }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { getAccessToken } = useContext(AppContext);
+  const { getRefreshToken } = useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,7 +34,8 @@ const MenuAppBar = ({ login }) => {
   };
   const handleLogout = async () => {
     console.log('inside handle logout');
-    await logout(getAccessToken);
+    const body = { data: { token: `${getRefreshToken}` } };
+    await logout(body);
   };
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
@@ -149,10 +150,14 @@ const MenuAppBar = ({ login }) => {
 
               <Divider />
 
-              <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
+              <Link
+                to="/"
+                style={{ textDecoration: 'none', color: 'black' }}
+                onClick={handleLogout}
+              >
                 <MenuItem>
                   <ListItemIcon>
-                    <Logout fontSize="small" onClick={handleLogout} />
+                    <Logout fontSize="small" />
                   </ListItemIcon>
                   Logout
                 </MenuItem>
