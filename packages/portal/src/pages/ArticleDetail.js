@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import ArticleBig from '../components/ArticleBig';
 import AddComment from '../components/AddComment';
 
-export default function ArticleDetail() {
+const ArticleDetail = () => {
   return (
     <>
 

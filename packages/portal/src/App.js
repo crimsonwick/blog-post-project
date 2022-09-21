@@ -1,8 +1,8 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ArticleDetail from './pages/ArticleDetail';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import ChangePassword from './pages/ChangePassword';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import ArticleDetail from "./pages/ArticleDetail";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import ChangePassword from "./pages/ChangePassword";
 import { theme } from './themes/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import { useEffect,useState,createContext } from "react";
@@ -19,7 +19,6 @@ export const AppContext = createContext(null);
 function App() {
 
   const [userData,setUserData] = useState({});
-  const [newfile,setNewFile] = useState(null);
   const [getAccessToken,setAccessToken] = useState(null);
   useEffect(() => {
     WebFont.load({
@@ -32,40 +31,24 @@ function App() {
   const parentTransfer = (object) => {
     setUserData(object);
   }
-  const uploadFile = (value) => {
-    setNewFile(value)
-  }
   const userToken = (token) => {
     setAccessToken(token);
   }
 
   return (
-    <AppContext.Provider value={{newfile,parentTransfer,uploadFile,userData,userToken,getAccessToken}}>
+    <AppContext.Provider value={{parentTransfer,userData,userToken,getAccessToken}}>
       <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/article-detail" element={<ArticleDetail />} />
-          <Route path="/my-articles" element={<MyArticles />} />
-          <Route path="/create-article" element={<CreateArticle />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          {/* <Route
-            path="/change-password"
-            element={<Protected Component={ChangePassword}></Protected>}
-          /> */}
-          {/* <Route
-            path="/create-article"
-            element={<Protected Component={CreateArticle}></Protected>}
-          /> */}
-          {/* <Route
-            path="/my-articles"
-            element={<Protected Component={MyArticles}></Protected>}
-          /> */}
-
           <Route path="*" element={<Page404 />} />
+          <Route path="/change-password" element={getAccessToken? (<Protected Component = {ChangePassword}></Protected>): (<Navigate replace to={"/login"}/> )} />
+          <Route path="/create-article" element={getAccessToken? (<Protected Component = {CreateArticle}></Protected>): (<Navigate replace to={"/login"}/> )} />
+          <Route path="/my-articles" element={getAccessToken? (<Protected Component = {MyArticles}></Protected>): (<Navigate replace to={"/login"}/> )} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

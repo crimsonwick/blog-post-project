@@ -59,24 +59,13 @@ function Login() {
   const { parentTransfer,userToken } = useContext(AppContext);
   const [message,setMessage] = useState(false);
   const navigate = useNavigate();
-  // const login=()=>{
-  //   localStorage.setItem('login', true);
-  // }
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   // let login = localStorage.getItem('login');
-  //   // if(login){
-  //   //     navigate('/');
-  //   // }
-  // });
   const onSubmit = async(data) => {
     const response = await getLoginDetails(data);
     if(response.data.accessToken) {
       userToken(response.data.accessToken)
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
-      navigate('/create-article');
+      navigate('/my-articles');
     }else{
         setMessage(true);
     }
