@@ -32,9 +32,8 @@ const MenuAppBar = ({ login }) => {
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
-        <Typography variant="h6" sx={{ flex: 1 }} style={{ color: '#111111' }}>
-          Home
-        </Typography>
+        <Link to="/">Home</Link>
+
 
         {login && <Link to="/my-articles">My Articles</Link>}
 
@@ -132,7 +131,7 @@ const MenuAppBar = ({ login }) => {
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
               <Link
-                to="/create-article"
+                to="/change-password"
                 style={{ textDecoration: 'none', color: 'black' }}
               >
                 <MenuItem>
@@ -142,7 +141,7 @@ const MenuAppBar = ({ login }) => {
 
               <Divider />
 
-              <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
+              <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                 <MenuItem>
                   <ListItemIcon>
                     <Logout fontSize="small" />

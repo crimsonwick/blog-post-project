@@ -24,8 +24,8 @@ const schema = yup
       .required()
       .min(8)
       .max(20)
-      .minUppercase(1, 'Password must include atleast one upper-case letter'),
-      // .minSymbols(1, 'Password must include atleast one symbol'),
+      .minUppercase(1, 'Password must include atleast one upper-case letter')
+      .minSymbols(1, 'Password must include atleast one symbol'),
       // .matches(
       //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       //   'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'

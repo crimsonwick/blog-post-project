@@ -6,13 +6,14 @@ import Footer from '../components/Footer';
 import { Divider } from '@mui/material';
 import NavBarX from '../components/NavBarX';
 import { useState, useEffect, useContext, AppContext } from 'react';
-
+// import { Link as RouterLink } from 'react-router-dom'
+// import Link from '@material-ui/core/Link'
 
 
 const MyArticles = () => {
     
-const [data,setData] = useState([]);
-const { getAccessToken } = useContext(AppContext)
+//const [data,setData] = useState([]);
+//const { getAccessToken } = useContext(AppContext)
 
 // const getAllPosts = async() => {
 //   const config = {headers: {
@@ -27,7 +28,7 @@ const { getAccessToken } = useContext(AppContext)
 
   return (
     <>
-      <NavBarX login={true}></NavBarX>
+      {/* <NavBarX login={true}></NavBarX> */}
 
       <Container maxWidth="lg" sx={{ position: 'relative' }}>
         <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>

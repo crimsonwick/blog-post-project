@@ -1,11 +1,12 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
+import NavBarX from '../components/NavBarX';
 import Container from '@mui/material/Container';
 
 const Home = () => {
   return (
     <>
-      <NavBar />
+      <NavBarX login={true} />
+      
       <Container sx={{ marginY: 5 }}></Container>
       <div>Hi</div>
     </>
