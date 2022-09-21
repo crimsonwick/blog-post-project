@@ -4,9 +4,9 @@ import { ErrorHandling } from '../middleware/Errors.js';
 const { Comments } = model;
 
 export const addComment = async(req,res) => {
-    const { postId, userId,title,body } = req.body;
+    const { postId, userId,body } = req.body;
     try {
-        const addC = await Comments.create({postId: postId,userId: userId,title: title,body: body});
+        const addC = await Comments.create({postId: postId,userId: userId,body: body});
         res.json(addC);
     } catch (error) {
         ErrorHandling(res);
@@ -57,9 +57,9 @@ export const getRepliesfromComment = async(req,res) => {
 }
 
 export const addReply = async(req,res) => {
-    const { userId,postId,parentId,title,body } = req.body;
+    const { userId,postId,parentId,body } = req.body;
     try {
-        const addReply = await Comments.create({userId: userId,postId: postId,parentId: parentId,title: title,body: body});
+        const addReply = await Comments.create({userId: userId,postId: postId,parentId: parentId,body: body});
          return   res.json(addReply);
     } catch (error) {
         ErrorHandling(res);

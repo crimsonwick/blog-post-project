@@ -19,7 +19,6 @@ const { Users } = model;
 export var tokens = [];
 
 export const SignUp = async (req, res) => {
-
   const { email, password } = req.body;
   const hasedPassword = bcrypt.hashSync(password, salt);
   try {

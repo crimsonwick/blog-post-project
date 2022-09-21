@@ -3,7 +3,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import React from 'react';
+import React,{useState} from 'react';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import FormLabel from '@mui/material/FormLabel';
@@ -13,11 +13,12 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import { AppContext } from '../App';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {  useNavigate } from "react-router-dom";
-import {useEffect} from "react";
+ import {  useNavigate } from "react-router-dom";
+import {useContext} from "react";
+import { getLoginDetails, parseJwt } from '../services/LoginApi';
 const schema = yup
   .object({
     email: yup.string().email().required(),
@@ -25,11 +26,9 @@ const schema = yup
       .string()
       .required()
       .matches(
-        //.min(4).max(15)
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
       ),
-    //.matches(/^[!@#$%^&*(),.?":{}|<>]+$/, " Must contain a special character"),//.matches( /^[!@#$%^&*(),.?":{}|<>]+$/, "special character "),
   })
   .required();
 
@@ -46,20 +45,19 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const login=()=>{
-    localStorage.setItem('login', true);
-  }
+  const { parentTransfer,userToken } = useContext(AppContext);
+  const [message,setMessage] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    let login = localStorage.getItem('login');
-    // if(login){
-    //     navigate('/');
-    // }
-  });
-  const onSubmit = (data) => {
-    console.log(data);
-    login();
+  const onSubmit = async(data) => {
+    const response = await getLoginDetails(data);
+    if(response.data.accessToken) {
+      userToken(response.data.accessToken)
+      const parsetoken = parseJwt(response.data.accessToken)
+      parentTransfer(parsetoken.user);
+      navigate('/my-articles');
+    }else{
+        setMessage(true);
+    }
   };
 
   const [values, setValues] = React.useState({
@@ -78,6 +76,7 @@ function Login() {
 
   return (
     <Container maxWidth="sm">
+      {message && <p style={{color: "red"}}>Wrong Credentials</p>}
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
