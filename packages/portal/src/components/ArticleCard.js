@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 const Article = () => {
   const { newfile } = useContext(AppContext);
   return (
-    <Link to={"/give_your_path"}>
+    // <Link to={"/give_your_path"}>
       <Card sx={{ display: "flex", allignItems: "centre", marginTop: "20px" }}>
         <img
           src={newfile}
@@ -57,9 +57,12 @@ const Article = () => {
             Did you come here for something in particular or just general
             Riker-bashing? And blowing into maximum warp
           </Typography>
+            
+
+
         </Box>
       </Card>
-    </Link>
+    //</Link> 
   );
 };
 

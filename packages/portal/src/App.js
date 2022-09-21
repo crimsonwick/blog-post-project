@@ -11,7 +11,8 @@ import Protected from "./components/Protected";
 import CreateArticle from './pages/CreateArticle';
 import LandingPage from './pages/LandingPage';
 import MyArticles from './pages/MyArticles';
-import NoPage from './pages/NoPage';
+import Page404 from './pages/Page404';
+import ResetPassword from './pages/ResetPassword';
 
 export const AppContext = createContext(null);
 
@@ -50,6 +51,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           {/* <Route
             path="/change-password"
             element={<Protected Component={ChangePassword}></Protected>}
@@ -63,7 +65,7 @@ function App() {
             element={<Protected Component={MyArticles}></Protected>}
           /> */}
 
-          <Route path="*" element={<NoPage />} />
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

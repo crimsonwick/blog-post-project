@@ -1,6 +1,5 @@
 import { Container } from '@mui/system';
 import React from 'react';
-import NavBarX from '../components/NavBarX';
 import Comment from '../components/Comment';
 import { Box } from '@mui/material';
 import ArticleBig from '../components/ArticleBig';

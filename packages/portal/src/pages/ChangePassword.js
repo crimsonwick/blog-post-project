@@ -2,7 +2,7 @@ import styles from '../styles/ChangePassword/ChangePassword.module.css';
 import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import NavbarLoggedIn from '../components/NavbarLoggedIn';
+import Navbar from '../components/Navbar';
 import { OutlinedInput } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -26,10 +26,7 @@ const schema = yup
       .max(20)
       .minUppercase(1, 'Password must include atleast one upper-case letter')
       .minSymbols(1, 'Password must include atleast one symbol'),
-      // .matches(
-      //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      //   'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
-      // ),
+
     password2: yup
       .string()
       .required()
@@ -37,10 +34,6 @@ const schema = yup
       .max(20)
       .minUppercase(1, 'Password must include atleast one upper-case letter')
       .minSymbols(1, 'Password must include atleast one symbol'),
-      // .matches(
-      //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      //   'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
-      // ),
   })
   .required();
 
@@ -82,7 +75,7 @@ function ChangePassword() {
 
   return (
     <div>
-      <NavbarLoggedIn />
+      <Navbar/>
       <div className={styles.padding}>
         <h1 className={styles.headingOne}>Account Settings</h1>
         <Divider />

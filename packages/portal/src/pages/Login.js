@@ -172,7 +172,7 @@ function Login() {
           )}
         />
         {errors.password && <span className='errorMsg'>{errors.password.message}</span>}
-        <Link to="/change-password" sx={{color: "black"}}>
+        <Link to="/reset-password" sx={{color: "black"}}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel

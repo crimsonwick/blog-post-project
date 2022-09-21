@@ -3,7 +3,7 @@ import styles from "../styles/CreateArticle/CreateArticle.module.css";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import { AppContext } from "../App";
-import NavBarX from "../components/NavBarX";
+import Navbar from "../components/Navbar";
 import { OutlinedInput } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -66,7 +66,7 @@ function CreateArticle() {
 
   return (
     <div>
-      <NavBarX login ={true} />
+      <Navbar login ={true} />
       <div className={styles.padding}>
         <h1 className={styles.headingOne}>Create New Article</h1>
         <Divider light />

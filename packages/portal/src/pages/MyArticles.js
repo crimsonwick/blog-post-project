@@ -1,10 +1,10 @@
 import { Container } from '@mui/system';
 import React from 'react';
-import Article from '../components/Article';
+import ArticleCard from '../components/ArticleCard';
 import { Box } from '@mui/system';
 import Footer from '../components/Footer';
 import { Divider } from '@mui/material';
-import NavBarX from '../components/NavBarX';
+import Navbar from '../components/Navbar';
 import { useState, useEffect, useContext, AppContext } from 'react';
 // import { Link as RouterLink } from 'react-router-dom'
 // import Link from '@material-ui/core/Link'
@@ -28,7 +28,7 @@ const MyArticles = () => {
 
   return (
     <>
-      {/* <NavBarX login={true}></NavBarX> */}
+      <Navbar login={true}></Navbar>
 
       <Container maxWidth="lg" sx={{ position: 'relative' }}>
         <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>
@@ -37,12 +37,12 @@ const MyArticles = () => {
         <Divider></Divider>
 
         <Box mt={5}>
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
+          <ArticleCard />
+          <ArticleCard />
+          <ArticleCard />
+          <ArticleCard />
+          <ArticleCard />
+          <ArticleCard />
         </Box>
         <Footer />
       </Container>
