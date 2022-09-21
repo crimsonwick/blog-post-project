@@ -19,7 +19,6 @@ export const AppContext = createContext(null);
 function App() {
 
   const [userData,setUserData] = useState({});
-
   const [getAccessToken,setAccessToken] = useState(null);
   useEffect(() => {
     WebFont.load({
@@ -43,11 +42,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/article-detail" element={<ArticleDetail />} />
-          <Route path="/my-articles" element={<MyArticles />} />
-          <Route path="/create-article" element={<CreateArticle />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           <Route path="/change-password" element={<Protected Component = {ChangePassword}></Protected>} />
           <Route path="/create-article" element={<Protected Component = {CreateArticle}></Protected>} />
           <Route path="/my-articles" element={<Protected Component = {MyArticles }></Protected>} />
