@@ -40,7 +40,13 @@ const MenuAppBar = ({ login }) => {
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
-        <Typography variant="h6" sx={{ flex: 1 }} style={{ color: '#111111' }}>
+        <Typography
+          component={Link}
+          to="/"
+          variant="h6"
+          sx={{ flex: 1 }}
+          style={{ color: '#111111' }}
+        >
           Home
         </Typography>
 

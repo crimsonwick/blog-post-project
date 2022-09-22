@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from '../components/NavBar';
+import NavBarX from '../components/NavBarX';
 import Container from '@mui/material/Container';
 import { Box, Divider } from '@mui/material';
 import Article from '../components/Article';
@@ -19,7 +19,7 @@ const Home = () => {
   }, []);
   return (
     <>
-      <NavBar />
+      <NavBarX />
       <Container sx={{ marginY: 5 }}>
         <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>All Posts</h1>
         <Divider />

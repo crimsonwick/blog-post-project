@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.createTable("Users", {
+  await queryInterface.createTable('Users', {
     id: {
       type: Sequelize.UUID,
       allowNull: false,
       primaryKey: true,
-      defaultValue: Sequelize.fn("uuid_generate_v4"),
+      defaultValue: Sequelize.fn('uuid_generate_v4'),
     },
     email: {
       type: Sequelize.STRING,
@@ -15,6 +15,12 @@ export async function up(queryInterface, Sequelize) {
     password: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    avatar: {
+      type: Sequelize.STRING(1000),
+    },
+    resetLink: {
+      type: Sequelize.STRING,
     },
     createdAt: {
       allowNull: false,
@@ -27,5 +33,5 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 export async function down(queryInterface, Sequelize) {
-  await queryInterface.dropTable("Users");
+  await queryInterface.dropTable('Users');
 }
