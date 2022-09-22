@@ -13,7 +13,7 @@ const MyArticles = () => {
 const [data,setData] = useState([]);
 const { getAccessToken } = useContext(AppContext)
 
-  const allMyPosts = async() => {
+const allMyPosts = async() => {
   const config = {headers: {
     "Authorization" : `Bearer ${getAccessToken}`
   }
@@ -21,6 +21,7 @@ const { getAccessToken } = useContext(AppContext)
   const details = await gettingPosts(config);
   setData(details.data)
 }
+
 useEffect(() => {
   allMyPosts();
 },[]);

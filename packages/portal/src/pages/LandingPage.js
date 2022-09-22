@@ -25,7 +25,7 @@ useEffect(() => {
         <Divider></Divider>
 
         <Box mt={5}>
-          {data.map((object) => {
+          {data && data.map((object) => {
             return(
               <Article key={object._id} object={object}/>
             )
