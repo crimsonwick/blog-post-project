@@ -6,14 +6,14 @@ import Footer from "../components/Footer";
 import { Divider } from "@mui/material";
 import NavBarX from "../components/NavBarX";
 import { AppContext } from "../App";
-import { gettingPosts } from "../services/LoginApi";
+import { gettingPosts } from "../services/LoginApi.js";
 
 const MyArticles = () => {
     
 const [data,setData] = useState([]);
 const { getAccessToken } = useContext(AppContext)
 
-const allPosts = async() => {
+  const allMyPosts = async() => {
   const config = {headers: {
     "Authorization" : `Bearer ${getAccessToken}`
   }
@@ -21,10 +21,10 @@ const allPosts = async() => {
   const details = await gettingPosts(config);
   setData(details.data)
 }
-
 useEffect(() => {
-  allPosts();
-});
+  allMyPosts();
+},[]);
+
 
   return (
     <>
