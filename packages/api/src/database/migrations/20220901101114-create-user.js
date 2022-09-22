@@ -16,6 +16,9 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    resetLink: {
+      type: Sequelize.STRING,
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
