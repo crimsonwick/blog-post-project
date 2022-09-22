@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-=======
 import React from "react";
->>>>>>> farhan-1
 import { FormLabel, OutlinedInput } from '@mui/material';
 // import  { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';

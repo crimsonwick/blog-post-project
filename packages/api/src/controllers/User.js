@@ -24,7 +24,7 @@ export const SignUp = async (req, res) => {
   try {
     const checkAccount = await Users.findOne({
       where: {
-        email
+        email: email
       },
     });
     if (checkAccount) return res.json(`${email}  Already Exists`);
@@ -35,7 +35,7 @@ export const SignUp = async (req, res) => {
 
   } catch (error) {
 
-    ErrorHandling(res);
+    console.log(error)
   }
 };
 
