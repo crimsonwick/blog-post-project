@@ -27,12 +27,12 @@ export const SignUp = async (req, res) => {
         email: email
       },
     });
-    if (checkAccount) return res.json(`${email}  Already Exists`);
-
-    const userArray = { email: email, password: hasedPassword };
-    const newUser = await Users.create(userArray);
-    return res.json(newUser.dataValues);
-
+    if (checkAccount) return res.json(`${email} Account Already Exists`);
+    else {
+      const userArray = { email: email, password: hasedPassword };
+      const newUser = await Users.create(userArray);
+      return res.json(newUser.dataValues);
+    }
   } catch (error) {
 
     console.log(error)
