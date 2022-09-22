@@ -55,6 +55,7 @@ function Login() {
       userToken(response.data.accessToken)
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
+      localStorage.setItem('login',response.data.accessToken)
       navigate('/my-articles');
     } else {
       setMessage(true);
