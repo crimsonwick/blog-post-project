@@ -45,7 +45,7 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer, userToken } = useContext(AppContext);
+  const { parentTransfer, userToken, getAccessToken } = useContext(AppContext);
   const [message, setMessage] = useState(false);
   const navigate = useNavigate();
 
@@ -53,9 +53,9 @@ function Login() {
     const response = await getLoginDetails(data);
     if (response.data.accessToken) {
       userToken(response.data.accessToken)
-      const parsetoken = parseJwt(response.data.accessToken)
-      parentTransfer(parsetoken.user);
-      navigate('/my-articles');
+      // const parsetoken = parseJwt(response.data.accessToken)
+      // parentTransfer(parsetoken.user);
+      // navigate('/my-articles');
     } else {
       setMessage(true);
     }
@@ -77,7 +77,7 @@ function Login() {
 
   return (
     <Container maxWidth="sm">
-      {message && <p style={{ color: "red" }}>Wrong Credentials</p>}
+      <button onClick={() => alert.apply(JSON.stringify(getAccessToken))}>Click Me!</button>
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
