@@ -44,7 +44,7 @@ function App() {
             <Route path="/article-detail" element={<ArticleDetail />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/change-password" element={getAccessToken ? (<Protected Component={ChangePassword}></Protected>) : (<Navigate replace to={"/login"} />)} />
+            <Route path="/change-password" element={<Protected Component={ChangePassword}></Protected>} />
             <Route path="/create-article" element={getAccessToken ? (<Protected Component={CreateArticle}></Protected>) : (<Navigate replace to={"/login"} />)} />
             <Route path="/my-articles" element={getAccessToken ? (<Protected Component={MyArticles}></Protected>) : (<Navigate replace to={"/login"} />)} />
             <Route path="*" element={<NoPage />} />
