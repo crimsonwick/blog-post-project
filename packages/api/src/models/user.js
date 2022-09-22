@@ -26,7 +26,9 @@ export default (sequelize, DataTypes) => {
       resetLink: {
         type: DataTypes.STRING,
       },
-
+      avatar: {
+        type: DataTypes.STRING(1000)
+      }
     },
     {
       sequelize,
