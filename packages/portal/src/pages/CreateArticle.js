@@ -1,4 +1,4 @@
-import React,{ useContext,useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -21,8 +21,8 @@ const schema = yup
   .required();
 
 function CreateArticle() {
-   const [image,setImage] = useState(null);
-  const { userData,getAccessToken } = useContext(AppContext);
+  const [image, setImage] = useState(null);
+  const { userData, getAccessToken } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -36,18 +36,20 @@ function CreateArticle() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     let formData = new FormData();
-    formData.append('userId',userData.id)
-    formData.append('title',data.title)
-    formData.append('body',data.body)
-    formData.append('file',image)
-    formData.append('timetoRead',data.mins)
-    const config = {headers: {
-      "Authorization" : `Bearer ${getAccessToken}`
-    }}
-     const response = await addPost(formData,config);
-     console.log(response);
+    formData.append('userId', userData.id)
+    formData.append('title', data.title)
+    formData.append('body', data.body)
+    formData.append('file', image)
+    formData.append('timetoRead', data.mins)
+    const config = {
+      headers: {
+        "Authorization": `Bearer ${getAccessToken}`
+      }
+    }
+    const response = await addPost(formData, config);
+    console.log(response);
   };
 
   const handleFileChange = (event) => {
@@ -163,17 +165,17 @@ function CreateArticle() {
           <br />
 
           <Button
-  variant="contained"
-  component="label"
->
-  Upload
-  <input
-    type="file"
-    name='file'
-    hidden
-    onChange={(event) => handleFileChange(event)}
-  />
-</Button>
+            variant="contained"
+            component="label"
+          >
+            Upload
+            <input
+              type="file"
+              name='file'
+              hidden
+              onChange={(event) => handleFileChange(event)}
+            />
+          </Button>
           <br />
           <br />
           <br />

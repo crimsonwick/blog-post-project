@@ -31,7 +31,6 @@ const schema = yup
       ),
   })
   .required();
-
 function Login() {
   const {
     control,
@@ -44,42 +43,37 @@ function Login() {
     },
     resolver: yupResolver(schema),
   });
-
   const { parentTransfer, userToken } = useContext(AppContext);
   const [message, setMessage] = useState(false);
   const navigate = useNavigate();
-
   const onSubmit = async (data) => {
     const response = await getLoginDetails(data);
+    console.log(" i am in submit handler,", response)
     if (response.data.accessToken) {
       userToken(response.data.accessToken)
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
+      localStorage.setItem("login", response.data.accessToken)
       navigate('/my-articles');
     } else {
       setMessage(true);
     }
   };
-
   const [values, setValues] = React.useState({
     showPassword: false,
   });
-
   const handleClickShowPassword = () => {
     setValues({
       showPassword: !values.showPassword,
     });
   };
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
   return (
     <Container maxWidth="sm">
       {message && <p>Hello</p>}
       <h1 className={styles.headingOne}>Log In</h1>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel htmlFor="my-input">Email address or username</FormLabel>{' '}
         <br />
@@ -129,7 +123,6 @@ function Login() {
               sx={{
                 borderRadius: 18,
                 width: 550,
-
               }}
               //              fullWidth
               endAdornment={
@@ -167,13 +160,10 @@ function Login() {
           Log in
         </Button>
       </form>
-
       <br />
       <br />
       <Divider />
-
       <h3 className={styles.h3}>Don't have an account?</h3>
-
       <Link to="/signup">
         <Button
           fullWidth
@@ -189,5 +179,4 @@ function Login() {
     </Container>
   );
 }
-
 export default Login;
