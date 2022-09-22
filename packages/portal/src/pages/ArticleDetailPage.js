@@ -3,16 +3,16 @@ import React from 'react';
 import NavBarX from '../components/NavBarX';
 import Comment from '../components/Comment';
 import { Box } from '@mui/material';
-import ArticleBig from '../components/ArticleBig';
+import ArticleDetail from '../components/ArticleDetail';
 import AddComment from '../components/AddComment';
 
-export default function ArticleDetail() {
+export default function ArticleDetailPage() {
   return (
     <>
       <NavBarX login={true} />
       <Container maxWidth="lg">
         <Box mb={5}>
-          <ArticleBig />
+          <ArticleDetail />
         </Box>
         <Box>
           <AddComment />

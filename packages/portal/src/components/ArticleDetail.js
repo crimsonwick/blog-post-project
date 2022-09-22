@@ -10,7 +10,7 @@ import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Chip from '@mui/material/Chip';
 
-const ArticleBig = () => {
+const ArticleDetail = () => {
   return (
     <Card
       mt={1}
@@ -58,4 +58,4 @@ const ArticleBig = () => {
   );
 };
 
-export default ArticleBig;
+export default ArticleDetail;

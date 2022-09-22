@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ArticleDetail from './pages/ArticleDetail';
+import ArticleDetailPage from './pages/ArticleDetailPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ChangePassword from './pages/ChangePassword';
@@ -12,6 +12,7 @@ import CreateArticle from './pages/CreateArticle';
 import LandingPage from './pages/LandingPage';
 import MyArticles from './pages/MyArticles';
 import NoPage from './pages/NoPage';
+import AccountDetails from './pages/AccountDetails';
 
 export const AppContext = createContext(null);
 
@@ -52,7 +53,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/article-detail" element={<ArticleDetail />} />
+            <Route path="/account-details" element={<AccountDetails />} />
+            <Route path="/article-detail" element={<ArticleDetailPage />} />
             <Route path="/my-articles" element={<MyArticles />} />
             <Route path="/create-article" element={<CreateArticle />} />
             <Route path="/signup" element={<Signup />} />

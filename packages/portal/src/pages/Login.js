@@ -67,6 +67,7 @@ function Login() {
     if (response.data.accessToken && response.data.refreshToken) {
       userAccessToken(response.data.accessToken);
       userRefreshToken(response.data.refreshToken);
+      console.log(`refresh token issued: ${response.data.refreshToken}`);
 
       const parsetoken = parseJwt(response.data.accessToken);
       parentTransfer(parsetoken.user);

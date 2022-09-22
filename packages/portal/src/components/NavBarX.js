@@ -33,7 +33,7 @@ const MenuAppBar = ({ login }) => {
     setAnchorEl(null);
   };
   const handleLogout = async () => {
-    console.log('inside handle logout');
+    console.log(`revoking token: ${getRefreshToken}`);
     const body = { data: { token: `${getRefreshToken}` } };
     await logout(body);
   };
@@ -140,7 +140,7 @@ const MenuAppBar = ({ login }) => {
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
               <Link
-                to="/create-article"
+                to="/account-details"
                 style={{ textDecoration: 'none', color: 'black' }}
               >
                 <MenuItem>
