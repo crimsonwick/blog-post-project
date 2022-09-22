@@ -12,12 +12,10 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import Chip from "@mui/material/Chip";
 import { AppContext } from "../App";
-import { Link } from "react-router-dom";
 
 const Article = () => {
   const { newfile } = useContext(AppContext);
   return (
-    // <Link to={"/give_your_path"}>
       <Card sx={{ display: "flex", allignItems: "centre", marginTop: "20px" }}>
         <img
           src={newfile}

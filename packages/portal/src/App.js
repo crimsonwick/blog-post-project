@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import ArticleDetail from "./pages/ArticleDetail";
+import ArticleDetail from "./pages/ArticleDetail"
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ChangePassword from "./pages/ChangePassword";
@@ -48,7 +48,10 @@ function App() {
           <Route path="*" element={<Page404 />} />
           <Route path="/change-password" element={getAccessToken? (<Protected Component = {ChangePassword}></Protected>): (<Navigate replace to={"/login"}/> )} />
           <Route path="/create-article" element={getAccessToken? (<Protected Component = {CreateArticle}></Protected>): (<Navigate replace to={"/login"}/> )} />
-          <Route path="/my-articles" element={getAccessToken? (<Protected Component = {MyArticles}></Protected>): (<Navigate replace to={"/login"}/> )} />
+          {/* <Route path="/my-articles" element={getAccessToken? (<Protected Component = {MyArticles}></Protected>): (<Navigate replace to={"/login"}/> )} /> */}
+          <Route path="/my-articles" element={ <MyArticles/> } />
+
+
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

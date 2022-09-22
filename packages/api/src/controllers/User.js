@@ -30,7 +30,7 @@ export const SignUp = async (req, res) => {
       return res.json(newUser.dataValues);
     }
   } catch (error) {
-    ErrorHandling(res);
+    console.log(error)
   }
 };
 

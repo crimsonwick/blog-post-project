@@ -2,8 +2,8 @@ import { Container } from '@mui/system';
 import React from 'react';
 import Comment from '../components/Comment';
 import { Box } from '@mui/material';
-import ArticleBig from '../components/ArticleBig';
 import AddComment from '../components/AddComment';
+import ArticleBig from '../components/ArticleBig';
 
 const ArticleDetail = () => {
   return (
@@ -24,3 +24,4 @@ const ArticleDetail = () => {
     </>
   );
 }
+export default ArticleDetail;

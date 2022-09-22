@@ -19,7 +19,7 @@ useEffect(() => {
 },[]);
   return (
     <>
-      <NavBar />
+      <Navbar login={true} />
       <Container sx={{ marginY: 5 }}>
       <h1 style={{fontFamily:"Poppins", marginTop: "65px"}}>All Posts</h1>
         <Divider></Divider>

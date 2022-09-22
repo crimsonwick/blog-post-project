@@ -1,18 +1,18 @@
-import styles from '../styles/Login/Login.module.css';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Container from '@mui/material/Container';
-import { useForm, Controller } from 'react-hook-form';
-import Button from '@mui/material/Button';
-import React,{useState} from 'react';
-import FormLabel from '@mui/material/FormLabel';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
- import {  useNavigate } from "react-router-dom";
-import "../styles/signup.css"
-import YupPassword from 'yup-password';
+import styles from "../styles/Login/Login.module.css";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Container from "@mui/material/Container";
+import { useForm, Controller } from "react-hook-form";
+import Button from "@mui/material/Button";
+import React, { useState } from "react";
+import FormLabel from "@mui/material/FormLabel";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
+import "../styles/signup.css";
+import YupPassword from "yup-password";
+import Alert from "@mui/material/Alert";
+
 YupPassword(yup);
-
-
 
 const schema = yup
   .object({
@@ -20,37 +20,32 @@ const schema = yup
   })
   .required();
 
-function Login() {
+function ResetPassword() {
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: ""
+      email: "",
     },
     resolver: yupResolver(schema),
   });
 
-//   const { parentTransfer,userToken } = useContext(AppContext);
-  const [message,setMessage] = useState(false);
+  const [message, setMessage] = useState(false);
   const navigate = useNavigate();
 
-  const onSubmit = async(data) => {
-    // const response = await getLoginDetails(data);
-    // if(response.data.accessToken) {
-    //   userToken(response.data.accessToken)
-    //   const parsetoken = parseJwt(response.data.accessToken)
-    //   parentTransfer(parsetoken.user);
-       navigate('/login');
-    // }else{
-    //     setMessage(true);
-    // }
+  const onSubmit = async (data) => {
+
+    errors.email? setMessage(false) : setMessage(true);
+
+    //navigate("/login");
   };
 
   return (
     <Container maxWidth="sm">
-      {message && <p style={{color: "red"}}>Wrong Credentials</p>}
+      {message && <Alert severity="success">Password Reset - Check your email</Alert>}
+
       <h1 className={styles.headingOne}>Reset Password</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -76,16 +71,21 @@ function Login() {
               sx={{
                 borderRadius: 18,
                 width: 550,
-                 marginBottom: 2,
+                marginBottom: 2,
               }}
             />
           )}
         />
-        {errors.email && <span className='errorMsg'>{errors.email.message}</span>}
+        {errors.email && (
+          <span className="errorMsg">{errors.email.message}</span>
+        )}
         <br />
-
         <Button
-          onClick={()=>{ errors.email ? alert('Something went wrong') : alert('Check email to reset password.') ; }}
+          // onClick={() => {
+
+
+
+          // }}
           type="submit"
           variant="contained"
           color="secondary"
@@ -103,4 +103,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ResetPassword;

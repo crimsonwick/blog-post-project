@@ -3,7 +3,7 @@ import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { AppContext } from '../App';
-import NavbarLoggedIn from '../components/NavbarLoggedIn';
+import Navbar from '../components/Navbar';
 import { OutlinedInput } from '@mui/material';
 
 import { useForm, Controller } from 'react-hook-form';
@@ -21,14 +21,8 @@ const schema = yup
   .required();
 
 function CreateArticle() {
-<<<<<<< HEAD
-  // const [min, setMin] = React.useState("");
-  const [image, setImage] = useState(null);
-  const { userData, uploadFile, getAccessToken } = useContext(AppContext);
-=======
    const [image,setImage] = useState(null);
   const { userData,getAccessToken } = useContext(AppContext);
->>>>>>> origin/farhan-1
   const {
     control,
     handleSubmit,
@@ -42,34 +36,6 @@ function CreateArticle() {
     resolver: yupResolver(schema),
   });
 
-<<<<<<< HEAD
-  // const handleChange = (event) => {
-  //   setMin(event.target.value);
-  // };
-
-  //
-
-  const onSubmit = async (data) => {
-    const imageFile = URL.createObjectURL(image);
-    uploadFile(imageFile);
-    const Object = {
-      userId: userData.id,
-      title: data.title,
-      body: data.body,
-      image: imageFile,
-      timetoRead: data.mins,
-    };
-    const config = {
-      headers: {
-        Authorization: `Bearer ${getAccessToken}`,
-      },
-    };
-    await addPost(Object, config);
-  };
-
-  const handleChange = (event) => {
-    const [file] = event.target.files;
-=======
   const onSubmit = async(data) => {
     let formData = new FormData();
     formData.append('userId',userData.id)
@@ -86,7 +52,6 @@ function CreateArticle() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
->>>>>>> origin/farhan-1
     setImage(file);
   };
 
@@ -161,12 +126,8 @@ function CreateArticle() {
               />
             )}
           />
-<<<<<<< HEAD
           <br/>
           {errors.mins && <span className={styles.errorMsg}>{errors.mins.message}</span>}
-=======
-          {errors.mins && <p>{errors.mins.message}</p>}
->>>>>>> origin/farhan-1
 
           <br />
           <br />
@@ -208,16 +169,6 @@ function CreateArticle() {
           <br />
           <br />
 
-<<<<<<< HEAD
-          <Button variant="contained" component="label" color="primary">
-            Upload
-            <input
-              type="file"
-              onChange={(event) => handleChange(event)}
-              value=""
-            />
-          </Button>
-=======
           <Button
   variant="contained"
   component="label"
@@ -230,7 +181,6 @@ function CreateArticle() {
     onChange={(event) => handleFileChange(event)}
   />
 </Button>
->>>>>>> origin/farhan-1
           <br />
           <br />
           <br />
