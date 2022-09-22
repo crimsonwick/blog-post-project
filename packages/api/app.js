@@ -1,3 +1,4 @@
+dotenv.config();
 import express from "express";
 import User from "./src/routes/User.js";
 import Post from "./src/routes/Post.js";
@@ -8,7 +9,6 @@ import client from "./src/config/elasticsearch.js";
 import dotenv from "dotenv";
 import cors from 'cors';
 
-dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json({ extended: true }));
@@ -22,8 +22,8 @@ client
   .catch((error) => console.error(error));
 db.sequelize
   .authenticate()
-  .then(() => console.log(`Connected to db`))
+  .then(() => console.log(`Application is Connected to ${process.env.DB_NAME}`))
   .catch((error) => console.log(error));
 app.listen(process.env.PORT, () =>
-  console.log(`Application is running on Port:${process.env.PORT}`)
+  console.log(`Application is Running on Port:${process.env.PORT}`)
 );

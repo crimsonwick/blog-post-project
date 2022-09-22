@@ -3,7 +3,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import FormLabel from '@mui/material/FormLabel';
@@ -16,8 +16,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { AppContext } from '../App';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
- import {  useNavigate } from "react-router-dom";
-import {useContext} from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
 const schema = yup
   .object({
@@ -45,18 +45,19 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer,userToken } = useContext(AppContext);
-  const [message,setMessage] = useState(false);
+  const { parentTransfer, userToken, getAccessToken } = useContext(AppContext);
+  const [message, setMessage] = useState(false);
   const navigate = useNavigate();
-  const onSubmit = async(data) => {
+
+  const onSubmit = async (data) => {
     const response = await getLoginDetails(data);
-    if(response.data.accessToken) {
+    if (response.data.accessToken) {
       userToken(response.data.accessToken)
-      const parsetoken = parseJwt(response.data.accessToken)
-      parentTransfer(parsetoken.user);
-      navigate('/my-articles');
-    }else{
-        setMessage(true);
+      // const parsetoken = parseJwt(response.data.accessToken)
+      // parentTransfer(parsetoken.user);
+      // navigate('/my-articles');
+    } else {
+      setMessage(true);
     }
   };
 
@@ -76,7 +77,7 @@ function Login() {
 
   return (
     <Container maxWidth="sm">
-      {message && <p style={{color: "red"}}>Wrong Credentials</p>}
+      <button onClick={() => alert.apply(JSON.stringify(getAccessToken))}>Click Me!</button>
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -130,7 +131,7 @@ function Login() {
                 width: 550,
 
               }}
-//              fullWidth
+              //              fullWidth
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -154,7 +155,7 @@ function Login() {
         <FormControlLabel
           control={<Checkbox color="secondary" />}
           label="Remember Me"
-          sx={{ marginBottom: 2 , }}
+          sx={{ marginBottom: 2, }}
         />
         <Button
           type="submit"

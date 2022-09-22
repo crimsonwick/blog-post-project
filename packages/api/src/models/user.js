@@ -23,6 +23,10 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      resetLink: {
+        type: DataTypes.STRING,
+      },
+
     },
     {
       sequelize,

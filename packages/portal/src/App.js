@@ -6,7 +6,7 @@ import Signup from "./pages/Signup";
 import ChangePassword from "./pages/ChangePassword";
 import { theme } from './themes/theme';
 import { ThemeProvider } from '@mui/material/styles';
-import { useEffect,useState,createContext } from "react";
+import { useEffect, useState, createContext } from "react";
 import WebFont from "webfontloader";
 import Protected from "./components/Protected";
 import CreateArticle from './pages/CreateArticle';
@@ -18,8 +18,8 @@ export const AppContext = createContext(null);
 
 function App() {
 
-  const [userData,setUserData] = useState({});
-  const [getAccessToken,setAccessToken] = useState(null);
+  const [userData, setUserData] = useState({});
+  const [getAccessToken, setAccessToken] = useState(null);
   useEffect(() => {
     WebFont.load({
       google: {
@@ -36,21 +36,21 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{parentTransfer,userData,userToken,getAccessToken}}>
+    <AppContext.Provider value={{ parentTransfer, userData, userToken, getAccessToken }}>
       <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/article-detail" element={<ArticleDetail />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/change-password" element={<Protected Component = {ChangePassword}></Protected>} />
-          <Route path="/create-article" element={getAccessToken? (<Protected Component = {CreateArticle}></Protected>): (<Navigate replace to={"/login"}/> )} />
-          <Route path="/my-articles" element={getAccessToken? (<Protected Component = {MyArticles}></Protected>): (<Navigate replace to={"/login"}/> )} />
-          <Route path="*" element={<NoPage />} />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/article-detail" element={<ArticleDetail />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/change-password" element={<Protected Component={ChangePassword}></Protected>} />
+            <Route path="/create-article" element={getAccessToken ? (<Protected Component={CreateArticle}></Protected>) : (<Navigate replace to={"/login"} />)} />
+            <Route path="/my-articles" element={getAccessToken ? (<Protected Component={MyArticles}></Protected>) : (<Navigate replace to={"/login"} />)} />
+            <Route path="*" element={<NoPage />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </AppContext.Provider>
   );
 }
