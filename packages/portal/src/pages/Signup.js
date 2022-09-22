@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getSignUpDetails } from '../services/LoginApi';
+import { useState } from 'react';
+import { Alert, AlertTitle } from '@mui/material';
 
 const Signup = () => {
   const schema = yup.object().shape({
@@ -22,12 +24,25 @@ const Signup = () => {
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
+  const [message,setMessage] = useState(null)
   const onSubmit = async(data) => {
     const response = await getSignUpDetails(data);
-    alert(JSON.stringify(response.data))
+    if(response.data){
+        setMessage(true)
+    }
+    else{
+      setMessage(false)
+    }
   }
   return (
     <Container maxWidth="sm">
+      {message ? (<Alert severity="success">
+  <AlertTitle> <strong>Account Created Successfully</strong></AlertTitle>
+  You need to <strong> Login </strong>your Account Now!
+</Alert>): <Alert severity="error">
+  <AlertTitle> <strong>Account Not Created</strong></AlertTitle>
+  Try anyother email for  <strong> Sign Up </strong>your Account!
+</Alert>}
       <Box>
         <Header
           heading="Create An Account"

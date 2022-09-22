@@ -3,6 +3,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
+import { Alert, AlertTitle } from '@mui/material';
 import React, { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
@@ -78,7 +79,10 @@ function Login() {
 
   return (
     <Container maxWidth="sm">
-      {message && <p>Hello</p>}
+      {message && <Alert severity="error">
+  <AlertTitle> <strong>Account Not Created</strong></AlertTitle>
+  You need to  <strong> Sign Up </strong>your Account!
+</Alert>}
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
