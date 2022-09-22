@@ -8,11 +8,9 @@ import NavBarX from '../components/NavBarX';
 import { useState, useEffect, useContext } from 'react';
 import { gettingPosts } from '../services/LoginApi';
 import { AppContext } from '../App';
-import axios from 'axios';
 
 const MyArticles = () => {
   const [array, setArray] = useState([]);
-  const [bool, setBool] = useState(true);
   const { getAccessToken } = useContext(AppContext);
 
   const allPosts = async () => {
@@ -21,29 +19,14 @@ const MyArticles = () => {
         Authorization: `Bearer ${getAccessToken}`,
       },
     };
-
-    // axios.get('http://localhost:5000/post', config).then((response) => {
-    //   setArray(response.data);
-    //   console.log('API WAS CALLED');
-    //   console.log(array, typeof array);
-    // });
-    try {
-      const details = await gettingPosts(config);
-      if (details.data.length) setArray(details.data);
-    } catch (error) {
-      console.log(error);
-    }
-
-    // checkEmptyArray();
+    const details = await gettingPosts(config);
+    if (details.data.length) setArray(details.data);
   };
 
   useEffect(() => {
     allPosts();
   }, []);
 
-  // const checkEmptyArray = () => {
-  //   if (Object.keys(array).length === 0) setBool(false);
-  // };
   return (
     <>
       <NavBarX login={true} />

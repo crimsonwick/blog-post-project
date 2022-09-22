@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ArticleDetailPage from './pages/ArticleDetailPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -53,24 +53,57 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/account-details" element={<AccountDetails />} />
-            <Route path="/article-detail" element={<ArticleDetailPage />} />
-            <Route path="/my-articles" element={<MyArticles />} />
-            <Route path="/create-article" element={<CreateArticle />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/change-password" element={<ChangePassword />} />
             <Route
               path="/change-password"
-              element={<Protected Component={ChangePassword}></Protected>}
+              element={
+                getAccessToken ? (
+                  <Protected Component={ChangePassword} />
+                ) : (
+                  <Navigate replace to={'/login'} />
+                )
+              }
             />
             <Route
               path="/create-article"
-              element={<Protected Component={CreateArticle}></Protected>}
+              element={
+                getAccessToken ? (
+                  <Protected Component={CreateArticle} />
+                ) : (
+                  <Navigate replace to={'/login'} />
+                )
+              }
             />
             <Route
               path="/my-articles"
-              element={<Protected Component={MyArticles}></Protected>}
+              element={
+                getAccessToken ? (
+                  <Protected Component={MyArticles}></Protected>
+                ) : (
+                  <Navigate replace to={'/login'} />
+                )
+              }
+            />
+            <Route
+              path="/article-detail"
+              element={
+                getAccessToken ? (
+                  <Protected Component={ArticleDetailPage}></Protected>
+                ) : (
+                  <Navigate replace to={'/login'} />
+                )
+              }
+            />
+            <Route
+              path="/account-details"
+              element={
+                getAccessToken ? (
+                  <Protected Component={AccountDetails}></Protected>
+                ) : (
+                  <Navigate replace to={'/login'} />
+                )
+              }
             />
 
             <Route path="*" element={<NoPage />} />

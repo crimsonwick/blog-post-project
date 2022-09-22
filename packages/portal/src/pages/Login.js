@@ -51,24 +51,12 @@ function Login() {
     useContext(AppContext);
   const [message, setMessage] = useState(false);
   const navigate = useNavigate();
-  // const login=()=>{
-  //   localStorage.setItem('login', true);
-  // }
-  // const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   // let login = localStorage.getItem('login');
-  //   // if(login){
-  //   //     navigate('/');
-  //   // }
-  // });
   const onSubmit = async (data) => {
     const response = await getLoginDetails(data);
     if (response.data.accessToken && response.data.refreshToken) {
       userAccessToken(response.data.accessToken);
       userRefreshToken(response.data.refreshToken);
-      console.log(`refresh token issued: ${response.data.refreshToken}`);
-
       const parsetoken = parseJwt(response.data.accessToken);
       parentTransfer(parsetoken.user);
       navigate('/my-articles');

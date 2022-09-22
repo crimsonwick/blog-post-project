@@ -8,7 +8,6 @@ import { allPostsComing } from '../services/LoginApi';
 
 const Home = () => {
   const [data, setData] = useState([]);
-
   const allPosts = async () => {
     const details = await allPostsComing();
     setData(details.data);
