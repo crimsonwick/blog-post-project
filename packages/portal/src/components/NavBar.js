@@ -16,7 +16,12 @@ const NavBar = () => {
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
         <Typography variant="h6" sx={{ flex: 1 }} style={{ color: '#111111' }}>
-          Home
+          <Link
+            to="/"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            Home
+          </Link>
         </Typography>
 
         <Search sx={{ color: '#111111' }}>
