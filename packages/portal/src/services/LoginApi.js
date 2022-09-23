@@ -44,3 +44,54 @@ export const parseJwt = (token) =>  {
   export const logout = async (body) => {
     return await axios.delete(`${baseURL}/user/logout`, body);
   };
+  export const parseDate = (str) => {
+    const object = {
+        day: str.slice(8,10),
+        month: parseInt(str.slice(5,7)),
+        year: str.slice(0,4)
+    }
+    var getMonth = '';
+    switch(object.month){
+        case 1:
+            getMonth = 'January'
+            break;
+        case 2:
+            getMonth = 'February'
+            break;
+        case 3:
+            getMonth = 'March'
+            break;
+        case 4:
+            getMonth = 'April'
+            break;
+        case 5:
+            getMonth = 'May'
+            break;
+        case 6:
+            getMonth = 'June'
+            break;
+        case 7:
+            getMonth = 'July'
+            break;
+        case 8:
+            getMonth = 'August'
+            break;
+        case 9:
+            getMonth = 'September'
+            break;
+        case 10:
+            getMonth = 'October'
+            break;
+        case 11:
+            getMonth = 'November'
+            break;
+        case 12:
+            getMonth = 'December'
+            break;
+        default:
+            getMonth = ''
+            break;
+    }
+    const DateInChars = `${object.day} ${getMonth} ${object.year}`;
+    return DateInChars;
+}
