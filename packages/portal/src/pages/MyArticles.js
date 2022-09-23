@@ -7,34 +7,27 @@ import { Divider } from "@mui/material";
 import NavBarX from "../components/NavBarX";
 import { AppContext } from "../App";
 import { gettingPosts } from "../services/LoginApi.js";
-
 const MyArticles = () => {
-    
-const [data,setData] = useState([]);
-const { getAccessToken } = useContext(AppContext)
-
-
-useEffect(() => {
-  allMyPosts();
-},[]);
-
-
-const allMyPosts = async() => {
-  const config = {headers: {
-    "Authorization" : `Bearer ${getAccessToken}`
+  const [data, setData] = useState([]);
+  const { getAccessToken } = useContext(AppContext)
+  const allMyPosts = async () => {
+    const config = {
+      headers: {
+        "Authorization": `Bearer ${getAccessToken}`
+      }
+    }
+    const details = await gettingPosts(config);
+    setData(details.data)
   }
-}
-  const details = await gettingPosts(config);
-  setData(details.data)
-}
-
+  useEffect(() => {
+    allMyPosts();
+  }, []);
   return (
     <>
       <NavBarX login = {true}></NavBarX>
       <Container maxWidth="lg" sx={{ position: "relative" }}>
         <h1 style={{fontFamily:"Poppins", marginTop: "65px"}}>Recent Posts</h1>
         <Divider></Divider>
-
         <Box mt={5}>
           {data.map((object) => {
             return(
@@ -47,5 +40,4 @@ const allMyPosts = async() => {
     </>
   );
 };
-
 export default MyArticles;
