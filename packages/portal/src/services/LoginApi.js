@@ -40,3 +40,7 @@ export const parseJwt = (token) =>  {
   export const allPostsComing = async() => {
     return await axios.get(`${baseURL}/pagination/allPosts`)
   }
+
+  export const logout = async (body) => {
+    return await axios.delete(`${baseURL}/user/logout`, body);
+  };

@@ -1,10 +1,12 @@
-import * as React from "react";
+import {useState,useContext} from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import { logout } from "../services/LoginApi.js";
+import { AppContext } from "../App.js";
 import {
   Search,
   SearchIconWrapper,
@@ -22,13 +24,20 @@ import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 
 const MenuAppBar = ({ login }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const { getRefreshToken } = useContext(AppContext);
+
+  const handleLogout = async () => {
+    console.log(`revoking token: ${getRefreshToken}`);
+    const body = { data: { token: `${getRefreshToken}` } };
+    await logout(body);
   };
 
   return (
@@ -144,7 +153,11 @@ const MenuAppBar = ({ login }) => {
 
               <Divider />
 
-              <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+              <Link
+                to="/"
+                style={{ textDecoration: 'none', color: 'black' }}
+                onClick={handleLogout}
+              >
                 <MenuItem>
                   <ListItemIcon>
                     <Logout fontSize="small" />

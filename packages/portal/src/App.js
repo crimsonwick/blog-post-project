@@ -20,6 +20,7 @@ function App() {
 
   const [userData, setUserData] = useState({});
   const [getAccessToken, setAccessToken] = useState(null);
+  const [getRefreshToken,setRefreshToken] = useState(null);
   useEffect(() => {
     WebFont.load({
       google: {
@@ -36,7 +37,7 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{ parentTransfer, userData, userToken, getAccessToken }}>
+    <AppContext.Provider value={{ parentTransfer, userData, userToken, getAccessToken,getRefreshToken,setRefreshToken }}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>

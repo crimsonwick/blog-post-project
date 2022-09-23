@@ -58,7 +58,7 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer, userToken } = useContext(AppContext);
+  const { parentTransfer, userToken,setRefreshToken } = useContext(AppContext);
   const [state,dispatch] = useReducer(reducer,{ Submitted: false, showMessage: false })
   const navigate = useNavigate();
 
@@ -67,6 +67,7 @@ function Login() {
     if (response.data.accessToken) {
       dispatch({type: "SUCCESS"})
       userToken(response.data.accessToken)
+      setRefreshToken(response.data.refreshToken)
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
       localStorage.setItem('login',response.data.accessToken)
