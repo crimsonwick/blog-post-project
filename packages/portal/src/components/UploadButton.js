@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button } from '@mui/material';
 
-const InputButton = (props) => {
+const UploadButton = (props) => {
   const customWidth = props.width;
   return (
     <Button
       type="submit"
       variant="contained"
+      component="label"
       sx={{
         borderRadius: '20px',
         width: customWidth || '100%',
@@ -20,8 +21,9 @@ const InputButton = (props) => {
       color="secondary"
     >
       {props.name}
+      <input type="file" hidden />
     </Button>
   );
 };
 
-export default InputButton;
+export default UploadButton;

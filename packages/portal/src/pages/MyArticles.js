@@ -11,12 +11,12 @@ import { AppContext } from '../App';
 
 const MyArticles = () => {
   const [array, setArray] = useState([]);
-  const { getAccessToken } = useContext(AppContext);
+  const { accessToken } = useContext(AppContext);
 
   const allPosts = async () => {
     const config = {
       headers: {
-        Authorization: `Bearer ${getAccessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     const details = await gettingPosts(config);

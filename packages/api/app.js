@@ -1,12 +1,13 @@
-import express from "express";
-import User from "./src/routes/User.js";
-import Post from "./src/routes/Post.js";
-import Comment from "./src/routes/Comment.js";
-import Pagination from "./src/routes/Pagination.js";
-import db from "./src/models/index.js";
-import client from "./src/config/elasticsearch.js";
-import dotenv from "dotenv";
+import express from 'express';
+import User from './src/routes/User.js';
+import Post from './src/routes/Post.js';
+import Comment from './src/routes/Comment.js';
+import Pagination from './src/routes/Pagination.js';
+import db from './src/models/index.js';
+import client from './src/config/elasticsearch.js';
+import dotenv from 'dotenv';
 import cors from 'cors';
+import multer from 'multer';
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,20 @@ app.use('/user', User);
 app.use('/post', Post);
 app.use('/comment', Comment);
 app.use('/pagination', Pagination);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '../portal/src/images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
+app.post('/image', upload.single('file'), function (req, res) {
+  res.json({ image: req.file.originalname });
+});
+
 client
   .info()
   .then(() => console.log('Application is Connected to ElasticSearch'))

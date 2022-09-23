@@ -13,5 +13,13 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: 'Poppins',
+    // button: {
+    //   fontFamily: ['Poppins', 'serif'].join(','),
+    //   fontSize: 18,
+    //   marginTop: '25px',
+    //   height: '56px',
+    //   textTransform: 'capitalize',
+    //   fontWeight: 'bold',
+    // },
   },
 });

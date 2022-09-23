@@ -20,7 +20,7 @@ const schema = yup
 
 function CreateArticle() {
   const [image, setImage] = useState(null);
-  const { userData, uploadFile, getAccessToken } = useContext(AppContext);
+  const { userData, uploadFile, accessToken } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -45,7 +45,7 @@ function CreateArticle() {
     };
     const config = {
       headers: {
-        Authorization: `Bearer ${getAccessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     await addPost(Object, config);

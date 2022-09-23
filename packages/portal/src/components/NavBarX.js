@@ -24,7 +24,7 @@ import { useContext } from 'react';
 
 const MenuAppBar = ({ login }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { getRefreshToken } = useContext(AppContext);
+  const { refreshToken } = useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,8 +33,8 @@ const MenuAppBar = ({ login }) => {
     setAnchorEl(null);
   };
   const handleLogout = async () => {
-    console.log(`revoking token: ${getRefreshToken}`);
-    const body = { data: { token: `${getRefreshToken}` } };
+    console.log(`revoking token: ${refreshToken}`);
+    const body = { data: { token: `${refreshToken}` } };
     await logout(body);
   };
   return (
@@ -150,7 +150,8 @@ const MenuAppBar = ({ login }) => {
                 style={{ textDecoration: 'none', color: 'black' }}
               >
                 <MenuItem>
-                  <Avatar /> My account
+                  <Avatar src={require(`../images/spongebob.jpeg`)} />
+                  My account
                 </MenuItem>
               </Link>
 

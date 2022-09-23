@@ -67,7 +67,7 @@ function Login() {
     }
   };
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     showPassword: false,
   });
 
@@ -100,6 +100,7 @@ function Login() {
             formState,
           }) => (
             <OutlinedInput
+              autoComplete="username"
               variant="outlined"
               color="secondary"
               onBlur={onBlur} // notify when input is touched
@@ -130,6 +131,7 @@ function Login() {
           }) => (
             <OutlinedInput
               variant="outlined"
+              autoComplete="current-password"
               color="secondary"
               type={values.showPassword ? 'text' : 'password'}
               value={values.password}
