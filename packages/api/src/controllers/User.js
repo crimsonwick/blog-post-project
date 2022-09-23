@@ -110,7 +110,7 @@ export const ForgetPassword = async (req, res) => {
       return res.status(404).json({ error: "Invalid email" });
     }
     // otherwise we need to create a temporary token that expires in 10 mins
-    const resetLink = jwt.sign({ user: user.email }, resetSecret, { expiresIn: '1d' });
+    const resetLink = jwt.sign({ user: user.email }, resetSecret, { expiresIn: '1200s' });
     user.resetLink = resetLink;
     await user.save();
 
@@ -133,7 +133,7 @@ function sendEmail(user, token) {
     from: "talha.shakil@kwanso.com", // your email
     subject: "Reset password requested",
     html: `
-     <a href="${process.env.clientURL}/reset-password/${token}">${token}</a>
+     <a href="${process.env.clientURL}/change-password?token=${token}">${token}</a>
    `
 
   };
@@ -145,9 +145,11 @@ function sendEmail(user, token) {
 
 export const ResetPassword = async (req, res) => {
   try {
+    const { token } = req.params;
     // Get the token from params
-    const { password } = req.body;
-    const resetLink = req.params.token;
+    const { password1, password2 } = req.body;
+    const resetLink = token;
+
 
     const user = await Users.findOne({
       where: {
@@ -160,19 +162,20 @@ export const ResetPassword = async (req, res) => {
       return res.status(400).json({ message: 'We could not find a match for this link' });
     }
 
-    jwt.verify(req.params.token, resetSecret, (error) => {
+    jwt.verify(token, resetSecret, (error) => {
       if (error) {
         return res.status(400).json({ message: "token is invalid" })
       }
-
     })
-    const hashPassword = bcrypt.hashSync(password, 8);
-    // update user credentials and remove the temporary link from database before saving
-    user.password = hashPassword
-    user.resetLink = null;
-    await user.save();
+    if (password1 === password2) {
+      const hashPassword = bcrypt.hashSync(password1, 8);
+      // update user credentials and remove the temporary link from database before saving
+      user.password = hashPassword
+      user.resetLink = null;
+      await user.save();
 
-    return res.status(200).json({ message: 'Password updated' });
+      return res.status(200).json({ message: 'Password updated' });
+    }
   } catch (error) {
 
     res.status(500).json({ message: error.message });

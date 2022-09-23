@@ -13,6 +13,7 @@ import CreateArticle from './pages/CreateArticle';
 import LandingPage from './pages/LandingPage';
 import MyArticles from './pages/MyArticles';
 import NoPage from './pages/NoPage';
+import ResetPassword from './pages/ResetPassword';
 
 export const AppContext = createContext(null);
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/article-detail" element={<ArticleDetail />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/login" element={<Login />} />
             <Route path="/change-password" element={<Protected Component={ChangePassword}></Protected>} />
             <Route path="/create-article" element={getAccessToken ? (<Protected Component={CreateArticle}></Protected>) : (<Navigate replace to={"/login"} />)} />

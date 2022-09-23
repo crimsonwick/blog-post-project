@@ -1,9 +1,9 @@
-import NavbarX from "../components/NavBarX";
+import Navbar from "../components/NavBarX";
 
 const NoPage = () => {
   return (
     <>
-    <NavbarX login={true}></NavbarX>
+      <Navbar login={true}></Navbar>
       <h1>404</h1>
     </>
   );
