@@ -3,11 +3,10 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Container from "@mui/material/Container";
 import { useForm, Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import FormLabel from "@mui/material/FormLabel";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
 import "../styles/signup.css";
 import YupPassword from "yup-password";
 import Alert from "@mui/material/Alert";
@@ -20,7 +19,6 @@ const schema = yup
 	})
 	.required();
 function ResetPassword() {
-	const emailRef = useRef()
 	const {
 		control,
 		handleSubmit,
@@ -32,7 +30,6 @@ function ResetPassword() {
 		resolver: yupResolver(schema),
 	});
 	const [message, setMessage] = useState(false);
-	const navigate = useNavigate();
 	const onSubmit = async (data) => {
 		const url = 'http://localhost:5000/user/forgetPassword'
 		console.log(data, "correct data")
@@ -43,7 +40,7 @@ function ResetPassword() {
 		}
 		const response = await axios(options)
 		const record = response.data;
-		if (record.statusText == 'Success') {
+		if (record.statusText === 'Success') {
 			toast.success(record.message)
 		}
 		else {
