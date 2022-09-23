@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
 import { Alert, AlertTitle } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import FormLabel from '@mui/material/FormLabel';
@@ -33,6 +33,18 @@ const schema = yup
   })
   .required();
 
+  const reducer = (state,action) => {
+    switch(action.type){
+      case "FAILED": 
+        return { Submitted: !state.Submitted, showMessage: state.showMessage }
+      case "SUCCESS":
+        return { Submitted: !state.Submitted, showMessage: !state.showMessage }
+      default:
+        return { Submitted: state.Submitted, showMessage: state.showMessage }
+    }
+  }
+  
+
 function Login() {
   const {
     control,
@@ -47,19 +59,25 @@ function Login() {
   });
 
   const { parentTransfer, userToken } = useContext(AppContext);
-  const [message, setMessage] = useState(false);
+  const [state,dispatch] = useReducer(reducer,{ Submitted: false, showMessage: false })
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     const response = await getLoginDetails(data);
     if (response.data.accessToken) {
+      dispatch({type: "SUCCESS"})
       userToken(response.data.accessToken)
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
       localStorage.setItem('login',response.data.accessToken)
-      navigate('/my-articles');
+      setTimeout(() => {
+        navigate('/my-articles');
+      },1000)  
     } else {
-      setMessage(true);
+      dispatch({type: "FAILED"})
+      setTimeout(() => {
+        navigate('/signup');
+      },1000)  
     }
   };
 
@@ -79,7 +97,11 @@ function Login() {
 
   return (
     <Container maxWidth="sm">
-      {message && <Alert severity="error">
+      { ((state.Submitted && state.showMessage) && (<Alert severity="success">
+  <AlertTitle> <strong>Account <strong>LoggedIn</strong> Successfully</strong></AlertTitle>
+  You can add up<strong> Your Posts</strong> Now!
+</Alert>))} 
+      {(state.Submitted && !state.showMessage) && <Alert severity="error">
   <AlertTitle> <strong>Account Not Created</strong></AlertTitle>
   You need to  <strong> Sign Up </strong>your Account!
 </Alert>}

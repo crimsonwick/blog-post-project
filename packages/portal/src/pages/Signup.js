@@ -7,14 +7,29 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getSignUpDetails } from '../services/LoginApi';
-import { useState } from 'react';
+import { useReducer } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Alert, AlertTitle } from '@mui/material';
+
+
+const reducer = (state,action) => {
+  switch(action.type){
+    case "FAILED": 
+      return { Submitted: !state.Submitted, showMessage: state.showMessage }
+    case "SUCCESS":
+      return { Submitted: !state.Submitted, showMessage: !state.showMessage }
+    default:
+      return { Submitted: state.Submitted, showMessage: state.showMessage }
+  }
+}
 
 const Signup = () => {
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(8).max(20).required(),
   });
+
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -24,25 +39,29 @@ const Signup = () => {
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
-  const [message,setMessage] = useState(null)
+  const [state,dispatch] = useReducer(reducer,{ Submitted: false, showMessage: false })
   const onSubmit = async(data) => {
-    const response = await getSignUpDetails(data);
-    if(response.data){
-        setMessage(true)
+    const responsed = await getSignUpDetails(data);
+    if(responsed.data.id === undefined){
+        dispatch({type: "FAILED"})
     }
     else{
-      setMessage(false)
+      dispatch({type: "SUCCESS"})
+      setTimeout(() => {
+        navigate('/login')
+      },1000)
     }
   }
   return (
     <Container maxWidth="sm">
-      {message ? (<Alert severity="success">
+      { ((state.Submitted && state.showMessage) && (<Alert severity="success">
   <AlertTitle> <strong>Account Created Successfully</strong></AlertTitle>
   You need to <strong> Login </strong>your Account Now!
-</Alert>): <Alert severity="error">
+</Alert>))} 
+      {  ((state.Submitted && !state.showMessage) && (<Alert severity="error">
   <AlertTitle> <strong>Account Not Created</strong></AlertTitle>
   Try anyother email for  <strong> Sign Up </strong>your Account!
-</Alert>}
+</Alert>))}
       <Box>
         <Header
           heading="Create An Account"
