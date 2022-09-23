@@ -3,7 +3,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import React, { useState } from 'react';
+import { Alert, AlertTitle } from '@mui/material';
+import React, { useReducer } from 'react';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import FormLabel from '@mui/material/FormLabel';
@@ -31,6 +32,19 @@ const schema = yup
       ),
   })
   .required();
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "FAILED":
+      return { Submitted: !state.Submitted, showMessage: state.showMessage }
+    case "SUCCESS":
+      return { Submitted: !state.Submitted, showMessage: !state.showMessage }
+    default:
+      return { Submitted: state.Submitted, showMessage: state.showMessage }
+  }
+}
+
+
 function Login() {
   const {
     control,
@@ -43,20 +57,28 @@ function Login() {
     },
     resolver: yupResolver(schema),
   });
-  const { parentTransfer, userToken } = useContext(AppContext);
-  const [message, setMessage] = useState(false);
+
+  const { parentTransfer, userToken, setRefreshToken } = useContext(AppContext);
+  const [state, dispatch] = useReducer(reducer, { Submitted: false, showMessage: false })
   const navigate = useNavigate();
   const onSubmit = async (data) => {
     const response = await getLoginDetails(data);
     console.log(" i am in submit handler,", response)
     if (response.data.accessToken) {
+      dispatch({ type: "SUCCESS" })
       userToken(response.data.accessToken)
+      setRefreshToken(response.data.refreshToken)
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
-      localStorage.setItem("login", response.data.accessToken)
-      navigate('/my-articles');
+      localStorage.setItem('login', response.data.accessToken)
+      setTimeout(() => {
+        navigate('/my-articles');
+      }, 1000)
     } else {
-      setMessage(true);
+      dispatch({ type: "FAILED" })
+      setTimeout(() => {
+        navigate('/signup');
+      }, 1000)
     }
   };
   const [values, setValues] = React.useState({
@@ -72,7 +94,14 @@ function Login() {
   };
   return (
     <Container maxWidth="sm">
-      {message && <p>Hello</p>}
+      {((state.Submitted && state.showMessage) && (<Alert severity="success">
+        <AlertTitle> <strong>Account <strong>LoggedIn</strong> Successfully</strong></AlertTitle>
+        You can add up<strong> Your Posts</strong> Now!
+      </Alert>))}
+      {(state.Submitted && !state.showMessage) && <Alert severity="error">
+        <AlertTitle> <strong>Account Not Created</strong></AlertTitle>
+        You need to  <strong> Sign Up </strong>your Account!
+      </Alert>}
       <h1 className={styles.headingOne}>Log In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel htmlFor="my-input">Email address or username</FormLabel>{' '}

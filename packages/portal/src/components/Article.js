@@ -11,6 +11,7 @@ import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
+import { parseDate } from '../services/LoginApi';
 
 
 const Article = (props) => {
@@ -40,7 +41,7 @@ const Article = (props) => {
             <ListItemIcon>
               <CalendarTodayIcon />
             </ListItemIcon>
-            <ListItemText primary="12 September 2022" />
+            <ListItemText primary={parseDate(props.object.createdAt)} />
           </ListItem>
           <ListItem className="timeToRead">
             <ListItemIcon>

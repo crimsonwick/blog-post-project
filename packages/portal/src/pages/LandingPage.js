@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import { Box, Divider } from '@mui/material';
 import Article from '../components/Article';
 import Footer from '../components/Footer';
-import { allPostsComing } from '../services/LoginApi';
+import { allPostsComing } from '../services/LoginApi.js';
 
 const Home = () => {
   const [data,setData] = useState([]);
@@ -25,7 +25,7 @@ useEffect(() => {
         <Divider></Divider>
 
         <Box mt={5}>
-          {data.map((object) => {
+          {data && data.map((object) => {
             return(
               <Article key={object._id} object={object}/>
             )
