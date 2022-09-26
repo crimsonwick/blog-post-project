@@ -21,6 +21,8 @@ const Comment = (props) => {
   //   <Comment key={comment.toString()} value={comment} />
   // ));
 
+  // console.log(props.object)
+
   return (
     <Card elevation={2} sx={{ marginLeft: '20px', marginTop: '20px' }}>
       <Box sx={{ display: 'flex', allignItems: 'left' }}>
@@ -39,8 +41,7 @@ const Comment = (props) => {
       </Box>
       <Box ml={2}>
         <Typography sx={{ fontFamily: 'Poppins' }}>
-          Did you come here for something in particular or just general
-          Riker-bashing? And blowing into maximum
+          {props.object.body}
         </Typography>
       </Box>
       <Button
@@ -51,7 +52,7 @@ const Comment = (props) => {
         Show Replies ({props.count})
       </Button>
       {replies && <Comment count={69} />}
-      <AddComment />
+      {/* <AddComment /> */}
     </Card>
   );
 };
