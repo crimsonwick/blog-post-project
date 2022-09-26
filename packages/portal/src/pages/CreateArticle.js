@@ -5,7 +5,7 @@ import Divider from '@mui/material/Divider';
 import { AppContext } from '../App';
 import NavbarLoggedIn from '../components/NavbarLoggedIn';
 import { OutlinedInput } from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -36,6 +36,8 @@ function CreateArticle() {
     resolver: yupResolver(schema),
   });
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     let formData = new FormData();
     formData.append('userId', userData.id)
@@ -48,8 +50,10 @@ function CreateArticle() {
         "Authorization": `Bearer ${getAccessToken}`
       }
     }
-    const response = await addPost(formData, config);
-    console.log(response);
+    await addPost(formData, config);
+    setTimeout(() => {
+      navigate('/my-articles');
+    },250)
   };
 
   const handleFileChange = (event) => {
