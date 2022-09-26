@@ -173,7 +173,7 @@ function Login() {
           )}
         />
         {errors.password && <p>{errors.password.message}</p>}
-        <Link to="/reset-password">
+        <Link to="/reset-password" style={{ textDecoration: "none", color: "black" }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
@@ -195,7 +195,7 @@ function Login() {
       <br />
       <Divider />
       <h3 className={styles.h3}>Don't have an account?</h3>
-      <Link to="/signup">
+      <Link to="/signup" style={{ textDecoration: "none", color: "black" }}>
         <Button
           fullWidth
           variant="outlined"

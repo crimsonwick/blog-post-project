@@ -3,7 +3,7 @@ import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { AppContext } from '../App';
-import NavbarLoggedIn from '../components/NavbarLoggedIn';
+import NavBar from '../components/NavBar';
 import { OutlinedInput } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
@@ -53,7 +53,7 @@ function CreateArticle() {
     await addPost(formData, config);
     setTimeout(() => {
       navigate('/my-articles');
-    },250)
+    }, 250)
   };
 
   const handleFileChange = (event) => {
@@ -63,7 +63,7 @@ function CreateArticle() {
 
   return (
     <div>
-      <NavbarLoggedIn />
+      <NavBar login={true} />
       <div className={styles.padding}>
         <h1 className={styles.headingOne}>Create New Article</h1>
         <Divider light />

@@ -1,15 +1,17 @@
 import { Container } from '@mui/system';
-import React from 'react';
+import React, { useContext } from 'react';
 import NavBar from '../components/NavBar';
 import Comment from '../components/Comment';
 import { Box } from '@mui/material';
 import ArticleBig from '../components/ArticleBig';
 import AddComment from '../components/AddComment';
+import { AppContext } from '../App';
 
 const ArticleDetail = () => {
+  const { loggedIn } = useContext(AppContext)
   return (
     <>
-      <NavBar />
+      {(loggedIn) ? (<NavBar login={true} />) : (<NavBar />)}
       <Container maxWidth="lg">
         <Box mb={5}>
           <ArticleBig />
