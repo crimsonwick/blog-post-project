@@ -47,7 +47,7 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer, setAccessToken, setRefreshToken } =
+  const { setUser, setAccessToken, setRefreshToken, accessToken } =
     useContext(AppContext);
   const [message, setMessage] = useState(false);
   const navigate = useNavigate();
@@ -59,8 +59,9 @@ function Login() {
       setAccessToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
       const parsetoken = parseJwt(response.data.accessToken);
-      parentTransfer(parsetoken.user);
+      setUser(parsetoken.user);
       localStorage.setItem('login', response.data.accessToken);
+      console.log('Access Token issued: ', response.data.accessToken);
       navigate('/my-articles');
     } else {
       setMessage(true);

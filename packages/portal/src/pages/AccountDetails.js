@@ -1,26 +1,38 @@
-import React from 'react';
-import NavBarX from '../components/NavBarX';
-import { Container } from '@mui/system';
-import { Box } from '@mui/system';
-import { Divider, Typography } from '@mui/material';
+import { Button, Divider, Typography } from '@mui/material';
+import { Box, Container } from '@mui/system';
+import React, { useContext, useState } from 'react';
+import { AppContext } from '../App';
 import BasicTable from '../components/BasicTable';
-import UploadButton from '../components/UploadButton';
-import { useState } from 'react';
-import { Button } from '@mui/material';
+import NavBarX from '../components/NavBarX';
+import { parseJwt } from '../services/LoginApi';
 
 const AccountDetails = () => {
   const [image, setImage] = useState({ preview: '', data: '' });
   const [status, setStatus] = useState('');
-
+  const { accessToken, setUser, setDp } = useContext(AppContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append('file', image.data);
-    const response = await fetch('http://localhost:5000/image', {
-      method: 'POST',
-      body: formData,
-    });
-    if (response) setStatus(response.statusText);
+    try {
+      let formData = new FormData();
+      formData.append('file', image.data);
+      const parsetoken = parseJwt(accessToken);
+      const user = parsetoken.user;
+      setUser(user);
+      const response = await fetch(`http://localhost:5000/user/${user.id}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      });
+      if (response) {
+        setStatus(response.statusText);
+        const imageObj = await response.json();
+        if (imageObj) setDp(imageObj.image);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleFileChange = (e) => {
     const img = {

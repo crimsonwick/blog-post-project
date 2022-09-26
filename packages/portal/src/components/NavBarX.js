@@ -20,11 +20,11 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import { logout } from '../services/LoginApi.js';
 import { AppContext } from '../App.js';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 const MenuAppBar = ({ login }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const { refreshToken } = useContext(AppContext);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { refreshToken, userData, dp } = useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -107,7 +107,15 @@ const MenuAppBar = ({ login }) => {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                <Avatar
+                  alt="user display picture"
+                  src={
+                    dp
+                      ? require(`../images/${dp}`)
+                      : require(`../images/${userData.avatar}`)
+                  }
+                  sx={{ width: 32, height: 32 }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -150,13 +158,18 @@ const MenuAppBar = ({ login }) => {
                 style={{ textDecoration: 'none', color: 'black' }}
               >
                 <MenuItem>
-                  <Avatar src={require(`../images/spongebob.jpeg`)} />
+                  <Avatar
+                    alt="user display picture"
+                    src={
+                      dp
+                        ? require(`../images/${dp}`)
+                        : require(`../images/${userData.avatar}`)
+                    }
+                  />
                   My account
                 </MenuItem>
               </Link>
-
               <Divider />
-
               <Link
                 to="/"
                 style={{ textDecoration: 'none', color: 'black' }}

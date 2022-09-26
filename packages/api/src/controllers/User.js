@@ -10,7 +10,7 @@ const salt = bcrypt.genSaltSync(10);
 
 const { Users } = model;
 
-export var tokens = [];
+export let tokens = [];
 
 export const SignUp = async (req, res) => {
   const { email, password } = req.body;
@@ -77,7 +77,6 @@ export const token = (req, res) => {
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
     if (error) return res.sendStatus(403);
     const accessToken = generateAccessToken({
-      name: user.name,
       email: user.email,
       password: user.password,
     });
@@ -91,17 +90,13 @@ export const Logout = async (req, res) => {
 };
 
 export const UpdateUserAvatar = async (req, res) => {
-  if (!req.body.content) {
-    return res.status(400).send({
-      message: 'Request Body is Empty!!!',
-    });
-  }
   const userId = req.params.userId;
-  const image = req.body.image;
+  const image = req.file.originalname;
   try {
     const user = await Users.findOne({ where: { id: userId } });
-    user.image = image;
+    user.avatar = image;
     await user.save();
+    return res.json({ image: image });
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
