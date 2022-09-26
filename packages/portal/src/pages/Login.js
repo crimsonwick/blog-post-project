@@ -20,6 +20,7 @@ import * as yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
+
 const schema = yup
   .object({
     email: yup.string().email().required(),
@@ -58,7 +59,7 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer, userToken, setRefreshToken } = useContext(AppContext);
+  const { parentTransfer, userToken, setRefreshToken, setLoggedIn } = useContext(AppContext);
   const [state, dispatch] = useReducer(reducer, { Submitted: false, showMessage: false })
   const navigate = useNavigate();
   const onSubmit = async (data) => {
@@ -68,6 +69,7 @@ function Login() {
       dispatch({ type: "SUCCESS" })
       userToken(response.data.accessToken)
       setRefreshToken(response.data.refreshToken)
+      setLoggedIn(true);
       const parsetoken = parseJwt(response.data.accessToken)
       parentTransfer(parsetoken.user);
       localStorage.setItem('login', response.data.accessToken)

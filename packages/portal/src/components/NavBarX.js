@@ -32,12 +32,13 @@ const MenuAppBar = ({ login }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { getRefreshToken } = useContext(AppContext);
+  const { getRefreshToken, setLoggedIn } = useContext(AppContext);
 
   const handleLogout = async () => {
     console.log(`revoking token: ${getRefreshToken}`);
     const body = { data: { token: `${getRefreshToken}` } };
     await logout(body);
+    setLoggedIn(false)
   };
 
   return (
