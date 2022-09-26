@@ -9,19 +9,19 @@ import { AppContext } from "../App";
 import { gettingPosts } from "../services/LoginApi.js";
 const MyArticles = () => {
   const [data, setData] = useState([]);
-  const { getAccessToken } = useContext(AppContext)
-  const allMyPosts = async () => {
+  const { getAccessToken } = useContext(AppContext);
+  const allPosts = async () => {
     const config = {
       headers: {
-        "Authorization": `Bearer ${getAccessToken}`
-      }
-    }
+        Authorization: `Bearer ${getAccessToken}`,
+      },
+    };
     const details = await gettingPosts(config);
-    setData(details.data)
-  }
+    setData(details.data);
+  };
   useEffect(() => {
-    allMyPosts();
-  }, []);
+    allPosts();
+  },[]);
   return (
     <>
       <NavBarX login = {true}></NavBarX>
