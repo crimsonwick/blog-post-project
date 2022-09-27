@@ -74,8 +74,8 @@ function Login() {
       parentTransfer(parsetoken.user);
       localStorage.setItem('login', response.data.accessToken)
       setTimeout(() => {
-        navigate('/my-articles');
-      }, 1000)
+        navigate('/');
+      }, 100)
     } else {
       dispatch({ type: "FAILED" })
       setTimeout(() => {

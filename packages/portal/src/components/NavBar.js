@@ -37,6 +37,8 @@ const Navbar = ({ login }) => {
         <Link to="/" style={{ padding: 10, textDecoration: "none", color: "black" }}>Home</Link>
         {login && <Link to="/my-articles" style={{ padding: 10, textDecoration: "none", color: "black" }}>My Articles</Link>}
 
+
+
         <Search >
           <SearchIconWrapper style={{
             borderBottomLeftRadius: '5px',
@@ -82,7 +84,9 @@ const Navbar = ({ login }) => {
               Sign Up
             </Button>
           </div>
+
         )}
+
         {login && (
           <div>
             <Tooltip title="Account settings">
