@@ -24,9 +24,15 @@ const MyArticles = () => {
   };
 
   useEffect(() => {
-    allPosts();
+    const data = localStorage.getItem('LANDING_PAGE_POSTS_DATA');
+    if (data !== null) setArray(JSON.parse(data));
   }, []);
 
+  useEffect(() => {
+    allPosts();
+    console.log('API was called');
+    window.localStorage.setItem('MY_ARTICLES_PAGE_DATA', JSON.stringify(array));
+  }, [allPosts, array]);
   return (
     <>
       <NavBarX login={true} />
@@ -35,7 +41,6 @@ const MyArticles = () => {
           My Articles
         </h1>
         <Divider />
-
         <Box mt={5}>
           {array.length !== 0 ? (
             array.map((object) => {

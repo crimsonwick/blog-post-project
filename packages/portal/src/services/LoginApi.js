@@ -45,7 +45,3 @@ export const allPostsComing = async () => {
 export const logout = async (body) => {
   return await axios.delete(`${baseURL}/user/logout`, body);
 };
-
-export const getOneUser = async (config) => {
-  return await axios.get(`${baseURL}/user`, config);
-};

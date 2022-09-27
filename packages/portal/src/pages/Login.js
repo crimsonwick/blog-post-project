@@ -47,8 +47,7 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { setUser, setAccessToken, setRefreshToken, accessToken } =
-    useContext(AppContext);
+  const { setUser, setAccessToken, setRefreshToken } = useContext(AppContext);
   const [message, setMessage] = useState(false);
   const navigate = useNavigate();
 
