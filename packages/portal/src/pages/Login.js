@@ -173,7 +173,7 @@ function Login() {
           )}
         />
         {errors.password && <p>{errors.password.message}</p>}
-        <Link to="/reset-password" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/reset-password" style={{ color: "black" }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
