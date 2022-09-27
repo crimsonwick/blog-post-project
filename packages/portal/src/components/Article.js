@@ -22,6 +22,7 @@ const Article = (props) => {
       //elevation={10}
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
+
       <img src={require(`../uploads/${props.object.image}`)} alt="user_image" className="articleImg" style={{
         borderRadius: '20px',
         width: '400px',

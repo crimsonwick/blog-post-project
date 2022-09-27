@@ -27,7 +27,7 @@ const MyArticles = () => {
     <>
       <NavBar login={true} />
       <Container maxWidth="lg" sx={{ position: "relative" }}>
-        <h1 style={{ fontFamily: "Poppins", marginTop: "65px" }}>My Posts</h1>
+        <h1 style={{ fontFamily: "Poppins", marginTop: "170px" }}>My Posts</h1>
         <Divider></Divider>
         <Box mt={5}>
           {data.map((object) => {
