@@ -21,9 +21,9 @@ const Home = () => {
   }, []);
   return (
     <>
-      {(loggedIn) ? (<NavBar login={true} />) : (<NavBar />)}
+      {(loggedIn) ? (<NavBar style={{ position: 'fixed' }} login={true} />) : (<NavBar style={{ position: 'fixed' }} />)}
 
-      <Container sx={{ marginY: 5 }}>
+      <Container sx={{ marginY: 20 }}>
         <h1 style={{ fontFamily: "Poppins", marginTop: "65px" }}>Recent Posts</h1>
         <Divider></Divider>
 

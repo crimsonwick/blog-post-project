@@ -18,14 +18,21 @@ const Article = (props) => {
 
   return (
     <Card
-      elevation={10}
+      style={{ marginTop: '30px', hieght: 'auto', width: 'auto', opacity: '100%', border: "none", boxShadow: "none" }}
+      //elevation={10}
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
-      <img src={require(`../uploads/${props.object.image}`)} alt="user_image" className="articleImg"/>
+      <img src={require(`../uploads/${props.object.image}`)} alt="user_image" className="articleImg" style={{
+        borderRadius: '20px',
+        width: '400px',
+        height: '250px',
+        objectFit: 'fill',
+        marginRight: '50px'
+      }} />
       <Box mt={1}>
         <Chip label="Travel" />
         <Typography variant="h4" component="h3">
-         {props.object.title}
+          {props.object.title}
         </Typography>
         <List style={flexContainer}>
           <ListItem className="user">
@@ -50,7 +57,7 @@ const Article = (props) => {
             <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
           </ListItem>
         </List>
-        <Typography variant="h6">
+        <Typography variant="h6" style={{ objectFit: 'fill' }}>
           {props.object.body}
         </Typography>
       </Box>

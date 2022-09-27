@@ -10,23 +10,24 @@ import { gettingPosts } from "../services/LoginApi.js";
 const MyArticles = () => {
   const [data, setData] = useState([]);
   const { getAccessToken } = useContext(AppContext);
-  const allPosts = async () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${getAccessToken}`,
-      },
-    };
-    const details = await gettingPosts(config);
-    setData(details.data);
-  };
+
   useEffect(() => {
+    const allPosts = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${getAccessToken}`,
+        },
+      };
+      const details = await gettingPosts(config);
+      setData(details.data);
+    };
     allPosts();
-  }, []);
+  }, [getAccessToken, setData]);
   return (
     <>
       <NavBar login={true} />
       <Container maxWidth="lg" sx={{ position: "relative" }}>
-        <h1 style={{ fontFamily: "Poppins", marginTop: "65px" }}>Recent Posts</h1>
+        <h1 style={{ fontFamily: "Poppins", marginTop: "65px" }}>My Posts</h1>
         <Divider></Divider>
         <Box mt={5}>
           {data.map((object) => {

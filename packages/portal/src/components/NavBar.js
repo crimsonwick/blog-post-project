@@ -18,6 +18,7 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import { AppContext } from '../App.js';
+import InputField from './InputField.js';
 
 
 
@@ -32,7 +33,7 @@ const Navbar = ({ login }) => {
     setAnchorEl(null);
   };
   return (
-    <AppBar position="static" style={{ background: '#FFFFFF' }}>
+    <AppBar position="fixed" style={{ background: '#FFFFFF' }}>
       <Toolbar>
         <Link to="/" style={{ padding: 10, textDecoration: "none", color: "black" }}>Home</Link>
         {login && <Link to="/my-articles" style={{ padding: 10, textDecoration: "none", color: "black" }}>My Articles</Link>}
@@ -40,6 +41,7 @@ const Navbar = ({ login }) => {
 
 
         <Search >
+
           <SearchIconWrapper style={{
             borderBottomLeftRadius: '5px',
             borderBottomRightRadius: '5px',
@@ -52,7 +54,9 @@ const Navbar = ({ login }) => {
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
           />
+
         </Search>
+
         {login && (
           <Button
             style={{ marginRight: '10px' }}
