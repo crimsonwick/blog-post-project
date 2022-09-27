@@ -1,4 +1,4 @@
-import Navbar from "../components/NavBarX";
+import Navbar from "../components/NavBar";
 
 const NoPage = () => {
   return (

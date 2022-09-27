@@ -24,7 +24,7 @@ const Home = () => {
       {(loggedIn) ? (<NavBar login={true} />) : (<NavBar />)}
 
       <Container sx={{ marginY: 5 }}>
-        <h1 style={{ fontFamily: "Poppins", marginTop: "65px" }}>All Posts</h1>
+        <h1 style={{ fontFamily: "Poppins", marginTop: "65px" }}>Recent Posts</h1>
         <Divider></Divider>
 
         <Box mt={5}>

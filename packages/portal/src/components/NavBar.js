@@ -1,7 +1,6 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
@@ -19,6 +18,9 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import { AppContext } from '../App.js';
+
+
+
 const Navbar = ({ login }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { setLoggedIn } = React.useContext(AppContext)
@@ -34,18 +36,24 @@ const Navbar = ({ login }) => {
       <Toolbar>
         <Link to="/" style={{ padding: 10, textDecoration: "none", color: "black" }}>Home</Link>
         {login && <Link to="/my-articles" style={{ padding: 10, textDecoration: "none", color: "black" }}>My Articles</Link>}
-        <Search sx={{ color: '#111111' }}>
-          <SearchIconWrapper>
-            <SearchIcon sx={{ color: '#111111' }} />
+
+        <Search >
+          <SearchIconWrapper style={{
+            borderBottomLeftRadius: '5px',
+            borderBottomRightRadius: '5px',
+            borderTopLeftRadius: '5px',
+            borderTopRightRadius: '5px',
+          }}>
+            <SearchIcon />
           </SearchIconWrapper>
           <StyledInputBase
-            sx={{ color: '#111111' }}
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
           />
         </Search>
         {login && (
           <Button
+            style={{ marginRight: '10px' }}
             component={Link}
             to="/create-article"
             variant="contained"
@@ -57,6 +65,7 @@ const Navbar = ({ login }) => {
         {!login && (
           <div>
             <Button
+              style={{ marginRight: '10px' }}
               component={Link}
               to="/login"
               variant="contained"
@@ -68,7 +77,7 @@ const Navbar = ({ login }) => {
               component={Link}
               to="/signup"
               variant="contained"
-              color="primary"
+              color="secondary"
             >
               Sign Up
             </Button>

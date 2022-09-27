@@ -2,7 +2,6 @@ import styles from '../styles/ChangePassword/ChangePassword.module.css';
 import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import NavbarLoggedIn from '../components/NavbarLoggedIn';
 import { OutlinedInput, Snackbar } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -87,7 +86,6 @@ function ChangePassword() {
   };
   return (
     <div>
-      <NavbarLoggedIn />
       <div className={styles.padding}>
         {/* <Box maxWidth='400px'>
           {message && <Alert severity="success">Password Changed</Alert>}
