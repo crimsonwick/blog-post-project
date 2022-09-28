@@ -83,7 +83,7 @@ export const searchPosts = async (req, res) => {
     body: {
       query: {
         query_string: {
-          query: req.params.title,
+          query: req.query.title,
           default_field: "*",
         },
       },
@@ -116,5 +116,14 @@ export const myPosts = async (req, res) => {
     }
   } catch (error) {
     ErrorHandling(res);
+  }
+}
+
+export const searching = async (req, res) => {
+  try {
+    const { title } = req.query;
+    return res.json(title)
+  } catch (error) {
+    console.log(error)
   }
 }

@@ -23,6 +23,7 @@ function App() {
   const [getAccessToken, setAccessToken] = useState(null);
   const [getRefreshToken, setRefreshToken] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [searchData, setSearchData] = useState([]);
 
   useEffect(() => {
     WebFont.load({
@@ -40,7 +41,7 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{ parentTransfer, userData, userToken, getAccessToken, getRefreshToken, setRefreshToken, loggedIn, setLoggedIn }}>
+    <AppContext.Provider value={{ parentTransfer, userData, userToken, getAccessToken, getRefreshToken, setRefreshToken, loggedIn, setLoggedIn, searchData, setSearchData }}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>

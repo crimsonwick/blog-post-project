@@ -10,13 +10,14 @@ import { AppContext } from '../App';
 const Home = () => {
   const [data, setData] = useState([]);
 
-  const { loggedIn } = useContext(AppContext)
+  const { loggedIn, searchData } = useContext(AppContext)
   const allPosts = async () => {
     const details = await allPostsComing();
     setData(details.data)
   }
 
   useEffect(() => {
+
     allPosts();
   }, []);
   return (
@@ -28,11 +29,16 @@ const Home = () => {
         <Divider></Divider>
 
         <Box mt={5}>
-          {data && data.map((object) => {
+          {(data && searchData.length === 0) ? ((data.map((object) => {
             return (
-              <Article key={object._id} object={object} />
+              <Article key={object.id} object={object} />
             )
-          })}
+          }))
+          ) : (searchData.map((object) => {
+            return (
+              <Article key={object._source.id} object={object._source} />
+            )
+          }))}
         </Box>
         <Footer />
       </Container>
