@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import '../styles/Article/Article.css';
 import { Card, List } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
@@ -9,10 +9,11 @@ import flexContainer from '../styles/Article/List';
 import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Chip from '@mui/material/Chip';
-
 import { useLocation } from 'react-router-dom';
+import { AppContext } from '../App';
 
 const ArticleDetail = () => {
+  const { dp, userData } = useContext(AppContext);
   const location = useLocation();
   return (
     <Card
@@ -34,8 +35,12 @@ const ArticleDetail = () => {
         <ListItem className="user">
           <ListItemIcon>
             <Avatar
-              src=" https://cdns-images.dzcdn.net/images/artist/77220ccb5a36d0e5df2c9e47f2c89de4/500x500.jpg"
-              alt="spongebob"
+              // src={
+              //   dp
+              //     ? require(`../images/${dp}`)
+              //     : require(`../images/${userData.avatar}`)
+              // }
+              alt="user_dp"
             />
           </ListItemIcon>
           <ListItemText primary="Spongebob Squarepants" />
@@ -50,8 +55,8 @@ const ArticleDetail = () => {
         </ListItem>
       </List>
       <img
-        src={require(`../uploads/${location.state.object.image}`)}
-        alt="user_img"
+        // src={require(`../uploads/${location.state.object.image}`)}
+        alt="post_img"
         className="articleBigImg"
       />
       <Typography variant="h6" sx={{ width: '856px', marginTop: '10px' }}>

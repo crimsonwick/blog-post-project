@@ -5,9 +5,7 @@ import Divider from '@mui/material/Divider';
 import { AppContext } from '../App';
 import NavBar from '../components/NavBar';
 import { OutlinedInput } from '@mui/material';
-
 import { useForm, Controller } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { addPost } from '../services/LoginApi';

@@ -27,8 +27,8 @@ const ArticleCard = (props) => {
       }}
     >
       <img
-        // src={require(`../images/${props.object.Image}`)}
-        alt="user_image"
+        // src={require(`../uploads/${props.object.Image}`)}
+        alt="article_image"
         className="articleImg"
       />
       <Box mt={1}>

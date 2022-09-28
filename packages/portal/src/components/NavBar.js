@@ -44,13 +44,33 @@ const NavBar = ({ login }) => {
           component={Link}
           to="/"
           variant="h6"
-          sx={{ flex: 1 }}
+          sx={{
+            flex: 1,
+            textDecoration: 'none',
+            marginLeft: '5px',
+            fontWeight: '600',
+            textTransform: 'capitalize',
+          }}
           style={{ color: '#111111' }}
         >
           Home
         </Typography>
 
-        {login && <Link to="/my-articles">My Articles</Link>}
+        {login && (
+          <Button
+            component={Link}
+            to="/my-articles"
+            variant="contained"
+            color="secondary"
+            sx={{
+              marginLeft: '15px',
+              fontWeight: '600',
+              textTransform: 'capitalize',
+            }}
+          >
+            My Articles
+          </Button>
+        )}
 
         <Search sx={{ color: '#111111' }}>
           <SearchIconWrapper>
@@ -70,6 +90,11 @@ const NavBar = ({ login }) => {
             to="/create-article"
             variant="contained"
             color="secondary"
+            sx={{
+              fontWeight: '600',
+              textTransform: 'capitalize',
+              marginLeft: '15px',
+            }}
           >
             Create Article
           </Button>
