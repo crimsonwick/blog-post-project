@@ -1,28 +1,28 @@
-import React from "react";
-import { Box } from "@mui/system";
-import "../styles/Article/Article.css";
-import { Card, List } from "@mui/material";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Typography from "@mui/material/Typography";
-import flexContainer from "../styles/Article/List";
-import { Avatar } from "@mui/material";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
-import Chip from "@mui/material/Chip";
+import React from 'react';
+import { Box } from '@mui/system';
+import '../styles/Article/Article.css';
+import { Card, List } from '@mui/material';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+import flexContainer from '../styles/Article/List';
+import { Avatar } from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
+import Chip from '@mui/material/Chip';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const Article = (props) => {
   return (
     <Card
       elevation={10}
       sx={{
-        display: "flex",
-        allignItems: "centre",
-        marginTop: "20px",
-        maxHeight: "250px",
+        display: 'flex',
+        allignItems: 'centre',
+        marginTop: '20px',
+        maxHeight: '250px',
       }}
     >
       <img
@@ -65,9 +65,9 @@ const Article = (props) => {
         <Typography
           variant="h6"
           sx={{
-            display: "-webkit-box",
-            overflow: "hidden",
-            WebkitBoxOrient: "vertical",
+            display: '-webkit-box',
+            overflow: 'hidden',
+            WebkitBoxOrient: 'vertical',
             WebkitLineClamp: 1,
           }}
         >

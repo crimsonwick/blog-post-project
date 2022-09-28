@@ -30,13 +30,6 @@
   text-align: center;
 }
 
- /* .btn {
-  border-radius: 25px;
-  font-size: 18px;
-  text-transform: none;
-  text-decoration: none;
-} */
-
 .errorMsg{
   font: 15px 'Poppins' , sans-serif;
   color: red;

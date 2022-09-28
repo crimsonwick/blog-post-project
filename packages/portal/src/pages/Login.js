@@ -3,7 +3,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import FormLabel from '@mui/material/FormLabel';
@@ -16,14 +16,12 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { AppContext } from '../App';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
- import {  useNavigate } from "react-router-dom";
-import {useContext} from "react";
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
-import "../styles/signup.css"
+import '../styles/signup.css';
 import YupPassword from 'yup-password';
 YupPassword(yup);
-
-
 
 const schema = yup
   .object({
@@ -44,28 +42,32 @@ function Login() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer,userToken } = useContext(AppContext);
-  const [message,setMessage] = useState(false);
+  const { setUser, setAccessToken, setRefreshToken } = useContext(AppContext);
+  const [message, setMessage] = useState(false);
   const navigate = useNavigate();
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     const response = await getLoginDetails(data);
-    if(response.data.accessToken) {
-      userToken(response.data.accessToken)
-      const parsetoken = parseJwt(response.data.accessToken)
-      parentTransfer(parsetoken.user);
+
+    if (response.data.accessToken && response.data.refreshToken) {
+      setAccessToken(response.data.accessToken);
+      setRefreshToken(response.data.refreshToken);
+      const parsetoken = parseJwt(response.data.accessToken);
+      setUser(parsetoken.user);
+      localStorage.setItem('login', response.data.accessToken);
+      console.log('Access Token issued: ', response.data.accessToken);
       navigate('/my-articles');
-    }else{
-        setMessage(true);
+    } else {
+      setMessage(true);
     }
   };
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     showPassword: false,
   });
 
@@ -81,11 +83,11 @@ function Login() {
 
   return (
     <Container maxWidth="sm">
-      {message && <p style={{color: "red"}}>Wrong Credentials</p>}
+      {message && <p style={{ color: 'red' }}>Wrong Credentials</p>}
       <h1 className={styles.headingOne}>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor="my-input">Email address</FormLabel>{" "}
+        <FormLabel htmlFor="my-input">Email address</FormLabel>{' '}
         {/* <br />
         <br /> */}
         <Controller
@@ -98,6 +100,7 @@ function Login() {
             formState,
           }) => (
             <OutlinedInput
+              autoComplete="username"
               variant="outlined"
               color="secondary"
               onBlur={onBlur} // notify when input is touched
@@ -107,12 +110,14 @@ function Login() {
               sx={{
                 borderRadius: 18,
                 width: 550,
-                 marginBottom: 2,
+                marginBottom: 2,
               }}
             />
           )}
         />
-        {errors.email && <span className='errorMsg'>{errors.email.message}</span>}
+        {errors.email && (
+          <span className="errorMsg">{errors.email.message}</span>
+        )}
         <br />
         <FormLabel htmlFor="my-input">Password</FormLabel>
         {/* <br />
@@ -128,15 +133,15 @@ function Login() {
           }) => (
             <OutlinedInput
               variant="outlined"
+              autoComplete="current-password"
               color="secondary"
-              type={values.showPassword ? "text" : "password"}
+              type={values.showPassword ? 'text' : 'password'}
               value={values.password}
               onChange={onChange} // send value to hook form
               sx={{
                 borderRadius: 18,
                 width: 550,
                 marginBottom: 2,
-
               }}
               //              fullWidth
               endAdornment={
@@ -154,8 +159,10 @@ function Login() {
             />
           )}
         />
-        {errors.password && <span className='errorMsg'>{errors.password.message}</span>}
-        <Link to="/reset-password" sx={{color: "black"}}>
+        {errors.password && (
+          <span className="errorMsg">{errors.password.message}</span>
+        )}
+        <Link to="/reset-password" sx={{ color: 'black' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
@@ -168,7 +175,7 @@ function Login() {
           variant="contained"
           color="secondary"
           fullWidth
-          sx={{ borderRadius: 25, fontSize: "22px" }}
+          sx={{ borderRadius: 25, fontSize: '22px' }}
         >
           Log in
         </Button>
@@ -180,12 +187,15 @@ function Login() {
 
       <h3 className={styles.h3}>Don't have an account?</h3>
 
-      <Link to="/signup" style={{textDecoration: 'none'}}>
+      <Link to="/signup" style={{ textDecoration: 'none' }}>
         <Button
           fullWidth
           variant="outlined"
           color="secondary"
-          sx={{ borderRadius: "25px", fontSize: "22px" }}
+          sx={{
+            borderRadius: '25px',
+            fontSize: '22px',
+          }}
         >
           Sign up
         </Button>

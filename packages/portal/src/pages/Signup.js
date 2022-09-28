@@ -6,10 +6,9 @@ import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { getSignUpDetails } from '../services/LoginApi';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
-import "../styles/signup.css"
+import '../styles/signup.css';
 import YupPassword from 'yup-password';
 import '../styles/signup.css';
 import axios from 'axios';
@@ -18,8 +17,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Controller } from 'react-hook-form';
-import { OutlinedInput } from '@mui/material';
+import { OutlinedInput, ThemeProvider } from '@mui/material';
 import FormLabel from '@mui/material/FormLabel';
+import { theme } from '../themes/theme';
 YupPassword(yup);
 
 const Signup = () => {
@@ -41,15 +41,10 @@ const Signup = () => {
     control,
     formState: { errors },
   } = useForm({
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
-  // const onSubmit = async(data) => {
-  //   setData(data);
-  //   console.log(data);
-  //   const response = await getSignUpDetails(data);
-  //   alert(JSON.stringify(response.data))
-  // }
+
   const onSubmit = async (data) => {
     console.log(data);
     console.log(await axios.post('http://localhost:5000/user/signup', data));
@@ -79,7 +74,7 @@ const Signup = () => {
             <Alert severity="error">{data?.message}</Alert>
           )}
 
-          {data === "undefined Account Already Exists" && (
+          {data === 'undefined Account Already Exists' && (
             <Alert severity="error">Already Exists</Alert>
           )}
         </div>
@@ -100,7 +95,7 @@ const Signup = () => {
             control={control}
             placeholder="Enter your email address"
             variant="outlined"
-              color="secondary"
+            color="secondary"
           />
           <p className="errorMsg">{errors.email?.message}</p>
         </Box>
@@ -113,6 +108,7 @@ const Signup = () => {
           name="password"
           render={({ field }) => (
             <OutlinedInput
+              autoComplete="new-password"
               variant="outlined"
               color="secondary"
               type={values.showPassword ? 'text' : 'password'}
@@ -146,9 +142,11 @@ const Signup = () => {
           Use 8 or more characters with a mix of letters, numbers & symbols
         </FormLabel>
         <p className="errorMsg">{errors.password?.message}</p>
-        <Box mt={3}>
-          <InputButton name="Create An Account" />
-        </Box>
+        <ThemeProvider theme={theme}>
+          <Box mt={3}>
+            <InputButton name="Create An Account" />
+          </Box>
+        </ThemeProvider>
       </Box>
     </Container>
   );

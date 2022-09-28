@@ -18,9 +18,13 @@ import Logout from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
+import { logout } from '../services/LoginApi.js';
+import { AppContext } from '../App.js';
+import { useContext, useState } from 'react';
 
 const Navbar = ({ login }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { refreshToken, userData, dp } = useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,12 +32,25 @@ const Navbar = ({ login }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleLogout = async () => {
+    console.log(`revoking token: ${refreshToken}`);
+    const body = { data: { token: `${refreshToken}` } };
+    await logout(body);
+  };
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
-        <Link to="/">Home</Link>
+        {/* <Link to="/">Home</Link> */}
 
+        <Typography
+          component={Link}
+          to="/"
+          variant="h6"
+          sx={{ flex: 1 }}
+          style={{ color: '#111111' }}
+        >
+          Home
+        </Typography>
 
         {login && <Link to="/my-articles">My Articles</Link>}
 
@@ -92,7 +109,15 @@ const Navbar = ({ login }) => {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                <Avatar
+                  alt="user display picture"
+                  src={
+                    dp
+                      ? require(`../images/${dp}`)
+                      : require(`../images/${userData.avatar}`)
+                  }
+                  sx={{ width: 32, height: 32 }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -131,17 +156,27 @@ const Navbar = ({ login }) => {
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
               <Link
-                to="/change-password"
+                to="/account-details"
                 style={{ textDecoration: 'none', color: 'black' }}
               >
                 <MenuItem>
-                  <Avatar /> My account
+                  <Avatar
+                    alt="user display picture"
+                    src={
+                      dp
+                        ? require(`../images/${dp}`)
+                        : require(`../images/${userData.avatar}`)
+                    }
+                  />
+                  My account
                 </MenuItem>
               </Link>
-
               <Divider />
-
-              <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
+              <Link
+                to="/"
+                style={{ textDecoration: 'none', color: 'black' }}
+                onClick={handleLogout}
+              >
                 <MenuItem>
                   <ListItemIcon>
                     <Logout fontSize="small" />

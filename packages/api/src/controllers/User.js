@@ -1,16 +1,16 @@
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-import model from "../models";
-import { Op } from "sequelize";
-import { ErrorHandling } from "../middleware/Errors.js";
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import model from '../models';
+import { Op } from 'sequelize';
+import { ErrorHandling } from '../middleware/Errors.js';
 
 dotenv.config();
 const salt = bcrypt.genSaltSync(10);
 
 const { Users } = model;
 
-export var tokens = [];
+export let tokens = [];
 
 export const SignUp = async (req, res) => {
   const { email, password } = req.body;
@@ -25,7 +25,7 @@ export const SignUp = async (req, res) => {
     });
     if (checkAccount) return res.json(`${email} Account Already Exists`);
     else {
-      const userArray = {email: email, password: hasedPassword };
+      const userArray = { email: email, password: hasedPassword };
       const newUser = await Users.create(userArray);
       return res.json(newUser.dataValues);
     }
@@ -44,7 +44,7 @@ export const Login = async (req, res) => {
     const dbpassword = user.password;
     bcrypt.compare(password, dbpassword).then((match) => {
       if (!match) {
-        res.status(400).json({ error: "Wrong credentials." });
+        res.status(400).json({ error: 'Wrong credentials.' });
       } else {
         //Authorization
         const accessToken = generateAccessToken({ user });
@@ -63,6 +63,7 @@ export const Login = async (req, res) => {
     ErrorHandling(res);
   }
 };
+
 export const generateAccessToken = (user) => {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.EXPIRES_IN,
@@ -76,7 +77,6 @@ export const token = (req, res) => {
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
     if (error) return res.sendStatus(403);
     const accessToken = generateAccessToken({
-      name: user.name,
       email: user.email,
       password: user.password,
     });
@@ -87,4 +87,18 @@ export const token = (req, res) => {
 export const Logout = async (req, res) => {
   tokens = tokens.filter((token) => token !== req.body.token);
   return res.sendStatus(204);
+};
+
+export const UpdateUserAvatar = async (req, res) => {
+  const userId = req.params.userId;
+  const image = req.file.originalname;
+  try {
+    const user = await Users.findOne({ where: { id: userId } });
+    user.avatar = image;
+    await user.save();
+    return res.json({ image: image });
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
 };

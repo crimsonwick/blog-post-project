@@ -17,13 +17,12 @@ const InputField = (props) => {
       <Controller
         name={props.name}
         control={props.control}
-        // {...register(props.name)}
         render={({ field: { onChange, onBlur, value, ref } }) => (
           <OutlinedInput
+            autoComplete="username"
             variant="outlined"
             sx={{
               borderRadius: '20px',
-              fontFamily: 'Poppins',
               width: customWidth || '100%',
             }}
             placeholder={props.placeholder}

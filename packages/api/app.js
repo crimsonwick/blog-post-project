@@ -1,11 +1,11 @@
-import express from "express";
-import User from "./src/routes/User.js";
-import Post from "./src/routes/Post.js";
-import Comment from "./src/routes/Comment.js";
-import Pagination from "./src/routes/Pagination.js";
-import db from "./src/models/index.js";
-import client from "./src/config/elasticsearch.js";
-import dotenv from "dotenv";
+import express from 'express';
+import User from './src/routes/User.js';
+import Post from './src/routes/Post.js';
+import Comment from './src/routes/Comment.js';
+import Pagination from './src/routes/Pagination.js';
+import db from './src/models/index.js';
+import client from './src/config/elasticsearch.js';
+import dotenv from 'dotenv';
 import cors from 'cors';
 
 dotenv.config();
@@ -16,6 +16,7 @@ app.use('/user', User);
 app.use('/post', Post);
 app.use('/comment', Comment);
 app.use('/pagination', Pagination);
+
 client
   .info()
   .then(() => console.log('Application is Connected to ElasticSearch'))

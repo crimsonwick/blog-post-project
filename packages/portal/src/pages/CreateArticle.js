@@ -22,16 +22,15 @@ const schema = yup
 
 function CreateArticle() {
   const [image, setImage] = useState(null);
-  const { userData, getAccessToken } = useContext(AppContext);
+  const { userData, accessToken } = useContext(AppContext);
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: "",
-      //mins: "",
-      body: "",
+      title: '',
+      body: '',
     },
     resolver: yupResolver(schema),
   });
@@ -45,7 +44,7 @@ function CreateArticle() {
     formData.append("timetoRead", data.mins);
     const config = {
       headers: {
-        Authorization: `Bearer ${getAccessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await addPost(formData, config);
@@ -194,13 +193,13 @@ function CreateArticle() {
             variant="contained"
             color="secondary"
             fullWidth
-            sx={{ borderRadius: "25px", fontSize: "22px", width: "350px" }}
+            sx={{ borderRadius: '25px', fontSize: '22px', width: '350px' }}
           >
             Publish Article
           </Button>
         </form>
       </div>
-    </div>
+    </>
   );
 }
 
