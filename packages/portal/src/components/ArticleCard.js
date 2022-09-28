@@ -13,37 +13,66 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../App';
+import { parseDate } from '../services/LoginApi';
 
 const ArticleCard = (props) => {
   const { dp, userData } = useContext(AppContext);
   return (
     <Card
-      elevation={10}
-      sx={{
-        display: 'flex',
-        allignItems: 'centre',
-        marginTop: '20px',
-        maxHeight: '250px',
+      //   elevation={10}
+      //   sx={{
+      //     display: 'flex',
+      //     allignItems: 'centre',
+      //     marginTop: '20px',
+      //     maxHeight: '250px',
+      //   }}
+      // >
+      //   <img
+      //     // src={require(`../uploads/${props.object.Image}`)}
+      //     alt="article_image"
+      //     className="articleImg"
+      //   />
+      //   <Box mt={1}>
+      //     <Chip label="Travel" />
+
+      //     <Link
+      //       to="/article-detail"
+      //       state={props}
+      //       style={{ textDecoration: 'none', color: 'black' }}
+      //     >
+      //       <Typography variant="h4" component="h3">
+      //         {props.object.title}
+      //       </Typography>
+      //     </Link>
+
+      style={{
+        marginTop: '30px',
+        hieght: 'auto',
+        width: 'auto',
+        opacity: '100%',
+        border: 'none',
+        boxShadow: 'none',
       }}
+      //elevation={10}
+      sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
       <img
-        // src={require(`../uploads/${props.object.Image}`)}
-        alt="article_image"
+        src={require(`../uploads/${props.object.image}`)}
+        alt="user_image"
         className="articleImg"
+        style={{
+          borderRadius: '20px',
+          width: '300px',
+          height: '250px',
+          objectFit: 'fill',
+          marginRight: '50px',
+        }}
       />
       <Box mt={1}>
         <Chip label="Travel" />
-
-        <Link
-          to="/article-detail"
-          state={props}
-          style={{ textDecoration: 'none', color: 'black' }}
-        >
-          <Typography variant="h4" component="h3">
-            {props.object.title}
-          </Typography>
-        </Link>
-
+        <Typography variant="h4" component="h3">
+          {props.object.title}
+        </Typography>
         <List style={flexContainer}>
           <ListItem className="user">
             <ListItemIcon>
@@ -63,7 +92,7 @@ const ArticleCard = (props) => {
             <ListItemIcon>
               <CalendarTodayIcon />
             </ListItemIcon>
-            <ListItemText primary="12 September 2022" />
+            <ListItemText primary={parseDate(props.object.createdAt)} />
           </ListItem>
           <ListItem className="timeToRead">
             <ListItemIcon>
@@ -72,7 +101,7 @@ const ArticleCard = (props) => {
             <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
           </ListItem>
         </List>
-        <Typography
+        {/* <Typography
           variant="h6"
           sx={{
             display: '-webkit-box',
@@ -80,7 +109,8 @@ const ArticleCard = (props) => {
             WebkitBoxOrient: 'vertical',
             WebkitLineClamp: 1,
           }}
-        >
+        > */}
+        <Typography variant="h6" style={{ objectFit: 'fill' }}>
           {props.object.body}
         </Typography>
       </Box>

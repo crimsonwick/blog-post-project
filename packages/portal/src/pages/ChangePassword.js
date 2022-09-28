@@ -3,14 +3,16 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import NavBar from '../components/NavBar';
-import { OutlinedInput } from '@mui/material';
+import { OutlinedInput, Snackbar } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useForm, Controller } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
@@ -36,8 +38,8 @@ const schema = yup
       .minSymbols(1, 'Password must include atleast one symbol'),
   })
   .required();
-
 function ChangePassword() {
+  const [message, setMessage] = useState(false);
   const {
     control,
     handleSubmit,
@@ -49,40 +51,67 @@ function ChangePassword() {
     },
     resolver: yupResolver(schema),
   });
-
   const [values, setValues] = React.useState({
     showPassword: false,
   });
-
-  // const handleChange = (prop) => (event) => {
-  //   setValues({ ...values, [prop]: event.target.value });
-  // };
-
+  const location = useLocation();
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
     });
   };
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    // const token;
+    errors.password1 ? setMessage(false) : setMessage(true);
+    setMessage(true);
+    const token = new URLSearchParams(location.search);
+    const url = `http://localhost:5000/user/resetPassword/${token.get(
+      'token'
+    )}`;
+    console.log(data, 'correct data');
+    const options = {
+      method: 'PUT',
+      url: url,
+      data: { password1: data.password1, password2: data.password2 },
+    };
+    const response = await axios(options);
+    const record = response.data;
+    if (record.statusText === 'Success') {
+      toast.success(record.message);
+    } else {
+      toast.error(record.message);
+    }
     console.log(data);
   };
-
+  const onClose = () => {
+    setMessage(false);
+  };
   return (
     <div>
       <NavBar />
       <div className={styles.padding}>
+        {/* <Box maxWidth='400px'>
+          {message && <Alert severity="success">Password Changed</Alert>}
+        </Box> */}
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={message}
+          autoHideDuration={2000}
+          message="Password Changed"
+          onclose={onClose}
+        />
         <h1 className={styles.headingOne}>Account Settings</h1>
         <Divider />
         <h1 className={styles.headingOne2}>Change Password</h1>
         <label className={styles.grayLabel}>Type new password</label>
         <br />
-
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
             control={control}
@@ -174,10 +203,11 @@ function ChangePassword() {
               />
             )}
           />
-          {errors.password2 && (
+          {/* {errors.password2 && (
             <p className={styles.errorMsg}>{errors.password2.message}</p>
-          )}
+          )} */}
 
+          {errors.password2 && <p>{errors.password2.message}</p>}
           <br />
           <br />
           <br />
@@ -195,5 +225,4 @@ function ChangePassword() {
     </div>
   );
 }
-
 export default ChangePassword;

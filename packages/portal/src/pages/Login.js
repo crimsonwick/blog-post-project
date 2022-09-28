@@ -3,7 +3,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
+import { Alert, AlertTitle } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import FormLabel from '@mui/material/FormLabel';
@@ -35,6 +36,17 @@ const schema = yup
   })
   .required();
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FAILED':
+      return { Submitted: !state.Submitted, showMessage: state.showMessage };
+    case 'SUCCESS':
+      return { Submitted: !state.Submitted, showMessage: !state.showMessage };
+    default:
+      return { Submitted: state.Submitted, showMessage: state.showMessage };
+  }
+};
+
 function Login() {
   const {
     control,
@@ -48,44 +60,69 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { setUser, setAccessToken, setRefreshToken } = useContext(AppContext);
-  const [message, setMessage] = useState(false);
+  const { parentTransfer, userToken, setRefreshToken, setLoggedIn } =
+    useContext(AppContext);
+  const [state, dispatch] = useReducer(reducer, {
+    Submitted: false,
+    showMessage: false,
+  });
   const navigate = useNavigate();
   const onSubmit = async (data) => {
     const response = await getLoginDetails(data);
-
-    if (response.data.accessToken && response.data.refreshToken) {
-      setAccessToken(response.data.accessToken);
+    console.log(' i am in submit handler,', response);
+    if (response.data.accessToken) {
+      dispatch({ type: 'SUCCESS' });
+      userToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
+      setLoggedIn(true);
       const parsetoken = parseJwt(response.data.accessToken);
-      setUser(parsetoken.user);
+      parentTransfer(parsetoken.user);
       localStorage.setItem('login', response.data.accessToken);
       console.log('Access Token issued: ', response.data.accessToken);
-      navigate('/my-articles');
+      setTimeout(() => {
+        navigate('/');
+      }, 100);
     } else {
-      setMessage(true);
+      dispatch({ type: 'FAILED' });
+      setTimeout(() => {
+        navigate('/signup');
+      }, 1000);
     }
   };
-
-  const [values, setValues] = useState({
+  const [values, setValues] = React.useState({
     showPassword: false,
   });
-
   const handleClickShowPassword = () => {
     setValues({
       showPassword: !values.showPassword,
     });
   };
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
   return (
     <Container maxWidth="sm">
-      {message && <p style={{ color: 'red' }}>Wrong Credentials</p>}
+      {state.Submitted && state.showMessage && (
+        <Alert severity="success">
+          <AlertTitle>
+            {' '}
+            <strong>
+              Account <strong>LoggedIn</strong> Successfully
+            </strong>
+          </AlertTitle>
+          You can add up<strong> Your Posts</strong> Now!
+        </Alert>
+      )}
+      {state.Submitted && !state.showMessage && (
+        <Alert severity="error">
+          <AlertTitle>
+            {' '}
+            <strong>Account Not Created</strong>
+          </AlertTitle>
+          You need to <strong> Sign Up </strong>your Account!
+        </Alert>
+      )}
       <h1 className={styles.headingOne}>Log In</h1>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel htmlFor="my-input">Email address</FormLabel>{' '}
         {/* <br />
@@ -159,10 +196,8 @@ function Login() {
             />
           )}
         />
-        {errors.password && (
-          <span className="errorMsg">{errors.password.message}</span>
-        )}
-        <Link to="/reset-password" sx={{ color: 'black' }}>
+        {errors.password && <p>{errors.password.message}</p>}
+        <Link to="/reset-password" style={{ color: 'black' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
@@ -180,14 +215,11 @@ function Login() {
           Log in
         </Button>
       </form>
-
       <br />
       <br />
       <Divider />
-
       <h3 className={styles.h3}>Don't have an account?</h3>
-
-      <Link to="/signup" style={{ textDecoration: 'none' }}>
+      <Link to="/signup" style={{ textDecoration: 'none', color: 'black' }}>
         <Button
           fullWidth
           variant="outlined"
@@ -204,5 +236,4 @@ function Login() {
     </Container>
   );
 }
-
 export default Login;

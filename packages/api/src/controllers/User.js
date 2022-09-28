@@ -2,8 +2,12 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import model from '../models';
-import { Op } from 'sequelize';
+
 import { ErrorHandling } from '../middleware/Errors.js';
+import sgMail from '@sendgrid/mail';
+
+const sendGridKey = process.env.SENDGRID_KEY;
+const resetSecret = process.env.RESET_PASSWORD_KEY;
 
 dotenv.config();
 const salt = bcrypt.genSaltSync(10);
@@ -18,9 +22,7 @@ export const SignUp = async (req, res) => {
   try {
     const checkAccount = await Users.findOne({
       where: {
-        email: {
-          [Op.eq]: email,
-        },
+        email: email,
       },
     });
     if (checkAccount) return res.json(`${email} Account Already Exists`);
@@ -30,7 +32,7 @@ export const SignUp = async (req, res) => {
       return res.json(newUser.dataValues);
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -40,11 +42,13 @@ export const Login = async (req, res) => {
     const user = await Users.findOne({
       where: { email: email },
     });
-    if (!user) res.status(400).json({ error: "User Doesn't exist" });
+    if (!user) {
+      return ErrorHandling(res, 404);
+    }
     const dbpassword = user.password;
     bcrypt.compare(password, dbpassword).then((match) => {
       if (!match) {
-        res.status(400).json({ error: 'Wrong credentials.' });
+        return ErrorHandling(res, 401);
       } else {
         //Authorization
         const accessToken = generateAccessToken({ user });
@@ -60,7 +64,7 @@ export const Login = async (req, res) => {
       }
     });
   } catch (err) {
-    ErrorHandling(res);
+    ErrorHandling(err, 500);
   }
 };
 
@@ -100,5 +104,86 @@ export const UpdateUserAvatar = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
+  }
+};
+export const ForgetPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // look for email in database
+    const user = await Users.findOne({
+      where: { email: email },
+    });
+    // if there is no user send back an error
+    if (!user) {
+      return res.status(404).json({ error: 'Invalid email' });
+    }
+    // otherwise we need to create a temporary token that expires in 10 mins
+    const resetLink = jwt.sign({ user: user.email }, resetSecret, {
+      expiresIn: '1200s',
+    });
+    user.resetLink = resetLink;
+    await user.save();
+
+    // we'll define this function below
+    sendEmail(user, resetLink);
+    return res.status(200).json({ message: 'Check your email' });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+function sendEmail(user, token) {
+  sgMail.setApiKey(sendGridKey);
+
+  const msg = {
+    to: user.email,
+    from: 'talha.shakil@kwanso.com', // your email
+    subject: 'Reset password requested',
+    html: `
+     <a href="${process.env.clientURL}/change-password?token=${token}">${token}</a>
+   `,
+  };
+
+  sgMail.send(msg);
+  console.log('Email sent');
+}
+
+export const ResetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    // Get the token from params
+    const { password1, password2 } = req.body;
+    const resetLink = token;
+
+    const user = await Users.findOne({
+      where: {
+        resetLink,
+      },
+    });
+
+    // if there is no user, send back an error
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: 'We could not find a match for this link' });
+    }
+
+    jwt.verify(token, resetSecret, (error) => {
+      if (error) {
+        return res.status(400).json({ message: 'token is invalid' });
+      }
+    });
+    if (password1 === password2) {
+      const hashPassword = bcrypt.hashSync(password1, 8);
+      // update user credentials and remove the temporary link from database before saving
+      user.password = hashPassword;
+      user.resetLink = null;
+      await user.save();
+
+      return res.status(200).json({ message: 'Password updated' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

@@ -7,6 +7,8 @@ import {
   token,
   Logout,
   UpdateUserAvatar,
+  ResetPassword,
+  ForgetPassword,
 } from '../controllers/User.js';
 import { Authentication } from '../middleware/Authentication.js';
 
@@ -22,10 +24,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+router.get('/refreshAccess', token);
+router.post('/forgetPassword', ForgetPassword);
+router.put('/resetPassword/:token', ResetPassword);
 router.put('/:userId', Authentication, upload.single('file'), UpdateUserAvatar);
 router.post('/signup', SignUp);
 router.post('/login', Login);
-router.get('/refreshAccess', token);
 router.delete('/logout', Logout);
-
-export default router;

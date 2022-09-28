@@ -22,6 +22,9 @@ function App() {
   const [userData, setUserData] = useState({});
   const [refreshToken, setRefreshToken] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [searchData, setSearchData] = useState([]);
+
   useEffect(() => {
     WebFont.load({
       google: {
@@ -45,6 +48,10 @@ function App() {
         setRefreshToken,
         accessToken,
         refreshToken,
+        loggedIn,
+        setLoggedIn,
+        searchData,
+        setSearchData,
       }}
     >
       <ThemeProvider theme={theme}>

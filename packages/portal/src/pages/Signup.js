@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
-import Alert from '@mui/material/Alert';
+// import Alert from '@mui/material/Alert';
 import '../styles/signup.css';
 import YupPassword from 'yup-password';
 import '../styles/signup.css';
@@ -20,7 +20,22 @@ import { Controller } from 'react-hook-form';
 import { OutlinedInput, ThemeProvider } from '@mui/material';
 import FormLabel from '@mui/material/FormLabel';
 import { theme } from '../themes/theme';
+
+import { getSignUpDetails } from '../services/LoginApi';
+import { useReducer } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Alert, AlertTitle } from '@mui/material';
 YupPassword(yup);
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FAILED':
+      return { Submitted: !state.Submitted, showMessage: state.showMessage };
+    case 'SUCCESS':
+      return { Submitted: !state.Submitted, showMessage: !state.showMessage };
+    default:
+      return { Submitted: state.Submitted, showMessage: state.showMessage };
+  }
+};
 
 const Signup = () => {
   const [data, setData] = useState();
@@ -36,6 +51,8 @@ const Signup = () => {
       .required(),
   });
 
+  const navigate = useNavigate();
+
   const {
     handleSubmit,
     control,
@@ -44,11 +61,6 @@ const Signup = () => {
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
-
-  const onSubmit = async (data) => {
-    console.log(data);
-    console.log(await axios.post('http://localhost:5000/user/signup', data));
-  };
 
   //*hide pw functionality
   const [values, setValues] = useState({
@@ -66,20 +78,41 @@ const Signup = () => {
     event.preventDefault();
   };
 
+  const [state, dispatch] = useReducer(reducer, {
+    Submitted: false,
+    showMessage: false,
+  });
+  const onSubmit = async (data) => {
+    const responsed = await getSignUpDetails(data);
+    if (responsed.data.id === undefined) {
+      dispatch({ type: 'FAILED' });
+    } else {
+      dispatch({ type: 'SUCCESS' });
+      setTimeout(() => {
+        navigate('/login');
+      }, 1000);
+    }
+  };
   return (
     <Container maxWidth="sm">
-      {data && (
-        <div>
-          {data.message !== undefined && (
-            <Alert severity="error">{data?.message}</Alert>
-          )}
-
-          {data === 'undefined Account Already Exists' && (
-            <Alert severity="error">Already Exists</Alert>
-          )}
-        </div>
+      {state.Submitted && state.showMessage && (
+        <Alert severity="success">
+          <AlertTitle>
+            {' '}
+            <strong>Account Created Successfully</strong>
+          </AlertTitle>
+          You need to <strong> Login </strong>your Account Now!
+        </Alert>
       )}
-
+      {state.Submitted && !state.showMessage && (
+        <Alert severity="error">
+          <AlertTitle>
+            {' '}
+            <strong>Account Not Created</strong>
+          </AlertTitle>
+          Try anyother email for <strong> Sign Up </strong>your Account!
+        </Alert>
+      )}
       <Box>
         <Header
           heading="Create An Account"
