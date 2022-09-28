@@ -1,16 +1,16 @@
-import React,{ useContext,useState } from 'react';
-import styles from '../styles/CreateArticle/CreateArticle.module.css';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import { AppContext } from '../App';
-import Navbar from '../components/Navbar';
-import { OutlinedInput } from '@mui/material';
+import React, { useContext, useState } from "react";
+import styles from "../styles/CreateArticle/CreateArticle.module.css";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import { AppContext } from "../App";
+import Navbar from "../components/Navbar";
+import { OutlinedInput } from "@mui/material";
 
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { addPost } from '../services/LoginApi';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { addPost } from "../services/LoginApi";
 
 const schema = yup
   .object({
@@ -21,8 +21,8 @@ const schema = yup
   .required();
 
 function CreateArticle() {
-   const [image,setImage] = useState(null);
-  const { userData,getAccessToken } = useContext(AppContext);
+  const [image, setImage] = useState(null);
+  const { userData, getAccessToken } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -36,18 +36,20 @@ function CreateArticle() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     let formData = new FormData();
-    formData.append('userId',userData.id)
-    formData.append('title',data.title)
-    formData.append('body',data.body)
-    formData.append('file',image)
-    formData.append('timetoRead',data.mins)
-    const config = {headers: {
-      "Authorization" : `Bearer ${getAccessToken}`
-    }}
-     const response = await addPost(formData,config);
-     console.log(response);
+    formData.append("userId", userData.id);
+    formData.append("title", data.title);
+    formData.append("body", data.body);
+    formData.append("file", image);
+    formData.append("timetoRead", data.mins);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getAccessToken}`,
+      },
+    };
+    const response = await addPost(formData, config);
+    console.log(response);
   };
 
   const handleFileChange = (event) => {
@@ -57,7 +59,7 @@ function CreateArticle() {
 
   return (
     <div>
-      <Navbar login ={true} />
+      <Navbar login={true} />
       <div className={styles.padding}>
         <h1 className={styles.headingOne}>Create New Article</h1>
         <Divider light />
@@ -94,8 +96,10 @@ function CreateArticle() {
               />
             )}
           />
-          <br/>
-          {errors.title && <span className={styles.errorMsg}>{errors.title.message}</span>}
+          <br />
+          {errors.title && (
+            <span className={styles.errorMsg}>{errors.title.message}</span>
+          )}
 
           <br />
 
@@ -126,8 +130,10 @@ function CreateArticle() {
               />
             )}
           />
-          <br/>
-          {errors.mins && <span className={styles.errorMsg}>{errors.mins.message}</span>}
+          <br />
+          {errors.mins && (
+            <span className={styles.errorMsg}>{errors.mins.message}</span>
+          )}
 
           <br />
           <br />
@@ -163,24 +169,23 @@ function CreateArticle() {
             )}
           />
 
-          <br/>
-          {errors.body && <span className={styles.errorMsg}>{errors.body.message}</span>}
+          <br />
+          {errors.body && (
+            <span className={styles.errorMsg}>{errors.body.message}</span>
+          )}
 
           <br />
           <br />
 
-          <Button
-  variant="contained"
-  component="label"
->
-  Upload
-  <input
-    type="file"
-    name='file'
-    hidden
-    onChange={(event) => handleFileChange(event)}
-  />
-</Button>
+          <Button variant="contained" component="label">
+            Upload
+            <input
+              type="file"
+              name="file"
+              hidden
+              onChange={(event) => handleFileChange(event)}
+            />
+          </Button>
           <br />
           <br />
           <br />
