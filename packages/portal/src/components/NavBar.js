@@ -61,8 +61,8 @@ const Navbar = ({ login }) => {
         <div style={{ display: 'flex' }}>
 
           <Search >
-
             <SearchIconWrapper style={{
+
               borderBottomLeftRadius: '5px',
               borderBottomRightRadius: '5px',
               borderTopLeftRadius: '5px',
