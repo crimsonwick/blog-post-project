@@ -25,7 +25,7 @@ const Article = (props) => {
 
       <img src={require(`../uploads/${props.object.image}`)} alt="user_image" className="articleImg" style={{
         borderRadius: '20px',
-        width: '400px',
+        width: '300px',
         height: '250px',
         objectFit: 'fill',
         marginRight: '50px'
