@@ -3,7 +3,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { Alert, AlertTitle } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
@@ -60,7 +60,7 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { parentTransfer, userToken, setRefreshToken, setLoggedIn } =
+  const { setUser, setAccessToken, setRefreshToken, setLoggedIn } =
     useContext(AppContext);
   const [state, dispatch] = useReducer(reducer, {
     Submitted: false,
@@ -72,11 +72,11 @@ function Login() {
     console.log(' i am in submit handler,', response);
     if (response.data.accessToken) {
       dispatch({ type: 'SUCCESS' });
-      userToken(response.data.accessToken);
+      setAccessToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
       setLoggedIn(true);
       const parsetoken = parseJwt(response.data.accessToken);
-      parentTransfer(parsetoken.user);
+      setUser(parsetoken.user);
       localStorage.setItem('login', response.data.accessToken);
       console.log('Access Token issued: ', response.data.accessToken);
       setTimeout(() => {

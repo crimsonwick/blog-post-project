@@ -57,7 +57,7 @@ const ArticleCard = (props) => {
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
       <img
-        src={require(`../uploads/${props.object.image}`)}
+        // src={require(`../uploads/${props.object.image}`)}
         alt="user_image"
         className="articleImg"
         style={{

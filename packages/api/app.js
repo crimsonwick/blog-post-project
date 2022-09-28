@@ -16,7 +16,7 @@ app.use('/user', User);
 app.use('/post', Post);
 app.use('/comment', Comment);
 app.use('/pagination', Pagination);
-
+module.exports = app;
 client
   .info()
   .then(() => console.log('Application is Connected to ElasticSearch'))

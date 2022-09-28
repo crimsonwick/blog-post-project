@@ -31,3 +31,5 @@ router.put('/:userId', Authentication, upload.single('file'), UpdateUserAvatar);
 router.post('/signup', SignUp);
 router.post('/login', Login);
 router.delete('/logout', Logout);
+
+export default router;
