@@ -2,7 +2,7 @@ import styles from '../styles/ChangePassword/ChangePassword.module.css';
 import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import { OutlinedInput } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -15,7 +15,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 YupPassword(yup);
-
 
 const schema = yup
   .object({
@@ -30,7 +29,8 @@ const schema = yup
     password2: yup
       .string()
       .required()
-      .oneOf([yup.ref('password1'), null], 'Passwords must match')      .min(8)
+      .oneOf([yup.ref('password1'), null], 'Passwords must match')
+      .min(8)
       .max(20)
       .minUppercase(1, 'Password must include atleast one upper-case letter')
       .minSymbols(1, 'Password must include atleast one symbol'),
@@ -75,7 +75,7 @@ function ChangePassword() {
 
   return (
     <div>
-      <Navbar/>
+      <NavBar />
       <div className={styles.padding}>
         <h1 className={styles.headingOne}>Account Settings</h1>
         <Divider />
@@ -108,7 +108,7 @@ function ChangePassword() {
                 }}
                 fullWidth
                 variant="outlined"
-              color="secondary"
+                color="secondary"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -125,7 +125,9 @@ function ChangePassword() {
               />
             )}
           />
-          {errors.password1 && <p className={styles.errorMsg}>{errors.password1.message}</p>}
+          {errors.password1 && (
+            <p className={styles.errorMsg}>{errors.password1.message}</p>
+          )}
           <br />
           <br />
           <br />
@@ -155,7 +157,7 @@ function ChangePassword() {
                 }}
                 fullWidth
                 variant="outlined"
-              color="secondary"
+                color="secondary"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -172,7 +174,9 @@ function ChangePassword() {
               />
             )}
           />
-          {errors.password2 && <p className={styles.errorMsg}>{errors.password2.message}</p>}
+          {errors.password2 && (
+            <p className={styles.errorMsg}>{errors.password2.message}</p>
+          )}
 
           <br />
           <br />

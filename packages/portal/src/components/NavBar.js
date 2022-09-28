@@ -22,7 +22,7 @@ import { logout } from '../services/LoginApi.js';
 import { AppContext } from '../App.js';
 import { useContext, useState } from 'react';
 
-const Navbar = ({ login }) => {
+const NavBar = ({ login }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { refreshToken, userData, dp } = useContext(AppContext);
   const open = Boolean(anchorEl);
@@ -40,8 +40,6 @@ const Navbar = ({ login }) => {
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
-        {/* <Link to="/">Home</Link> */}
-
         <Typography
           component={Link}
           to="/"
@@ -111,11 +109,11 @@ const Navbar = ({ login }) => {
               >
                 <Avatar
                   alt="user display picture"
-                  src={
-                    dp
-                      ? require(`../images/${dp}`)
-                      : require(`../images/${userData.avatar}`)
-                  }
+                  // src={
+                  //   dp
+                  //     ? require(`../images/${dp}`)
+                  //     : require(`../images/${userData.avatar}`)
+                  // }
                   sx={{ width: 32, height: 32 }}
                 />
               </IconButton>
@@ -162,11 +160,11 @@ const Navbar = ({ login }) => {
                 <MenuItem>
                   <Avatar
                     alt="user display picture"
-                    src={
-                      dp
-                        ? require(`../images/${dp}`)
-                        : require(`../images/${userData.avatar}`)
-                    }
+                    // src={
+                    //   dp
+                    //     ? require(`../images/${dp}`)
+                    //     : require(`../images/${userData.avatar}`)
+                    // }
                   />
                   My account
                 </MenuItem>
@@ -192,4 +190,4 @@ const Navbar = ({ login }) => {
   );
 };
 
-export default Navbar;
+export default NavBar;

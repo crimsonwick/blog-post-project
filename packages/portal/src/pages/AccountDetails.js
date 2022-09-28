@@ -3,7 +3,7 @@ import { Box, Container } from '@mui/system';
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../App';
 import BasicTable from '../components/BasicTable';
-import NavBarX from '../components/NavBarX';
+import NavBar from '../components/NavBar';
 import { parseJwt } from '../services/LoginApi';
 
 const AccountDetails = () => {
@@ -44,7 +44,7 @@ const AccountDetails = () => {
 
   return (
     <>
-      <NavBarX login={true} />
+      <NavBar login={true} />
       <Container maxWidth="xl">
         <Box sx={{ marginTop: '20px' }}>
           <Typography sx={{ fontFamily: 'Poppins', fontSize: '20px' }}>

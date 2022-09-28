@@ -1,10 +1,9 @@
-import Navbar from "../components/Navbar";
+import NavBar from '../components/NavBar';
 
 const Page404 = () => {
   return (
     <>
-    
-    <Navbar login={true}></Navbar>
+      <NavBar login={true} />
       <h1>404</h1>
     </>
   );

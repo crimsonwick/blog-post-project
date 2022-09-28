@@ -1,21 +1,21 @@
-import React, { useContext, useState } from "react";
-import styles from "../styles/CreateArticle/CreateArticle.module.css";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import { AppContext } from "../App";
-import Navbar from "../components/Navbar";
-import { OutlinedInput } from "@mui/material";
+import React, { useContext, useState } from 'react';
+import styles from '../styles/CreateArticle/CreateArticle.module.css';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import { AppContext } from '../App';
+import NavBar from '../components/NavBar';
+import { OutlinedInput } from '@mui/material';
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from 'react-hook-form';
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { addPost } from "../services/LoginApi";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { addPost } from '../services/LoginApi';
 
 const schema = yup
   .object({
     title: yup.string().required(),
-    mins: yup.number().typeError("Must be a number").required(),
+    mins: yup.number().typeError('Must be a number').required(),
     body: yup.string().required(),
   })
   .required();
@@ -37,11 +37,11 @@ function CreateArticle() {
 
   const onSubmit = async (data) => {
     let formData = new FormData();
-    formData.append("userId", userData.id);
-    formData.append("title", data.title);
-    formData.append("body", data.body);
-    formData.append("file", image);
-    formData.append("timetoRead", data.mins);
+    formData.append('userId', userData.id);
+    formData.append('title', data.title);
+    formData.append('body', data.body);
+    formData.append('file', image);
+    formData.append('timetoRead', data.mins);
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -57,8 +57,8 @@ function CreateArticle() {
   };
 
   return (
-    <div>
-      <Navbar login={true} />
+    <>
+      <NavBar login={true} />
       <div className={styles.padding}>
         <h1 className={styles.headingOne}>Create New Article</h1>
         <Divider light />

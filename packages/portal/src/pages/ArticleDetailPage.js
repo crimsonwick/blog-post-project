@@ -1,6 +1,6 @@
 import { Container } from '@mui/system';
 import React from 'react';
-import NavBarX from '../components/NavBarX';
+import NavBar from '../components/NavBar';
 import Comment from '../components/Comment';
 import { Box } from '@mui/material';
 import ArticleDetail from '../components/ArticleDetail';
@@ -9,10 +9,10 @@ import AddComment from '../components/AddComment';
 const ArticleDetailPage = () => {
   return (
     <>
-      <NavBarX login={true} />
+      <NavBar login={true} />
       <Container maxWidth="lg">
         {/* <button onClick={() => alert(JSON.stringify(location.state.object))}> */}
-        Click ME!
+        {/* Click ME! */}
         {/* </button> */}
         {/* <button onClick={() => alert(JSON.stringify(data))}>Click ME 2</button> */}
         <Box mb={5}>
