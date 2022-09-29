@@ -31,13 +31,14 @@ const Comment = (props) => {
       <Box sx={{ display: 'flex', allignItems: 'left' }}>
         <List>
           <ListItem>
-            <ListItemIcon>
-              <Avatar
-                url=" https://cdns-images.dzcdn.net/images/artist/77220ccb5a36d0e5df2c9e47f2c89de4/500x500.jpg"
-                alt="user-avatar"
-              ></Avatar>
-            </ListItemIcon>
-            <ListItemText sx={{ marginRight: '10px' }}>spongebob</ListItemText>
+          <ListItemIcon>
+            <Avatar
+              src={require(`../images/patrick.jpeg`)
+              }
+              alt="user_dp"
+            />
+          </ListItemIcon>
+            <ListItemText sx={{ marginRight: '10px' }}>Spongebob</ListItemText>
             <ListItemText>3 Min Ago</ListItemText>
           </ListItem>
         </List>

@@ -132,6 +132,7 @@ export const getRepliesfromOnePost = async(req,res) => {
                 model: Users,
                 as: 'Commented_By'
             }
+
       })
   return res.json(AllComments)
   } catch (error) {

@@ -25,7 +25,7 @@ const router = express.Router();
 router.post('/', Authentication, upload.single('file'), AddPost);
 router.put('/:id/:pid', Authentication, updatePosts);
 router.delete('/:id/:pid', Authentication, deletePosts);
-router.get('/:title', searchPosts);
+router.get('/:id', searchPosts);
 router.get("/comments/:id",getRepliesfromOnePost);
 router.get('/', Authentication, myPosts);
 
