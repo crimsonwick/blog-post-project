@@ -13,26 +13,18 @@ const MyArticles = () => {
   const [array, setArray] = useState([]);
   const { accessToken } = useContext(AppContext);
 
-  const allPosts = async () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-    const details = await gettingPosts(config);
-    if (details.data.length) setArray(details.data);
-  };
-
-  // useEffect(() => {
-  //   const data = localStorage.getItem('LANDING_PAGE_POSTS_DATA');
-  //   if (data !== null) setArray(JSON.parse(data));
-  // }, []);
-
   useEffect(() => {
+    const allPosts = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      const details = await gettingPosts(config);
+      if (details.data.length) setArray(details.data);
+    }
     allPosts();
-    // console.log('API was called');
-    // window.localStorage.setItem('MY_ARTICLES_PAGE_DATA', JSON.stringify(array));
-  }, []);
+  }, [accessToken,setArray]);
   return (
     <>
       <NavBar login={true} />

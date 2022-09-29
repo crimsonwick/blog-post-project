@@ -2,7 +2,7 @@ import model from '../models';
 import client from '../config/elasticsearch.js';
 import { ErrorHandling } from '../middleware/Errors.js';
 
-const { Users, Posts } = model;
+const { Users, Posts,Comments } = model;
 
 export const AddPost = async (req, res) => {
   const { userId, title, body, timetoRead } = req.body;
@@ -119,11 +119,22 @@ export const myPosts = async (req, res) => {
   }
 }
 
-export const searching = async (req, res) => {
+
+export const getRepliesfromOnePost = async(req,res) => {
   try {
-    const { title } = req.query;
-    return res.json(title)
+      const AllComments = await Comments.findAll({
+          where: {
+              postId: req.params.id,
+              parentId: null
+          }
+          ,
+            include: {
+                model: Users,
+                as: 'Commented_By'
+            }
+      })
+  return res.json(AllComments)
   } catch (error) {
-    console.log(error)
+      console.log(error)
   }
 }

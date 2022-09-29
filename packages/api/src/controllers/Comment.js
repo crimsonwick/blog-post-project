@@ -1,7 +1,7 @@
 import model from '../models';
 import { ErrorHandling } from '../middleware/Errors.js';
 
-const { Comments } = model;
+const { Comments,Users } = model;
 
 export const addComment = async(req,res) => {
     const { postId, userId,body } = req.body;
@@ -66,17 +66,20 @@ export const addReply = async(req,res) => {
     }
 }
 
-export const getCommentByPostId = async(req,res) => {
+export const getRepliesfromOneComment = async(req,res) => {
     const { id } = req.params;
     try {
-        const getC = await Comments.findAll({
+        const response = await Comments.findAll({
             where: {
-                postId: id,
-                parentId: null
+                parentId: id
+            },
+            include: {
+                model: Users,
+                as: 'Commented_By'
             }
         })
-        return res.json(getC)
+        return res.json(response)
     } catch (error) {
-        ErrorHandling(res);
+        console.log(error)
     }
 }

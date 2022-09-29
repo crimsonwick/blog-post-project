@@ -3,9 +3,9 @@ import {
   addComment,
   addReply,
   deleteComment,
-  getCommentByPostId,
   getComments,
   getRepliesfromComment,
+  getRepliesfromOneComment,
   updateComment,
 } from '../controllers/Comment.js';
 const router = express.Router();
@@ -16,5 +16,6 @@ router.put('/:id', updateComment);
 router.delete('/:id', deleteComment);
 router.get('/replies', getRepliesfromComment);
 router.post('/addReply', addReply);
+router.get("/reply/:id",getRepliesfromOneComment);
 
 export default router;

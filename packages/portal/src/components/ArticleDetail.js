@@ -9,12 +9,10 @@ import flexContainer from '../styles/Article/List';
 import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Chip from '@mui/material/Chip';
-import { useLocation } from 'react-router-dom';
 import { AppContext } from '../App';
 
-const ArticleDetail = () => {
-  const { dp, userData } = useContext(AppContext);
-  const location = useLocation();
+const ArticleDetail = (props) => {
+  const { dp } = useContext(AppContext);
   return (
     <Card
       mt={1}
@@ -29,17 +27,17 @@ const ArticleDetail = () => {
         component="h3"
         sx={{ width: '856px', marginTop: '10px' }}
       >
-        {location.state.object.title}
+        {props.object.title}
       </Typography>
       <List style={flexContainer}>
         <ListItem className="user">
           <ListItemIcon>
             <Avatar
-              // src={
-              //   dp
-              //     ? require(`../images/${dp}`)
-              //     : require(`../images/${userData.avatar}`)
-              // }
+              src={
+                dp
+                  ? require(`../images/${dp}`)
+                  : require(`../images/spongebob.jpeg`)
+              }
               alt="user_dp"
             />
           </ListItemIcon>
@@ -50,17 +48,17 @@ const ArticleDetail = () => {
             <CalendarTodayIcon />
           </ListItemIcon>
           <ListItemText
-            primary={`${location.state.object.timetoRead} Min. To Read`}
+            primary={`${props.object.timetoRead} Min. To Read`}
           />
         </ListItem>
       </List>
       <img
-        // src={require(`../uploads/${location.state.object.image}`)}
+         src={require(`../uploads/${props.object.image}`)}
         alt="post_img"
         className="articleBigImg"
       />
       <Typography variant="h6" sx={{ width: '856px', marginTop: '10px' }}>
-        {location.state.object.body}
+        {props.object.body}
       </Typography>
     </Card>
   );

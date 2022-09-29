@@ -82,7 +82,7 @@ function App() {
                 )
               }
             />
-            {/* <Route
+            <Route
               path="/my-articles"
               element={
                 accessToken ? (
@@ -91,7 +91,7 @@ function App() {
                   <Navigate replace to={'/login'} />
                 )
               }
-            /> */}
+            />
             <Route
               path="/article-detail"
               element={
