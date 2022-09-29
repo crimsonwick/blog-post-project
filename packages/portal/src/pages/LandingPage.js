@@ -39,6 +39,7 @@ const Home = () => {
               <Article key={object._source.id} object={object._source} />
             )
           }))}
+
         </Box>
         <Footer />
       </Container>
