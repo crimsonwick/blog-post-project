@@ -27,6 +27,8 @@ export const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 export const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  borderColor: 'black',
+  fontVariant: 'outlined',
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),

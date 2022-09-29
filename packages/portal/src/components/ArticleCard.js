@@ -19,32 +19,6 @@ const ArticleCard = (props) => {
   const { dp, userData } = useContext(AppContext);
   return (
     <Card
-      //   elevation={10}
-      //   sx={{
-      //     display: 'flex',
-      //     allignItems: 'centre',
-      //     marginTop: '20px',
-      //     maxHeight: '250px',
-      //   }}
-      // >
-      //   <img
-      //     // src={require(`../uploads/${props.object.Image}`)}
-      //     alt="article_image"
-      //     className="articleImg"
-      //   />
-      //   <Box mt={1}>
-      //     <Chip label="Travel" />
-
-      //     <Link
-      //       to="/article-detail"
-      //       state={props}
-      //       style={{ textDecoration: 'none', color: 'black' }}
-      //     >
-      //       <Typography variant="h4" component="h3">
-      //         {props.object.title}
-      //       </Typography>
-      //     </Link>
-
       style={{
         marginTop: '30px',
         hieght: 'auto',
@@ -53,11 +27,10 @@ const ArticleCard = (props) => {
         border: 'none',
         boxShadow: 'none',
       }}
-      //elevation={10}
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
       <img
-        // src={require(`../uploads/${props.object.image}`)}
+        src={require(`../images/${props.object.image}`)}
         alt="user_image"
         className="articleImg"
         style={{
@@ -70,23 +43,32 @@ const ArticleCard = (props) => {
       />
       <Box mt={1}>
         <Chip label="Travel" />
-        <Typography variant="h4" component="h3">
-          {props.object.title}
-        </Typography>
+        <Link
+          to="/article-detail"
+          state={props}
+          style={{ textDecoration: 'none', color: 'black' }}
+        >
+          <Typography variant="h4" component="h3">
+            {props.object.title}
+          </Typography>
+        </Link>
+
         <List style={flexContainer}>
           <ListItem className="user">
             <ListItemIcon>
               <Avatar
                 alt="user display picture"
-                // src={
-                //   dp
-                //     ? require(`../images/${dp}`)
-                //     : require(`../images/${userData.avatar}`)
-                // }
+                src={
+                  dp
+                    ? require(`../images/${dp}`)
+                    : userData.avatar
+                    ? require(`../images/${userData.avatar}`)
+                    : ''
+                }
                 sx={{ width: 32, height: 32 }}
               />
             </ListItemIcon>
-            <ListItemText primary="Spongebob Squarepants" />
+            <ListItemText primary={`${props.object.userId}`} />
           </ListItem>
           <ListItem className="date">
             <ListItemIcon>
@@ -101,15 +83,6 @@ const ArticleCard = (props) => {
             <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
           </ListItem>
         </List>
-        {/* <Typography
-          variant="h6"
-          sx={{
-            display: '-webkit-box',
-            overflow: 'hidden',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 1,
-          }}
-        > */}
         <Typography variant="h6" style={{ objectFit: 'fill' }}>
           {props.object.body}
         </Typography>

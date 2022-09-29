@@ -21,7 +21,7 @@ const schema = yup
 
 function CreateArticle() {
   const [image, setImage] = useState(null);
-  const { userData, getAccessToken } = useContext(AppContext);
+  const { userData, accessToken } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -45,7 +45,7 @@ function CreateArticle() {
     formData.append('timetoRead', data.mins);
     const config = {
       headers: {
-        Authorization: `Bearer ${getAccessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     await addPost(formData, config);
