@@ -11,7 +11,7 @@ import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
-import { parseDate } from '../services/LoginApi';
+import { parseDate, parseName } from '../services/LoginApi';
 import { Link } from 'react-router-dom';
 
 
@@ -34,11 +34,11 @@ const ArticleCard = (props) => {
           <ListItem className="user">
             <ListItemIcon>
               <Avatar
-                src={"../images/sponegbob.jpeg"}
+                src={require(`../images/${props.object.Posted_By.avatar}`)}
                 alt="spongebob"
               />
             </ListItemIcon>
-            <ListItemText primary="Spongebob Squarepants" />
+            <ListItemText primary={parseName(props.object.Posted_By.email)}/>
           </ListItem>
           <ListItem className="date">
             <ListItemIcon>

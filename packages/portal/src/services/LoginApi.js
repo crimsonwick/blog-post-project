@@ -107,3 +107,9 @@ export const getComments = async(id) => {
 export const getReply = async(id) => {
     return await axios.get(`${baseURL}/comment/reply/${id}`);
 }
+
+export const parseName = (str) => {
+  let nameField = str.split('@');
+  nameField = nameField[0];
+  return nameField;
+}

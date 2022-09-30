@@ -10,6 +10,7 @@ import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Chip from '@mui/material/Chip';
 import { AppContext } from '../App';
+import { parseName } from '../services/LoginApi';
 
 const ArticleDetail = (props) => {
   const { dp } = useContext(AppContext);
@@ -36,12 +37,12 @@ const ArticleDetail = (props) => {
               src={
                 dp
                   ? require(`../images/${dp}`)
-                  : require(`../images/squidward.jpeg`)
+                  : require(`../images/${props.object.Posted_By.avatar}`)
               }
               alt="user_dp"
             />
           </ListItemIcon>
-          <ListItemText primary="Spongebob Squarepants" />
+          <ListItemText primary={parseName(props.object.Posted_By.email)} />
         </ListItem>
         <ListItem className="date">
           <ListItemIcon>

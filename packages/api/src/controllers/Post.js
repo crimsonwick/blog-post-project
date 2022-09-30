@@ -14,9 +14,18 @@ export const AddPost = async (req, res) => {
       image: req.file.originalname,
       timetoRead: timetoRead
     });
+    const readNewPost = await Posts.findOne({
+      where: {
+        id: addNewPost.id
+      },
+      include: {
+        model: Users,
+        as: 'Posted_By'
+      }
+    })
     const C_post = await client.index({
       index: "posts",
-      body: addNewPost,
+      body: readNewPost,
     });
     return res.json(C_post);
   } catch (error) {
