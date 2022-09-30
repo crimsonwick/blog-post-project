@@ -36,7 +36,7 @@ const ArticleDetail = (props) => {
               src={
                 dp
                   ? require(`../images/${dp}`)
-                  : require(`../images/spongebob.jpeg`)
+                  : require(`../images/squidward.jpeg`)
               }
               alt="user_dp"
             />

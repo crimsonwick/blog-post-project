@@ -98,6 +98,14 @@ export const searchPosts = async (req, res) => {
 }
 
 export const myPosts = async (req, res) => {
+  let query = {
+    index: "posts",
+    body: {
+        query: {
+            match: {"userId": req.query.userId}
+        }
+    }
+  };
   try {
     const LoginDetails = await Users.findAll({
       where: {
@@ -106,13 +114,9 @@ export const myPosts = async (req, res) => {
     })
     if (!LoginDetails) return res.json(`Un Authorized Access`)
     else {
-      const myPosts = await Posts.findAll({
-        where: {
-          userId: LoginDetails[0].id
-        }
-      });
+      const myPosts = await client.search(query);
       if (!myPosts) return res.json(`You haven't Posted Anything!!`);
-      else return res.json(myPosts);
+      else return res.json(myPosts.body.hits.hits);
     }
   } catch (error) {
     ErrorHandling(res);
@@ -126,13 +130,11 @@ export const getRepliesfromOnePost = async(req,res) => {
           where: {
               postId: req.params.id,
               parentId: null
-          }
-          ,
+          },
             include: {
                 model: Users,
                 as: 'Commented_By'
             }
-
       })
   return res.json(AllComments)
   } catch (error) {

@@ -33,8 +33,8 @@ export const addPost = async (object, config) => {
   return await axios.post(`${baseURL}/post`, object, config);
 };
 
-export const gettingPosts = async (config) => {
-  return await axios.get(`${baseURL}/post`, config);
+export const gettingPosts = async (config,userId) => {
+  return await axios.get(`${baseURL}/post?userId=${userId}`, config);
 };
 
 export const allPostsComing = async () => {

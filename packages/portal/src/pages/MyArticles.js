@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import { Divider, Typography } from '@mui/material';
 import NavBar from '../components/NavBar';
 import { useState, useEffect, useContext } from 'react';
-import { gettingPosts } from '../services/LoginApi';
+import { gettingPosts, parseJwt } from '../services/LoginApi';
 import { AppContext } from '../App';
 
 const MyArticles = () => {
@@ -20,7 +20,8 @@ const MyArticles = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       };
-      const details = await gettingPosts(config);
+      const userDetails = parseJwt(accessToken);
+      const details = await gettingPosts(config,userDetails.user.id);
       if (details.data.length) setArray(details.data);
     }
     allPosts();
@@ -36,7 +37,7 @@ const MyArticles = () => {
         <Box mt={5}>
           {array.length !== 0 ? (
             array.map((object) => {
-              return <ArticleCard key={object.id} object={object} />;
+              return <ArticleCard key={object._source.id} object={object._source} />;
             })
           ) : (
             <Typography sx={{ fontFamily: 'Poppins' }}>

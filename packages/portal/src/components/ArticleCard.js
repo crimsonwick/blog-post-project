@@ -34,7 +34,7 @@ const ArticleCard = (props) => {
           <ListItem className="user">
             <ListItemIcon>
               <Avatar
-                src="	https://cdns-images.dzcdn.net/images/artist/77220ccb5a36d0e5df2c9e47f2c89de4/500x500.jpg"
+                src={"../images/sponegbob.jpeg"}
                 alt="spongebob"
               />
             </ListItemIcon>
