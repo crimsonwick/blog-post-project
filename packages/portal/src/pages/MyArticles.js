@@ -36,7 +36,7 @@ const MyArticles = () => {
   return (
     <>
       <NavBar login={true} />
-      <Container maxWidth="lg" sx={{ position: 'relative', marginY: 20 }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', marginY: 10 }}>
         <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>
           My Articles
         </h1>

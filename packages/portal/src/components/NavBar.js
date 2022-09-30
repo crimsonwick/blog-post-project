@@ -64,24 +64,28 @@ const Navbar = ({ login }) => {
               // flexShrink: 0,
               // flexBasis: '70px',
               color: '#111111',
+              textDecoration: 'none',
             }}
           >
             Home
           </Typography>
           {login && (
-            <Button
+            <Typography
               component={Link}
               to="/my-articles"
-              variant="contained"
-              color="secondary"
+              variant="h6"
               sx={{
                 marginLeft: '15px',
                 fontWeight: '600',
                 textTransform: 'capitalize',
+                textDecoration: 'none',
+                paddingLeft: '20px',
+                fontWeight: '600',
+                color: '#111111',
               }}
             >
               My Articles
-            </Button>
+            </Typography>
           )}
           <Search sx={{ color: '#111111' }}>
             <SearchIconWrapper>

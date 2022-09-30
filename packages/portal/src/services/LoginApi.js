@@ -38,7 +38,7 @@ export const gettingPosts = async (config) => {
 };
 
 export const allPostsComing = async () => {
-  return await axios.get(`${baseURL}/pagination/allPosts`);
+  return await axios.get(`${baseURL}/pagination/all-posts`);
 };
 
 export const logout = async (body) => {

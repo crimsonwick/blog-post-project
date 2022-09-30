@@ -183,7 +183,6 @@ function Login() {
                 width: 550,
                 marginBottom: 2,
               }}
-              //              fullWidth
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -213,7 +212,14 @@ function Login() {
           variant="contained"
           color="secondary"
           fullWidth
-          sx={{ borderRadius: 25, fontSize: '22px' }}
+          sx={{
+            borderRadius: '25px',
+            fontSize: '18px',
+            marginTop: '25px',
+            height: '56px',
+            textTransform: 'capitalize',
+            fontWeight: 'bold',
+          }}
         >
           Log in
         </Button>
@@ -229,7 +235,11 @@ function Login() {
           color="secondary"
           sx={{
             borderRadius: '25px',
-            fontSize: '22px',
+            fontSize: '18px',
+            marginTop: '25px',
+            height: '56px',
+            textTransform: 'capitalize',
+            fontWeight: 'bold',
           }}
         >
           Sign up

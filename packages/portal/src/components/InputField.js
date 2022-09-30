@@ -22,7 +22,7 @@ const InputField = (props) => {
             autoComplete="username"
             variant="outlined"
             sx={{
-              borderRadius: '20px',
+              borderRadius: '25px',
               width: customWidth || '100%',
             }}
             placeholder={props.placeholder}

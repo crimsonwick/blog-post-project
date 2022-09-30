@@ -15,6 +15,6 @@ router.post('/', addComment);
 router.put('/:id', updateComment);
 router.delete('/:id', deleteComment);
 router.get('/replies', getRepliesfromComment);
-router.post('/addReply', addReply);
+router.post('/add-reply', addReply);
 
 export default router;

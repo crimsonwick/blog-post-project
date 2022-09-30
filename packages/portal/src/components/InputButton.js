@@ -8,10 +8,10 @@ const InputButton = (props) => {
       type="submit"
       variant="contained"
       sx={{
-        borderRadius: '20px',
         width: customWidth || '100%',
         fontFamily: ['Poppins', 'serif'].join(','),
-        fontSize: 18,
+        borderRadius: '25px',
+        fontSize: '18px',
         marginTop: '25px',
         height: '56px',
         textTransform: 'capitalize',

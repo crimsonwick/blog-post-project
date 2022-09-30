@@ -15,12 +15,14 @@ const Header = (props) => {
       <h1 style={{ textAlign: 'center', margin: 0 }}>{props.heading}</h1>
       <p style={{ textAlign: 'center', margin: 0, color: 'black' }}>
         {props.desc}
-        <Link
-          to={props.link}
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          Log in
-        </Link>
+        {props.link && (
+          <Link
+            to={props.link}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            Log in
+          </Link>
+        )}
       </p>
     </Box>
   );

@@ -62,8 +62,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             {/* <Route path="/my-articles" element={<MyArticles />} /> */}
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route
-              path="/change-password"
+            <Route path="/change-password" element={<ChangePassword />} />
+            {/* <Route
+              path="/forgetPassword"
               element={
                 accessToken ? (
                   <Protected Component={ChangePassword} />
@@ -71,7 +72,7 @@ function App() {
                   <Navigate replace to={'/login'} />
                 )
               }
-            />
+            /> */}
             <Route
               path="/create-article"
               element={

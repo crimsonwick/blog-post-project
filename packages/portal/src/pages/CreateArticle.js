@@ -158,7 +158,9 @@ function CreateArticle() {
                 checked={value}
                 inputRef={ref}
                 multiline
-                maxRows={Infinity}
+                minRows={7}
+                maxRows={7}
+                size="large"
                 sx={{
                   borderRadius: 5,
                   marginBottom: 3,

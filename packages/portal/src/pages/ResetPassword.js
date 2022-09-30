@@ -31,7 +31,7 @@ function ResetPassword() {
   });
   const [message, setMessage] = useState(false);
   const onSubmit = async (data) => {
-    const url = 'http://localhost:5000/user/forgetPassword';
+    const url = 'http://localhost:5000/user/forget-password';
     console.log(data, 'correct data');
     const options = {
       method: 'POST',
@@ -50,58 +50,60 @@ function ResetPassword() {
     //navigate("/login");
   };
   return (
-    <>
-      {/* <Navbar login={true}></Navbar> */}
-      <Container maxWidth="sm">
-        {message && (
-          <Alert severity="success">Password Reset - Check your email</Alert>
-        )}
-        <h1 className={styles.headingOne}>Reset Password</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormLabel htmlFor="my-input">Email address</FormLabel>{' '}
-          <Controller
-            control={control}
-            name="email"
-            rules={{ required: true }}
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
-              formState,
-            }) => (
-              <OutlinedInput
-                variant="outlined"
-                color="secondary"
-                onBlur={onBlur} // notify when input is touched
-                onChange={onChange} // send value to hook form
-                checked={value}
-                inputRef={ref}
-                sx={{
-                  borderRadius: 18,
-                  width: 550,
-                  marginBottom: 2,
-                }}
-              />
-            )}
-          />
-          {errors.email && (
-            <span className="errorMsg">{errors.email.message}</span>
+    <Container maxWidth="sm">
+      {message && (
+        <Alert severity="success">Password Reset - Check your email</Alert>
+      )}
+      <h1 className={styles.headingOne}>Reset Password</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormLabel htmlFor="my-input">Email address</FormLabel>
+        <Controller
+          control={control}
+          name="email"
+          rules={{ required: true }}
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState: { invalid, isTouched, isDirty, error },
+            formState,
+          }) => (
+            <OutlinedInput
+              variant="outlined"
+              color="secondary"
+              onBlur={onBlur} // notify when input is touched
+              onChange={onChange} // send value to hook form
+              checked={value}
+              inputRef={ref}
+              sx={{
+                borderRadius: 18,
+                width: 550,
+                marginBottom: 2,
+              }}
+            />
           )}
-          <br />
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            fullWidth
-            sx={{ borderRadius: 25, fontSize: '22px' }}
-          >
-            Send OTP
-          </Button>
-        </form>
+        />
+        {errors.email && (
+          <span className="errorMsg">{errors.email.message}</span>
+        )}
         <br />
-        <br />
-        <br />
-      </Container>
-    </>
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          fullWidth
+          sx={{
+            marginTop: '10px',
+            borderRadius: '25px',
+            fontSize: '22px',
+            textTransform: 'capitalize',
+          }}
+        >
+          Send Email
+        </Button>
+      </form>
+      <br />
+      <br />
+      <br />
+    </Container>
   );
 }
 export default ResetPassword;
