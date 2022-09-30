@@ -60,7 +60,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/my-articles" element={<MyArticles />} />
+            {/* <Route path="/my-articles" element={<MyArticles />} /> */}
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route
               path="/change-password"
@@ -82,7 +82,7 @@ function App() {
                 )
               }
             />
-            {/* <Route
+            <Route
               path="/my-articles"
               element={
                 accessToken ? (
@@ -91,7 +91,7 @@ function App() {
                   <Navigate replace to={'/login'} />
                 )
               }
-            /> */}
+            />
             <Route
               path="/article-detail"
               element={
