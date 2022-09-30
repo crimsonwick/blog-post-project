@@ -15,7 +15,12 @@ export const addComment = async(req,res) => {
 
 export const getComments = async(req,res) => {
     try {
-        const getAll = await Comments.findAll();
+        const getAll = await Comments.findAll({
+            include: {
+                model: Users,
+                as: 'Commented_By'
+            }
+        });
         res.json(getAll);
     } catch (error) {
         ErrorHandling(res);
@@ -80,6 +85,6 @@ export const getRepliesfromOneComment = async(req,res) => {
         })
         return res.json(response)
     } catch (error) {
-        console.log(error)
+        ErrorHandling(res)
     }
 }

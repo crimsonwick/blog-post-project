@@ -29,7 +29,7 @@ export const AddPost = async (req, res) => {
     });
     return res.json(C_post);
   } catch (error) {
-    console.log(error)
+    ErrorHandling(res)
   }
 }
 
@@ -147,6 +147,6 @@ export const getRepliesfromOnePost = async(req,res) => {
       })
   return res.json(AllComments)
   } catch (error) {
-      console.log(error)
+      ErrorHandling(res)
   }
 }

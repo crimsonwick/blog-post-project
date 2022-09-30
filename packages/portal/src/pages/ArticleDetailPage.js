@@ -16,11 +16,11 @@ const ArticleDetailPage = () => {
   const [data,setData] = useState([])
 
  
+  const allComments = async(id) => {
+    const response = await getComments(id);
+    setData(response.data)
+  }
   useEffect(() => {
-    const allComments = async(id) => {
-      const response = await getComments(id);
-      setData(response.data)
-    }
     allComments(object.id)
   },[object])
   return (
@@ -31,7 +31,7 @@ const ArticleDetailPage = () => {
           <ArticleDetail object={object}/>
         </Box>
         <Box>
-          <AddComment />
+          <AddComment object={object} refreshComment={allComments} Comment={true}/>
         </Box>
         <Box mt={3}>
          {data.map((o) => {
