@@ -24,9 +24,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.get('/refreshAccess', token);
-router.post('/forgetPassword', ForgetPassword);
-router.put('/resetPassword/:token', ResetPassword);
+router.get('/refresh-access', token);
+router.post('/forget-password', ForgetPassword);
+router.put('/reset-password', ResetPassword);
 router.put('/:userId', Authentication, upload.single('file'), UpdateUserAvatar);
 router.post('/signup', SignUp);
 router.post('/login', Login);

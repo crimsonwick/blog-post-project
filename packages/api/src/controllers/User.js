@@ -151,7 +151,7 @@ function sendEmail(user, token) {
 
 export const ResetPassword = async (req, res) => {
   try {
-    const { token } = req.params;
+    const { token } = req.query;
     // Get the token from params
     const { password1, password2 } = req.body;
     const resetLink = token;

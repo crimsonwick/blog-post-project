@@ -60,10 +60,11 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/my-articles" element={<MyArticles />} />
+            {/* <Route path="/my-articles" element={<MyArticles />} /> */}
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route
-              path="/change-password"
+            <Route path="/change-password" element={<ChangePassword />} />
+            {/* <Route
+              path="/forgetPassword"
               element={
                 accessToken ? (
                   <Protected Component={ChangePassword} />
@@ -71,7 +72,7 @@ function App() {
                   <Navigate replace to={'/login'} />
                 )
               }
-            />
+            /> */}
             <Route
               path="/create-article"
               element={
@@ -82,7 +83,7 @@ function App() {
                 )
               }
             />
-            {/* <Route
+            <Route
               path="/my-articles"
               element={
                 accessToken ? (
@@ -91,7 +92,7 @@ function App() {
                   <Navigate replace to={'/login'} />
                 )
               }
-            /> */}
+            />
             <Route
               path="/article-detail"
               element={

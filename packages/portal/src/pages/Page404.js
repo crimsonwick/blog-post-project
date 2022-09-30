@@ -1,12 +1,7 @@
-import NavBar from '../components/NavBar';
+import Header from '../components/Header';
 
 const Page404 = () => {
-  return (
-    <>
-      <NavBar login={true} />
-      <h1>404</h1>
-    </>
-  );
+  return <Header heading="404" />;
 };
 
 export default Page404;

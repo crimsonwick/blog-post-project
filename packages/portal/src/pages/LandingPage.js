@@ -37,7 +37,7 @@ const Home = () => {
         <NavBar style={{ position: 'fixed' }} />
       )}
 
-      <Container sx={{ marginY: 20 }}>
+      <Container sx={{ marginY: 10 }}>
         <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>
           Recent Posts
         </h1>

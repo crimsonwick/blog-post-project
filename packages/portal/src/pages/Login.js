@@ -68,25 +68,28 @@ function Login() {
   });
   const navigate = useNavigate();
   const onSubmit = async (data) => {
-    const response = await getLoginDetails(data);
-    console.log(' i am in submit handler,', response);
-    if (response.data.accessToken) {
-      dispatch({ type: 'SUCCESS' });
-      setAccessToken(response.data.accessToken);
-      setRefreshToken(response.data.refreshToken);
-      setLoggedIn(true);
-      const parsetoken = parseJwt(response.data.accessToken);
-      setUser(parsetoken.user);
-      localStorage.setItem('login', response.data.accessToken);
-      console.log('Access Token issued: ', response.data.accessToken);
-      setTimeout(() => {
-        navigate('/');
-      }, 100);
-    } else {
-      dispatch({ type: 'FAILED' });
-      setTimeout(() => {
-        navigate('/signup');
-      }, 1000);
+    try {
+      const response = await getLoginDetails(data);
+      console.log(' i am in submit handler,', response);
+      if (response.data.accessToken) {
+        dispatch({ type: 'SUCCESS' });
+        setAccessToken(response.data.accessToken);
+        setRefreshToken(response.data.refreshToken);
+        setLoggedIn(true);
+        const parsetoken = parseJwt(response.data.accessToken);
+        setUser(parsetoken.user);
+        localStorage.setItem('login', response.data.accessToken);
+        setTimeout(() => {
+          navigate('/');
+        }, 100);
+      } else {
+        dispatch({ type: 'FAILED' });
+        setTimeout(() => {
+          navigate('/signup');
+        }, 1000);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   const [values, setValues] = React.useState({
@@ -180,7 +183,6 @@ function Login() {
                 width: 550,
                 marginBottom: 2,
               }}
-              //              fullWidth
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -210,7 +212,14 @@ function Login() {
           variant="contained"
           color="secondary"
           fullWidth
-          sx={{ borderRadius: 25, fontSize: '22px' }}
+          sx={{
+            borderRadius: '25px',
+            fontSize: '18px',
+            marginTop: '25px',
+            height: '56px',
+            textTransform: 'capitalize',
+            fontWeight: 'bold',
+          }}
         >
           Log in
         </Button>
@@ -226,7 +235,11 @@ function Login() {
           color="secondary"
           sx={{
             borderRadius: '25px',
-            fontSize: '22px',
+            fontSize: '18px',
+            marginTop: '25px',
+            height: '56px',
+            textTransform: 'capitalize',
+            fontWeight: 'bold',
           }}
         >
           Sign up
@@ -236,4 +249,5 @@ function Login() {
     </Container>
   );
 }
+
 export default Login;

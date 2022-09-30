@@ -11,7 +11,7 @@ import { useState } from 'react';
 import '../styles/signup.css';
 import YupPassword from 'yup-password';
 import '../styles/signup.css';
-import axios from 'axios';
+// import axios from 'axios';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
@@ -20,7 +20,6 @@ import { Controller } from 'react-hook-form';
 import { OutlinedInput, ThemeProvider } from '@mui/material';
 import FormLabel from '@mui/material/FormLabel';
 import { theme } from '../themes/theme';
-
 import { getSignUpDetails } from '../services/LoginApi';
 import { useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -98,7 +97,6 @@ const Signup = () => {
       {state.Submitted && state.showMessage && (
         <Alert severity="success">
           <AlertTitle>
-            {' '}
             <strong>Account Created Successfully</strong>
           </AlertTitle>
           You need to <strong> Login </strong>your Account Now!
@@ -107,7 +105,6 @@ const Signup = () => {
       {state.Submitted && !state.showMessage && (
         <Alert severity="error">
           <AlertTitle>
-            {' '}
             <strong>Account Not Created</strong>
           </AlertTitle>
           Try anyother email for <strong> Sign Up </strong>your Account!
@@ -148,7 +145,7 @@ const Signup = () => {
               value={values.password}
               {...field}
               sx={{
-                borderRadius: '20px',
+                borderRadius: '25px',
                 fontFamily: 'Poppins',
                 width: '100%',
               }}

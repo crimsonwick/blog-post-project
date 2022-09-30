@@ -35,11 +35,11 @@ const ArticleDetail = () => {
         <ListItem className="user">
           <ListItemIcon>
             <Avatar
-              // src={
-              //   dp
-              //     ? require(`../images/${dp}`)
-              //     : require(`../images/${userData.avatar}`)
-              // }
+              src={
+                dp
+                  ? require(`../images/${dp}`)
+                  : require(`../images/${userData.avatar}`)
+              }
               alt="user_dp"
             />
           </ListItemIcon>
@@ -55,7 +55,7 @@ const ArticleDetail = () => {
         </ListItem>
       </List>
       <img
-        // src={require(`../uploads/${location.state.object.image}`)}
+        src={require(`../images/${location.state.object.image}`)}
         alt="post_img"
         className="articleBigImg"
       />
