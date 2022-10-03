@@ -18,14 +18,20 @@ import Logout from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
+
+
+import { logout } from '../services/LoginApi.js';
+
 import { useContext, useState } from 'react';
 import { AppContext } from '../App.js';
-import { searchAPI, logout } from '../services/LoginApi.js';
+import { searchAPI } from '../services/LoginApi.js';
 import { Typography } from '@mui/material';
 
-const Navbar = ({ login }) => {
+
+const Navbar = ({ login, active }) => {
+  // const [active, setActive] = useState(true)
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setLoggedIn, setSearchData, refreshToken, userData, dp } =
+  const { setLoggedIn, refreshToken, userData, dp } =
     useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -33,14 +39,6 @@ const Navbar = ({ login }) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleKeyDown = async (event) => {
-    const response = await searchAPI(event.target.value);
-    setSearchData(response.data);
-  };
-  const handleChange = (event) => {
-    [event.target.name] = [event.target.value]
   };
   const handleLogout = async () => {
     try {
@@ -63,7 +61,7 @@ const Navbar = ({ login }) => {
             sx={{
               // flex: 1,
               marginLeft: '5px',
-              fontWeight: '600',
+              fontWeight: '100',
               textTransform: 'capitalize',
               // flexGrow: 0,
               // flexShrink: 0,
@@ -80,12 +78,15 @@ const Navbar = ({ login }) => {
               to="/my-articles"
               variant="h6"
               sx={{
-                marginLeft: '15px',
-                fontWeight: '600',
+                // flex: 1,
+                marginLeft: '50px',
+                fontWeight: '100',
                 textTransform: 'capitalize',
-                textDecoration: 'none',
-                paddingLeft: '20px',
+                // flexGrow: 0,
+                // flexShrink: 0,
+                // flexBasis: '70px',
                 color: '#111111',
+                textDecoration: 'none',
               }}
             >
               My Articles
@@ -233,7 +234,7 @@ const Navbar = ({ login }) => {
           </div>
         )}
       </Toolbar>
-    </AppBar>
+    </AppBar >
 
   );
 };

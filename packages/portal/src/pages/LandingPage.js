@@ -6,6 +6,8 @@ import ArticleCard from '../components/ArticleCard';
 import Footer from '../components/Footer';
 import { allPostsComing } from '../services/LoginApi';
 import { AppContext } from '../App';
+import PaginatedItems from "../components/PaginatedItems"
+
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -32,7 +34,7 @@ const Home = () => {
           Recent Posts
         </h1>
         <Divider />
-        <Box mt={5}>
+        {/* <Box mt={5}>
           {data && searchData.length === 0
             ? data.map((object) => {
               return <ArticleCard key={object.id} object={object} />;
@@ -45,8 +47,25 @@ const Home = () => {
                 />
               );
             })}
+                return (
+                  <ArticleCard
+                    key={object._source.id}
+                    object={object._source}
+                  />
+                );
+              })}
+        </Box> */}
+        <Box mt={5}>
+          {(Array.isArray(data) && searchData.length === 0) ? //((data.map((object) => {
+            // <Article key={object.id} object={object} />
+            <PaginatedItems data={data} />
+            : (searchData.map((object) => {
+              return (
+                <ArticleCard key={object._source.id} object={object._source} />
+              )
+            }))}
         </Box>
-        <Footer />
+        {/* <Footer /> */}
       </Container>
     </>
   );
