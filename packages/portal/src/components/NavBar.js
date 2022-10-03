@@ -48,9 +48,9 @@ const Navbar = ({ login }) => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ background: '#FFFFFF' }}>
-        <Toolbar>
+    <AppBar position="static" style={{ background: '#FFFFFF' }}>
+      <Toolbar>
+        <Box sx={{ flexGrow: 1 }}>
           <Typography
             component={Link}
             to="/"
@@ -87,64 +87,118 @@ const Navbar = ({ login }) => {
               My Articles
             </Typography>
           )}
-          <Search sx={{ color: '#111111' }}>
-            <SearchIconWrapper>
-              <SearchIcon sx={{ color: '#111111' }} />
-            </SearchIconWrapper>
+        </Box>
+        <Search sx={{ color: '#111111' }}>
+          <SearchIconWrapper>
+            <SearchIcon sx={{ color: '#111111' }} />
+          </SearchIconWrapper>
 
-            <StyledInputBase
-              sx={{ color: '#111111' }}
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          {login && (
+          <StyledInputBase
+            sx={{ color: '#111111' }}
+            placeholder="Search…"
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </Search>
+        {login && (
+          <Button
+            component={Link}
+            to="/create-article"
+            variant="contained"
+            color="secondary"
+            sx={{
+              fontWeight: '600',
+              textTransform: 'capitalize',
+              marginLeft: '15px',
+            }}
+          >
+            Create Article
+          </Button>
+        )}
+        {!login && (
+          <div>
             <Button
               component={Link}
-              to="/create-article"
+              to="/login"
+              variant="contained"
+              color="primary"
+              sx={{ marginRight: '10px' }}
+            >
+              Login
+            </Button>
+            <Button
+              component={Link}
+              to="/signup"
               variant="contained"
               color="secondary"
-              sx={{
-                fontWeight: '600',
-                textTransform: 'capitalize',
-                marginLeft: '15px',
-              }}
             >
-              Create Article
+              Sign Up
             </Button>
-          )}
-          {!login && (
-            <div>
-              <Button
-                component={Link}
-                to="/login"
-                variant="contained"
-                color="primary"
-                sx={{ marginRight: '10px' }}
+          </div>
+        )}
+        {login && (
+          <div>
+            <Tooltip title="Account settings">
+              <IconButton
+                onClick={handleClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={open ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
               >
-                Login
-              </Button>
-              <Button
-                component={Link}
-                to="/signup"
-                variant="contained"
-                color="secondary"
+                <Avatar
+                  alt="user display picture"
+                  src={
+                    dp
+                      ? require(`../images/${dp}`)
+                      : userData.avatar
+                        ? require(`../images/${userData.avatar}`)
+                        : ''
+                  }
+                  sx={{ width: 32, height: 32 }}
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  '&:before': {
+                    content: '""',
+                    display: 'block',
+                    position: 'absolute',
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: 'background.paper',
+                    transform: 'translateY(-50%) rotate(45deg)',
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+              <Link
+                to="/account-details"
+                style={{ textDecoration: 'none', color: 'black' }}
               >
-                Sign Up
-              </Button>
-            </div>
-          )}
-          {login && (
-            <div>
-              <Tooltip title="Account settings">
-                <IconButton
-                  onClick={handleClick}
-                  size="small"
-                  sx={{ ml: 2 }}
-                  aria-controls={open ? 'account-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                >
+                <MenuItem>
                   <Avatar
                     alt="user display picture"
                     src={
@@ -154,82 +208,29 @@ const Navbar = ({ login }) => {
                           ? require(`../images/${userData.avatar}`)
                           : ''
                     }
-                    sx={{ width: 32, height: 32 }}
                   />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={open}
-                onClose={handleClose}
-                onClick={handleClose}
-                PaperProps={{
-                  elevation: 0,
-                  sx: {
-                    overflow: 'visible',
-                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                    mt: 1.5,
-                    '& .MuiAvatar-root': {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                    '&:before': {
-                      content: '""',
-                      display: 'block',
-                      position: 'absolute',
-                      top: 0,
-                      right: 14,
-                      width: 10,
-                      height: 10,
-                      bgcolor: 'background.paper',
-                      transform: 'translateY(-50%) rotate(45deg)',
-                      zIndex: 0,
-                    },
-                  },
-                }}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                  My account
+                </MenuItem>
+              </Link>
+              <Divider />
+              <Link
+                to="/"
+                style={{ textDecoration: 'none', color: 'black' }}
+                onClick={handleLogout}
               >
-                <Link
-                  to="/account-details"
-                  style={{ textDecoration: 'none', color: 'black' }}
-                >
-                  <MenuItem>
-                    <Avatar
-                      alt="user display picture"
-                      src={
-                        dp
-                          ? require(`../images/${dp}`)
-                          : userData.avatar
-                            ? require(`../images/${userData.avatar}`)
-                            : ''
-                      }
-                    />
-                    My account
-                  </MenuItem>
-                </Link>
-                <Divider />
-                <Link
-                  to="/"
-                  style={{ textDecoration: 'none', color: 'black' }}
-                  onClick={handleLogout}
-                >
-                  <MenuItem>
-                    <ListItemIcon>
-                      <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                  </MenuItem>
-                </Link>
-              </Menu>
-            </div>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+                <MenuItem>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              </Link>
+            </Menu>
+          </div>
+        )}
+      </Toolbar>
+    </AppBar>
+
   );
 };
 
