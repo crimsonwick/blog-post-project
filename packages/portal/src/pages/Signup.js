@@ -6,27 +6,48 @@ import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
+// import Alert from '@mui/material/Alert';
+import '../styles/signup.css';
+import YupPassword from 'yup-password';
+import '../styles/signup.css';
+// import axios from 'axios';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import { Controller } from 'react-hook-form';
+import { OutlinedInput, ThemeProvider } from '@mui/material';
+import FormLabel from '@mui/material/FormLabel';
+import { theme } from '../themes/theme';
 import { getSignUpDetails } from '../services/LoginApi';
 import { useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Alert, AlertTitle } from '@mui/material';
-
-
-const reducer = (state,action) => {
-  switch(action.type){
-    case "FAILED": 
-      return { Submitted: !state.Submitted, showMessage: state.showMessage }
-    case "SUCCESS":
-      return { Submitted: !state.Submitted, showMessage: !state.showMessage }
+YupPassword(yup);
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FAILED':
+      return { Submitted: !state.Submitted, showMessage: state.showMessage };
+    case 'SUCCESS':
+      return { Submitted: !state.Submitted, showMessage: !state.showMessage };
     default:
-      return { Submitted: state.Submitted, showMessage: state.showMessage }
+      return { Submitted: state.Submitted, showMessage: state.showMessage };
   }
-}
+};
 
 const Signup = () => {
+  const [data, setData] = useState();
+
   const schema = yup.object().shape({
     email: yup.string().email().required(),
-    password: yup.string().min(8).max(20).required(),
+    password: yup
+      .string()
+      .min(8)
+      .max(20)
+      .minUppercase(1, 'Password must include atleast one upper-case letter')
+      .minSymbols(1, 'Password must include atleast one symbol')
+      .required(),
   });
 
   const navigate = useNavigate();
@@ -39,29 +60,56 @@ const Signup = () => {
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
-  const [state,dispatch] = useReducer(reducer,{ Submitted: false, showMessage: false })
-  const onSubmit = async(data) => {
+
+  //*hide pw functionality
+  const [values, setValues] = useState({
+    password: '',
+    showPassword: false,
+  });
+
+  const handleClickShowPassword = () => {
+    setValues({
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const [state, dispatch] = useReducer(reducer, {
+    Submitted: false,
+    showMessage: false,
+  });
+  const onSubmit = async (data) => {
     const responsed = await getSignUpDetails(data);
-    if(responsed.data.id === undefined){
-        dispatch({type: "FAILED"})
-    }
-    else{
-      dispatch({type: "SUCCESS"})
+    if (responsed.data.id === undefined) {
+      dispatch({ type: 'FAILED' });
+    } else {
+      dispatch({ type: 'SUCCESS' });
       setTimeout(() => {
-        navigate('/login')
-      },1000)
+        navigate('/login');
+      }, 1000);
     }
-  }
+  };
   return (
     <Container maxWidth="sm">
-      { ((state.Submitted && state.showMessage) && (<Alert severity="success">
-  <AlertTitle> <strong>Account Created Successfully</strong></AlertTitle>
-  You need to <strong> Login </strong>your Account Now!
-</Alert>))} 
-      {  ((state.Submitted && !state.showMessage) && (<Alert severity="error">
-  <AlertTitle> <strong>Account Not Created</strong></AlertTitle>
-  Try anyother email for  <strong> Sign Up </strong>your Account!
-</Alert>))}
+      {state.Submitted && state.showMessage && (
+        <Alert severity="success">
+          <AlertTitle>
+            <strong>Account Created Successfully</strong>
+          </AlertTitle>
+          You need to <strong> Login </strong>your Account Now!
+        </Alert>
+      )}
+      {state.Submitted && !state.showMessage && (
+        <Alert severity="error">
+          <AlertTitle>
+            <strong>Account Not Created</strong>
+          </AlertTitle>
+          Try anyother email for <strong> Sign Up </strong>your Account!
+        </Alert>
+      )}
       <Box>
         <Header
           heading="Create An Account"
@@ -76,20 +124,59 @@ const Signup = () => {
             labelAbove="What's your email?"
             control={control}
             placeholder="Enter your email address"
+            variant="outlined"
+            color="secondary"
           />
-          <p>{errors.email?.message}</p>
+          <p className="errorMsg">{errors.email?.message}</p>
         </Box>
-        <InputField
-          name="password"
-          labelAbove="Create a password"
+        <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
+          Create a Password
+        </FormLabel>
+
+        <Controller
           control={control}
-          placeholder="Enter your password"
-          labelBelow="Use 8 or more characters with a mix of letters, numbers & symbols"
+          name="password"
+          render={({ field }) => (
+            <OutlinedInput
+              autoComplete="new-password"
+              variant="outlined"
+              color="secondary"
+              type={values.showPassword ? 'text' : 'password'}
+              value={values.password}
+              {...field}
+              sx={{
+                borderRadius: '25px',
+                fontFamily: 'Poppins',
+                width: '100%',
+              }}
+              placeholder="Enter your password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          )}
         />
-        <p>{errors.password?.message}</p>
-        <Box mt={3}>
-          <InputButton name="Create An Account" />
-        </Box>
+        <FormLabel
+          htmlFor="form-label-below"
+          sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
+        >
+          Use 8 or more characters with a mix of letters, numbers & symbols
+        </FormLabel>
+        <p className="errorMsg">{errors.password?.message}</p>
+        <ThemeProvider theme={theme}>
+          <Box mt={3}>
+            <InputButton name="Create An Account" />
+          </Box>
+        </ThemeProvider>
       </Box>
     </Container>
   );

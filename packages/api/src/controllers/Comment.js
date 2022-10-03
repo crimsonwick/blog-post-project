@@ -65,3 +65,18 @@ export const addReply = async(req,res) => {
         ErrorHandling(res);
     }
 }
+
+export const getCommentByPostId = async(req,res) => {
+    const { id } = req.params;
+    try {
+        const getC = await Comments.findAll({
+            where: {
+                postId: id,
+                parentId: null
+            }
+        })
+        return res.json(getC)
+    } catch (error) {
+        ErrorHandling(res);
+    }
+}

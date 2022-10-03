@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import InputField from './InputField';
 import { Box } from '@mui/material';
 import InputButton from './InputButton';
+import { AppContext } from '../App';
+import { parseJwt } from '../services/LoginApi';
+import { addComment } from '../services/CommentApi';
 
-const AddComment = () => {
+const AddComment = (props) => {
   const { handleSubmit, control } = useForm({
     defaultValues: { comment: '' },
   });
-  const onSubmit = (data) => console.log(data);
+  const { getAccessToken } = useContext(AppContext);
 
+  const onSubmit = async (data) => {
+    if (getAccessToken) {
+      const LoggedInUserInfo = parseJwt(getAccessToken);
+      console.log(LoggedInUserInfo.user.id);
+
+      await addComment({
+        postId: props.postId,
+        userId: LoggedInUserInfo.user.id,
+        body: data.comment,
+      });
+      props.refreshComments();
+    }
+  };
   return (
     <Box display="flex" gap={2} alignItems="flex-end">
       <Box>

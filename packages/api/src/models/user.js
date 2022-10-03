@@ -1,10 +1,10 @@
-"use strict";
-import { Model } from "sequelize";
+'use strict';
+import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
-      Users.hasMany(models.Posts, { foreignKey: "userId", as: "Posts" });
-      Users.hasMany(models.Comments, { foreignKey: "userId", as: "Comments" });
+      Users.hasMany(models.Posts, { foreignKey: 'userId', as: 'Posts' });
+      Users.hasMany(models.Comments, { foreignKey: 'userId', as: 'Comments' });
     }
   }
   Users.init(
@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
-        defaultValue: sequelize.fn("uuid_generate_v4"),
+        defaultValue: sequelize.fn('uuid_generate_v4'),
       },
       email: {
         type: DataTypes.STRING,
@@ -23,16 +23,16 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      avatar: {
+        type: DataTypes.STRING,
+      },
       resetLink: {
         type: DataTypes.STRING,
       },
-      avatar: {
-        type: DataTypes.STRING(1000)
-      }
     },
     {
       sequelize,
-      modelName: "Users",
+      modelName: 'Users',
     }
   );
   return Users;

@@ -1,7 +1,13 @@
 .articleImg {
-    width: 25%;
-    height: 95%;
-    margin: 5px 10px 5px 2px;
+     /* width: 25%;
+    height: 95%; */
+    /* margin: 5px 10px 5px 2px;  */
+    width: 266px;
+    height: 180px;
+    margin-right: 10px;
+    margin-bottom: 16px;
+    object-fit: fill;
+
 }
 
 .List {

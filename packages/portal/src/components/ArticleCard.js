@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box } from '@mui/system';
 import '../styles/Article/Article.css';
 import { Card, List } from '@mui/material';
@@ -11,39 +11,64 @@ import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
+import { Link } from 'react-router-dom';
+import { AppContext } from '../App';
 import { parseDate } from '../services/LoginApi';
 
-
-const Article = (props) => {
-
+const ArticleCard = (props) => {
+  const { dp, userData } = useContext(AppContext);
   return (
     <Card
-      style={{ marginTop: '30px', hieght: 'auto', width: 'auto', opacity: '100%', border: "none", boxShadow: "none" }}
-      //elevation={10}
+      style={{
+        marginTop: '30px',
+        hieght: 'auto',
+        width: 'auto',
+        opacity: '100%',
+        border: 'none',
+        boxShadow: 'none',
+      }}
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
-
-      <img src={require(`../uploads/${props.object.image}`)} alt="user_image" className="articleImg" style={{
-        borderRadius: '20px',
-        width: '300px',
-        height: '250px',
-        objectFit: 'fill',
-        marginRight: '50px'
-      }} />
+      <img
+        src={require(`../images/${props.object.image}`)}
+        alt="user_image"
+        className="articleImg"
+        style={{
+          borderRadius: '20px',
+          width: '300px',
+          height: '250px',
+          objectFit: 'fill',
+          marginRight: '50px',
+        }}
+      />
       <Box mt={1}>
         <Chip label="Travel" />
-        <Typography variant="h4" component="h3">
-          {props.object.title}
-        </Typography>
+        <Link
+          to="/article-detail"
+          state={props}
+          style={{ textDecoration: 'none', color: 'black' }}
+        >
+          <Typography variant="h4" component="h3">
+            {props.object.title}
+          </Typography>
+        </Link>
+
         <List style={flexContainer}>
           <ListItem className="user">
             <ListItemIcon>
               <Avatar
-                src="	https://cdns-images.dzcdn.net/images/artist/77220ccb5a36d0e5df2c9e47f2c89de4/500x500.jpg"
-                alt="spongebob"
+                alt="user display picture"
+                src={
+                  dp
+                    ? require(`../images/${dp}`)
+                    : userData.avatar
+                    ? require(`../images/${userData.avatar}`)
+                    : ''
+                }
+                sx={{ width: 32, height: 32 }}
               />
             </ListItemIcon>
-            <ListItemText primary="Spongebob Squarepants" />
+            <ListItemText primary={`${props.object.userId}`} />
           </ListItem>
           <ListItem className="date">
             <ListItemIcon>
@@ -66,4 +91,4 @@ const Article = (props) => {
   );
 };
 
-export default Article;
+export default ArticleCard;

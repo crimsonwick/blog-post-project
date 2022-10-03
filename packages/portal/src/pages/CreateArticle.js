@@ -7,7 +7,6 @@ import NavBar from '../components/NavBar';
 import { OutlinedInput } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { addPost } from '../services/LoginApi';
@@ -15,14 +14,14 @@ import { addPost } from '../services/LoginApi';
 const schema = yup
   .object({
     title: yup.string().required(),
-    mins: yup.number().required(),
+    mins: yup.number().typeError('Must be a number').required(),
     body: yup.string().required(),
   })
   .required();
 
 function CreateArticle() {
   const [image, setImage] = useState(null);
-  const { userData, getAccessToken } = useContext(AppContext);
+  const { userData, accessToken } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -30,7 +29,6 @@ function CreateArticle() {
   } = useForm({
     defaultValues: {
       title: '',
-      //mins: "",
       body: '',
     },
     resolver: yupResolver(schema),
@@ -40,29 +38,29 @@ function CreateArticle() {
 
   const onSubmit = async (data) => {
     let formData = new FormData();
-    formData.append('userId', userData.id)
-    formData.append('title', data.title)
-    formData.append('body', data.body)
-    formData.append('file', image)
-    formData.append('timetoRead', data.mins)
+    formData.append('userId', userData.id);
+    formData.append('title', data.title);
+    formData.append('body', data.body);
+    formData.append('file', image);
+    formData.append('timetoRead', data.mins);
     const config = {
       headers: {
-        "Authorization": `Bearer ${getAccessToken}`
-      }
-    }
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
     await addPost(formData, config);
     setTimeout(() => {
       navigate('/my-articles');
-    }, 250)
+    }, 250);
   };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setImage(file);
-  }
+  };
 
   return (
-    <div>
+    <>
       <NavBar login={true} />
       <div className={styles.padding}>
         <h1 className={styles.headingOne}>Create New Article</h1>
@@ -96,10 +94,14 @@ function CreateArticle() {
                   marginTop: 1,
                 }}
                 variant="outlined"
+                color="secondary"
               />
             )}
           />
-          {errors.title && <p>{errors.title.message}</p>}
+          <br />
+          {errors.title && (
+            <span className={styles.errorMsg}>{errors.title.message}</span>
+          )}
 
           <br />
 
@@ -126,10 +128,14 @@ function CreateArticle() {
                   marginTop: 1,
                 }}
                 variant="outlined"
+                color="secondary"
               />
             )}
           />
-          {errors.mins && <p>{errors.mins.message}</p>}
+          <br />
+          {errors.mins && (
+            <span className={styles.errorMsg}>{errors.mins.message}</span>
+          )}
 
           <br />
           <br />
@@ -152,30 +158,34 @@ function CreateArticle() {
                 checked={value}
                 inputRef={ref}
                 multiline
-                maxRows={Infinity}
+                minRows={7}
+                maxRows={7}
+                size="large"
                 sx={{
                   borderRadius: 5,
                   marginBottom: 3,
                   width: 700,
                   marginTop: 1,
                 }}
+                variant="outlined"
+                color="secondary"
               />
             )}
           />
 
-          {errors.body && <p>{errors.body.message}</p>}
+          <br />
+          {errors.body && (
+            <span className={styles.errorMsg}>{errors.body.message}</span>
+          )}
 
           <br />
           <br />
 
-          <Button
-            variant="contained"
-            component="label"
-          >
+          <Button variant="contained" component="label">
             Upload
             <input
               type="file"
-              name='file'
+              name="file"
               hidden
               onChange={(event) => handleFileChange(event)}
             />
@@ -194,7 +204,7 @@ function CreateArticle() {
           </Button>
         </form>
       </div>
-    </div>
+    </>
   );
 }
 

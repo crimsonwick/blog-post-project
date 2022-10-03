@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { Button } from '@mui/material';
 
@@ -10,10 +8,14 @@ const InputButton = (props) => {
       type="submit"
       variant="contained"
       sx={{
-        fontFamily: 'Poppins',
-        borderRadius: '20px',
-        height: '40px',
         width: customWidth || '100%',
+        fontFamily: ['Poppins', 'serif'].join(','),
+        borderRadius: '25px',
+        fontSize: '18px',
+        marginTop: '25px',
+        height: '56px',
+        textTransform: 'capitalize',
+        fontWeight: 'bold',
       }}
       color="secondary"
     >
