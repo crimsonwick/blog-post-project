@@ -17,13 +17,10 @@ import Logout from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
-import { logout } from '../services/LoginApi.js';
-import { useContext, useState } from 'react';
+import { useContext,useState } from 'react';
 import { AppContext } from '../App.js';
-import { searchAPI } from '../services/LoginApi.js';
+import { searchAPI,logout } from '../services/LoginApi.js';
 import { Typography } from '@mui/material';
-import flexContainer from '../styles/Article/List';
-import { Box } from '@mui/material';
 
 const Navbar = ({ login }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -36,6 +33,14 @@ const Navbar = ({ login }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleKeyDown = async (event) => {
+    const response = await searchAPI(event.target.value);
+    setSearchData(response.data);
+  };
+  const handleChange = (event) => {
+    [event.target.name] = [event.target.value]
+  };
   const handleLogout = async () => {
     try {
       const body = { data: { token: `${refreshToken}` } };
@@ -46,29 +51,15 @@ const Navbar = ({ login }) => {
       console.log(err);
     }
   };
-
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ background: '#FFFFFF' }}>
-        <Toolbar>
-          <Typography
-            component={Link}
-            to="/"
-            variant="h6"
-            sx={{
-              // flex: 1,
-              marginLeft: '5px',
-              fontWeight: '600',
-              textTransform: 'capitalize',
-              // flexGrow: 0,
-              // flexShrink: 0,
-              // flexBasis: '70px',
-              color: '#111111',
-              textDecoration: 'none',
-            }}
-          >
-            Home
-          </Typography>
+    <AppBar position="fixed" style={{ background: '#FFFFFF' }}>
+      <Toolbar>
+        <Link
+          to="/"
+          style={{ padding: 10, textDecoration: 'none', color: 'black' }}
+        >
+          Home
+        </Link>
           {login && (
             <Typography
               component={Link}
@@ -80,7 +71,6 @@ const Navbar = ({ login }) => {
                 textTransform: 'capitalize',
                 textDecoration: 'none',
                 paddingLeft: '20px',
-                fontWeight: '600',
                 color: '#111111',
               }}
             >
@@ -96,6 +86,8 @@ const Navbar = ({ login }) => {
               sx={{ color: '#111111' }}
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
           </Search>
           {login && (
@@ -229,7 +221,6 @@ const Navbar = ({ login }) => {
           )}
         </Toolbar>
       </AppBar>
-    </Box>
   );
 };
 

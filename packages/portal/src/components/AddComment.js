@@ -4,26 +4,31 @@ import InputField from './InputField';
 import { Box } from '@mui/material';
 import InputButton from './InputButton';
 import { AppContext } from '../App';
-import { parseJwt } from '../services/LoginApi';
-import { addComment } from '../services/CommentApi';
+import { addComment, addReply } from '../services/CommentApi';
 
 const AddComment = (props) => {
   const { handleSubmit, control } = useForm({
     defaultValues: { comment: '' },
   });
-  const { getAccessToken } = useContext(AppContext);
+  const { userData,accessToken } = useContext(AppContext);
 
   const onSubmit = async (data) => {
-    if (getAccessToken) {
-      const LoggedInUserInfo = parseJwt(getAccessToken);
-      console.log(LoggedInUserInfo.user.id);
-
+    if (accessToken && props.Comment) {
       await addComment({
-        postId: props.postId,
-        userId: LoggedInUserInfo.user.id,
+        postId: props.object.id,
+        userId: userData.id,
         body: data.comment,
       });
-      props.refreshComments();
+        props.refreshComment(props.object.id);
+    }
+    if(accessToken && !(props.Comment)){
+      await addReply({
+        userId: userData.id,
+        postId: props.object.postId,
+        parentId: props.object.id,
+        body: data.comment
+      });
+        props.refreshReplies(props.object.id)
     }
   };
   return (

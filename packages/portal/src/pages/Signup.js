@@ -37,7 +37,6 @@ const reducer = (state, action) => {
 };
 
 const Signup = () => {
-  const [data, setData] = useState();
 
   const schema = yup.object().shape({
     email: yup.string().email().required(),

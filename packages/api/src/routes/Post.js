@@ -2,6 +2,7 @@ import express from 'express';
 import {
   AddPost,
   deletePosts,
+  getRepliesfromOnePost,
   myPosts,
   searchPosts,
   updatePosts,
@@ -11,7 +12,7 @@ import multer from 'multer';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, '../portal/src/images');
+    cb(null, '../portal/src/uploads');
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -24,8 +25,8 @@ const router = express.Router();
 router.post('/', Authentication, upload.single('file'), AddPost);
 router.put('/:id/:pid', Authentication, updatePosts);
 router.delete('/:id/:pid', Authentication, deletePosts);
-router.get('/:title', searchPosts);
-
+router.get('/:id', searchPosts);
+router.get("/comments/:id",getRepliesfromOnePost);
 router.get('/', Authentication, myPosts);
 
 export default router;
