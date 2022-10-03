@@ -19,7 +19,7 @@ const ArticleCard = (props) => {
 
   return (
     <Card
-      elevation={10}
+      elevation={"none"}
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
       <img src={require(`../images/${props.object.image}`)} alt="user_image" className="articleImg" />
