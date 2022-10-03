@@ -33,8 +33,8 @@ export const addPost = async (object, config) => {
   return await axios.post(`${baseURL}/post`, object, config);
 };
 
-export const gettingPosts = async (config) => {
-  return await axios.get(`${baseURL}/post`, config);
+export const gettingPosts = async (config,userId) => {
+  return await axios.get(`${baseURL}/post?userId=${userId}`, config);
 };
 
 export const allPostsComing = async () => {
@@ -99,3 +99,17 @@ export const parseDate = (str) => {
 export const searchAPI = async (title) => {
   return await axios.get(`${baseURL}/pagination/search?title=${title}`);
 };
+
+export const getComments = async(id) => {
+    return await axios.get(`${baseURL}/post/comments/${id}`)
+}
+
+export const getReply = async(id) => {
+    return await axios.get(`${baseURL}/comment/reply/${id}`);
+}
+
+export const parseName = (str) => {
+  let nameField = str.split('@');
+  nameField = nameField[0];
+  return nameField;
+}

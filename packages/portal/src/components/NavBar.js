@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box';
 import {
   Search,
   SearchIconWrapper,
@@ -17,13 +18,10 @@ import Logout from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
-import { logout } from '../services/LoginApi.js';
 import { useContext, useState } from 'react';
 import { AppContext } from '../App.js';
-import { searchAPI } from '../services/LoginApi.js';
+import { searchAPI, logout } from '../services/LoginApi.js';
 import { Typography } from '@mui/material';
-import flexContainer from '../styles/Article/List';
-import { Box } from '@mui/material';
 
 const Navbar = ({ login }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -36,6 +34,14 @@ const Navbar = ({ login }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleKeyDown = async (event) => {
+    const response = await searchAPI(event.target.value);
+    setSearchData(response.data);
+  };
+  const handleChange = (event) => {
+    [event.target.name] = [event.target.value]
+  };
   const handleLogout = async () => {
     try {
       const body = { data: { token: `${refreshToken}` } };
@@ -46,7 +52,6 @@ const Navbar = ({ login }) => {
       console.log(err);
     }
   };
-
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
@@ -80,7 +85,6 @@ const Navbar = ({ login }) => {
                 textTransform: 'capitalize',
                 textDecoration: 'none',
                 paddingLeft: '20px',
-                fontWeight: '600',
                 color: '#111111',
               }}
             >

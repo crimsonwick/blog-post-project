@@ -14,19 +14,9 @@ const Home = () => {
     const details = await allPostsComing();
     setData(details.data);
   };
-
-  // useEffect(() => {
-  //   const data = localStorage.getItem('LANDING_PAGE_POSTS_DATA');
-  //   if (data !== null) setData(JSON.parse(data));
-  // }, []);
-
   useEffect(() => {
     allPosts();
     console.log('API was called');
-    // window.localStorage.setItem(
-    //   'LANDING_PAGE_POSTS_DATA',
-    //   JSON.stringify(data)
-    // );
   }, []);
 
   return (

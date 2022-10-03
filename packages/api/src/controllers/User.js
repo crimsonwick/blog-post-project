@@ -17,7 +17,7 @@ const { Users } = model;
 export let tokens = [];
 
 export const SignUp = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password,avatar } = req.body;
   const hasedPassword = bcrypt.hashSync(password, salt);
   try {
     const checkAccount = await Users.findOne({
@@ -27,7 +27,7 @@ export const SignUp = async (req, res) => {
     });
     if (checkAccount) return res.json(`${email} Account Already Exists`);
     else {
-      const userArray = { email: email, password: hasedPassword };
+      const userArray = { email: email, password: hasedPassword,avatar: avatar };
       const newUser = await Users.create(userArray);
       return res.json(newUser.dataValues);
     }
