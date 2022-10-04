@@ -24,6 +24,7 @@ function App() {
   const [accessToken, setAccessToken] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [searchData, setSearchData] = useState([]);
+  const [searchMyData, setSearchMyData] = useState([]);
 
   useEffect(() => {
     WebFont.load({
@@ -52,6 +53,8 @@ function App() {
         setLoggedIn,
         searchData,
         setSearchData,
+        searchMyData,
+        setSearchMyData
       }}
     >
       <ThemeProvider theme={theme}>

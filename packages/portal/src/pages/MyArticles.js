@@ -11,7 +11,7 @@ import { AppContext } from '../App';
 
 const MyArticles = () => {
   const [data, setData] = useState([]);
-  const { accessToken,searchData } = useContext(AppContext);
+  const { accessToken,searchMyData } = useContext(AppContext);
 
   useEffect(() => {
     const allPosts = async () => {
@@ -36,11 +36,11 @@ const MyArticles = () => {
         </h1>
         <Divider />
         <Box mt={5}>
-        {data && searchData.length === 0
+        {data && searchMyData.length === 0
             ? data.map((object) => {
                 return <ArticleCard key={object._source.id} object={object._source} />;
               })
-            : searchData.map((object) => {
+            : searchMyData.map((object) => {
                 return (
                   <ArticleCard
                     key={object._source.id}

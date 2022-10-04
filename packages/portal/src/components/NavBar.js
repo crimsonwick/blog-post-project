@@ -23,7 +23,7 @@ import { Typography } from '@mui/material';
 
 const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setLoggedIn, setSearchData, refreshToken, userData, dp,accessToken } =
+  const { setLoggedIn, setSearchData, refreshToken, userData, dp,accessToken,setSearchMyData } =
     useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -45,7 +45,7 @@ const Navbar = (props) => {
         },
       };
       const response = await searchMyPosts(event.target.value,userData.id,config);
-      setSearchData(response.data)
+      setSearchMyData(response.data)
     }
   };
   const handleChange = (event) => {
