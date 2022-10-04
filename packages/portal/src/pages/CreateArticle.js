@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -10,6 +10,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { addPost } from '../services/LoginApi';
+import { useDropzone } from "react-dropzone";
+
 
 const schema = yup
   .object({
@@ -54,10 +56,22 @@ function CreateArticle() {
     }, 250);
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   setImage(file);
+  // };
+
+  const onDrop = useCallback((acceptedFile) => {
+    const file = acceptedFile[0];
     setImage(file);
-  };
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    maxFiles: 1,
+    multiple: false,
+    onDrop,
+  });
+
 
   return (
     <>
@@ -181,15 +195,19 @@ function CreateArticle() {
           <br />
           <br />
 
-          <Button variant="contained" component="label">
-            Upload
+          <div {...getRootProps()}>
             <input
+              {...getInputProps()}
               type="file"
               name="file"
-              hidden
-              onChange={(event) => handleFileChange(event)}
+              accept="image/*"
             />
-          </Button>
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>Drag 'n' drop some files here, or click to select files</p>
+            )}
+          </div>
           <br />
           <br />
           <br />
