@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import '../styles/Article/Article.css';
 import { Card, List } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
@@ -9,11 +9,9 @@ import flexContainer from '../styles/Article/List';
 import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Chip from '@mui/material/Chip';
-import { AppContext } from '../App';
 import { parseName } from '../services/LoginApi';
 
 const ArticleDetail = (props) => {
-  const { dp } = useContext(AppContext);
   return (
     <Card
       mt={1}
@@ -35,9 +33,7 @@ const ArticleDetail = (props) => {
           <ListItemIcon>
             <Avatar
               src={
-                dp
-                  ? require(`../images/${dp}`)
-                  : require(`../images/${props.object.Posted_By.avatar}`)
+                require(`../images/${props.object.Posted_By.avatar}`)
               }
               alt="user_dp"
             />

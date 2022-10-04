@@ -205,10 +205,10 @@ const Navbar = ({ login }) => {
                   <Avatar
                     alt="user display picture"
                     src={
-                      dp
-                        ? require(`../images/${dp}`)
-                        : userData.avatar
+                      userData.avatar
                         ? require(`../images/${userData.avatar}`)
+                        : dp
+                        ? require(`../images/${dp}`)
                         : ''
                     }
                   />
