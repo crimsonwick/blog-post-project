@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import NavBar from '../components/NavBar';
 import Container from '@mui/material/Container';
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import ArticleCard from '../components/ArticleCard';
 import Footer from '../components/Footer';
 import { allPostsComing } from '../services/LoginApi';
 import { AppContext } from '../App';
+import { PostsHeader } from '../components/PostsHeader';
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -28,10 +29,7 @@ const Home = () => {
       )}
 
       <Container sx={{ marginY: 10 }}>
-        <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>
-          Recent Posts
-        </h1>
-        <Divider />
+        <PostsHeader name="Recent Posts" />
         <Box mt={5}>
           {data && searchData.length === 0
             ? data.map((object) => {

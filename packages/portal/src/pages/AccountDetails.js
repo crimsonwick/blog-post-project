@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../App';
 import BasicTable from '../components/BasicTable';
 import NavBar from '../components/NavBar';
+import { PostsHeader } from '../components/PostsHeader';
 import { parseJwt } from '../services/LoginApi';
 
 const AccountDetails = () => {
@@ -45,26 +46,20 @@ const AccountDetails = () => {
   return (
     <>
       <NavBar login={true} />
-      <Container maxWidth="xl">
-        <Box sx={{ marginTop: '20px' }}>
-          <Typography sx={{ fontFamily: 'Poppins', fontSize: '20px' }}>
-            Account Details
-          </Typography>
-          <Divider sx={{ marginBottom: '30px' }} />
-          <BasicTable />
+      <Container sx={{ marginY: 10 }}>
+        <Box mb={3}>
+          <PostsHeader name="Account Details" />
         </Box>
-        <Box sx={{ marginTop: '40px' }}>
-          <Typography sx={{ fontFamily: 'Poppins', fontSize: '20px' }}>
-            Change Display Picture
-          </Typography>
-          <Divider />
+        <BasicTable />
+        <Box mt={7}>
+          <PostsHeader name="Change Display Picture" />
           <Box component="form" onSubmit={handleSubmit}>
             <Button
               variant="contained"
               component="label"
               sx={{
                 borderRadius: '20px',
-                width: '10%',
+                width: '12%',
                 fontFamily: ['Poppins', 'serif'].join(','),
                 fontSize: 18,
                 marginTop: '25px',
@@ -87,7 +82,7 @@ const AccountDetails = () => {
               sx={{
                 borderRadius: '20px',
                 marginLeft: '10px',
-                width: '10%',
+                width: '12%',
                 fontFamily: ['Poppins', 'serif'].join(','),
                 fontSize: 18,
                 marginTop: '25px',
