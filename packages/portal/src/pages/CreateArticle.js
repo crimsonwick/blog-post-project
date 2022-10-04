@@ -4,14 +4,15 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { AppContext } from '../App';
 import NavBar from '../components/NavBar';
-import { OutlinedInput } from '@mui/material';
+import { Box, FormLabel, OutlinedInput } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { addPost } from '../services/LoginApi';
-import { useDropzone } from "react-dropzone";
-
+import { StyledDropZone } from '../components/StyledDropZone';
+import { Container } from '@mui/system';
+import { PostsHeader } from '../components/PostsHeader';
 
 const schema = yup
   .object({
@@ -21,9 +22,8 @@ const schema = yup
   })
   .required();
 
-function CreateArticle() {
-  const [image, setImage] = useState(null);
-  const { userData, accessToken } = useContext(AppContext);
+const CreateArticle = () => {
+  const { userData, accessToken, postImage } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -43,7 +43,7 @@ function CreateArticle() {
     formData.append('userId', userData.id);
     formData.append('title', data.title);
     formData.append('body', data.body);
-    formData.append('file', image);
+    formData.append('file', postImage);
     formData.append('timetoRead', data.mins);
     const config = {
       headers: {
@@ -56,34 +56,13 @@ function CreateArticle() {
     }, 250);
   };
 
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setImage(file);
-  // };
-
-  const onDrop = useCallback((acceptedFile) => {
-    const file = acceptedFile[0];
-    setImage(file);
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    maxFiles: 1,
-    multiple: false,
-    onDrop,
-  });
-
-
   return (
     <>
       <NavBar login={true} />
-      <div className={styles.padding}>
-        <h1 className={styles.headingOne}>Create New Article</h1>
-        <Divider light />
-        <br />
-        <br />
-        <br />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label className={styles.poppins}>Give it a title</label>
+      <Container sx={{ marginY: 10 }}>
+        <PostsHeader name="Create New Article" />
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} mt={3}>
+          <FormLabel className={styles.poppins}>Give it a title </FormLabel>
 
           <br />
 
@@ -192,38 +171,30 @@ function CreateArticle() {
             <span className={styles.errorMsg}>{errors.body.message}</span>
           )}
 
-          <br />
-          <br />
-
-          <div {...getRootProps()}>
-            <input
-              {...getInputProps()}
-              type="file"
-              name="file"
-              accept="image/*"
-            />
-            {isDragActive ? (
-              <p>Drop the files here ...</p>
-            ) : (
-              <p>Drag 'n' drop some files here, or click to select files</p>
-            )}
-          </div>
-          <br />
-          <br />
-          <br />
+          <Box mt={2} mb={4}>
+            <StyledDropZone />
+          </Box>
           <Button
             type="submit"
             variant="contained"
             color="secondary"
             fullWidth
-            sx={{ borderRadius: '25px', fontSize: '22px', width: '350px' }}
+            sx={{
+              borderRadius: '25px',
+              fontFamily: ['Poppins', 'serif'].join(','),
+              fontSize: 18,
+              height: '56px',
+              width: '700px',
+              textTransform: 'capitalize',
+              fontWeight: 'bold',
+            }}
           >
             Publish Article
           </Button>
-        </form>
-      </div>
+        </Box>
+      </Container>
     </>
   );
-}
+};
 
 export default CreateArticle;
