@@ -77,11 +77,13 @@ const Navbar = ({ login, active }) => {
               component={Link}
               to="/my-articles"
               variant="h6"
+
               sx={{
                 // flex: 1,
                 marginLeft: '50px',
                 fontWeight: '100',
                 textTransform: 'capitalize',
+
                 // flexGrow: 0,
                 // flexShrink: 0,
                 // flexBasis: '70px',
