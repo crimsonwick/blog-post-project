@@ -29,7 +29,7 @@ export const AddPost = async (req, res) => {
     });
     return res.json(C_post);
   } catch (error) {
-    ErrorHandling(res)
+    console.log(error)
   }
 }
 
@@ -126,6 +126,35 @@ export const myPosts = async (req, res) => {
       const myPosts = await client.search(query);
       if (!myPosts) return res.json(`You haven't Posted Anything!!`);
       else return res.json(myPosts.body.hits.hits);
+    }
+  } catch (error) {
+    ErrorHandling(res);
+  }
+}
+
+export const searchMyPost = async(req,res) => {
+  let query = {
+    index: "posts",
+    body: {
+        query: {
+            match: {"userId": req.query.userId}
+        }
+    }
+  };
+  try {
+    const LoginDetails = await Users.findAll({
+      where: {
+        email: req.user.user.email
+      }
+    })
+    if (!LoginDetails) return res.json(`Un Authorized Access`)
+    else {
+      const myPosts = await client.search(query);
+      if (!myPosts) return res.json(`You haven't Posted Anything!!`);
+      else{
+        const filtered = myPosts.body.hits.hits.filter((o) => o._source.title.includes(req.query.title))
+        return res.json(filtered)
+      }
     }
   } catch (error) {
     ErrorHandling(res);

@@ -22,9 +22,9 @@ const Home = () => {
   return (
     <>
       {loggedIn ? (
-        <NavBar style={{ position: 'fixed' }} login={true} />
+        <NavBar style={{ position: 'fixed' }} login={true}  mainPage={true}/>
       ) : (
-        <NavBar style={{ position: 'fixed' }} />
+        <NavBar style={{ position: 'fixed' }} mainPage={true}/>
       )}
 
       <Container sx={{ marginY: 10 }}>

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SearchIcon from '@mui/icons-material/Search';
@@ -19,12 +18,12 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import { useContext,useState } from 'react';
 import { AppContext } from '../App.js';
-import { searchAPI,logout } from '../services/LoginApi.js';
+import { searchAPI,logout, searchMyPosts } from '../services/LoginApi.js';
 import { Typography } from '@mui/material';
 
-const Navbar = ({ login }) => {
+const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setLoggedIn, setSearchData, refreshToken, userData, dp } =
+  const { setLoggedIn, setSearchData, refreshToken, userData, dp,accessToken } =
     useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -35,8 +34,19 @@ const Navbar = ({ login }) => {
   };
 
   const handleKeyDown = async (event) => {
-    const response = await searchAPI(event.target.value);
+    if(props.mainPage) {
+      const response = await searchAPI(event.target.value);
     setSearchData(response.data);
+    }
+    else{
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      const response = await searchMyPosts(event.target.value,userData.id,config);
+      setSearchData(response.data)
+    }
   };
   const handleChange = (event) => {
     [event.target.name] = [event.target.value]
@@ -60,7 +70,7 @@ const Navbar = ({ login }) => {
         >
           Home
         </Link>
-          {login && (
+          {props.login && (
             <Typography
               component={Link}
               to="/my-articles"
@@ -90,7 +100,7 @@ const Navbar = ({ login }) => {
               onKeyDown={handleKeyDown}
             />
           </Search>
-          {login && (
+          {props.login && (
             <Button
               component={Link}
               to="/create-article"
@@ -105,7 +115,7 @@ const Navbar = ({ login }) => {
               Create Article
             </Button>
           )}
-          {!login && (
+          {!props.login && (
             <div>
               <Button
                 component={Link}
@@ -126,7 +136,7 @@ const Navbar = ({ login }) => {
               </Button>
             </div>
           )}
-          {login && (
+          {props.login && (
             <div>
               <Tooltip title="Account settings">
                 <IconButton
@@ -190,16 +200,15 @@ const Navbar = ({ login }) => {
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
                   <MenuItem>
-                    <Avatar
-                      alt="user display picture"
-                      src={
-                        userData.avatar
-                          ? require(`../images/${userData.avatar}`)
-                          : dp
-                          ? require(`../images/${dp}`)
-                          : ''
-                      }
-                    />
+                  <Avatar
+                    alt="user display picture"
+                    src={
+                      userData.avatar
+                        ? require(`../images/${userData.avatar}`)
+                        : ''
+                    }
+                    sx={{ width: 32, height: 32 }}
+                  />
                     My account
                   </MenuItem>
                 </Link>

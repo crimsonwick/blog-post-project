@@ -113,3 +113,6 @@ export const parseName = (str) => {
   nameField = nameField[0];
   return nameField;
 }
+export const searchMyPosts = async(title,id,config) => {
+  return await axios.get(`${baseURL}/pagination/mypost/search?title=${title}&userId=${id}`,config)
+}

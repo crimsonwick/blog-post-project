@@ -29,4 +29,5 @@ router.get('/:id', searchPosts);
 router.get("/comments/:id",getRepliesfromOnePost);
 router.get('/', Authentication, myPosts);
 
+
 export default router;

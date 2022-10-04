@@ -8,7 +8,6 @@ import { parseJwt } from '../services/LoginApi';
 
 const AccountDetails = () => {
   const [image, setImage] = useState({ preview: '', data: '' });
-  const [status, setStatus] = useState('');
   const { accessToken, setUser, setDp } = useContext(AppContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +25,6 @@ const AccountDetails = () => {
         body: formData,
       });
       if (response) {
-        setStatus(response.statusText);
         const imageObj = await response.json();
         if (imageObj) setDp(imageObj.image);
       }
