@@ -14,18 +14,21 @@ import Chip from '@mui/material/Chip';
 import { parseDate, parseName } from '../services/LoginApi';
 import { Link } from 'react-router-dom';
 
-
 const ArticleCard = (props) => {
-
   return (
-    <Card
-      elevation={10}
-      sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
-    >
-      <img src={require(`../images/${props.object.image}`)} alt="user_image" className="articleImg"/>
+    <Card sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}>
+      <img
+        src={require(`../images/${props.object.image}`)}
+        alt="user_image"
+        className="articleImg"
+      />
       <Box mt={1}>
         <Chip label="Travel" />
-        <Link to="/article-detail" state={props} style={{textDecoration: "none" , color: "rgba(0,0,0,0.87)"}}>
+        <Link
+          to="/article-detail"
+          state={props}
+          style={{ textDecoration: 'none', color: 'rgba(0,0,0,0.87)' }}
+        >
           <Typography variant="h4" component="h3">
             {props.object.title}
           </Typography>
@@ -38,7 +41,7 @@ const ArticleCard = (props) => {
                 alt="spongebob"
               />
             </ListItemIcon>
-            <ListItemText primary={parseName(props.object.Posted_By.email)}/>
+            <ListItemText primary={parseName(props.object.Posted_By.email)} />
           </ListItem>
           <ListItem className="date">
             <ListItemIcon>
@@ -53,9 +56,7 @@ const ArticleCard = (props) => {
             <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
           </ListItem>
         </List>
-        <Typography variant="h6">
-          {props.object.body}
-        </Typography>
+        <Typography variant="h6">{props.object.body}</Typography>
       </Box>
     </Card>
   );

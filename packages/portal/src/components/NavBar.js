@@ -1,3 +1,4 @@
+import Logout from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -23,7 +24,8 @@ import {
 
 const Navbar = ({ login }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setLoggedIn, refreshToken, userData, dp } = useContext(AppContext);
+  const { setLoggedIn, refreshToken, setSearchData, userData, dp } =
+    useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
