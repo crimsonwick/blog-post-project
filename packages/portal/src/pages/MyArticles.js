@@ -6,33 +6,26 @@ import Footer from '../components/Footer';
 import { Divider, Typography } from '@mui/material';
 import NavBar from '../components/NavBar';
 import { useState, useEffect, useContext } from 'react';
-import { gettingPosts } from '../services/LoginApi';
+import { gettingPosts, parseJwt } from '../services/LoginApi';
 import { AppContext } from '../App';
 
 const MyArticles = () => {
   const [array, setArray] = useState([]);
   const { accessToken } = useContext(AppContext);
 
-  const allPosts = async () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-    const details = await gettingPosts(config);
-    if (details.data.length) setArray(details.data);
-  };
-
-  // useEffect(() => {
-  //   const data = localStorage.getItem('LANDING_PAGE_POSTS_DATA');
-  //   if (data !== null) setArray(JSON.parse(data));
-  // }, []);
-
   useEffect(() => {
+    const allPosts = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      const userDetails = parseJwt(accessToken);
+      const details = await gettingPosts(config,userDetails.user.id);
+      if (details.data.length) setArray(details.data);
+    }
     allPosts();
-    // console.log('API was called');
-    // window.localStorage.setItem('MY_ARTICLES_PAGE_DATA', JSON.stringify(array));
-  }, []);
+  }, [accessToken,setArray]);
   return (
     <>
       <NavBar login={true} />
@@ -44,7 +37,7 @@ const MyArticles = () => {
         <Box mt={5}>
           {array.length !== 0 ? (
             array.map((object) => {
-              return <ArticleCard key={object.id} object={object} />;
+              return <ArticleCard key={object._source.id} object={object._source} />;
             })
           ) : (
             <Typography sx={{ fontFamily: 'Poppins' }}>

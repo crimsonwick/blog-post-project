@@ -9,3 +9,7 @@ const baseURL = 'http://localhost:5000';
   export const addComment = async(object) => {
     return await axios.post(`${baseURL}/comment`,object)
   }
+
+ export const addReply = async(object) => {
+  return await axios.post(`${baseURL}/comment/addReply`,object)
+ }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Box } from '@mui/system';
 import '../styles/Article/Article.css';
 import { Card, List } from '@mui/material';
@@ -11,64 +11,34 @@ import { Avatar } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
+import { parseDate, parseName } from '../services/LoginApi';
 import { Link } from 'react-router-dom';
-import { AppContext } from '../App';
-import { parseDate } from '../services/LoginApi';
+
 
 const ArticleCard = (props) => {
-  const { dp, userData } = useContext(AppContext);
+
   return (
     <Card
-      style={{
-        marginTop: '30px',
-        hieght: 'auto',
-        width: 'auto',
-        opacity: '100%',
-        border: 'none',
-        boxShadow: 'none',
-      }}
+      elevation={10}
       sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
     >
-      <img
-        src={require(`../images/${props.object.image}`)}
-        alt="user_image"
-        className="articleImg"
-        style={{
-          borderRadius: '20px',
-          width: '300px',
-          height: '250px',
-          objectFit: 'fill',
-          marginRight: '50px',
-        }}
-      />
+      <img src={require(`../images/${props.object.image}`)} alt="user_image" className="articleImg"/>
       <Box mt={1}>
         <Chip label="Travel" />
-        <Link
-          to="/article-detail"
-          state={props}
-          style={{ textDecoration: 'none', color: 'black' }}
-        >
+        <Link to="/article-detail" state={props} style={{textDecoration: "none" , color: "rgba(0,0,0,0.87)"}}>
           <Typography variant="h4" component="h3">
             {props.object.title}
           </Typography>
         </Link>
-
         <List style={flexContainer}>
           <ListItem className="user">
             <ListItemIcon>
               <Avatar
-                alt="user display picture"
-                src={
-                  dp
-                    ? require(`../images/${dp}`)
-                    : userData.avatar
-                    ? require(`../images/${userData.avatar}`)
-                    : ''
-                }
-                sx={{ width: 32, height: 32 }}
+                src={require(`../images/${props.object.Posted_By.avatar}`)}
+                alt="spongebob"
               />
             </ListItemIcon>
-            <ListItemText primary={`${props.object.userId}`} />
+            <ListItemText primary={parseName(props.object.Posted_By.email)}/>
           </ListItem>
           <ListItem className="date">
             <ListItemIcon>
@@ -83,7 +53,7 @@ const ArticleCard = (props) => {
             <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
           </ListItem>
         </List>
-        <Typography variant="h6" style={{ objectFit: 'fill' }}>
+        <Typography variant="h6">
           {props.object.body}
         </Typography>
       </Box>

@@ -1,4 +1,3 @@
-import Logout from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -15,7 +14,7 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AppContext } from '../App.js';
-import { logout } from '../services/LoginApi.js';
+import { logout, searchAPI } from '../services/LoginApi.js';
 import {
   Search,
   SearchIconWrapper,
@@ -32,6 +31,14 @@ const Navbar = ({ login }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleKeyDown = async (event) => {
+    const response = await searchAPI(event.target.value);
+    setSearchData(response.data);
+  };
+  const handleChange = (event) => {
+    [event.target.name] = [event.target.value];
+  };
   const handleLogout = async () => {
     try {
       const body = { data: { token: `${refreshToken}` } };
@@ -42,7 +49,6 @@ const Navbar = ({ login }) => {
       console.log(err);
     }
   };
-
   return (
     <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
@@ -90,6 +96,8 @@ const Navbar = ({ login }) => {
             sx={{ color: '#111111' }}
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
           />
         </Search>
         {login && (

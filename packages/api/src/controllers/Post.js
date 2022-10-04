@@ -2,7 +2,7 @@ import model from '../models';
 import client from '../config/elasticsearch.js';
 import { ErrorHandling } from '../middleware/Errors.js';
 
-const { Users, Posts } = model;
+const { Users, Posts,Comments } = model;
 
 export const AddPost = async (req, res) => {
   const { userId, title, body, timetoRead } = req.body;
@@ -14,13 +14,22 @@ export const AddPost = async (req, res) => {
       image: req.file.originalname,
       timetoRead: timetoRead
     });
+    const readNewPost = await Posts.findOne({
+      where: {
+        id: addNewPost.id
+      },
+      include: {
+        model: Users,
+        as: 'Posted_By'
+      }
+    })
     const C_post = await client.index({
       index: "posts",
-      body: addNewPost,
+      body: readNewPost,
     });
     return res.json(C_post);
   } catch (error) {
-    console.log(error)
+    ErrorHandling(res)
   }
 }
 
@@ -98,6 +107,14 @@ export const searchPosts = async (req, res) => {
 }
 
 export const myPosts = async (req, res) => {
+  let query = {
+    index: "posts",
+    body: {
+        query: {
+            match: {"userId": req.query.userId}
+        }
+    }
+  };
   try {
     const LoginDetails = await Users.findAll({
       where: {
@@ -106,24 +123,30 @@ export const myPosts = async (req, res) => {
     })
     if (!LoginDetails) return res.json(`Un Authorized Access`)
     else {
-      const myPosts = await Posts.findAll({
-        where: {
-          userId: LoginDetails[0].id
-        }
-      });
+      const myPosts = await client.search(query);
       if (!myPosts) return res.json(`You haven't Posted Anything!!`);
-      else return res.json(myPosts);
+      else return res.json(myPosts.body.hits.hits);
     }
   } catch (error) {
     ErrorHandling(res);
   }
 }
 
-export const searching = async (req, res) => {
+
+export const getRepliesfromOnePost = async(req,res) => {
   try {
-    const { title } = req.query;
-    return res.json(title)
+      const AllComments = await Comments.findAll({
+          where: {
+              postId: req.params.id,
+              parentId: null
+          },
+            include: {
+                model: Users,
+                as: 'Commented_By'
+            }
+      })
+  return res.json(AllComments)
   } catch (error) {
-    console.log(error)
+      ErrorHandling(res)
   }
 }
