@@ -70,7 +70,7 @@ function App() {
     >
       <ThemeProvider theme={theme}>
         <SnackbarProvider
-          maxSnack={3} autoHideDuration={1000} action={key => <CloseButton id={key} />}
+          maxSnack={3} autoHideDuration={2000} action={key => <CloseButton id={key} />}
           preventDuplicate={true} anchorOrigin={{ vertical: "top", horizontal: "center" }}
           classes={{ containerRoot: 'snackbarProvider' }}
         >

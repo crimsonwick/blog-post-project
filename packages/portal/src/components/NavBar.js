@@ -42,12 +42,8 @@ const Navbar = ({ login, active }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleHome = () => {
-    Alerts.success("Home");
-  }
-  const handleMyArticles = () => {
-    Alerts.success("My Articles");
-  }
+
+
   const handleLogout = async () => {
     try {
       const body = { data: { token: `${refreshToken}` } };
@@ -67,7 +63,7 @@ const Navbar = ({ login, active }) => {
             component={Link}
             to="/"
             variant="h6"
-            onClick={handleHome}
+
             sx={{
               // flex: 1,
               marginLeft: '5px',
@@ -88,7 +84,7 @@ const Navbar = ({ login, active }) => {
               component={Link}
               to="/my-articles"
               variant="h6"
-              onClick={handleMyArticles}
+
               sx={{
                 // flex: 1,
                 marginLeft: '50px',
