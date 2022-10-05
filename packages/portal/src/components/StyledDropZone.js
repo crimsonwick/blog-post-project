@@ -25,7 +25,7 @@ const Container = styled.div`
   align-items: center;
   padding: 20px;
   border-width: 2px;
-  border-radius: 20px;
+  border-radius: 25px;
   border-color: ${(props) => getColor(props)};
   border-style: dashed;
   background-color: #fafafa;

@@ -40,7 +40,7 @@ const MyArticles = () => {
               );
             })
           ) : (
-            <Typography sx={{ fontFamily: 'Poppins' }}>
+            <Typography sx={{ fontFamily: 'Poppins', fontSize: '20px' }}>
               No articles to show
             </Typography>
           )}
