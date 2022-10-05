@@ -84,7 +84,7 @@ const Signup = () => {
     const responsed = await getSignUpDetails(data);
     if (responsed.data.id === undefined) {
       dispatch({ type: 'FAILED' });
-      Alerts.error("Something Bad occurs");
+      Alerts.error("Account already exists");
     } else {
 
       dispatch({ type: 'SUCCESS' });

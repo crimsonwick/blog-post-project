@@ -86,7 +86,7 @@ function Login() {
         }, 100);
       } else {
         dispatch({ type: 'FAILED' });
-        Alerts.error("Something Bad occur");
+        Alerts.error("Wrong Credentials");
         setTimeout(() => {
         }, 1000);
       }
