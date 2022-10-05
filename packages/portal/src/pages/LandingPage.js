@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import NavBar from '../components/NavBar';
 import Container from '@mui/material/Container';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ArticleCard from '../components/ArticleCard';
 import Footer from '../components/Footer';
 import { allPostsComing } from '../services/LoginApi';
@@ -31,18 +31,21 @@ const Home = () => {
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name="Recent Posts" />
         <Box mt={5}>
-          {data && searchData.length === 0
-            ? data.map((object) => {
-                return <ArticleCard key={object.id} object={object} />;
-              })
-            : searchData.map((object) => {
-                return (
-                  <ArticleCard
-                    key={object._source.id}
-                    object={object._source}
-                  />
-                );
-              })}
+          {data ? (
+            data.map((object) => {
+              return <ArticleCard key={object.id} object={object} />;
+            })
+          ) : searchData ? (
+            searchData.map((object) => {
+              return (
+                <ArticleCard key={object._source.id} object={object._source} />
+              );
+            })
+          ) : (
+            <Typography
+              sx={{ fontFamily: 'Poppins', fontSize: '20px' }}
+            ></Typography>
+          )}
         </Box>
         <Footer />
       </Container>

@@ -62,10 +62,8 @@ const CreateArticle = () => {
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name="Create New Article" />
         <Box component="form" onSubmit={handleSubmit(onSubmit)} mt={3}>
-          <FormLabel className={styles.poppins}>Give it a title </FormLabel>
-
+          <FormLabel>Give it a title </FormLabel>
           <br />
-
           <Controller
             control={control}
             name="title"
@@ -183,8 +181,8 @@ const CreateArticle = () => {
               borderRadius: '25px',
               fontFamily: ['Poppins', 'serif'].join(','),
               fontSize: 18,
+              width: '705px',
               height: '56px',
-              width: '700px',
               textTransform: 'capitalize',
               fontWeight: 'bold',
             }}

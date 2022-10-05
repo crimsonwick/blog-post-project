@@ -11,13 +11,11 @@ const resetSecret = process.env.RESET_PASSWORD_KEY;
 
 dotenv.config();
 const salt = bcrypt.genSaltSync(10);
-
 const { Users } = model;
-
 export let tokens = [];
 
 export const SignUp = async (req, res) => {
-  const { email, password,avatar } = req.body;
+  const { email, password, avatar } = req.body;
   const hasedPassword = bcrypt.hashSync(password, salt);
   try {
     const checkAccount = await Users.findOne({
@@ -27,7 +25,11 @@ export const SignUp = async (req, res) => {
     });
     if (checkAccount) return res.json(`${email} Account Already Exists`);
     else {
-      const userArray = { email: email, password: hasedPassword,avatar: avatar };
+      const userArray = {
+        email: email,
+        password: hasedPassword,
+        avatar: avatar,
+      };
       const newUser = await Users.create(userArray);
       return res.json(newUser.dataValues);
     }
@@ -95,7 +97,13 @@ export const Logout = async (req, res) => {
 
 export const UpdateUserAvatar = async (req, res) => {
   const userId = req.params.userId;
-  const image = req.file.originalname;
+  let image;
+  if (req.file) {
+    image = req.file.originalname;
+  } else {
+    return res.sendStatus(404);
+  }
+
   try {
     const user = await Users.findOne({ where: { id: userId } });
     user.avatar = image;
@@ -106,6 +114,7 @@ export const UpdateUserAvatar = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
 export const ForgetPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -140,9 +149,7 @@ function sendEmail(user, token) {
     to: user.email,
     from: 'talha.shakil@kwanso.com', // your email
     subject: 'Reset password requested',
-    html: `
-     <a href="${process.env.clientURL}/change-password?token=${token}">${token}</a>
-   `,
+    html: `<a href=${process.env.clientURL}/change-password?token=${token}>${token}</a>`,
   };
 
   sgMail.send(msg);
@@ -175,12 +182,11 @@ export const ResetPassword = async (req, res) => {
       }
     });
     if (password1 === password2) {
-      const hashPassword = bcrypt.hashSync(password1, 8);
+      const hashPassword = bcrypt.hashSync(password1, salt);
       // update user credentials and remove the temporary link from database before saving
       user.password = hashPassword;
       user.resetLink = null;
       await user.save();
-
       return res.status(200).json({ message: 'Password updated' });
     }
   } catch (error) {

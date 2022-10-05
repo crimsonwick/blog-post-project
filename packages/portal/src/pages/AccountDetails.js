@@ -1,4 +1,4 @@
-import { Button, Divider, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../App';
@@ -27,12 +27,12 @@ const AccountDetails = () => {
         body: formData,
       });
       if (response) {
-        setStatus(response.statusText);
+        setStatus(response.status);
         const imageObj = await response.json();
         if (imageObj) setDp(imageObj.image);
       }
     } catch (err) {
-      console.log(err);
+      console.log(status, err);
     }
   };
   const handleFileChange = (e) => {
