@@ -18,7 +18,7 @@ const Home = () => {
   };
   useEffect(() => {
     allPosts();
-    console.log('API was called');
+    // console.log('API was called');
   }, []);
 
   return (

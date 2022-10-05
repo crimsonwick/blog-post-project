@@ -29,7 +29,7 @@ export default function PaginatedItems(props) {
     <>
       <Box mt={5}>
         {currentItems.map((object) => {
-          return <ArticleCard key={object._id} object={object} />;
+          return <ArticleCard  key={object._id}object={object} />;
         })}
       </Box>
 

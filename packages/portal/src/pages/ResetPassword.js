@@ -84,7 +84,6 @@ function ResetPassword() {
         {errors.email && (
           <span className="errorMsg">{errors.email.message}</span>
         )}
-        <br />
         <Button
           type="submit"
           variant="contained"
@@ -100,9 +99,6 @@ function ResetPassword() {
           Send Email
         </Button>
       </form>
-      <br />
-      <br />
-      <br />
     </Container>
   );
 }

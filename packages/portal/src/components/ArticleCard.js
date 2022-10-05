@@ -11,7 +11,7 @@ import { Avatar } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import Chip from "@mui/material/Chip";
-import { parseDate, parseName } from "../services/LoginApi";
+import { parseDate } from "../services/LoginApi";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../App";
@@ -55,7 +55,7 @@ const ArticleCard = (props) => {
           </Typography>
         </Link>
         <List style={flexContainer}>
-          <ListItem className="user">
+          <ListItem className="user" disablePadding={true}>
             <ListItemIcon>
               <Avatar
                 alt="user display picture"

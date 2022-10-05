@@ -11,6 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { addPost } from '../services/LoginApi';
 import { useDropzone } from "react-dropzone";
+import Box from '@mui/material/Box';
 
 
 const schema = yup
@@ -79,10 +80,8 @@ function CreateArticle() {
       <div className={styles.padding}>
         <h1 className={styles.headingOne}>Create New Article</h1>
         <Divider light />
-        <br />
-        <br />
-        <br />
-        <form onSubmit={handleSubmit(onSubmit)}>
+
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}   mt={5} >
           <label className={styles.poppins}>Give it a title</label>
 
           <br />
@@ -220,7 +219,7 @@ function CreateArticle() {
           >
             Publish Article
           </Button>
-        </form>
+        </Box>
       </div>
     </>
   );

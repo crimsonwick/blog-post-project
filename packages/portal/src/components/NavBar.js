@@ -78,7 +78,6 @@ const Navbar = ({ login }) => {
                 textTransform: 'capitalize',
                 textDecoration: 'none',
                 paddingLeft: '20px',
-                fontWeight: '600',
                 color: '#111111',
               }}
             >

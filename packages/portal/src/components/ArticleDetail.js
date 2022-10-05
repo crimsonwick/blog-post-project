@@ -16,8 +16,11 @@ const ArticleDetail = (props) => {
     <Card
       mt={1}
       sx={{
-        height: '100vh',
+        // height: '100vh',
         marginTop: '20px',
+        border: "none",
+        boxShadow: "none",
+
       }}
     >
       <Chip label="Travel" sx={{ marginTop: '5px' }} />
@@ -29,7 +32,7 @@ const ArticleDetail = (props) => {
         {props.object.title}
       </Typography>
       <List style={flexContainer}>
-        <ListItem className="user">
+        <ListItem className="user"  disablePadding={true}>
           <ListItemIcon>
             <Avatar
               src={
@@ -54,7 +57,7 @@ const ArticleDetail = (props) => {
         alt="post_img"
         className="articleBigImg"
       />
-      <Typography variant="h6" sx={{ width: '856px', marginTop: '10px' }}>
+      <Typography variant="h6" sx={{ width: '856px', marginTop: '10px'}}> {/* , marginLeft: '18px'}}> */}
         {props.object.body}
       </Typography>
     </Card>
