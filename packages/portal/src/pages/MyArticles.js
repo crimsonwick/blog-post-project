@@ -9,6 +9,7 @@ import { useState, useEffect, useContext } from "react";
 import { gettingPosts, parseJwt } from "../services/LoginApi";
 import { AppContext } from "../App";
 import PaginatedItems from "../components/PaginatedItems";
+import { PostsHeader } from '../components/PostsHeader';
 
 const MyArticles = () => {
   const [array, setArray] = useState([]);
@@ -23,23 +24,15 @@ const MyArticles = () => {
       };
       const userDetails = parseJwt(accessToken);
       const details = await gettingPosts(config, userDetails.user.id);
-
-      if (details.data.length)
-      {
-        setArray(details.data);
-      }
-
+      if (details.data.length) setArray(details.data);
     };
     allPosts();
   }, [accessToken, setArray]);
   return (
     <>
       <NavBar login={true} />
-      <Container maxWidth="lg" sx={{ position: "relative", marginY: 10 }}>
-        <h1 style={{ fontFamily: "Poppins", marginTop: "65px" }}>
-          My Articles
-        </h1>
-        <Divider />
+      <Container sx={{ marginY: 10 }}>
+        <PostsHeader name="My Articles" />
         <Box mt={5}>
           {array.length !== 0 ? (
             array.map((object) => {
@@ -48,7 +41,7 @@ const MyArticles = () => {
               );
             })
           ) : (
-            <Typography sx={{ fontFamily: "Poppins" }}>
+            <Typography sx={{ fontFamily: 'Poppins', fontSize: '20px' }}>
               No articles to show
             </Typography>
           )}

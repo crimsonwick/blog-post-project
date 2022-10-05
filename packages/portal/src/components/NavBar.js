@@ -1,32 +1,33 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import Logout from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
+import { Box, Typography } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import * as React from 'react';
+import { useContext, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { AppContext } from '../App.js';
+import { logout, searchAPI } from '../services/LoginApi.js';
 import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
 } from '../styles/NavBar.js';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import Logout from '@mui/icons-material/Logout';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
-import { logout } from '../services/LoginApi.js';
-import { useContext, useState } from 'react';
 import { AppContext } from '../App.js';
-import { searchAPI } from '../services/LoginApi.js';
-import { Typography } from '@mui/material';
 import flexContainer from '../styles/Article/List';
-import { Box } from '@mui/material';
+
 const Navbar = ({ login }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setLoggedIn, setSearchData, refreshToken, userData, dp } =
+  const { setLoggedIn, refreshToken, setSearchData, userData, dp } =
     useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -34,6 +35,14 @@ const Navbar = ({ login }) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleKeyDown = async (event) => {
+    const response = await searchAPI(event.target.value);
+    setSearchData(response.data);
+  };
+  const handleChange = (event) => {
+    [event.target.name] = [event.target.value];
   };
   const handleLogout = async () => {
     try {
@@ -50,18 +59,15 @@ const Navbar = ({ login }) => {
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
           <Typography
-            component={Link}
+            component={NavLink}
+            style={({ isActive }) => {
+              return { color: isActive ? 'black' : 'gray' };
+            }}
             to="/"
             variant="h6"
             sx={{
-              // flex: 1,
               marginLeft: '5px',
-              fontWeight: '600',
               textTransform: 'capitalize',
-              // flexGrow: 0,
-              // flexShrink: 0,
-              // flexBasis: '70px',
-              color: '#111111',
               textDecoration: 'none',
             }}
           >
@@ -69,16 +75,17 @@ const Navbar = ({ login }) => {
           </Typography>
           {login && (
             <Typography
-              component={Link}
+              component={NavLink}
+              style={({ isActive }) => {
+                return { color: isActive ? 'black' : 'gray' };
+              }}
               to="/my-articles"
               variant="h6"
               sx={{
                 marginLeft: '15px',
-                fontWeight: '600',
                 textTransform: 'capitalize',
                 textDecoration: 'none',
                 paddingLeft: '20px',
-                color: '#111111',
               }}
             >
               My Articles
@@ -89,10 +96,13 @@ const Navbar = ({ login }) => {
           <SearchIconWrapper>
             <SearchIcon sx={{ color: '#111111' }} />
           </SearchIconWrapper>
+
           <StyledInputBase
             sx={{ color: '#111111' }}
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
           />
         </Search>
         {login && (

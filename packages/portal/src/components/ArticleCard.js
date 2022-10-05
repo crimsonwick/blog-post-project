@@ -69,7 +69,7 @@ const ArticleCard = (props) => {
                 sx={{ width: 32, height: 32 }}
               />
             </ListItemIcon>
-            <ListItemText primary={`${props.object.userId}`} />
+            <ListItemText primary={parseName(props.object.Posted_By.email)} />
           </ListItem>
           <ListItem className="date">
             <ListItemIcon>

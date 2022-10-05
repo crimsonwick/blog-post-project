@@ -66,27 +66,32 @@ function ChangePassword() {
     event.preventDefault();
   };
   const onSubmit = async (data) => {
-    // const token;
-    errors.password1 ? setMessage(false) : setMessage(true);
-    setMessage(true);
-    const token = new URLSearchParams(location.search);
-    const url = `http://localhost:5000/user/reset-password
-    )}`;
-    console.log(data, 'correct data');
-    const options = {
-      method: 'PUT',
-      url: url,
-      params: { token: `${token}` },
-      data: { password1: data.password1, password2: data.password2 },
-    };
-    const response = await axios(options);
-    const record = response.data;
-    if (record.statusText === 'Success') {
-      toast.success(record.message);
-    } else {
-      toast.error(record.message);
+    try {
+      errors.password1 ? setMessage(false) : setMessage(true);
+      setMessage(true);
+      const unparsedToken = location.search;
+      const token = unparsedToken.slice(7, unparsedToken.length);
+      const url = `http://localhost:5000/user/reset-password`;
+      console.log(data, 'correct data');
+      const options = {
+        method: 'PUT',
+        url: url,
+        params: { token: `${token}` },
+        data: { password1: data.password1, password2: data.password2 },
+      };
+      const response = await axios(options);
+      console.log(response);
+      const record = response.data;
+      debugger;
+      if (record.statusText === 'Success') {
+        toast.success(record.message);
+      } else {
+        toast.error(record.message);
+      }
+      console.log(data);
+    } catch (err) {
+      console.log(err);
     }
-    console.log(data);
   };
   const onClose = () => {
     setMessage(false);
@@ -101,7 +106,7 @@ function ChangePassword() {
         open={message}
         autoHideDuration={2000}
         message="Password Changed"
-        onclose={onClose}
+        onClose={onClose}
       />
       <Divider />
       <Box>
