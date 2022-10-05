@@ -160,8 +160,6 @@ function Login() {
         )}
         <br />
         <FormLabel htmlFor="my-input">Password</FormLabel>
-        {/* <br />
-        <br /> */}
         <Controller
           control={control}
           name="password"

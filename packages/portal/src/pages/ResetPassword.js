@@ -47,7 +47,6 @@ function ResetPassword() {
     }
 
     errors.email ? setMessage(false) : setMessage(true);
-    //navigate("/login");
   };
   return (
     <Container maxWidth="sm">

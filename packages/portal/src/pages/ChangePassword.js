@@ -66,7 +66,6 @@ function ChangePassword() {
     event.preventDefault();
   };
   const onSubmit = async (data) => {
-    // const token;
     errors.password1 ? setMessage(false) : setMessage(true);
     setMessage(true);
     const token = new URLSearchParams(location.search);
