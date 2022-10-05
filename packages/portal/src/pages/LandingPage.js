@@ -37,9 +37,16 @@ const Home = () => {
         {/* <Box mt={5}>
           {data && searchData.length === 0
             ? data.map((object) => {
-                return <ArticleCard key={object.id} object={object} />;
-              })
+              return <ArticleCard key={object.id} object={object} />;
+            })
             : searchData.map((object) => {
+              return (
+                <ArticleCard
+                  key={object._source.id}
+                  object={object._source}
+                />
+              );
+            })}
                 return (
                   <ArticleCard
                     key={object._source.id}
@@ -50,13 +57,13 @@ const Home = () => {
         </Box> */}
         <Box mt={5}>
           {(Array.isArray(data) && Array.isArray(searchData) && searchData.length === 0) ? //((data.map((object) => {
-              // <Article key={object.id} object={object} />
-              <PaginatedItems data={data} />
-           : (searchData.map((object) => {
-            return (
-              <ArticleCard key={object._source.id} object={object._source} />
-            )
-          }))}
+            // <Article key={object.id} object={object} />
+            <PaginatedItems data={data} />
+            : (searchData.map((object) => {
+              return (
+                <ArticleCard key={object._source.id} object={object._source} />
+              )
+            }))}
         </Box>
         {/* <Footer /> */}
       </Container>

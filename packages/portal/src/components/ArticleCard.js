@@ -21,35 +21,22 @@ const ArticleCard = (props) => {
 
   return (
     <Card
-      style={{
-        marginTop: "30px",
-        hieght: "auto",
+      elevation={0}
+      sx={{
+        display: 'flex', allignItems: 'centre', marginTop: '20px', border: "none", hieght: "auto",
         width: "auto",
-        opacity: "100%",
-        border: "none",
-        boxShadow: "none",
       }}
-      sx={{ display: "flex", allignItems: "centre", marginTop: "20px" }}
     >
-      <img
-        src={require(`../images/${props.object.image}`)}
-        alt="user_image"
-        className="articleImg"
-        style={{
-          borderRadius: "20px",
-          width: "300px",
-          height: "250px",
-          objectFit: "fill",
-          marginRight: "50px",
-        }}
-      />
+      <img src={require(`../images/${props.object.image}`)} alt="user_image" className="articleImg" style={{
+        borderRadius: "20px",
+        width: "300px",
+        height: "250px",
+        objectFit: "fill",
+        marginRight: "50px",
+      }} />
       <Box mt={1}>
         <Chip label="Travel" />
-        <Link
-          to="/article-detail"
-          state={props}
-          style={{ textDecoration: "none", color: "black" }}
-        >
+        <Link to="/article-detail" state={props} style={{ textDecoration: "none", color: "rgba(0,0,0,0.87)" }}>
           <Typography variant="h4" component="h3">
             {props.object.title}
           </Typography>
@@ -63,8 +50,8 @@ const ArticleCard = (props) => {
                   dp
                     ? require(`../images/${dp}`)
                     : userData.avatar
-                    ? require(`../images/${userData.avatar}`)
-                    : ""
+                      ? require(`../images/${userData.avatar}`)
+                      : ""
                 }
                 sx={{ width: 32, height: 32 }}
               />

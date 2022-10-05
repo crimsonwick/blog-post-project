@@ -13,6 +13,7 @@ import { addPost } from '../services/LoginApi';
 import { StyledDropZone } from '../components/StyledDropZone';
 import { Container } from '@mui/system';
 import { PostsHeader } from '../components/PostsHeader';
+import { Alerts } from "../components/Alerts"
 
 const schema = yup
   .object({
@@ -39,21 +40,28 @@ const CreateArticle = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    let formData = new FormData();
-    formData.append('userId', userData.id);
-    formData.append('title', data.title);
-    formData.append('body', data.body);
-    formData.append('file', postImage);
-    formData.append('timetoRead', data.mins);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+    try {
+      let formData = new FormData();
+      formData.append('userId', userData.id);
+      formData.append('title', data.title);
+      formData.append('body', data.body);
+      formData.append('file', postImage);
+      formData.append('timetoRead', data.mins);
+      Alerts.success("Post Created successfully");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      await addPost(formData, config);
+      setTimeout(() => {
+
+        navigate('/my-articles');
+
+      }, 250)
+    } catch (err) {
+      Alerts.error("Something went Wrong");
     };
-    await addPost(formData, config);
-    setTimeout(() => {
-      navigate('/my-articles');
-    }, 250);
   };
 
   return (

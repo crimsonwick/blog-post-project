@@ -153,11 +153,11 @@ function sendEmail(user, token) {
   };
 
   sgMail.send(msg);
-  console.log('Email sent');
 }
 
 export const ResetPassword = async (req, res) => {
   try {
+
     const { token } = req.query;
     // Get the token from params
     const { password1, password2 } = req.body;
@@ -188,8 +188,10 @@ export const ResetPassword = async (req, res) => {
       user.resetLink = null;
       await user.save();
       return res.status(200).json({ message: 'Password updated' });
+
     }
   } catch (error) {
+
     res.status(500).json({ message: error.message });
   }
 };

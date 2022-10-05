@@ -1,29 +1,30 @@
-import styles from "../styles/Login/Login.module.css";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import Container from "@mui/material/Container";
-import { useForm, Controller } from "react-hook-form";
-import Button from "@mui/material/Button";
-import React, { useReducer } from "react";
-import { Alert, AlertTitle } from "@mui/material";
-import Divider from "@mui/material/Divider";
-import { Link } from "react-router-dom";
-import FormLabel from "@mui/material/FormLabel";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { AppContext } from "../App";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { getLoginDetails, parseJwt } from "../services/LoginApi";
-import "../styles/signup.css";
-import YupPassword from "yup-password";
-import Box from "@mui/material/Box";
-
+import styles from '../styles/Login/Login.module.css';
+import '../styles/signup.css'
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Container from '@mui/material/Container';
+import { useForm, Controller } from 'react-hook-form';
+import Button from '@mui/material/Button';
+import React, { useReducer } from 'react';
+import { Alert, AlertTitle } from '@mui/material';
+import Divider from '@mui/material/Divider';
+import { Link } from 'react-router-dom';
+import FormLabel from '@mui/material/FormLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { AppContext } from '../App';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { getLoginDetails, parseJwt } from '../services/LoginApi';
+import '../styles/signup.css';
+import YupPassword from 'yup-password';
+import { Alerts } from "../components/Alerts"
+import { Box } from "@mui/system"
 YupPassword(yup);
 
 const schema = yup
@@ -74,7 +75,8 @@ function Login() {
       const response = await getLoginDetails(data);
       console.log(" i am in submit handler,", response);
       if (response.data.accessToken) {
-        dispatch({ type: "SUCCESS" });
+        dispatch({ type: 'SUCCESS' });
+        Alerts.success("Logged In Successfully");
         setAccessToken(response.data.accessToken);
         setRefreshToken(response.data.refreshToken);
         setLoggedIn(true);
@@ -85,10 +87,8 @@ function Login() {
           navigate("/");
         }, 100);
       } else {
-        dispatch({ type: "FAILED" });
-        setTimeout(() => {
-          navigate("/signup");
-        }, 1000);
+        dispatch({ type: 'FAILED' });
+        Alerts.error("Wrong Credentials");
       }
     } catch (err) {
       console.log(err);
@@ -107,7 +107,7 @@ function Login() {
   };
   return (
     <Container maxWidth="sm">
-      {state.Submitted && state.showMessage && (
+      {/* {state.Submitted && state.showMessage && (
         <Alert severity="success">
           <AlertTitle>
             {" "}
@@ -126,11 +126,11 @@ function Login() {
           </AlertTitle>
           You need to <strong> Sign Up </strong>your Account!
         </Alert>
-      )}
+      )} */}
       <h1 className={styles.headingOne}>Log In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel htmlFor="my-input">Email address</FormLabel>{" "}
-  
+
         <Controller
           control={control}
           name="email"
@@ -157,9 +157,9 @@ function Login() {
           )}
         />
         {errors.email && (
-          <span className="errorMsg">{errors.email.message}</span>
+          <p className="errorMsg">{errors.email.message}</p>
         )}
-        <Box mt={2}/>
+        <Box mt={2} />
         <FormLabel htmlFor="my-input">Password</FormLabel>
 
         <Controller
@@ -198,7 +198,7 @@ function Login() {
             />
           )}
         />
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && <p className='errorMsg'>{errors.password.message}</p>}
         <Link to="/reset-password" style={{ color: "black" }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>

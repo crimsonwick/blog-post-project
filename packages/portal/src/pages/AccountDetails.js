@@ -6,6 +6,7 @@ import BasicTable from '../components/BasicTable';
 import NavBar from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { parseJwt } from '../services/LoginApi';
+import { Alerts } from "../components/Alerts"
 
 const AccountDetails = () => {
   const [image, setImage] = useState({ preview: '', data: '' });
@@ -26,15 +27,22 @@ const AccountDetails = () => {
         },
         body: formData,
       });
-      if (response) {
-        setStatus(response.status);
-        const imageObj = await response.json();
-        if (imageObj) setDp(imageObj.image);
+      // if (response) {
+      //   setStatus(response.status);
+      const imageObj = await response.json();
+      if (imageObj) {
+        setDp(imageObj.image)
+        Alerts.success("Dp uploaded");
       }
+      else {
+        Alerts.warning("Image not uploaded");
+      }
+
     } catch (err) {
       console.log(status, err);
     }
   };
+
   const handleFileChange = (e) => {
     const img = {
       preview: URL.createObjectURL(e.target.files[0]),
@@ -74,11 +82,13 @@ const AccountDetails = () => {
                 type="file"
                 name="file"
                 onChange={handleFileChange}
+
                 hidden
               />
             </Button>
             <Button
               variant="contained"
+
               sx={{
                 borderRadius: '20px',
                 marginLeft: '10px',
