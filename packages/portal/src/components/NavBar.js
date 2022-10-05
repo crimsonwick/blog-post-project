@@ -1,4 +1,3 @@
-import Logout from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -14,8 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { AppContext } from '../App.js';
-import { logout, searchAPI } from '../services/LoginApi.js';
+import { logout, searchAPI } from '../services/LoginApi.js'
 import {
   Search,
   SearchIconWrapper,

@@ -49,7 +49,7 @@ const Home = () => {
               })}
         </Box> */}
         <Box mt={5}>
-          {(Array.isArray(data) && searchData.length === 0) ? //((data.map((object) => {
+          {(Array.isArray(data) && Array.isArray(searchData) && searchData.length === 0) ? //((data.map((object) => {
               // <Article key={object.id} object={object} />
               <PaginatedItems data={data} />
            : (searchData.map((object) => {

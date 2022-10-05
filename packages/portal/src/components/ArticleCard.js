@@ -11,7 +11,7 @@ import { Avatar } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import Chip from "@mui/material/Chip";
-import { parseDate } from "../services/LoginApi";
+import { parseDate, parseName } from "../services/LoginApi";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../App";
