@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -16,6 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Container, Box } from '@mui/system';
+import { Alerts } from "../components/Alerts"
 import Header from '../components/Header';
 YupPassword(yup);
 
@@ -40,6 +41,7 @@ const schema = yup
   })
   .required();
 function ChangePassword() {
+  const navigate = useNavigate()
   const [message, setMessage] = useState(false);
   const {
     control,
@@ -80,34 +82,19 @@ function ChangePassword() {
         data: { password1: data.password1, password2: data.password2 },
       };
       const response = await axios(options);
-      console.log(response);
+      const onClose = () => {
+        setMessage(false);
+      };
       const record = response.data;
-      debugger;
-      if (record.statusText === 'Success') {
-        toast.success(record.message);
-      } else {
-        toast.error(record.message);
-      }
-      console.log(data);
+      Alerts.success("Password Updated");
+      navigate("/login")
     } catch (err) {
-      console.log(err);
+      Alerts.error("Something Bad Occurs");
     }
-  };
-  const onClose = () => {
-    setMessage(false);
   };
   return (
     <div className={styles.padding}>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        open={message}
-        autoHideDuration={2000}
-        message="Password Changed"
-        onClose={onClose}
-      />
+
       <Divider />
       <Box>
         <Header heading="Change Password" />

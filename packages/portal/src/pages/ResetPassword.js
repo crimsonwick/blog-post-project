@@ -12,6 +12,8 @@ import YupPassword from 'yup-password';
 import Alert from '@mui/material/Alert';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { Alerts } from "../components/Alerts"
+import { useNavigate } from 'react-router-dom';
 YupPassword(yup);
 const schema = yup
   .object({
@@ -19,6 +21,7 @@ const schema = yup
   })
   .required();
 function ResetPassword() {
+  const navigate = useNavigate()
   const {
     control,
     handleSubmit,
@@ -31,29 +34,29 @@ function ResetPassword() {
   });
   const [message, setMessage] = useState(false);
   const onSubmit = async (data) => {
-    const url = 'http://localhost:5000/user/forget-password';
-    console.log(data, 'correct data');
-    const options = {
-      method: 'POST',
-      url: url,
-      data: { email: data.email },
-    };
-    const response = await axios(options);
-    const record = response.data;
-    if (record.statusText === 'Success') {
-      toast.success(record.message);
-    } else {
-      toast.error(record.message);
+    try {
+      const url = 'http://localhost:5000/user/forget-password';
+      console.log(data, 'correct data');
+      const options = {
+        method: 'POST',
+        url: url,
+        data: { email: data.email },
+      };
+      const response = await axios(options);
+      Alerts.success("Mail is sent");
+      navigate("/login");
+    } catch (err) {
+      Alerts.error(" Email not Found");
     }
 
-    errors.email ? setMessage(false) : setMessage(true);
+    //errors.email ? setMessage(false) : setMessage(true);
     //navigate("/login");
   };
   return (
     <Container maxWidth="sm">
-      {message && (
+      {/* {message && (
         <Alert severity="success">Password Reset - Check your email</Alert>
-      )}
+      )} */}
       <h1 className={styles.headingOne}>Reset Password</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel htmlFor="my-input">Email address</FormLabel>
@@ -84,7 +87,6 @@ function ResetPassword() {
         {errors.email && (
           <span className="errorMsg">{errors.email.message}</span>
         )}
-        <br />
         <Button
           type="submit"
           variant="contained"
@@ -100,9 +102,6 @@ function ResetPassword() {
           Send Email
         </Button>
       </form>
-      <br />
-      <br />
-      <br />
     </Container>
   );
 }

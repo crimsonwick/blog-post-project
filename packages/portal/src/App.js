@@ -14,8 +14,10 @@ import MyArticles from './pages/MyArticles';
 import Page404 from './pages/Page404';
 import ResetPassword from './pages/ResetPassword';
 import AccountDetails from './pages/AccountDetails';
-
+import { SnackbarProvider } from "notistack"
+import { CloseButton, SnackbarUtilsConfiguration } from "./components/Alerts";
 export const AppContext = createContext(null);
+
 
 function App() {
   const [dp, setDp] = useState();
@@ -38,10 +40,22 @@ function App() {
     setUserData(object);
   };
 
+  // const showAlert = (message, variant) => {
+  //   setAlert({
+  //     msg: message,
+  //     variant: variant
+  //   })
+  //   setTimeout(() => {
+  //     setAlert(null)
+  //   }, 1500)
+  // }
+
   return (
+
     <AppContext.Provider
       value={{
         dp,
+
         setDp,
         setUser,
         userData,
@@ -58,15 +72,22 @@ function App() {
       }}
     >
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            {/* <Route path="/my-articles" element={<MyArticles />} /> */}
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/change-password" element={<ChangePassword />} />
-            {/* <Route
+        <SnackbarProvider
+          maxSnack={3} autoHideDuration={2000} action={key => <CloseButton id={key} />}
+          preventDuplicate={true} anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          classes={{ containerRoot: 'snackbarProvider' }}
+        >
+          <SnackbarUtilsConfiguration />
+
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              {/* <Route path="/my-articles" element={<MyArticles />} /> */}
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/change-password" element={<ChangePassword />} />
+              {/* <Route
               path="/forgetPassword"
               element={
                 accessToken ? (
@@ -76,53 +97,58 @@ function App() {
                 )
               }
             /> */}
-            <Route
-              path="/create-article"
-              element={
-                accessToken ? (
-                  <Protected Component={CreateArticle} />
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
-            <Route
-              path="/my-articles"
-              element={
-                accessToken ? (
-                  <Protected Component={MyArticles}></Protected>
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
-            <Route
-              path="/article-detail"
-              element={
-                accessToken ? (
-                  <Protected Component={ArticleDetailPage}></Protected>
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
-            <Route
-              path="/account-details"
-              element={
-                accessToken ? (
-                  <Protected Component={AccountDetails}></Protected>
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
+              <Route
+                path="/create-article"
+                element={
+                  accessToken ? (
+                    <Protected Component={CreateArticle} />
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
+              <Route
+                path="/my-articles"
+                element={
+                  accessToken ? (
+                    <Protected Component={MyArticles}></Protected>
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
+              <Route
+                path="/article-detail"
+                element={
+                  accessToken ? (
+                    <Protected Component={ArticleDetailPage}></Protected>
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
+              <Route
+                path="/account-details"
+                element={
+                  accessToken ? (
+                    <Protected Component={AccountDetails}></Protected>
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
 
-            <Route path="*" element={<Page404 />} />
-          </Routes>
-        </BrowserRouter>
+              <Route path="*" element={<Page404 />} />
+            </Routes>
+          </BrowserRouter>
+        </SnackbarProvider>
       </ThemeProvider>
     </AppContext.Provider>
+
   );
 }
 
 export default App;
+
+
+

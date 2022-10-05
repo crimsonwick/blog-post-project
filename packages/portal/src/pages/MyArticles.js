@@ -1,13 +1,14 @@
-import { Container } from '@mui/system';
-import React from 'react';
-import ArticleCard from '../components/ArticleCard';
-import { Box } from '@mui/system';
-import Footer from '../components/Footer';
-import { Typography } from '@mui/material';
-import NavBar from '../components/NavBar';
-import { useState, useEffect, useContext } from 'react';
-import { gettingPosts, parseJwt } from '../services/LoginApi';
-import { AppContext } from '../App';
+import { Container } from "@mui/system";
+import React from "react";
+import ArticleCard from "../components/ArticleCard";
+import { Box } from "@mui/system";
+import Footer from "../components/Footer";
+import { Divider, Typography } from "@mui/material";
+import NavBar from "../components/NavBar";
+import { useState, useEffect, useContext } from "react";
+import { gettingPosts, parseJwt } from "../services/LoginApi";
+import { AppContext } from "../App";
+import PaginatedItems from "../components/PaginatedItems";
 import { PostsHeader } from '../components/PostsHeader';
 
 const MyArticles = () => {
