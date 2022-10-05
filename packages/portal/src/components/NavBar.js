@@ -18,6 +18,7 @@ import Logout from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
+import { Alerts } from "../components/Alerts"
 
 
 import { logout } from '../services/LoginApi.js';
@@ -36,16 +37,24 @@ const Navbar = ({ login, active }) => {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleHome = () => {
+    Alerts.success("Home");
+  }
+  const handleMyArticles = () => {
+    Alerts.success("My Articles");
+  }
   const handleLogout = async () => {
     try {
       const body = { data: { token: `${refreshToken}` } };
       await logout(body);
       console.log(`revoking token: ${refreshToken}`);
       setLoggedIn(false);
+      Alerts.success("Logged out Successfully");
     } catch (err) {
       console.log(err);
     }
@@ -58,6 +67,7 @@ const Navbar = ({ login, active }) => {
             component={Link}
             to="/"
             variant="h6"
+            onClick={handleHome}
             sx={{
               // flex: 1,
               marginLeft: '5px',
@@ -74,10 +84,11 @@ const Navbar = ({ login, active }) => {
           </Typography>
           {login && (
             <Typography
+
               component={Link}
               to="/my-articles"
               variant="h6"
-
+              onClick={handleMyArticles}
               sx={{
                 // flex: 1,
                 marginLeft: '50px',

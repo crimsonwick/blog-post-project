@@ -22,6 +22,7 @@ import { useContext } from 'react';
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
 import '../styles/signup.css';
 import YupPassword from 'yup-password';
+import { Alerts } from "../components/Alerts"
 YupPassword(yup);
 
 const schema = yup
@@ -73,6 +74,7 @@ function Login() {
       console.log(' i am in submit handler,', response);
       if (response.data.accessToken) {
         dispatch({ type: 'SUCCESS' });
+        Alerts.success("Logged In Successfully");
         setAccessToken(response.data.accessToken);
         setRefreshToken(response.data.refreshToken);
         setLoggedIn(true);
@@ -84,8 +86,8 @@ function Login() {
         }, 100);
       } else {
         dispatch({ type: 'FAILED' });
+        Alerts.error("Something Bad occur");
         setTimeout(() => {
-          navigate('/signup');
         }, 1000);
       }
     } catch (err) {
@@ -105,7 +107,7 @@ function Login() {
   };
   return (
     <Container maxWidth="sm">
-      {state.Submitted && state.showMessage && (
+      {/* {state.Submitted && state.showMessage && (
         <Alert severity="success">
           <AlertTitle>
             {' '}
@@ -124,7 +126,7 @@ function Login() {
           </AlertTitle>
           You need to <strong> Sign Up </strong>your Account!
         </Alert>
-      )}
+      )} */}
       <h1 className={styles.headingOne}>Log In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel htmlFor="my-input">Email address</FormLabel>{' '}

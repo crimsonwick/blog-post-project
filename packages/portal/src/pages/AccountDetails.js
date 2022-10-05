@@ -5,6 +5,7 @@ import { AppContext } from '../App';
 import BasicTable from '../components/BasicTable';
 import NavBar from '../components/NavBar';
 import { parseJwt } from '../services/LoginApi';
+import { Alerts } from "../components/Alerts"
 
 const AccountDetails = () => {
   const [image, setImage] = useState({ preview: '', data: '' });
@@ -41,6 +42,9 @@ const AccountDetails = () => {
     };
     setImage(img);
   };
+  const handleSubmitAlert = () => {
+    Alerts.success("Uploaded Successfully");
+  }
 
   return (
     <>
@@ -79,11 +83,13 @@ const AccountDetails = () => {
                 type="file"
                 name="file"
                 onChange={handleFileChange}
+
                 hidden
               />
             </Button>
             <Button
               variant="contained"
+              onClick={handleSubmitAlert}
               sx={{
                 borderRadius: '20px',
                 marginLeft: '10px',

@@ -17,7 +17,7 @@ const { Users } = model;
 export let tokens = [];
 
 export const SignUp = async (req, res) => {
-  const { email, password,avatar } = req.body;
+  const { email, password, avatar } = req.body;
   const hasedPassword = bcrypt.hashSync(password, salt);
   try {
     const checkAccount = await Users.findOne({
@@ -27,7 +27,7 @@ export const SignUp = async (req, res) => {
     });
     if (checkAccount) return res.json(`${email} Account Already Exists`);
     else {
-      const userArray = { email: email, password: hasedPassword,avatar: avatar };
+      const userArray = { email: email, password: hasedPassword, avatar: avatar };
       const newUser = await Users.create(userArray);
       return res.json(newUser.dataValues);
     }
@@ -151,6 +151,7 @@ function sendEmail(user, token) {
 
 export const ResetPassword = async (req, res) => {
   try {
+
     const { token } = req.query;
     // Get the token from params
     const { password1, password2 } = req.body;
@@ -182,8 +183,10 @@ export const ResetPassword = async (req, res) => {
       await user.save();
 
       return res.status(200).json({ message: 'Password updated' });
+
     }
   } catch (error) {
+
     res.status(500).json({ message: error.message });
   }
 };

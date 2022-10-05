@@ -15,7 +15,9 @@ import Page404 from './pages/Page404';
 import ResetPassword from './pages/ResetPassword';
 import AccountDetails from './pages/AccountDetails';
 import { SnackbarProvider } from "notistack"
+import { CloseButton, SnackbarUtilsConfiguration } from "./components/Alerts";
 export const AppContext = createContext(null);
+
 
 function App() {
   const [dp, setDp] = useState();
@@ -24,7 +26,7 @@ function App() {
   const [accessToken, setAccessToken] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [searchData, setSearchData] = useState([]);
-
+  // const [alert, setAlert] = useState(null)
   useEffect(() => {
     WebFont.load({
       google: {
@@ -36,6 +38,16 @@ function App() {
   const setUser = (object) => {
     setUserData(object);
   };
+
+  // const showAlert = (message, variant) => {
+  //   setAlert({
+  //     msg: message,
+  //     variant: variant
+  //   })
+  //   setTimeout(() => {
+  //     setAlert(null)
+  //   }, 1500)
+  // }
 
   return (
 
@@ -57,7 +69,13 @@ function App() {
       }}
     >
       <ThemeProvider theme={theme}>
-        <SnackbarProvider>
+        <SnackbarProvider
+          maxSnack={3} autoHideDuration={1000} action={key => <CloseButton id={key} />}
+          preventDuplicate={true} anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          classes={{ containerRoot: 'snackbarProvider' }}
+        >
+          <SnackbarUtilsConfiguration />
+
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<LandingPage />} />
@@ -128,3 +146,6 @@ function App() {
 }
 
 export default App;
+
+
+

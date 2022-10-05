@@ -11,6 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { addPost } from '../services/LoginApi';
 import { useDropzone } from "react-dropzone";
+import { Alerts } from '../components/Alerts';
 
 
 const schema = yup
@@ -39,21 +40,28 @@ function CreateArticle() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    let formData = new FormData();
-    formData.append('userId', userData.id);
-    formData.append('title', data.title);
-    formData.append('body', data.body);
-    formData.append('file', image);
-    formData.append('timetoRead', data.mins);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+    try {
+      let formData = new FormData();
+      formData.append('userId', userData.id);
+      formData.append('title', data.title);
+      formData.append('body', data.body);
+      formData.append('file', image);
+      formData.append('timetoRead', data.mins);
+      Alerts.success("Post Created successfully");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      await addPost(formData, config);
+      setTimeout(() => {
+
+        navigate('/my-articles');
+
+      }, 250)
+    } catch (err) {
+      Alerts.error("Something went Wrong");
     };
-    await addPost(formData, config);
-    setTimeout(() => {
-      navigate('/my-articles');
-    }, 250);
   };
 
   // const handleFileChange = (event) => {
