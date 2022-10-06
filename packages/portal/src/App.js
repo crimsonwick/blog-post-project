@@ -14,10 +14,9 @@ import MyArticles from './pages/MyArticles';
 import Page404 from './pages/Page404';
 import ResetPassword from './pages/ResetPassword';
 import AccountDetails from './pages/AccountDetails';
-import { SnackbarProvider } from "notistack"
-import { CloseButton, SnackbarUtilsConfiguration } from "./components/Alerts";
+import { SnackbarProvider } from 'notistack';
+import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
 export const AppContext = createContext(null);
-
 
 function App() {
   const [dp, setDp] = useState();
@@ -51,11 +50,9 @@ function App() {
   // }
 
   return (
-
     <AppContext.Provider
       value={{
         dp,
-
         setDp,
         setUser,
         userData,
@@ -73,8 +70,11 @@ function App() {
     >
       <ThemeProvider theme={theme}>
         <SnackbarProvider
-          maxSnack={3} autoHideDuration={2000} action={key => <CloseButton id={key} />}
-          preventDuplicate={true} anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          maxSnack={3}
+          autoHideDuration={2000}
+          action={(key) => <CloseButton id={key} />}
+          preventDuplicate={true}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           classes={{ containerRoot: 'snackbarProvider' }}
         >
           <SnackbarUtilsConfiguration />
@@ -144,11 +144,7 @@ function App() {
         </SnackbarProvider>
       </ThemeProvider>
     </AppContext.Provider>
-
   );
 }
 
 export default App;
-
-
-

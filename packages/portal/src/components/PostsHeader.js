@@ -1,6 +1,7 @@
 import { Divider, Typography } from '@mui/material';
 
 export const PostsHeader = (props) => {
+  const customSize = props.textSize;
   return (
     <>
       <Typography
@@ -8,11 +9,11 @@ export const PostsHeader = (props) => {
         sx={{
           fontFamily: 'Poppins',
           fontWeight: 'bold',
-          fontSize: '2em',
+          fontSize: customSize || '2em',
           marginBottom: '24px',
         }}
       >
-        {props.name}
+        {props.count && props.count} {props.name}
       </Typography>
       <Divider />
     </>
