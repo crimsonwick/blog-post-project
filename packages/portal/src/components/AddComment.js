@@ -10,7 +10,7 @@ const AddComment = (props) => {
   const { handleSubmit, control } = useForm({
     defaultValues: { comment: '' },
   });
-  const { userData,accessToken } = useContext(AppContext);
+  const { userData, accessToken } = useContext(AppContext);
 
   const onSubmit = async (data) => {
     if (accessToken && props.Comment) {
@@ -19,16 +19,16 @@ const AddComment = (props) => {
         userId: userData.id,
         body: data.comment,
       });
-        props.refreshComment(props.object.id);
+      props.refreshComment(props.object.id);
     }
-    if(accessToken && !(props.Comment)){
+    if (accessToken && !props.Comment) {
       await addReply({
         userId: userData.id,
         postId: props.object.postId,
         parentId: props.object.id,
-        body: data.comment
+        body: data.comment,
       });
-        props.refreshReplies(props.object.id)
+      props.refreshReplies(props.object.id);
     }
   };
   return (
@@ -39,6 +39,7 @@ const AddComment = (props) => {
           control={control}
           width="1000px"
           labelAbove="Add Comment"
+          placeholder="Write a comment..."
         />
       </Box>
       <Box
