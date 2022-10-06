@@ -1,4 +1,4 @@
 node_modules
-/.env
-/.babelrc
-/.sequelizerc
+.env
+.babelrc
+.sequelizerc
