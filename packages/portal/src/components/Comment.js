@@ -11,7 +11,7 @@ import {
 import { Box } from '@mui/system';
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { getReply, parseName } from '../services/LoginApi';
+import { getReply, parseTime, parseName } from '../services/LoginApi';
 import AddComment from './AddComment';
 
 const Comment = (props) => {
@@ -25,7 +25,7 @@ const Comment = (props) => {
     getReplies(props.object.id);
   }, [props]);
   return (
-    <Card elevation={0} sx={{ marginLeft: '20px', marginTop: '20px' }}>
+    <Card elevation={1} sx={{ marginLeft: '20px', marginTop: '10px' }}>
       <Box sx={{ display: 'flex', allignItems: 'left' }}>
         <List>
           <ListItem>
@@ -38,7 +38,7 @@ const Comment = (props) => {
             <ListItemText sx={{ marginRight: '10px' }}>
               {parseName(props.object.Commented_By.email)}
             </ListItemText>
-            <ListItemText>3 Min Ago</ListItemText>
+            <ListItemText>{parseTime(props.object.createdAt)}</ListItemText>
           </ListItem>
         </List>
       </Box>
@@ -47,17 +47,29 @@ const Comment = (props) => {
           {props.object.body}
         </Typography>
       </Box>
-      {reply.length > 0 && (
-        <Button
-          variant="text"
-          onClick={() => {
-            setReplies(!replies);
-          }}
-          sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
-        >
-          Show Replies ({reply.length})
-        </Button>
-      )}
+      {!replies
+        ? reply.length > 0 && (
+            <Button
+              variant="text"
+              onClick={() => {
+                setReplies(!replies);
+              }}
+              sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
+            >
+              Show Replies ({reply.length})
+            </Button>
+          )
+        : reply.length > 0 && (
+            <Button
+              variant="text"
+              onClick={() => {
+                setReplies(!replies);
+              }}
+              sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
+            >
+              Hide Replies ({reply.length})
+            </Button>
+          )}
       {replies && reply.length > 0
         ? reply.map((o) => {
             return <Comment key={o.id} object={o} />;
