@@ -1,33 +1,36 @@
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import SearchIcon from '@mui/icons-material/Search';
+import { Box, Typography } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import * as React from 'react';
+import { useContext, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { logout, searchAPI, searchMyPosts } from '../services/LoginApi.js'
+import { Alerts } from "./Alerts"
 import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
 } from '../styles/NavBar.js';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import Logout from '@mui/icons-material/Logout';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
-import { useContext,useState } from 'react';
 import { AppContext } from '../App.js';
-import { searchAPI,logout, searchMyPosts } from '../services/LoginApi.js';
-import { Typography } from '@mui/material';
 
 const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setLoggedIn, setSearchData, refreshToken, userData, dp,accessToken,setSearchMyData } =
+  const { setLoggedIn, refreshToken, setSearchData, userData, dp,setSearchMyData,accessToken,setDp } =
     useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -49,7 +52,7 @@ const Navbar = (props) => {
     }
   };
   const handleChange = (event) => {
-    [event.target.name] = [event.target.value]
+    [event.target.name] = [event.target.value];
   };
   const handleLogout = async () => {
     try {
@@ -57,179 +60,197 @@ const Navbar = (props) => {
       await logout(body);
       console.log(`revoking token: ${refreshToken}`);
       setLoggedIn(false);
+      setDp('');
+      Alerts.success("Logged out Successfully");
     } catch (err) {
       console.log(err);
     }
   };
   return (
-    <AppBar position="fixed" style={{ background: '#FFFFFF' }}>
+    <AppBar position="static" style={{ background: '#FFFFFF' }}>
       <Toolbar>
-        <Link
-          to="/"
-          style={{ padding: 10, textDecoration: 'none', color: 'black' }}
-        >
-          Home
-        </Link>
+        <Box sx={{ flexGrow: 1 }}>
+          <Typography
+            component={NavLink}
+            style={({ isActive }) => {
+              return { color: isActive ? 'black' : 'gray' };
+            }}
+            to="/"
+            variant="h6"
+
+            sx={{
+              marginLeft: '5px',
+              textTransform: 'capitalize',
+              textDecoration: 'none',
+            }}
+          >
+            Home
+          </Typography>
           {props.login && (
             <Typography
-              component={Link}
+              component={NavLink}
+              style={({ isActive }) => {
+                return { color: isActive ? 'black' : 'gray' };
+              }}
               to="/my-articles"
               variant="h6"
+
               sx={{
                 marginLeft: '15px',
-                fontWeight: '600',
                 textTransform: 'capitalize',
                 textDecoration: 'none',
                 paddingLeft: '20px',
-                color: '#111111',
               }}
             >
               My Articles
             </Typography>
           )}
-          <Search sx={{ color: '#111111' }}>
-            <SearchIconWrapper>
-              <SearchIcon sx={{ color: '#111111' }} />
-            </SearchIconWrapper>
+        </Box>
+        <Search sx={{ color: '#111111' }}>
+          <SearchIconWrapper>
+            <SearchIcon sx={{ color: '#111111' }} />
+          </SearchIconWrapper>
 
-            <StyledInputBase
-              sx={{ color: '#111111' }}
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-            />
-          </Search>
-          {props.login && (
+          <StyledInputBase
+            sx={{ color: '#111111' }}
+            placeholder="Search…"
+            inputProps={{ 'aria-label': 'search' }}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+          />
+        </Search>
+        {props.login && (
+          <Button
+            component={Link}
+            to="/create-article"
+            variant="contained"
+            color="secondary"
+            sx={{
+              fontWeight: '600',
+              textTransform: 'capitalize',
+              marginLeft: '15px',
+            }}
+          >
+            Create Article
+          </Button>
+        )}
+        {!props.login && (
+          <div>
             <Button
               component={Link}
-              to="/create-article"
+              to="/login"
+              variant="contained"
+              color="primary"
+              sx={{ marginRight: '10px' }}
+            >
+              Login
+            </Button>
+            <Button
+              component={Link}
+              to="/signup"
               variant="contained"
               color="secondary"
-              sx={{
-                fontWeight: '600',
-                textTransform: 'capitalize',
-                marginLeft: '15px',
-              }}
             >
-              Create Article
+              Sign Up
             </Button>
-          )}
-          {!props.login && (
-            <div>
-              <Button
-                component={Link}
-                to="/login"
-                variant="contained"
-                color="primary"
-                sx={{ marginRight: '10px' }}
+          </div>
+        )}
+        {props.login && (
+          <div>
+            <Tooltip title="Account settings">
+              <IconButton
+                onClick={handleClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={open ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
               >
-                Login
-              </Button>
-              <Button
-                component={Link}
-                to="/signup"
-                variant="contained"
-                color="secondary"
-              >
-                Sign Up
-              </Button>
-            </div>
-          )}
-          {props.login && (
-            <div>
-              <Tooltip title="Account settings">
-                <IconButton
-                  onClick={handleClick}
-                  size="small"
-                  sx={{ ml: 2 }}
-                  aria-controls={open ? 'account-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                >
-                  <Avatar
-                    alt="user display picture"
-                    src={
-                      userData.avatar
+                <Avatar
+                  alt="user display picture"
+                  src={
+                    dp
+                      ? require(`../images/${dp}`)
+                      : userData.avatar
                         ? require(`../images/${userData.avatar}`)
-                        : dp
-                        ? require(`../images/${dp}`)
                         : ''
-                    }
-                    sx={{ width: 32, height: 32 }}
-                  />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={open}
-                onClose={handleClose}
-                onClick={handleClose}
-                PaperProps={{
-                  elevation: 0,
-                  sx: {
-                    overflow: 'visible',
-                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                    mt: 1.5,
-                    '& .MuiAvatar-root': {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                    '&:before': {
-                      content: '""',
-                      display: 'block',
-                      position: 'absolute',
-                      top: 0,
-                      right: 14,
-                      width: 10,
-                      height: 10,
-                      bgcolor: 'background.paper',
-                      transform: 'translateY(-50%) rotate(45deg)',
-                      zIndex: 0,
-                    },
+                  }
+                  sx={{ width: 32, height: 32 }}
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
                   },
-                }}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                  '&:before': {
+                    content: '""',
+                    display: 'block',
+                    position: 'absolute',
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: 'background.paper',
+                    transform: 'translateY(-50%) rotate(45deg)',
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+              <Link
+                to="/account-details"
+                style={{ textDecoration: 'none', color: 'black' }}
               >
-                <Link
-                  to="/account-details"
-                  style={{ textDecoration: 'none', color: 'black' }}
-                >
-                  <MenuItem>
+                <MenuItem>
                   <Avatar
                     alt="user display picture"
                     src={
-                      userData.avatar
-                        ? require(`../images/${userData.avatar}`)
-                        : ''
+                      dp
+                        ? require(`../images/${dp}`)
+                        : userData.avatar
+                          ? require(`../images/${userData.avatar}`)
+                          : ''
                     }
-                    sx={{ width: 32, height: 32 }}
                   />
-                    My account
-                  </MenuItem>
-                </Link>
-                <Divider />
-                <Link
-                  to="/"
-                  style={{ textDecoration: 'none', color: 'black' }}
-                  onClick={handleLogout}
-                >
-                  <MenuItem>
-                    <ListItemIcon>
-                      <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                  </MenuItem>
-                </Link>
-              </Menu>
-            </div>
-          )}
-        </Toolbar>
-      </AppBar>
+                  My account
+                </MenuItem>
+              </Link>
+              <Divider />
+              <Link
+                to="/"
+                style={{ textDecoration: 'none', color: 'black' }}
+                onClick={handleLogout}
+              >
+                <MenuItem>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              </Link>
+            </Menu>
+          </div>
+        )}
+      </Toolbar>
+    </AppBar >
+
   );
 };
 

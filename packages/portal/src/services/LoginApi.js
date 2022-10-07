@@ -33,7 +33,7 @@ export const addPost = async (object, config) => {
   return await axios.post(`${baseURL}/post`, object, config);
 };
 
-export const gettingPosts = async (config,userId) => {
+export const gettingPosts = async (config, userId) => {
   return await axios.get(`${baseURL}/post?userId=${userId}`, config);
 };
 
@@ -44,6 +44,27 @@ export const allPostsComing = async () => {
 export const logout = async (body) => {
   return await axios.delete(`${baseURL}/user/logout`, body);
 };
+
+export const parseTime = (str) => {
+  let incomingDate = new Date(str);
+  let currentDate = new Date();
+
+  let diff = diff_hours(incomingDate, currentDate);
+  if (diff > 24) {
+    let dayDiff = diff / 24;
+    dayDiff = parseInt(dayDiff);
+    if (dayDiff === 1) return `${dayDiff} day ago`;
+    return `${dayDiff} days ago`;
+  }
+  return `${diff}h ago`;
+};
+
+function diff_hours(dt2, dt1) {
+  var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+  diff /= 60 * 60;
+  return Math.abs(Math.round(diff));
+}
+
 export const parseDate = (str) => {
   const object = {
     day: str.slice(8, 10),
@@ -100,13 +121,13 @@ export const searchAPI = async (title) => {
   return await axios.get(`${baseURL}/pagination/search?title=${title}`);
 };
 
-export const getComments = async(id) => {
-    return await axios.get(`${baseURL}/post/comments/${id}`)
-}
+export const getComments = async (id) => {
+  return await axios.get(`${baseURL}/post/comments/${id}`);
+};
 
-export const getReply = async(id) => {
-    return await axios.get(`${baseURL}/comment/reply/${id}`);
-}
+export const getReply = async (id) => {
+  return await axios.get(`${baseURL}/comment/reply/${id}`);
+};
 
 export const parseName = (str) => {
   let nameField = str.split('@');

@@ -2,20 +2,20 @@ import styles from '../styles/ChangePassword/ChangePassword.module.css';
 import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import { FormLabel, OutlinedInput, Snackbar } from '@mui/material';
+import { FormLabel, OutlinedInput } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Container, Box } from '@mui/system';
+import { Alerts } from "../components/Alerts"
 import Header from '../components/Header';
 YupPassword(yup);
 
@@ -40,6 +40,7 @@ const schema = yup
   })
   .required();
 function ChangePassword() {
+  const navigate = useNavigate()
   const [message, setMessage] = useState(false);
   const {
     control,
@@ -66,42 +67,31 @@ function ChangePassword() {
     event.preventDefault();
   };
   const onSubmit = async (data) => {
-    errors.password1 ? setMessage(false) : setMessage(true);
-    setMessage(true);
-    const token = new URLSearchParams(location.search);
-    const url = `http://localhost:5000/user/reset-password
-    )}`;
-    console.log(data, 'correct data');
-    const options = {
-      method: 'PUT',
-      url: url,
-      params: { token: `${token}` },
-      data: { password1: data.password1, password2: data.password2 },
-    };
-    const response = await axios(options);
-    const record = response.data;
-    if (record.statusText === 'Success') {
-      toast.success(record.message);
-    } else {
-      toast.error(record.message);
+    try {
+      errors.password1 ? setMessage(false) : setMessage(true);
+      setMessage(true);
+      const unparsedToken = location.search;
+      const token = unparsedToken.slice(7, unparsedToken.length);
+      const url = `http://localhost:5000/user/reset-password`;
+      console.log(data, 'correct data');
+      const options = {
+        method: 'PUT',
+        url: url,
+        params: { token: `${token}` },
+        data: { password1: data.password1, password2: data.password2 },
+      };
+      const response = await axios(options);
+      if(response.data){
+        Alerts.success("Password Updated");
+        navigate("/login")
+      }
+    } catch (err) {
+      Alerts.error("Something Bad Occurs");
     }
-    console.log(data);
-  };
-  const onClose = () => {
-    setMessage(false);
   };
   return (
     <div className={styles.padding}>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        open={message}
-        autoHideDuration={2000}
-        message="Password Changed"
-        onclose={onClose}
-      />
+
       <Divider />
       <Box>
         <Header heading="Change Password" />

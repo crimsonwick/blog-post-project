@@ -14,7 +14,8 @@ import MyArticles from './pages/MyArticles';
 import Page404 from './pages/Page404';
 import ResetPassword from './pages/ResetPassword';
 import AccountDetails from './pages/AccountDetails';
-
+import { SnackbarProvider } from 'notistack';
+import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
 export const AppContext = createContext(null);
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [searchData, setSearchData] = useState([]);
   const [searchMyData, setSearchMyData] = useState([]);
+  const [postImage, setPostImage] = useState([]);
 
   useEffect(() => {
     WebFont.load({
@@ -54,61 +56,74 @@ function App() {
         searchData,
         setSearchData,
         searchMyData,
-        setSearchMyData
+        setSearchMyData,
+        postImage,
+        setPostImage,
       }}
     >
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/change-password" element={<ChangePassword />} />
-            <Route
-              path="/create-article"
-              element={
-                accessToken ? (
-                  <Protected Component={CreateArticle} />
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
-            <Route
-              path="/my-articles"
-              element={
-                accessToken ? (
-                  <Protected Component={MyArticles}></Protected>
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
-            <Route
-              path="/article-detail"
-              element={
-                accessToken ? (
-                  <Protected Component={ArticleDetailPage}></Protected>
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
-            <Route
-              path="/account-details"
-              element={
-                accessToken ? (
-                  <Protected Component={AccountDetails}></Protected>
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
+        <SnackbarProvider
+          maxSnack={3}
+          autoHideDuration={2000}
+          action={(key) => <CloseButton id={key} />}
+          preventDuplicate={true}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          classes={{ containerRoot: 'snackbarProvider' }}
+        >
+          <SnackbarUtilsConfiguration />
 
-            <Route path="*" element={<Page404 />} />
-          </Routes>
-        </BrowserRouter>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/change-password" element={<ChangePassword />} />
+              <Route
+                path="/create-article"
+                element={
+                  accessToken ? (
+                    <Protected Component={CreateArticle} />
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
+              <Route
+                path="/my-articles"
+                element={
+                  accessToken ? (
+                    <Protected Component={MyArticles}></Protected>
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
+              <Route
+                path="/article-detail"
+                element={
+                  accessToken ? (
+                    <Protected Component={ArticleDetailPage}></Protected>
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
+              <Route
+                path="/account-details"
+                element={
+                  accessToken ? (
+                    <Protected Component={AccountDetails}></Protected>
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
+
+              <Route path="*" element={<Page404 />} />
+            </Routes>
+          </BrowserRouter>
+        </SnackbarProvider>
       </ThemeProvider>
     </AppContext.Provider>
   );

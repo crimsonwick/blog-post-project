@@ -1,7 +1,4 @@
 .articleImg {
-     /* width: 25%;
-    height: 95%; */
-    /* margin: 5px 10px 5px 2px;  */
     width: 266px;
     height: 180px;
     margin-right: 10px;
@@ -16,8 +13,16 @@
     padding: 0px; 
 }
 
-.articleBigImg {
-    width: 856px;
+.MuiCardMedia-img {
     height: 432px;
+    object-fit: fill;
+
+
+}
+
+.articleBigImg {
+    height: 432px;
+    width: 856px;
+    border-radius: 10px;
     margin: 5px 10px 5px 2px;
 }

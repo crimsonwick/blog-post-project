@@ -21,7 +21,7 @@ import { theme } from '../themes/theme';
 import { getSignUpDetails } from '../services/LoginApi';
 import { useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Alert, AlertTitle } from '@mui/material';
+import { Alerts } from "../components/Alerts"
 YupPassword(yup);
 const reducer = (state, action) => {
   switch (action.type) {
@@ -82,100 +82,90 @@ const Signup = () => {
     const responsed = await getSignUpDetails(data);
     if (responsed.data.id === undefined) {
       dispatch({ type: 'FAILED' });
+      Alerts.error("Account already exists");
     } else {
+
       dispatch({ type: 'SUCCESS' });
+      Alerts.success("Account Created successfully");
       setTimeout(() => {
         navigate('/login');
       }, 1000);
     }
   };
   return (
-    <Container maxWidth="sm">
-      {state.Submitted && state.showMessage && (
-        <Alert severity="success">
-          <AlertTitle>
-            <strong>Account Created Successfully</strong>
-          </AlertTitle>
-          You need to <strong> Login </strong>your Account Now!
-        </Alert>
-      )}
-      {state.Submitted && !state.showMessage && (
-        <Alert severity="error">
-          <AlertTitle>
-            <strong>Account Not Created</strong>
-          </AlertTitle>
-          Try anyother email for <strong> Sign Up </strong>your Account!
-        </Alert>
-      )}
-      <Box>
-        <Header
-          heading="Create An Account"
-          desc="Already have an account? "
-          link="/login"
-        />
-      </Box>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <Box mb={2}>
-          <InputField
-            name="email"
-            labelAbove="What's your email?"
-            control={control}
-            placeholder="Enter your email address"
-            variant="outlined"
-            color="secondary"
-          />
-          <p className="errorMsg">{errors.email?.message}</p>
-        </Box>
-        <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
-          Create a Password
-        </FormLabel>
+    <>
+      <Container maxWidth="sm">
 
-        <Controller
-          control={control}
-          name="password"
-          render={({ field }) => (
-            <OutlinedInput
-              autoComplete="new-password"
+        <Box>
+          <Header
+            heading="Create An Account"
+            desc="Already have an account? "
+            link="/login"
+          />
+        </Box>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <Box mb={2}>
+            <InputField
+              name="email"
+              labelAbove="What's your email?"
+              control={control}
+              placeholder="Enter your email address"
               variant="outlined"
               color="secondary"
-              type={values.showPassword ? 'text' : 'password'}
-              value={values.password}
-              {...field}
-              sx={{
-                borderRadius: '25px',
-                fontFamily: 'Poppins',
-                width: '100%',
-              }}
-              placeholder="Enter your password"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
             />
-          )}
-        />
-        <FormLabel
-          htmlFor="form-label-below"
-          sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
-        >
-          Use 8 or more characters with a mix of letters, numbers & symbols
-        </FormLabel>
-        <p className="errorMsg">{errors.password?.message}</p>
-        <ThemeProvider theme={theme}>
-          <Box mt={3}>
-            <InputButton name="Create An Account" />
+            <p className="errorMsg">{errors.email?.message}</p>
           </Box>
-        </ThemeProvider>
-      </Box>
-    </Container>
+          <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
+            Create a Password
+          </FormLabel>
+
+          <Controller
+            control={control}
+            name="password"
+            render={({ field }) => (
+              <OutlinedInput
+                autoComplete="new-password"
+                variant="outlined"
+                color="secondary"
+                type={values.showPassword ? 'text' : 'password'}
+                value={values.password}
+                {...field}
+                sx={{
+                  borderRadius: '25px',
+                  fontFamily: 'Poppins',
+                  width: '100%',
+                }}
+                placeholder="Enter your password"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            )}
+          />
+          <FormLabel
+            htmlFor="form-label-below"
+            sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
+          >
+            Use 8 or more characters with a mix of letters, numbers & symbols
+          </FormLabel>
+          <p className="errorMsg">{errors.password?.message}</p>
+          <ThemeProvider theme={theme}>
+            <Box mt={3}>
+              <InputButton name="Create An Account" />
+            </Box>
+          </ThemeProvider>
+        </Box>
+      </Container>
+    </>
   );
 };
 

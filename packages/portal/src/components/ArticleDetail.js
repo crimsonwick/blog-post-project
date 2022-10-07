@@ -1,60 +1,94 @@
-import React from 'react';
-import '../styles/Article/Article.css';
-import { Card, List } from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { Avatar, Card, CardMedia, List } from '@mui/material';
+import Chip from '@mui/material/Chip';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import flexContainer from '../styles/Article/List';
-import { Avatar } from '@mui/material';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import Chip from '@mui/material/Chip';
+import React from 'react';
 import { parseName } from '../services/LoginApi';
+import '../styles/Article/Article.css';
+import flexContainer from '../styles/Article/List';
 
 const ArticleDetail = (props) => {
   return (
     <Card
       mt={1}
       sx={{
-        height: '100vh',
         marginTop: '20px',
+        marginBottom: '10px',
+        border: 'none',
+        boxShadow: 'none',
       }}
     >
-      <Chip label="Travel" sx={{ marginTop: '5px' }} />
+      <Chip
+        label="Travel"
+        sx={{
+          borderRadius: '3px',
+          backgroundColor: '#F2F8F7',
+          color: '#666666',
+          fontWeight: '400',
+          fontFamily: 'Poppins',
+        }}
+      />
       <Typography
-        variant="h4"
-        component="h3"
-        sx={{ width: '856px', marginTop: '10px' }}
+        variant="h1"
+        sx={{
+          fontFamily: 'Poppins',
+          fontWeight: '600',
+          fontSize: '27px',
+          lineHeight: '140%',
+          marginTop: '10px',
+          width: '768px',
+          height: '38px',
+        }}
       >
         {props.object.title}
       </Typography>
       <List style={flexContainer}>
-        <ListItem className="user">
+        <ListItem
+          className="user"
+          disablePadding={true}
+          sx={{
+            width: '15%',
+            borderRight: '2px solid',
+            borderColor: 'gray',
+            marginRight: '4px',
+          }}
+        >
           <ListItemIcon>
             <Avatar
-              src={
-                require(`../images/${props.object.Posted_By.avatar}`)
-              }
+              src={require(`../images/${props.object.Posted_By.avatar}`)}
               alt="user_dp"
             />
           </ListItemIcon>
           <ListItemText primary={parseName(props.object.Posted_By.email)} />
         </ListItem>
-        <ListItem className="date">
-          <ListItemIcon>
-            <CalendarTodayIcon />
+        <ListItem className="timeToRead">
+          <ListItemIcon sx={{ minWidth: 'auto' }}>
+            <CalendarTodayIcon sx={{ marginRight: '10px' }} />
           </ListItemIcon>
-          <ListItemText
-            primary={`${props.object.timetoRead} Min. To Read`}
-          />
+          <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
         </ListItem>
       </List>
-      <img
-         src={require(`../images/${props.object.image}`)}
-        alt="post_img"
-        className="articleBigImg"
+      <CardMedia
+        component="img"
+        height="432"
+        image={require(`../images/${props.object.image}`)}
+        alt="post_detail_image"
+        sx={{
+          objectFit: 'fill',
+          width: '856px',
+          borderRadius: '5px',
+          marginY: '10px',
+        }}
+        mr={1}
+        my={10}
       />
-      <Typography variant="h6" sx={{ width: '856px', marginTop: '10px' }}>
+      <Typography
+        variant="h6"
+        sx={{ height: 'auto', width: '856px', marginTop: '20px' }}
+      >
         {props.object.body}
       </Typography>
     </Card>

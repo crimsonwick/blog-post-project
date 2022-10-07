@@ -14,46 +14,120 @@ import Chip from '@mui/material/Chip';
 import { parseDate, parseName } from '../services/LoginApi';
 import { Link } from 'react-router-dom';
 
-
 const ArticleCard = (props) => {
 
   return (
     <Card
-      elevation={10}
-      sx={{ display: 'flex', allignItems: 'centre', marginTop: '20px' }}
+      elevation={0}
+      sx={{
+        display: 'flex',
+        allignItems: 'centre',
+        marginTop: '20px',
+        border: 'none',
+        height: 'auto',
+        width: 'auto',
+      }}
     >
-      <img src={require(`../images/${props.object.image}`)} alt="user_image" className="articleImg"/>
+      <img
+        src={require(`../images/${props.object.image}`)}
+        alt="user_image"
+        className="articleImg"
+        style={{
+          borderRadius: '5px',
+          width: '300px',
+          height: '250px',
+          objectFit: 'fill',
+          marginRight: '50px',
+        }}
+      />
       <Box mt={1}>
-        <Chip label="Travel" />
-        <Link to="/article-detail" state={props} style={{textDecoration: "none" , color: "rgba(0,0,0,0.87)"}}>
-          <Typography variant="h4" component="h3">
+        <Chip
+          label="Travel"
+          sx={{
+            borderRadius: '3px',
+            backgroundColor: '#F2F8F7',
+            color: '#666666',
+            fontWeight: '400',
+            fontFamily: 'Poppins',
+          }}
+        />
+        <Link
+          to="/article-detail"
+          state={props}
+          style={{ textDecoration: 'none', color: 'rgba(0,0,0,0.87)' }}
+        >
+          <Typography
+            variant="h1"
+            sx={{
+              fontFamily: 'Poppins',
+              fontWeight: '600',
+              fontSize: '26px',
+              lineHeight: '140%',
+              marginTop: '10px',
+              width: '768px',
+              height: '38px',
+            }}
+          >
             {props.object.title}
           </Typography>
         </Link>
         <List style={flexContainer}>
-          <ListItem className="user">
-            <ListItemIcon>
+          <ListItem
+            className="user"
+            disablePadding={true}
+            sx={{
+              borderRight: '2px solid',
+              borderColor: 'gray',
+              marginRight: '10px',
+              paddingRight: '10px',
+              width: 'auto',
+            }}
+          >
+            <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
               <Avatar
-                src={require(`../images/${props.object.Posted_By.avatar}`)}
-                alt="spongebob"
+                alt="user display picture"
+                src={
+                  props.object.Posted_By.avatar
+                    ? require(`../images/${props.object.Posted_By.avatar}`)
+                    : ''
+                }
+                sx={{ width: 32, height: 32 }}
               />
             </ListItemIcon>
-            <ListItemText primary={parseName(props.object.Posted_By.email)}/>
+            <ListItemText primary={parseName(props.object.Posted_By.email)} />
           </ListItem>
-          <ListItem className="date">
-            <ListItemIcon>
+          <ListItem
+            className="date"
+            disablePadding={true}
+            sx={{
+              borderRight: '2px solid',
+              borderColor: 'gray',
+              marginRight: '10px',
+              paddingRight: '10px',
+              width: 'auto',
+            }}
+          >
+            <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
               <CalendarTodayIcon />
             </ListItemIcon>
             <ListItemText primary={parseDate(props.object.createdAt)} />
           </ListItem>
-          <ListItem className="timeToRead">
-            <ListItemIcon>
+          <ListItem
+            className="timeToRead"
+            disablePadding={true}
+            sx={{
+              marginRight: '10px',
+              paddingRight: '10px',
+              width: 'auto',
+            }}
+          >
+            <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
               <QueryBuilderIcon />
             </ListItemIcon>
             <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
           </ListItem>
         </List>
-        <Typography variant="h6">
+        <Typography variant="h6" style={{ objectFit: 'fill' }}>
           {props.object.body}
         </Typography>
       </Box>

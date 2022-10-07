@@ -1,13 +1,13 @@
-import { Container } from '@mui/system';
-import React from 'react';
-import ArticleCard from '../components/ArticleCard';
-import { Box } from '@mui/system';
-import Footer from '../components/Footer';
-import { Divider } from '@mui/material';
-import NavBar from '../components/NavBar';
-import { useState, useEffect, useContext } from 'react';
-import { gettingPosts, parseJwt } from '../services/LoginApi';
-import { AppContext } from '../App';
+import { Container } from "@mui/system";
+import React from "react";
+import ArticleCard from "../components/ArticleCard";
+import { Box } from "@mui/system";
+import Footer from "../components/Footer";
+import NavBar from "../components/NavBar";
+import { useState, useEffect, useContext } from "react";
+import { gettingPosts, parseJwt } from "../services/LoginApi";
+import { AppContext } from "../App";
+import { PostsHeader } from '../components/PostsHeader';
 
 const MyArticles = () => {
   const [data, setData] = useState([]);
@@ -21,20 +21,16 @@ const MyArticles = () => {
         },
       };
       const userDetails = parseJwt(accessToken);
-      const details = await gettingPosts(config,userDetails.user.id);
+      const details = await gettingPosts(config, userDetails.user.id);
       if (details.data.length) setData(details.data);
-      console.log(details.data)
-    }
+    };
     allPosts();
-  }, [accessToken,setData]);
+  }, [accessToken, setData]);
   return (
     <>
       <NavBar login={true} mainPage={false}/>
-      <Container maxWidth="lg" sx={{ position: 'relative', marginY: 10 }}>
-        <h1 style={{ fontFamily: 'Poppins', marginTop: '65px' }}>
-          My Articles
-        </h1>
-        <Divider />
+      <Container sx={{ marginY: 10 }}>
+        <PostsHeader name="My Articles" />
         <Box mt={5}>
         {data && searchMyData.length === 0
             ? data.map((object) => {
