@@ -1,16 +1,14 @@
-import React from 'react';
-import '../styles/Article/Article.css';
-import { autocompleteClasses, Card, List } from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { Avatar, Card, CardMedia, List } from '@mui/material';
+import Chip from '@mui/material/Chip';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import flexContainer from '../styles/Article/List';
-import { Avatar } from '@mui/material';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import Chip from '@mui/material/Chip';
+import React from 'react';
 import { parseName } from '../services/LoginApi';
-import { CardMedia } from '@mui/material';
+import '../styles/Article/Article.css';
+import flexContainer from '../styles/Article/List';
 
 const ArticleDetail = (props) => {
   return (
@@ -74,7 +72,6 @@ const ArticleDetail = (props) => {
         </ListItem>
       </List>
       <CardMedia
-        injectFirst
         component="img"
         height="432"
         image={require(`../images/${props.object.image}`)}
