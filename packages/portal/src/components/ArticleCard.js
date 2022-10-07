@@ -27,7 +27,6 @@ const ArticleCard = (props) => {
         allignItems: 'centre',
         marginTop: '20px',
         border: 'none',
-        height: 'auto',
         width: 'auto',
       }}
     >
@@ -132,7 +131,16 @@ const ArticleCard = (props) => {
             <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
           </ListItem>
         </List>
-        <Typography variant="h6" style={{ objectFit: 'fill' }}>
+        <Typography
+          variant="h6"
+          sx={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: '3',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
           {props.object.body}
         </Typography>
       </Box>

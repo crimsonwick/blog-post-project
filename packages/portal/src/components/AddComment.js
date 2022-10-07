@@ -37,7 +37,7 @@ const AddComment = (props) => {
         <InputField
           name="comment"
           control={control}
-          width="1000px"
+          width={props.width}
           labelAbove="Add Comment"
           placeholder="Write a comment..."
         />

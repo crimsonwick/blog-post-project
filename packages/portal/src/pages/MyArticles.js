@@ -1,15 +1,12 @@
-import { Container } from "@mui/system";
-import React from "react";
-import ArticleCard from "../components/ArticleCard";
-import { Box } from "@mui/system";
-import Footer from "../components/Footer";
-import { Divider, Typography } from "@mui/material";
-import NavBar from "../components/NavBar";
-import { useState, useEffect, useContext } from "react";
-import { gettingPosts, parseJwt } from "../services/LoginApi";
-import { AppContext } from "../App";
-import PaginatedItems from "../components/PaginatedItems";
+import { Typography } from '@mui/material';
+import { Box, Container } from '@mui/system';
+import React, { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../App';
+import ArticleCard from '../components/ArticleCard';
+import Footer from '../components/Footer';
+import NavBar from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
+import { gettingPosts, parseJwt } from '../services/LoginApi';
 
 const MyArticles = () => {
   const [array, setArray] = useState([]);
@@ -24,21 +21,23 @@ const MyArticles = () => {
       };
       const userDetails = parseJwt(accessToken);
       const details = await gettingPosts(config, userDetails.user.id);
-      if (details.data.length) setArray(details.data);
+      if (details.data) setArray(details.data);
     };
     allPosts();
   }, [accessToken, setArray]);
+  const myData = []
+    .concat(array)
+    .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));
+
   return (
     <>
       <NavBar login={true} />
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name="My Articles" />
         <Box mt={5}>
-          {array.length !== 0 ? (
-            array.map((object) => {
-              return (
-                <ArticleCard key={object._source.id} object={object._source} />
-              );
+          {myData.length !== 0 ? (
+            myData.map((object) => {
+              return <ArticleCard key={object.id} object={object._source} />;
             })
           ) : (
             <Typography sx={{ fontFamily: 'Poppins', fontSize: '20px' }}>

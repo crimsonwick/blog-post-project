@@ -19,6 +19,10 @@ const Home = () => {
     allPosts();
   }, []);
 
+  const myData = []
+    .concat(searchData)
+    .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));
+
   return (
     <>
       {loggedIn ? (
@@ -30,10 +34,10 @@ const Home = () => {
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name="Recent Posts" />
         <Box mt={5}>
-          {Array.isArray(data) &&
+          {Array.isArray(myData) &&
           Array.isArray(searchData) &&
           searchData.length === 0 ? (
-            <PaginatedItems data={data} />
+            <PaginatedItems data={myData} />
           ) : (
             searchData.map((object) => {
               return (
@@ -42,7 +46,6 @@ const Home = () => {
             })
           )}
         </Box>
-        {/* <Footer /> */}
       </Container>
     </>
   );

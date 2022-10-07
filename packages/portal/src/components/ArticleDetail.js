@@ -50,21 +50,34 @@ const ArticleDetail = (props) => {
           className="user"
           disablePadding={true}
           sx={{
-            width: '15%',
-            borderRight: '2px solid',
             borderColor: 'gray',
-            marginRight: '4px',
+            marginRight: '10px',
+            paddingRight: '10px',
+            width: 'auto',
           }}
         >
-          <ListItemIcon>
+          <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
             <Avatar
-              src={require(`../images/${props.object.Posted_By.avatar}`)}
+              src={
+                props.object.Posted_By.avatar
+                  ? require(`../images/${props.object.Posted_By.avatar}`)
+                  : ''
+              }
               alt="user_dp"
             />
           </ListItemIcon>
           <ListItemText primary={parseName(props.object.Posted_By.email)} />
         </ListItem>
-        <ListItem className="timeToRead">
+        <ListItem
+          className="timeToRead"
+          sx={{
+            borderLeft: '2px solid',
+            borderColor: 'gray',
+            marginRight: '10px',
+            paddingRight: '10px',
+            width: 'auto',
+          }}
+        >
           <ListItemIcon sx={{ minWidth: 'auto' }}>
             <CalendarTodayIcon sx={{ marginRight: '10px' }} />
           </ListItemIcon>

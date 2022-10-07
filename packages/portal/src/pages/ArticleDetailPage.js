@@ -35,6 +35,7 @@ const ArticleDetailPage = () => {
         </Box>
         <Box>
           <AddComment
+            width="1000px"
             object={object}
             refreshComment={allComments}
             Comment={true}
