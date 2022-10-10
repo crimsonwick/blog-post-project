@@ -39,16 +39,6 @@ function App() {
     setUserData(object);
   };
 
-  // const showAlert = (message, variant) => {
-  //   setAlert({
-  //     msg: message,
-  //     variant: variant
-  //   })
-  //   setTimeout(() => {
-  //     setAlert(null)
-  //   }, 1500)
-  // }
-
   return (
     <AppContext.Provider
       value={{

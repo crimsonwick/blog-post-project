@@ -22,7 +22,7 @@ const ArticleDetailPage = () => {
   };
   useEffect(() => {
     allComments(object.id);
-  }, [object]);
+  }, [object.id]);
   return (
     <>
       {loggedIn ? <NavBar login={true} /> : <NavBar />}
@@ -37,6 +37,8 @@ const ArticleDetailPage = () => {
           <AddComment
             width="1000px"
             object={object}
+            placeholder="Write a comment..."
+            labelAbove="Add Comment"
             refreshComment={allComments}
             Comment={true}
           />

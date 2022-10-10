@@ -15,7 +15,6 @@ import { getReply, parseTime, parseName } from '../services/LoginApi';
 import AddComment from './AddComment';
 
 const Comment = (props) => {
-  const [width, setWidth] = useState(1000);
   const [replies, setReplies] = useState(false);
   const [reply, setReply] = useState([]);
   const getReplies = async (commentId) => {
@@ -24,8 +23,7 @@ const Comment = (props) => {
   };
   useEffect(() => {
     getReplies(props.object.id);
-    setWidth(width - 100);
-  }, [props, setWidth, width]);
+  }, [props]);
   return (
     <Card
       elevation={0}
@@ -91,10 +89,12 @@ const Comment = (props) => {
             })
           : null}
         <AddComment
-          width={width}
+          width="550px"
           object={props.object}
           refreshReplies={getReplies}
           Comment={false}
+          labelAbove="Add Reply"
+          placeholder="Write a reply..."
         />
       </Box>
     </Card>

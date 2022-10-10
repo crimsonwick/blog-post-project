@@ -17,22 +17,22 @@ const InputField = (props) => {
       <Controller
         name={props.name}
         control={props.control}
-        render={({ field: { onChange, onBlur, value, ref } }) => (
-          <OutlinedInput
-            autoComplete="username"
-            variant="outlined"
-            sx={{
-              borderRadius: '25px',
-              width: customWidth || '100%',
-            }}
-            placeholder={props.placeholder}
-            onChange={onChange}
-            onBlur={onBlur}
-            selected={value}
-            ref={ref}
-            color="secondary"
-          />
-        )}
+        defaultValue=""
+        render={({ field }) => {
+          return (
+            <OutlinedInput
+              {...field}
+              autoComplete="username"
+              variant="outlined"
+              sx={{
+                borderRadius: '25px',
+                width: customWidth || '100%',
+              }}
+              placeholder={props.placeholder}
+              color="secondary"
+            />
+          );
+        }}
       />
       <FormLabel
         htmlFor="form-label-below"

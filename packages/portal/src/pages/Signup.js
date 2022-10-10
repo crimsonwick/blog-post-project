@@ -7,11 +7,9 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
-// import Alert from '@mui/material/Alert';
 import '../styles/signup.css';
 import YupPassword from 'yup-password';
 import '../styles/signup.css';
-// import axios from 'axios';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
@@ -23,7 +21,7 @@ import { theme } from '../themes/theme';
 import { getSignUpDetails } from '../services/LoginApi';
 import { useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Alerts } from "../components/Alerts"
+import { Alerts } from '../components/Alerts';
 YupPassword(yup);
 const reducer = (state, action) => {
   switch (action.type) {
@@ -37,7 +35,6 @@ const reducer = (state, action) => {
 };
 
 const Signup = () => {
-
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup
@@ -84,11 +81,10 @@ const Signup = () => {
     const responsed = await getSignUpDetails(data);
     if (responsed.data.id === undefined) {
       dispatch({ type: 'FAILED' });
-      Alerts.error("Account already exists");
+      Alerts.error('Account already exists');
     } else {
-
       dispatch({ type: 'SUCCESS' });
-      Alerts.success("Account Created successfully");
+      Alerts.success('Account Created successfully');
       setTimeout(() => {
         navigate('/login');
       }, 1000);
@@ -97,7 +93,6 @@ const Signup = () => {
   return (
     <>
       <Container maxWidth="sm">
-
         <Box>
           <Header
             heading="Create An Account"

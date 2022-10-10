@@ -1,18 +1,28 @@
 import React, { useContext } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import InputField from './InputField';
 import { Box } from '@mui/material';
 import InputButton from './InputButton';
 import { AppContext } from '../App';
 import { addComment, addReply } from '../services/CommentApi';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const AddComment = (props) => {
-  const { handleSubmit, control } = useForm({
-    defaultValues: { comment: '' },
+  // const inputRef = useRef(null);
+  const schema = yup.object().shape({
+    comment: yup.string().required(),
   });
+  const methods = useForm({
+    defaultValues: { comment: '' },
+    resolver: yupResolver(schema),
+  });
+
+  const { handleSubmit, control, reset, setValue } = methods;
   const { userData, accessToken } = useContext(AppContext);
 
   const onSubmit = async (data) => {
+    setValue('comment', '');
     if (accessToken && props.Comment) {
       await addComment({
         postId: props.object.id,
@@ -31,25 +41,27 @@ const AddComment = (props) => {
       props.refreshReplies(props.object.id);
     }
   };
+
   return (
-    <Box display="flex" gap={2} alignItems="flex-end">
-      <Box>
-        <InputField
-          name="comment"
-          control={control}
-          width={props.width}
-          labelAbove="Add Comment"
-          placeholder="Write a comment..."
-        />
-      </Box>
-      <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        sx={{ display: 'flex', allignItems: 'centre', marginTop: '5px' }}
-      >
-        <InputButton name="Post" width="100px" />
-      </Box>
-    </Box>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box display="flex" gap={2} alignItems="flex-end">
+          <InputField
+            name={'comment'}
+            control={control}
+            width={props.width}
+            labelAbove={props.labelAbove}
+            placeholder={props.placeholder}
+          />
+          <Box
+            sx={{ display: 'flex', allignItems: 'centre', marginTop: '5px' }}
+            display="flex"
+          >
+            <InputButton name="Post" width="100px" />
+          </Box>
+        </Box>
+      </form>
+    </FormProvider>
   );
 };
 

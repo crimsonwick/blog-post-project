@@ -13,18 +13,15 @@ import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { logout, searchAPI } from '../services/LoginApi.js'
-import { Alerts } from "./Alerts"
-// import { Link } from 'react-router-dom';
-// import Box from '@mui/material/Box';
+import { logout, searchAPI } from '../services/LoginApi.js';
+import { Alerts } from './Alerts';
+import Logout from '@mui/icons-material/Logout';
+import { AppContext } from '../App.js';
 import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
 } from '../styles/NavBar.js';
-import Logout from '@mui/icons-material/Logout';
-import { AppContext } from '../App.js';
-import flexContainer from '../styles/Article/List';
 
 const Navbar = ({ login }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,7 +30,6 @@ const Navbar = ({ login }) => {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -52,7 +48,7 @@ const Navbar = ({ login }) => {
       await logout(body);
       console.log(`revoking token: ${refreshToken}`);
       setLoggedIn(false);
-      Alerts.success("Logged out Successfully");
+      Alerts.success('Logged out Successfully');
     } catch (err) {
       console.log(err);
     }
@@ -68,7 +64,6 @@ const Navbar = ({ login }) => {
             }}
             to="/"
             variant="h6"
-
             sx={{
               marginLeft: '5px',
               textTransform: 'capitalize',
@@ -85,7 +80,6 @@ const Navbar = ({ login }) => {
               }}
               to="/my-articles"
               variant="h6"
-
               sx={{
                 marginLeft: '15px',
                 textTransform: 'capitalize',
@@ -163,8 +157,8 @@ const Navbar = ({ login }) => {
                     dp
                       ? require(`../images/${dp}`)
                       : userData.avatar
-                        ? require(`../images/${userData.avatar}`)
-                        : ''
+                      ? require(`../images/${userData.avatar}`)
+                      : ''
                   }
                   sx={{ width: 32, height: 32 }}
                 />
@@ -216,8 +210,8 @@ const Navbar = ({ login }) => {
                       dp
                         ? require(`../images/${dp}`)
                         : userData.avatar
-                          ? require(`../images/${userData.avatar}`)
-                          : ''
+                        ? require(`../images/${userData.avatar}`)
+                        : ''
                     }
                   />
                   My account
@@ -240,8 +234,7 @@ const Navbar = ({ login }) => {
           </div>
         )}
       </Toolbar>
-    </AppBar >
-
+    </AppBar>
   );
 };
 
