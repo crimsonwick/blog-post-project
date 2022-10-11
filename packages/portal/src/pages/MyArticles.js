@@ -37,7 +37,9 @@ const MyArticles = () => {
         <Box mt={5}>
           {myData.length !== 0 ? (
             myData.map((object) => {
-              return <ArticleCard key={object.id} object={object._source} />;
+              return (
+                <ArticleCard key={object._source.id} object={object._source} />
+              );
             })
           ) : (
             <Typography sx={{ fontFamily: 'Poppins', fontSize: '20px' }}>
@@ -50,4 +52,5 @@ const MyArticles = () => {
     </>
   );
 };
+
 export default MyArticles;

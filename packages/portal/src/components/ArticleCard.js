@@ -89,10 +89,8 @@ const ArticleCard = (props) => {
               <Avatar
                 alt="user display picture"
                 src={
-                  dp
-                    ? require(`../images/${dp}`)
-                    : userData.avatar
-                    ? require(`../images/${userData.avatar}`)
+                  props.object.Posted_By.avatar
+                    ? require(`../images/${props.object.Posted_By.avatar}`)
                     : ''
                 }
                 sx={{ width: 32, height: 32 }}

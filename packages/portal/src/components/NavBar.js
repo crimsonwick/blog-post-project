@@ -25,7 +25,7 @@ import {
 
 const Navbar = ({ login }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setLoggedIn, refreshToken, setSearchData, userData, dp } =
+  const { setLoggedIn, refreshToken, setSearchData, userData, dp, setDp } =
     useContext(AppContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -48,6 +48,7 @@ const Navbar = ({ login }) => {
       await logout(body);
       console.log(`revoking token: ${refreshToken}`);
       setLoggedIn(false);
+      setDp('');
       Alerts.success('Logged out Successfully');
     } catch (err) {
       console.log(err);

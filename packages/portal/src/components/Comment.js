@@ -94,7 +94,9 @@ const Comment = (props) => {
           refreshReplies={getReplies}
           Comment={false}
           labelAbove="Add Reply"
-          placeholder="Write a reply..."
+          placeholder={`Reply to ${parseName(
+            props.object.Commented_By.email
+          )}...`}
         />
       </Box>
     </Card>

@@ -6,11 +6,14 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import React from 'react';
+import { AppContext } from '../App';
 import { parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import flexContainer from '../styles/Article/List';
+import { useContext } from 'react';
 
 const ArticleDetail = (props) => {
+  const { dp } = useContext(AppContext);
   return (
     <Card
       mt={1}
@@ -59,7 +62,9 @@ const ArticleDetail = (props) => {
           <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
             <Avatar
               src={
-                props.object.Posted_By.avatar
+                dp
+                  ? require(`../images/${dp}`)
+                  : props.object.Posted_By.avatar
                   ? require(`../images/${props.object.Posted_By.avatar}`)
                   : ''
               }

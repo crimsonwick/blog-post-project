@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ArticleDetailPage from './pages/ArticleDetailPage';
+import InfiniteScrollTesting from './pages/InfiniteScrollTesting';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ChangePassword from './pages/ChangePassword';
@@ -77,6 +78,10 @@ function App() {
               {/* <Route path="/my-articles" element={<MyArticles />} /> */}
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/change-password" element={<ChangePassword />} />
+              <Route
+                path="/infinite-scroll"
+                element={<InfiniteScrollTesting />}
+              />
               {/* <Route
               path="/forgetPassword"
               element={
