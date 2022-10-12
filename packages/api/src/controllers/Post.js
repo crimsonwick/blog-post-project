@@ -111,7 +111,7 @@ export const myPosts = async (req, res) => {
     index: "posts",
     body: {
         query: {
-            match: {"userId": req.query.userId}
+            match: {"userId": req.user.user.id}
         }
     }
   };
@@ -137,7 +137,7 @@ export const searchMyPost = async(req,res) => {
     index: "posts",
     body: {
         query: {
-            match: {"userId": req.query.userId}
+            match: {"userId": req.user.user.id}
         }
     }
   };
@@ -177,5 +177,25 @@ export const getRepliesfromOnePost = async(req,res) => {
   return res.json(AllComments)
   } catch (error) {
       ErrorHandling(res)
+  }
+}
+
+export const PaginatedPosts = async (req, res) => {
+  const page = parseInt(req.query.page)
+  const limit = parseInt(req.query.limit)
+  try {
+    const getAll = await client.search({
+      index: 'posts'
+    });
+    const getAllP= await client.search({
+      index: 'posts',
+      from: (page-1)*limit,
+      size: limit
+    })
+    const totalPages = Math.ceil((getAll.length)/(limit));
+    const posts = getAllP.body.hits.hits.map((s) => s._source);
+    return res.json({Posts: posts,datalength: posts.length,totalPosts: (getAll.body.hits.hits.map((s) => s._source).length),totalPages: totalPages});
+  } catch (error) {
+    ErrorHandling(res);
   }
 }

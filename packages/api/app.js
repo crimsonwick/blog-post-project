@@ -12,10 +12,10 @@ import cors from 'cors';
 const app = express();
 app.use(cors());
 app.use(express.json({ extended: true }));
-app.use('/user', User);
-app.use('/post', Post);
-app.use('/comment', Comment);
-app.use('/pagination', Pagination);
+app.use('/users', User);
+app.use('/posts', Post);
+app.use('/comments', Comment);
+app.use('/paginations', Pagination);
 
 client
   .info()

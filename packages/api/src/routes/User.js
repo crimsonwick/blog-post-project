@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import { deletePosts, myPosts, searchMyPost, updatePosts } from '../controllers/Post.js';
 
 import {
   SignUp,
@@ -31,5 +32,9 @@ router.put('/:userId', Authentication, upload.single('file'), UpdateUserAvatar);
 router.post('/signup', SignUp);
 router.post('/login', Login);
 router.delete('/logout', Logout);
+router.put('/:id/post/:pid', Authentication, updatePosts);
+router.delete('/:id/post/:pid', Authentication, deletePosts);
+router.get('/:id/posts',Authentication,myPosts);
+router.get('/:id/posts/search',Authentication,searchMyPost);
 
 export default router;

@@ -1,11 +1,9 @@
 import express from 'express';
 import {
   AddPost,
-  deletePosts,
+  getPosts,
   getRepliesfromOnePost,
-  myPosts,
   searchPosts,
-  updatePosts,
 } from '../controllers/Post.js';
 import { Authentication } from '../middleware/Authentication.js';
 import multer from 'multer';
@@ -23,11 +21,10 @@ const upload = multer({ storage: storage });
 const router = express.Router();
 
 router.post('/', Authentication, upload.single('file'), AddPost);
-router.put('/:id/:pid', Authentication, updatePosts);
-router.delete('/:id/:pid', Authentication, deletePosts);
-router.get('/:id', searchPosts);
-router.get('/comments/:id', getRepliesfromOnePost);
-router.get('/', Authentication, myPosts);
+
+router.get('/search', searchPosts);
+router.get('/:id/comments', getRepliesfromOnePost);
+router.get('/', getPosts);
 
 
 export default router;

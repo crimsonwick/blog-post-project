@@ -2,11 +2,11 @@ import axios from 'axios';
 const baseURL = 'http://localhost:5000';
 
 export const getLoginDetails = async (object) => {
-  return await axios.post(`${baseURL}/user/login`, object);
+  return await axios.post(`${baseURL}/users/login`, object);
 };
 
 export const getSignUpDetails = async (object) => {
-  return await axios.post(`${baseURL}/user/signup`, object);
+  return await axios.post(`${baseURL}/users/signup`, object);
 };
 
 export const parseJwt = (token) => {
@@ -30,19 +30,19 @@ export const parseJwt = (token) => {
 };
 
 export const addPost = async (object, config) => {
-  return await axios.post(`${baseURL}/post`, object, config);
+  return await axios.post(`${baseURL}/posts`, object, config);
 };
 
 export const gettingPosts = async (config, userId) => {
-  return await axios.get(`${baseURL}/post?userId=${userId}`, config);
+  return await axios.get(`${baseURL}/users/${userId}/posts`, config);
 };
 
 export const allPostsComing = async () => {
-  return await axios.get(`${baseURL}/pagination/all-posts`);
+  return await axios.get(`${baseURL}/posts`);
 };
 
 export const logout = async (body) => {
-  return await axios.delete(`${baseURL}/user/logout`, body);
+  return await axios.delete(`${baseURL}/users/logout`, body);
 };
 
 export const parseTime = (str) => {
@@ -118,15 +118,15 @@ export const parseDate = (str) => {
 };
 
 export const searchAPI = async (title) => {
-  return await axios.get(`${baseURL}/pagination/search?title=${title}`);
+  return await axios.get(`${baseURL}/posts/search?title=${title}`);
 };
 
 export const getComments = async (id) => {
-  return await axios.get(`${baseURL}/post/comments/${id}`);
+  return await axios.get(`${baseURL}/posts/${id}/comments`);
 };
 
 export const getReply = async (id) => {
-  return await axios.get(`${baseURL}/comment/reply/${id}`);
+  return await axios.get(`${baseURL}/comments/${id}/replies`);
 };
 
 export const parseName = (str) => {
@@ -135,5 +135,5 @@ export const parseName = (str) => {
   return nameField;
 }
 export const searchMyPosts = async(title,id,config) => {
-  return await axios.get(`${baseURL}/pagination/mypost/search?title=${title}&userId=${id}`,config)
+  return await axios.get(`${baseURL}/users/${id}/posts/search?title=${title}`,config)
 }
