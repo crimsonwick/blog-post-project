@@ -32,7 +32,7 @@ function ResetPassword() {
   });
   const onSubmit = async (data) => {
     try {
-      const url = 'http://localhost:5000/user/forget-password';
+      const url = 'http://localhost:5000/users/forget-password';
       console.log(data, 'correct data');
       const options = {
         method: 'POST',

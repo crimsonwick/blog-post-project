@@ -72,7 +72,7 @@ function ChangePassword() {
       setMessage(true);
       const unparsedToken = location.search;
       const token = unparsedToken.slice(7, unparsedToken.length);
-      const url = `http://localhost:5000/user/reset-password`;
+      const url = `http://localhost:5000/users/reset-password`;
       console.log(data, 'correct data');
       const options = {
         method: 'PUT',

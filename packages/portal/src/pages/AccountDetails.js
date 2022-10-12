@@ -7,6 +7,7 @@ import NavBar from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { parseJwt } from '../services/LoginApi';
 import { Alerts } from "../components/Alerts"
+import axios from 'axios';
 
 const AccountDetails = () => {
   const [image, setImage] = useState({ preview: '', data: '' });
@@ -19,16 +20,14 @@ const AccountDetails = () => {
       const parsetoken = parseJwt(accessToken);
       const user = parsetoken.user;
       setUser(user);
-      const response = await fetch(`http://localhost:5000/user/${user.id}`, {
-        method: 'PUT',
+      const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-        },
-        body: formData,
-      });
-      const imageObj = await response.json();
-      if (imageObj) {
-        setDp(imageObj.image)
+        }
+      }
+      const response = await axios.put(`http://localhost:5000/users/${user.id}`, formData,config);
+      if (response.data) {
+        setDp(response.data.image)
         Alerts.success("Dp uploaded");
       }
       else {

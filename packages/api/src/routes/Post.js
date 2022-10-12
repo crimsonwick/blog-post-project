@@ -1,9 +1,6 @@
 import express from 'express';
 import {
-  AddPost,
-  getPosts,
-  getRepliesfromOnePost,
-  searchPosts,
+  PostController
 } from '../controllers/Post.js';
 import { Authentication } from '../middleware/Authentication.js';
 import multer from 'multer';
@@ -20,11 +17,23 @@ const upload = multer({ storage: storage });
 
 const router = express.Router();
 
-router.post('/', Authentication, upload.single('file'), AddPost);
+class PostRouter{
+  constructor(){
 
-router.get('/search', searchPosts);
-router.get('/:id/comments', getRepliesfromOnePost);
-router.get('/', getPosts);
+  }
+
+  checkRequests(){
+    const PostObject = new PostController();
+    router.post('/', Authentication, upload.single('file'), PostObject.AddPost);
+    router.get('/search', PostObject.searchPosts);
+    router.get('/:id/comments', PostObject.getRepliesfromOnePost);
+    router.get('/', PostObject.getPosts);
+  }
+}
+
+const call = new PostRouter();
+
+call.checkRequests();
 
 
 export default router;

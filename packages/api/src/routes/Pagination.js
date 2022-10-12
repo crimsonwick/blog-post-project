@@ -1,8 +1,20 @@
 import express from 'express';
-import { PaginatedPosts } from '../controllers/Post.js';
+import { PostController } from '../controllers/Post.js';
 
 const router = express.Router();
 
-router.get('/', PaginatedPosts);
+class PaginationRouter{
+    constructor(){
+
+    }
+
+    checkRequests(){
+        const PostObject = new PostController();
+        router.get('/', PostObject.PaginatedPosts);
+    }
+}
+
+const call = new PaginationRouter();
+call.checkRequests();
 
 export default router;

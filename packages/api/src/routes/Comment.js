@@ -1,21 +1,26 @@
 import express from 'express';
 import {
-  addComment,
-  addReply,
-  deleteComment,
-  getComments,
-  getRepliesfromComment,
-  getRepliesfromOneComment,
-  updateComment,
+CommentController
 } from '../controllers/Comment.js';
 const router = express.Router();
 
-router.get('/', getComments);
-router.post('/', addComment);
-router.put('/:id', updateComment);
-router.delete('/:id', deleteComment);
-router.get('/replies', getRepliesfromComment);
-router.post('/addReply', addReply);
-router.get("/:id/replies",getRepliesfromOneComment);
+class CommentRouter{
+  constructor() {
 
+  }
+
+  checkRequests(){
+    const CommentObject = new CommentController();
+    router.get('/', CommentObject.getComments);
+    router.post('/', CommentObject.addComment);
+    router.put('/:id', CommentObject.updateComment);
+    router.delete('/:id', CommentObject.deleteComment);
+    router.get('/replies', CommentObject.getRepliesfromComment);
+    router.post('/addReply', CommentObject.addReply);
+    router.get("/:id/replies",CommentObject.getRepliesfromOneComment);
+  }
+}
+
+const call  =new CommentRouter();
+call.checkRequests();
 export default router;
