@@ -1,27 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
-const useInfiniteScroll = (query, pageNumber) => {
+const useInfiniteScroll = (query, pageLink) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(false);
+  const cursor = useRef();
 
   useEffect(() => {
     setLoading(true);
     setError(false);
     axios({
       method: 'GET',
-      url: 'http://openlibrary.org/search.json',
-      params: { q: query, page: pageNumber },
-    }).then((res) => {
-      setPosts((prevPosts) => {
-        return [...new Set([...prevPosts, ...res.data.map((b) => b.title)])];
+      url: 'http://localhost:5000/post',
+      params: { limit: query, next_page: pageLink },
+    })
+      .then((res) => {
+        setPosts((prevPosts) => {
+          return [...new Set([...prevPosts, ...res.data[1].map((p) => p)])];
+        });
+        setHasMore(res.data[0].next_page !== null);
+        setLoading(false);
+        cursor.current = res.data[0].next_page;
+        console.log(res.data);
+      })
+      .catch((e) => {
+        setError(true);
+        console.log(e);
       });
-      console.log(res.data);
-    });
-  }, [query, pageNumber]);
-  return null;
+  }, [query, pageLink]);
+  return { loading, error, posts, hasMore, cursor };
 };
 
 export default useInfiniteScroll;

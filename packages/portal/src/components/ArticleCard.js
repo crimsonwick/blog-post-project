@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '@mui/system';
 import '../styles/Article/Article.css';
 import { Card, List } from '@mui/material';
@@ -13,14 +13,11 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import Chip from '@mui/material/Chip';
 import { parseDate, parseName } from '../services/LoginApi';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import { AppContext } from '../App';
 
-const ArticleCard = (props) => {
-  const { dp, userData } = useContext(AppContext);
-
+const ArticleCard = forwardRef((props, ref) => {
   return (
     <Card
+      ref={ref}
       elevation={0}
       sx={{
         display: 'flex',
@@ -144,6 +141,6 @@ const ArticleCard = (props) => {
       </Box>
     </Card>
   );
-};
+});
 
 export default ArticleCard;

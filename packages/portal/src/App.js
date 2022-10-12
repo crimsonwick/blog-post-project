@@ -27,6 +27,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [searchData, setSearchData] = useState([]);
   const [postImage, setPostImage] = useState([]);
+  const [cursorPaginationLink, setCursorPaginationLink] = useState('');
 
   useEffect(() => {
     WebFont.load({
@@ -57,6 +58,8 @@ function App() {
         setSearchData,
         postImage,
         setPostImage,
+        cursorPaginationLink,
+        setCursorPaginationLink,
       }}
     >
       <ThemeProvider theme={theme}>
