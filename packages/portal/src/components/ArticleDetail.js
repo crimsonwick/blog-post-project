@@ -5,12 +5,14 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../App';
 import { parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import flexContainer from '../styles/Article/List';
 
 const ArticleDetail = (props) => {
+  const { dp } = useContext(AppContext);
   return (
     <Card
       mt={1}
@@ -50,21 +52,36 @@ const ArticleDetail = (props) => {
           className="user"
           disablePadding={true}
           sx={{
-            width: '15%',
-            borderRight: '2px solid',
             borderColor: 'gray',
-            marginRight: '4px',
+            marginRight: '10px',
+            paddingRight: '10px',
+            width: 'auto',
           }}
         >
-          <ListItemIcon>
+          <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
             <Avatar
-              src={require(`../images/${props.object.Posted_By.avatar}`)}
+              src={
+                dp
+                  ? require(`../images/${dp}`)
+                  : props.object.Posted_By.avatar
+                  ? require(`../images/${props.object.Posted_By.avatar}`)
+                  : ''
+              }
               alt="user_dp"
             />
           </ListItemIcon>
           <ListItemText primary={parseName(props.object.Posted_By.email)} />
         </ListItem>
-        <ListItem className="timeToRead">
+        <ListItem
+          className="timeToRead"
+          sx={{
+            borderLeft: '2px solid',
+            borderColor: 'gray',
+            marginRight: '10px',
+            paddingRight: '10px',
+            width: 'auto',
+          }}
+        >
           <ListItemIcon sx={{ minWidth: 'auto' }}>
             <CalendarTodayIcon sx={{ marginRight: '10px' }} />
           </ListItemIcon>

@@ -1,27 +1,23 @@
-import { Container } from '@mui/system';
-import Header from '../components/Header';
-import InputField from '../components/InputField';
-import InputButton from '../components/InputButton';
-import { Box } from '@mui/system';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
-import '../styles/signup.css';
-import YupPassword from 'yup-password';
-import '../styles/signup.css';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import { Controller } from 'react-hook-form';
 import { OutlinedInput, ThemeProvider } from '@mui/material';
 import FormLabel from '@mui/material/FormLabel';
-import { theme } from '../themes/theme';
-import { getSignUpDetails } from '../services/LoginApi';
-import { useReducer } from 'react';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import { Box, Container } from '@mui/system';
+import { useReducer, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Alerts } from "../components/Alerts"
+import * as yup from 'yup';
+import YupPassword from 'yup-password';
+import { Alerts } from '../components/Alerts';
+import Header from '../components/Header';
+import InputButton from '../components/InputButton';
+import InputField from '../components/InputField';
+import { getSignUpDetails } from '../services/LoginApi';
+import '../styles/signup.css';
+import { theme } from '../themes/theme';
 YupPassword(yup);
 const reducer = (state, action) => {
   switch (action.type) {
@@ -35,7 +31,6 @@ const reducer = (state, action) => {
 };
 
 const Signup = () => {
-
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup
@@ -82,11 +77,10 @@ const Signup = () => {
     const responsed = await getSignUpDetails(data);
     if (responsed.data.id === undefined) {
       dispatch({ type: 'FAILED' });
-      Alerts.error("Account already exists");
+      Alerts.error('Account already exists');
     } else {
-
       dispatch({ type: 'SUCCESS' });
-      Alerts.success("Account Created successfully");
+      Alerts.success('Account Created successfully');
       setTimeout(() => {
         navigate('/login');
       }, 1000);
@@ -95,7 +89,6 @@ const Signup = () => {
   return (
     <>
       <Container maxWidth="sm">
-
         <Box>
           <Header
             heading="Create An Account"

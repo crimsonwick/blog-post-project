@@ -1,23 +1,43 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { AppContext } from '../App';
 import ArticleCard from '../components/ArticleCard';
 import NavBar from '../components/NavBar';
-import PaginatedItems from '../components/PaginatedItems';
 import { PostsHeader } from '../components/PostsHeader';
-import { allPostsComing } from '../services/LoginApi';
+import useInfiniteScrollOnHome from '../components/useInfiniteScrollOnHome';
 
 const Home = () => {
-  const [data, setData] = useState([]);
-  const { loggedIn, searchData } = useContext(AppContext);
-  const allPosts = async () => {
-    const details = await allPostsComing();
-    setData(details.data);
-  };
-  useEffect(() => {
-    allPosts();
-  }, []);
+  const { loggedIn } = useContext(AppContext);
+  const limit = 4;
+  // const [limit, setLimit] = useState(4);
+  const [link, setLink] = useState('');
+
+  const { posts, hasMore, loading, error, cursor } = useInfiniteScrollOnHome(
+    limit,
+    link
+  );
+
+  const observer = useRef();
+  const lastPost = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          console.log('Visible');
+          setLink(cursor.current);
+        }
+      });
+      if (node) observer.current.observe(node);
+      console.log(node);
+    },
+    [loading, hasMore, cursor]
+  );
+
+  // const myData = []
+  //   .concat(searchData)
+  //   .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));
 
   return (
     <>
@@ -30,19 +50,15 @@ const Home = () => {
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name="Recent Posts" />
         <Box mt={5}>
-          {Array.isArray(data) &&
-          Array.isArray(searchData) &&
-          searchData.length === 0 ? (
-            <PaginatedItems data={data} />
-          ) : (
-            searchData.map((object) => {
-              return (
-                <ArticleCard key={object._source.id} object={object._source} />
-              );
-            })
-          )}
+          {posts.map((post, index) => {
+            if (posts.length === index + 1) {
+              return <ArticleCard ref={lastPost} object={post} key={index} />;
+            }
+            return <ArticleCard object={post} key={index} />;
+          })}
+          <Typography>{loading && 'Loading...'}</Typography>
+          <Typography>{error && 'Error'}</Typography>
         </Box>
-        {/* <Footer /> */}
       </Container>
     </>
   );

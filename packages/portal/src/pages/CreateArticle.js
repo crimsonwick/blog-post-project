@@ -1,19 +1,18 @@
-import React, { useContext, useState, useCallback } from 'react';
-import styles from '../styles/CreateArticle/CreateArticle.module.css';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import { AppContext } from '../App';
-import NavBar from '../components/NavBar';
-import { Box, FormLabel, OutlinedInput } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { addPost } from '../services/LoginApi';
-import { StyledDropZone } from '../components/StyledDropZone';
+import { Box, FormLabel, OutlinedInput } from '@mui/material';
+import Button from '@mui/material/Button';
 import { Container } from '@mui/system';
+import React, { useContext } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+import { AppContext } from '../App';
+import { Alerts } from '../components/Alerts';
+import NavBar from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
-import { Alerts } from "../components/Alerts"
+import { StyledDropZone } from '../components/StyledDropZone';
+import { addPost } from '../services/LoginApi';
+import styles from '../styles/CreateArticle/CreateArticle.module.css';
 
 const schema = yup
   .object({
@@ -47,7 +46,7 @@ const CreateArticle = () => {
       formData.append('body', data.body);
       formData.append('file', postImage);
       formData.append('timetoRead', data.mins);
-      Alerts.success("Post Created successfully");
+      Alerts.success('Post Created successfully');
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -55,13 +54,11 @@ const CreateArticle = () => {
       };
       await addPost(formData, config);
       setTimeout(() => {
-
         navigate('/my-articles');
-
-      }, 250)
+      }, 250);
     } catch (err) {
-      Alerts.error("Something went Wrong");
-    };
+      Alerts.error('Something went Wrong');
+    }
   };
 
   return (

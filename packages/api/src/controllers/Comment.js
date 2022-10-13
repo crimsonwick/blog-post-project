@@ -1,7 +1,7 @@
 import model from '../models';
 import { ErrorHandling } from '../middleware/Errors.js';
 
-const { Comments,Users } = model;
+const { Comments, Users } = model;
 
 export class CommentController{
     constructor(){

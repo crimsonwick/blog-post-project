@@ -1,53 +1,69 @@
-import { Container } from "@mui/system";
-import React from "react";
-import ArticleCard from "../components/ArticleCard";
-import { Box } from "@mui/system";
-import Footer from "../components/Footer";
-import NavBar from "../components/NavBar";
-import { useState, useEffect, useContext } from "react";
-import { gettingPosts, parseJwt } from "../services/LoginApi";
-import { AppContext } from "../App";
+import { Typography } from '@mui/material';
+import { Box, Container } from '@mui/system';
+import React, { useCallback, useContext, useRef, useState } from 'react';
+import { AppContext } from '../App';
+import ArticleCard from '../components/ArticleCard';
+import NavBar from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
+import useInfiniteScrollOnMyArticles from '../components/useInfiniteScrollOnMyArticles';
+import { parseJwt } from '../services/LoginApi';
 
 const MyArticles = () => {
-  const [data, setData] = useState([]);
-  const { accessToken,searchMyData } = useContext(AppContext);
+  const { accessToken } = useContext(AppContext);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const userDetails = parseJwt(accessToken);
+  const userId = userDetails.user.id;
 
-  useEffect(() => {
-    const allPosts = async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-      const userDetails = parseJwt(accessToken);
-      const details = await gettingPosts(config, userDetails.user.id);
-      if (details.data.length) setData(details.data);
-    };
-    allPosts();
-  }, [accessToken, setData]);
+  const limit = 4;
+  // const [limit, setLimit] = useState(4);
+  const [link, setLink] = useState('');
+
+  const { posts, hasMore, loading, error, cursor } =
+    useInfiniteScrollOnMyArticles(limit, link, userId, config);
+
+  const observer = useRef();
+  const lastPost = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          console.log('Visible');
+          setLink(cursor.current);
+        }
+      });
+      if (node) observer.current.observe(node);
+      console.log(node);
+    },
+    [loading, hasMore, cursor]
+  );
+
+  // const sortedPosts = []
+  //   .concat(posts)
+  //   .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+
   return (
     <>
       <NavBar login={true} mainPage={false}/>
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name="My Articles" />
         <Box mt={5}>
-        {data && searchMyData.length === 0
-            ? data.map((object) => {
-                return <ArticleCard key={object._source.id} object={object._source} />;
-              })
-            : searchMyData.map((object) => {
-                return (
-                  <ArticleCard
-                    key={object._source.id}
-                    object={object._source}
-                  />
-                );
-              })}
+          {posts.map((post, index) => {
+            if (posts.length === index + 1) {
+              return <ArticleCard ref={lastPost} object={post} key={index} />;
+            }
+            return <ArticleCard object={post} key={index} />;
+          })}
+          <Typography>{loading && 'Loading...'}</Typography>
+          <Typography>{error && 'Error'}</Typography>
         </Box>
-        <Footer />
       </Container>
     </>
   );
 };
+
 export default MyArticles;

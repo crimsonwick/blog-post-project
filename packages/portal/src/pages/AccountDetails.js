@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../App';
+import { Alerts } from '../components/Alerts';
 import BasicTable from '../components/BasicTable';
 import NavBar from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
@@ -30,10 +31,6 @@ const AccountDetails = () => {
         setDp(response.data.image)
         Alerts.success("Dp uploaded");
       }
-      else {
-        Alerts.warning("Image not uploaded");
-      }
-
     } catch (err) {
       console.log(err);
     }
@@ -78,13 +75,11 @@ const AccountDetails = () => {
                 type="file"
                 name="file"
                 onChange={handleFileChange}
-
                 hidden
               />
             </Button>
             <Button
               variant="contained"
-
               sx={{
                 borderRadius: '20px',
                 marginLeft: '10px',

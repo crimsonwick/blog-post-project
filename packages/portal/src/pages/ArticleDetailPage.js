@@ -1,14 +1,14 @@
+import { Box } from '@mui/material';
 import { Container } from '@mui/system';
 import React, { useContext, useEffect, useState } from 'react';
-import NavBar from '../components/NavBar';
-import Comment from '../components/Comment';
-import { Box } from '@mui/material';
-import ArticleDetail from '../components/ArticleDetail';
-import AddComment from '../components/AddComment';
 import { useLocation } from 'react-router-dom';
 import { AppContext } from '../App';
-import { getComments } from '../services/LoginApi';
+import AddComment from '../components/AddComment';
+import ArticleDetail from '../components/ArticleDetail';
+import Comment from '../components/Comment';
+import NavBar from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
+import { getComments } from '../services/LoginApi';
 
 const ArticleDetailPage = () => {
   const location = useLocation();
@@ -22,7 +22,7 @@ const ArticleDetailPage = () => {
   };
   useEffect(() => {
     allComments(object.id);
-  }, [object]);
+  }, [object.id]);
   return (
     <>
       {loggedIn ? <NavBar login={true} /> : <NavBar />}
@@ -35,7 +35,10 @@ const ArticleDetailPage = () => {
         </Box>
         <Box>
           <AddComment
+            width="1000px"
             object={object}
+            placeholder="Write a comment..."
+            labelAbove="Add Comment"
             refreshComment={allComments}
             Comment={true}
           />

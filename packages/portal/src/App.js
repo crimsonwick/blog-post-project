@@ -1,21 +1,21 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import ArticleDetailPage from './pages/ArticleDetailPage';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import ChangePassword from './pages/ChangePassword';
-import { theme } from './themes/theme';
 import { ThemeProvider } from '@mui/material/styles';
-import { useEffect, useState, createContext } from 'react';
+import { SnackbarProvider } from 'notistack';
+import { createContext, useEffect, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import WebFont from 'webfontloader';
+import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
 import Protected from './components/Protected';
+import AccountDetails from './pages/AccountDetails';
+import ArticleDetailPage from './pages/ArticleDetailPage';
+import ChangePassword from './pages/ChangePassword';
 import CreateArticle from './pages/CreateArticle';
 import LandingPage from './pages/LandingPage';
+import Login from './pages/Login';
 import MyArticles from './pages/MyArticles';
 import Page404 from './pages/Page404';
 import ResetPassword from './pages/ResetPassword';
-import AccountDetails from './pages/AccountDetails';
-import { SnackbarProvider } from 'notistack';
-import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
+import Signup from './pages/Signup';
+import { theme } from './themes/theme';
 export const AppContext = createContext(null);
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
   const [searchData, setSearchData] = useState([]);
   const [searchMyData, setSearchMyData] = useState([]);
   const [postImage, setPostImage] = useState([]);
+  const [cursorPaginationLink, setCursorPaginationLink] = useState('');
 
   useEffect(() => {
     WebFont.load({
@@ -59,6 +60,8 @@ function App() {
         setSearchMyData,
         postImage,
         setPostImage,
+        cursorPaginationLink,
+        setCursorPaginationLink,
       }}
     >
       <ThemeProvider theme={theme}>

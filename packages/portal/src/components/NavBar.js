@@ -1,3 +1,4 @@
+import Logout from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -30,7 +31,6 @@ const Navbar = (props) => {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -77,7 +77,6 @@ const Navbar = (props) => {
             }}
             to="/"
             variant="h6"
-
             sx={{
               marginLeft: '5px',
               textTransform: 'capitalize',
@@ -94,7 +93,6 @@ const Navbar = (props) => {
               }}
               to="/my-articles"
               variant="h6"
-
               sx={{
                 marginLeft: '15px',
                 textTransform: 'capitalize',
@@ -172,8 +170,8 @@ const Navbar = (props) => {
                     dp
                       ? require(`../images/${dp}`)
                       : userData.avatar
-                        ? require(`../images/${userData.avatar}`)
-                        : ''
+                      ? require(`../images/${userData.avatar}`)
+                      : ''
                   }
                   sx={{ width: 32, height: 32 }}
                 />
@@ -225,8 +223,8 @@ const Navbar = (props) => {
                       dp
                         ? require(`../images/${dp}`)
                         : userData.avatar
-                          ? require(`../images/${userData.avatar}`)
-                          : ''
+                        ? require(`../images/${userData.avatar}`)
+                        : ''
                     }
                   />
                   My account
@@ -249,8 +247,7 @@ const Navbar = (props) => {
           </div>
         )}
       </Toolbar>
-    </AppBar >
-
+    </AppBar>
   );
 };
 

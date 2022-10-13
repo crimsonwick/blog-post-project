@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import { useCallback } from 'react';
 import { AppContext } from '../App';
 
 const getColor = (props) => {

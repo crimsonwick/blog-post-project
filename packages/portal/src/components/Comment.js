@@ -9,9 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { getReply, parseTime, parseName } from '../services/LoginApi';
+import React, { useEffect, useState } from 'react';
+import { getReply, parseName, parseTime } from '../services/LoginApi';
 import AddComment from './AddComment';
 
 const Comment = (props) => {
@@ -25,13 +24,27 @@ const Comment = (props) => {
     getReplies(props.object.id);
   }, [props]);
   return (
-    <Card elevation={1} sx={{ marginLeft: '20px', marginTop: '10px' }}>
+    <Card
+      elevation={0}
+      sx={{
+        borderRadius: '0px',
+        marginLeft: '20px',
+        marginTop: '10px',
+        borderLeft: '1px solid',
+        borderColor: 'black',
+        paddingLeft: '5px',
+      }}
+    >
       <Box sx={{ display: 'flex', allignItems: 'left' }}>
         <List>
           <ListItem>
             <ListItemIcon>
               <Avatar
-                src={require(`../images/${props.object.Commented_By.avatar}`)}
+                src={
+                  props.object.Commented_By.avatar
+                    ? require(`../images/${props.object.Commented_By.avatar}`)
+                    : ''
+                }
                 alt="user_dp"
               />
             </ListItemIcon>
@@ -46,40 +59,45 @@ const Comment = (props) => {
         <Typography sx={{ fontFamily: 'Poppins' }}>
           {props.object.body}
         </Typography>
+        {!replies
+          ? reply.length > 0 && (
+              <Button
+                variant="text"
+                onClick={() => {
+                  setReplies(!replies);
+                }}
+                sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
+              >
+                Show Replies ({reply.length})
+              </Button>
+            )
+          : reply.length > 0 && (
+              <Button
+                variant="text"
+                onClick={() => {
+                  setReplies(!replies);
+                }}
+                sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
+              >
+                Hide Replies ({reply.length})
+              </Button>
+            )}
+        {replies && reply.length > 0
+          ? reply.map((o) => {
+              return <Comment key={o.id} object={o} />;
+            })
+          : null}
+        <AddComment
+          width="550px"
+          object={props.object}
+          refreshReplies={getReplies}
+          Comment={false}
+          labelAbove="Add Reply"
+          placeholder={`Reply to ${parseName(
+            props.object.Commented_By.email
+          )}...`}
+        />
       </Box>
-      {!replies
-        ? reply.length > 0 && (
-            <Button
-              variant="text"
-              onClick={() => {
-                setReplies(!replies);
-              }}
-              sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
-            >
-              Show Replies ({reply.length})
-            </Button>
-          )
-        : reply.length > 0 && (
-            <Button
-              variant="text"
-              onClick={() => {
-                setReplies(!replies);
-              }}
-              sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
-            >
-              Hide Replies ({reply.length})
-            </Button>
-          )}
-      {replies && reply.length > 0
-        ? reply.map((o) => {
-            return <Comment key={o.id} object={o} />;
-          })
-        : null}
-      <AddComment
-        object={props.object}
-        refreshReplies={getReplies}
-        Comment={false}
-      />
     </Card>
   );
 };
