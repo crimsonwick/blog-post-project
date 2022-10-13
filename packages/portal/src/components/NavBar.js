@@ -21,7 +21,6 @@ import {
   SearchIconWrapper,
   StyledInputBase,
 } from '../styles/NavBar.js';
-import Logout from '@mui/icons-material/Logout';
 import { AppContext } from '../App.js';
 
 const Navbar = (props) => {
@@ -67,7 +66,7 @@ const Navbar = (props) => {
     }
   };
   return (
-    <AppBar position="static" style={{ background: '#FFFFFF' }}>
+    <AppBar position="fixed" style={{ background: '#FFFFFF' }}>
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
           <Typography

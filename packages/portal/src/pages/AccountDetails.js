@@ -7,7 +7,6 @@ import BasicTable from '../components/BasicTable';
 import NavBar from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { parseJwt } from '../services/LoginApi';
-import { Alerts } from "../components/Alerts"
 import axios from 'axios';
 
 const AccountDetails = () => {

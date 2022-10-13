@@ -14,7 +14,7 @@ const useInfiniteScrollOnMyArticles = (query, pageLink, id, headers) => {
     if (typeof id === 'string') {
       axios({
         method: 'GET',
-        url: `http://localhost:5000/post/${id}`,
+        url: `http://localhost:5000/posts/${id}`,
         params: { limit: query, next_page: pageLink },
         headers: headers.headers,
       })

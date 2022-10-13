@@ -13,7 +13,7 @@ const useInfiniteScrollOnHome = (query, pageLink) => {
     setError(false);
     axios({
       method: 'GET',
-      url: 'http://localhost:5000/post',
+      url: 'http://localhost:5000/posts',
       params: { limit: query, next_page: pageLink },
     })
       .then((res) => {
