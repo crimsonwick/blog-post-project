@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button } from '@mui/material';
+import React from 'react';
 
 const InputButton = (props) => {
   const customWidth = props.width;

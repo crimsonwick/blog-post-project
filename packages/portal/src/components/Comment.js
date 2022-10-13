@@ -9,9 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { getReply, parseTime, parseName } from '../services/LoginApi';
+import React, { useEffect, useState } from 'react';
+import { getReply, parseName, parseTime } from '../services/LoginApi';
 import AddComment from './AddComment';
 
 const Comment = (props) => {

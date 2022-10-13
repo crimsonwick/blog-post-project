@@ -1,12 +1,12 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box } from '@mui/material';
 import React, { useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import InputField from './InputField';
-import { Box } from '@mui/material';
-import InputButton from './InputButton';
+import * as yup from 'yup';
 import { AppContext } from '../App';
 import { addComment, addReply } from '../services/CommentApi';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import InputButton from './InputButton';
+import InputField from './InputField';
 
 const AddComment = (props) => {
   // const inputRef = useRef(null);
@@ -18,7 +18,7 @@ const AddComment = (props) => {
     resolver: yupResolver(schema),
   });
 
-  const { handleSubmit, control, reset, setValue } = methods;
+  const { handleSubmit, control, setValue } = methods;
   const { userData, accessToken } = useContext(AppContext);
 
   const onSubmit = async (data) => {

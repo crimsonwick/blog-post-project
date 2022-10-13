@@ -1,19 +1,17 @@
-import styles from '../styles/Login/Login.module.css';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Container from '@mui/material/Container';
-import { useForm, Controller } from 'react-hook-form';
-import Button from '@mui/material/Button';
-import React, { useState } from 'react';
-import FormLabel from '@mui/material/FormLabel';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import '../styles/signup.css';
-import YupPassword from 'yup-password';
-import Alert from '@mui/material/Alert';
-import { toast } from 'react-toastify';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import FormLabel from '@mui/material/FormLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import axios from 'axios';
-import { Alerts } from "../components/Alerts"
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+import YupPassword from 'yup-password';
+import { Alerts } from '../components/Alerts';
+import styles from '../styles/Login/Login.module.css';
+import '../styles/signup.css';
 YupPassword(yup);
 const schema = yup
   .object({
@@ -21,7 +19,7 @@ const schema = yup
   })
   .required();
 function ResetPassword() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -32,7 +30,6 @@ function ResetPassword() {
     },
     resolver: yupResolver(schema),
   });
-  const [message, setMessage] = useState(false);
   const onSubmit = async (data) => {
     try {
       const url = 'http://localhost:5000/user/forget-password';
@@ -43,10 +40,11 @@ function ResetPassword() {
         data: { email: data.email },
       };
       const response = await axios(options);
-      Alerts.success("Mail is sent");
-      navigate("/login");
+      console.log(response);
+      Alerts.success('Mail is sent');
+      navigate('/login');
     } catch (err) {
-      Alerts.error(" Email not Found");
+      Alerts.error(' Email not Found');
     }
 
     //errors.email ? setMessage(false) : setMessage(true);

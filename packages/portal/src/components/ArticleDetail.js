@@ -5,12 +5,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import React, { useContext } from 'react';
 import { AppContext } from '../App';
 import { parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import flexContainer from '../styles/Article/List';
-import { useContext } from 'react';
 
 const ArticleDetail = (props) => {
   const { dp } = useContext(AppContext);

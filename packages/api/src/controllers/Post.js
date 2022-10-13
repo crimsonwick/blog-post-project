@@ -43,7 +43,7 @@ export const getPosts = async (req, res) => {
           {
             model: Users,
             as: 'Posted_By',
-            attributes: ['email'],
+            attributes: ['email', 'avatar'],
           },
           {
             model: Comments,
@@ -70,7 +70,7 @@ export const getPosts = async (req, res) => {
           {
             model: Users,
             as: 'Posted_By',
-            attributes: ['email'],
+            attributes: ['email', 'avatar'],
           },
           {
             model: Comments,
@@ -97,7 +97,7 @@ export const getPosts = async (req, res) => {
           {
             model: Users,
             as: 'Posted_By',
-            attributes: ['email'],
+            attributes: ['email', 'avatar'],
           },
           {
             model: Comments,
@@ -130,7 +130,7 @@ export const getPosts = async (req, res) => {
           {
             model: Users,
             as: 'Posted_By',
-            attributes: ['email'],
+            attributes: ['email', 'avatar'],
           },
           {
             model: Comments,
@@ -166,6 +166,141 @@ export const getPosts = async (req, res) => {
   // } catch (error) {
   //   ErrorHandling(res);
   // }
+};
+
+export const getCursorPostsOfSingleUser = async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit);
+    const id = req.params.id;
+    if (id) {
+      if (isNaN(limit)) {
+        const allPosts = await Posts.findAll({
+          where: { userId: id },
+          include: [
+            {
+              model: Users,
+              as: 'Posted_By',
+              attributes: ['email', 'avatar'],
+            },
+            {
+              model: Comments,
+              as: 'Comments',
+            },
+          ],
+        });
+        return res.json(allPosts);
+      }
+
+      const cursorValues = {};
+      cursorValues.next_page = req.query.next_page || '';
+      cursorValues.prev_page = req.query.prev_page || '';
+
+      let condition = '';
+      if (cursorValues.next_page) condition = cursorValues.next_page;
+      else if (cursorValues.prev_page) condition = cursorValues.prev_page;
+
+      if (!condition) {
+        const posts = await Posts.findAll({
+          where: { userId: id },
+          limit: limit + 1,
+          order: [['createdAt', 'ASC']],
+          include: [
+            {
+              model: Users,
+              as: 'Posted_By',
+              attributes: ['email', 'avatar'],
+            },
+            {
+              model: Comments,
+              as: 'Comments',
+            },
+          ],
+        });
+        cursorValues.prev_page = null;
+        if (posts[limit] === undefined) cursorValues.next_page = null;
+        else {
+          //*convert to plain js object
+          const clonePost = JSON.parse(JSON.stringify(posts));
+          cursorValues.next_page = clonePost[limit - 1].createdAt;
+        }
+        if (posts.length == limit + 1) posts.pop();
+        const result = [cursorValues, posts];
+        res.send(result);
+      } else if (condition === cursorValues.next_page) {
+        const posts = await Posts.findAll({
+          where: {
+            [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
+          },
+          limit: limit + 1,
+          order: [['createdAt', 'ASC']],
+          include: [
+            {
+              model: Users,
+              as: 'Posted_By',
+              attributes: ['email', 'avatar'],
+            },
+            {
+              model: Comments,
+              as: 'Comments',
+            },
+          ],
+        });
+        //*next page link
+        if (posts[limit] === undefined) cursorValues.next_page = null;
+        else {
+          //*convert to plain js object
+          const clonePost = JSON.parse(JSON.stringify(posts));
+          cursorValues.next_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
+        }
+        //*prev page link
+        if (posts[0] === undefined) cursorValues.prev_page = null;
+        else {
+          const clonePost = JSON.parse(JSON.stringify(posts));
+          cursorValues.prev_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
+        }
+        if (posts.length == limit + 1) posts.pop();
+        const result = [cursorValues, posts];
+        res.send(result);
+      } else if (condition === cursorValues.prev_page) {
+        const posts = await Posts.findAll({
+          where: {
+            [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
+          },
+          limit: limit + 1,
+          order: [['createdAt', 'DESC']],
+          include: [
+            {
+              model: Users,
+              as: 'Posted_By',
+              attributes: ['email', 'avatar'],
+            },
+            {
+              model: Comments,
+              as: 'Comments',
+            },
+          ],
+        });
+        if (posts[limit] === undefined) cursorValues.prev_page = null;
+        else {
+          const clonePost = JSON.parse(JSON.stringify(posts));
+          cursorValues.prev_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
+        }
+        if (posts[0] === undefined) cursorValues.next_page = null;
+        else {
+          const clonePost = JSON.parse(JSON.stringify(posts));
+          cursorValues.next_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
+        }
+        if (posts.length == limit + 1) posts.pop();
+        const result = [cursorValues, posts];
+        res.send(result);
+      }
+    } else {
+      return res.status(404).json('User not found');
+    }
+  } catch (err) {
+    console.log(err);
+    return res.json({ error: `${err}` });
+  }
 };
 
 export const updatePosts = async (req, res) => {

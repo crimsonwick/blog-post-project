@@ -1,18 +1,17 @@
-import React, { forwardRef } from 'react';
-import { Box } from '@mui/system';
-import '../styles/Article/Article.css';
-import { Card, List } from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
+import { Avatar, Card, List } from '@mui/material';
+import Chip from '@mui/material/Chip';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import flexContainer from '../styles/Article/List';
-import { Avatar } from '@mui/material';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
-import Chip from '@mui/material/Chip';
-import { parseDate, parseName } from '../services/LoginApi';
+import { Box } from '@mui/system';
+import React, { forwardRef } from 'react';
 import { Link } from 'react-router-dom';
+import { parseDate, parseName } from '../services/LoginApi';
+import '../styles/Article/Article.css';
+import flexContainer from '../styles/Article/List';
 
 const ArticleCard = forwardRef((props, ref) => {
   return (

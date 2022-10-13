@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 
-const useInfiniteScroll = (query, pageLink) => {
+const useInfiniteScrollOnHome = (query, pageLink) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -17,6 +17,7 @@ const useInfiniteScroll = (query, pageLink) => {
       params: { limit: query, next_page: pageLink },
     })
       .then((res) => {
+        console.log('API WAS CALLED');
         setPosts((prevPosts) => {
           return [...new Set([...prevPosts, ...res.data[1].map((p) => p)])];
         });
@@ -33,4 +34,4 @@ const useInfiniteScroll = (query, pageLink) => {
   return { loading, error, posts, hasMore, cursor };
 };
 
-export default useInfiniteScroll;
+export default useInfiniteScrollOnHome;

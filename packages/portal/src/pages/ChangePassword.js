@@ -1,23 +1,21 @@
-import styles from '../styles/ChangePassword/ChangePassword.module.css';
-import React from 'react';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import { FormLabel, OutlinedInput, Snackbar } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { FormLabel, OutlinedInput } from '@mui/material';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import { Box, Container } from '@mui/system';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
-import { Container, Box } from '@mui/system';
-import { Alerts } from "../components/Alerts"
+import { Alerts } from '../components/Alerts';
 import Header from '../components/Header';
+import styles from '../styles/ChangePassword/ChangePassword.module.css';
 YupPassword(yup);
 
 const schema = yup
@@ -41,7 +39,7 @@ const schema = yup
   })
   .required();
 function ChangePassword() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [message, setMessage] = useState(false);
   const {
     control,
@@ -86,15 +84,14 @@ function ChangePassword() {
         setMessage(false);
       };
       const record = response.data;
-      Alerts.success("Password Updated");
-      navigate("/login")
+      Alerts.success('Password Updated');
+      navigate('/login');
     } catch (err) {
-      Alerts.error("Something Bad Occurs");
+      Alerts.error('Something Bad Occurs');
     }
   };
   return (
     <div className={styles.padding}>
-
       <Divider />
       <Box>
         <Header heading="Change Password" />

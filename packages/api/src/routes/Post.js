@@ -3,6 +3,7 @@ import {
   AddPost,
   deletePosts,
   getPosts,
+  getCursorPostsOfSingleUser,
   getRepliesfromOnePost,
   myPosts,
   searchPosts,
@@ -24,6 +25,7 @@ const upload = multer({ storage: storage });
 const router = express.Router();
 
 router.get('/', getPosts);
+router.get('/:id', Authentication, getCursorPostsOfSingleUser);
 router.post('/', Authentication, upload.single('file'), AddPost);
 router.put('/:id/:pid', Authentication, updatePosts);
 router.delete('/:id/:pid', Authentication, deletePosts);
