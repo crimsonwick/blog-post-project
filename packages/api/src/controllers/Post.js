@@ -473,4 +473,27 @@ export class PostController{
       return res.json({ error: `${err}` });
     }
   };
+  PaginatedPosts = async (req, res) => {
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
+    try {
+      const getAll = await client.count({
+        index: 'posts'
+      });
+      const getAllP= await client.search({
+        index: 'posts',
+        body: {
+          from: (page-1)*limit,
+          size: limit,
+          sort: [{ "createdAt": { "order": "desc" } }],
+        }
+      })
+      const totalPosts = getAll.body.count;
+      const totalPages = Math.ceil((totalPosts/limit));
+      const posts = getAllP.body.hits.hits.map((s) => s._source);
+      return res.json({Posts: posts,datalength: posts.length,totalPosts: totalPosts,totalPages: totalPages});
+    } catch (error) {
+      ErrorHandling(res);
+    }
+  }
 }

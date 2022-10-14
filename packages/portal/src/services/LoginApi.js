@@ -137,3 +137,7 @@ export const parseName = (str) => {
 export const searchMyPosts = async(title,id,config) => {
   return await axios.get(`${baseURL}/users/${id}/posts/search?title=${title}`,config)
 }
+
+export const PaginationforPosts = async(page,limit) => {
+  return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`)
+}

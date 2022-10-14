@@ -7,16 +7,15 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { parseDate, parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import flexContainer from '../styles/Article/List';
 
-const ArticleCard = forwardRef((props, ref) => {
+const ArticleCard = (props) => {
   return (
     <Card
-      ref={ref}
       elevation={0}
       sx={{
         display: 'flex',
@@ -140,6 +139,6 @@ const ArticleCard = forwardRef((props, ref) => {
       </Box>
     </Card>
   );
-});
+}
 
 export default ArticleCard;
