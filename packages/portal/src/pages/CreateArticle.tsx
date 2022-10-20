@@ -8,11 +8,18 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { AppContext } from '../App';
 import { Alerts } from '../components/Alerts';
-import NavBar from '../components/NavBar';
+import {Navbar} from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { StyledDropZone } from '../components/StyledDropZone';
+import { AppContextInterface, UserInterface } from '../interface/App';
 import { addPost } from '../services/LoginApi';
 import styles from '../styles/CreateArticle/CreateArticle.module.css';
+
+interface dataInterface {
+  title: string;
+  mins: number;
+  body: string;
+}
 
 const schema = yup
   .object({
@@ -23,7 +30,7 @@ const schema = yup
   .required();
 
 const CreateArticle = () => {
-  const { userData, accessToken, postImage } = useContext(AppContext);
+  const context : AppContextInterface<UserInterface> | null = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -32,38 +39,45 @@ const CreateArticle = () => {
     defaultValues: {
       title: '',
       body: '',
+      mins: 0
     },
     resolver: yupResolver(schema),
   });
 
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    try {
-      let formData = new FormData();
-      formData.append('userId', userData.id);
-      formData.append('title', data.title);
-      formData.append('body', data.body);
-      formData.append('file', postImage);
-      formData.append('timetoRead', data.mins);
-      Alerts.success('Post Created successfully');
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-      await addPost(formData, config);
-      setTimeout(() => {
-        navigate('/my-articles');
-      }, 250);
-    } catch (err) {
-      Alerts.error('Something went Wrong');
+
+  const onSubmit = async (data: dataInterface) => {
+    if(!context){
+      return <h1></h1>
+    }
+    else{
+      try {
+        let formData = new FormData();
+        formData.append('userId', ((context.userData.id as unknown) as string));
+        formData.append('title', data.title);
+        formData.append('body', data.body);
+        formData.append('file', ((context.postImage as unknown) as string));
+        formData.append('timetoRead', ((data.mins as unknown)as Blob));
+        Alerts.success('Post Created successfully');
+        const config = {
+          headers: {
+            Authorization: `Bearer ${context.accessToken}`,
+          },
+        };
+        await addPost(formData, config);
+        setTimeout(() => {
+          navigate('/my-articles');
+        }, 250);
+      } catch (err) {
+        Alerts.error('Something went Wrong');
+      }
     }
   };
 
   return (
     <>
-      <NavBar login={true} />
+      <Navbar login={true} />
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name="Create New Article" />
         <Box component="form" onSubmit={handleSubmit(onSubmit)} mt={3}>
@@ -75,13 +89,12 @@ const CreateArticle = () => {
             rules={{ required: true }}
             render={({
               field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
+              fieldState: {isTouched, isDirty, error },
               formState,
             }) => (
               <OutlinedInput
                 onBlur={onBlur} // notify when input is touched
                 onChange={onChange} // send value to hook form
-                checked={value}
                 inputRef={ref}
                 sx={{
                   borderRadius: 5,
@@ -89,7 +102,6 @@ const CreateArticle = () => {
                   width: 700,
                   marginTop: 1,
                 }}
-                variant="outlined"
                 color="secondary"
               />
             )}
@@ -109,13 +121,12 @@ const CreateArticle = () => {
             rules={{ required: true }}
             render={({
               field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
+              fieldState: { isTouched, isDirty, error },
               formState,
             }) => (
               <OutlinedInput
                 onBlur={onBlur} // notify when input is touched
                 onChange={onChange} // send value to hook form
-                checked={value}
                 inputRef={ref}
                 sx={{
                   borderRadius: 5,
@@ -123,7 +134,6 @@ const CreateArticle = () => {
                   width: 700,
                   marginTop: 1,
                 }}
-                variant="outlined"
                 color="secondary"
               />
             )}
@@ -145,25 +155,22 @@ const CreateArticle = () => {
             rules={{ required: true }}
             render={({
               field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
+              fieldState: {  isTouched, isDirty, error },
               formState,
             }) => (
               <OutlinedInput
                 onBlur={onBlur} // notify when input is touched
                 onChange={onChange} // send value to hook form
-                checked={value}
                 inputRef={ref}
                 multiline
                 minRows={7}
                 maxRows={7}
-                size="large"
                 sx={{
                   borderRadius: 5,
                   marginBottom: 3,
                   width: 700,
                   marginTop: 1,
                 }}
-                variant="outlined"
                 color="secondary"
               />
             )}

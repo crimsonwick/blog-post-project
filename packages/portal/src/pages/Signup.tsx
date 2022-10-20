@@ -12,25 +12,42 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
-import Header from '../components/Header';
-import InputButton from '../components/InputButton';
-import InputField from '../components/InputField';
+import { Header } from '../components/Header';
+import { InputButton } from '../components/InputButton';
+import { InputField } from '../components/InputField';
 import { getSignUpDetails } from '../services/LoginApi';
 import '../styles/signup.css';
 import { theme } from '../themes/theme';
 YupPassword(yup);
-const reducer = (state, action) => {
+
+enum MessageActionKind {
+  FAILED = 'FAILED',
+  SUCCESS = 'SUCCESS',
+}
+interface MessageAction {
+  type: MessageActionKind;
+}
+interface StateInterface {
+  Submitted: boolean;
+  showMessage: boolean;
+}
+interface dataInterface {
+  email: string;
+  password: string;
+}
+
+const reducer = (state: StateInterface, action: MessageAction) => {
   switch (action.type) {
-    case 'FAILED':
+    case MessageActionKind.FAILED:
       return { Submitted: !state.Submitted, showMessage: state.showMessage };
-    case 'SUCCESS':
+    case MessageActionKind.SUCCESS:
       return { Submitted: !state.Submitted, showMessage: !state.showMessage };
     default:
-      return { Submitted: state.Submitted, showMessage: state.showMessage };
+      return state;
   }
 };
 
-const Signup = () => {
+export const Signup = () => {
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup
@@ -61,11 +78,14 @@ const Signup = () => {
 
   const handleClickShowPassword = () => {
     setValues({
+      ...values,
       showPassword: !values.showPassword,
     });
   };
 
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
   };
 
@@ -73,13 +93,13 @@ const Signup = () => {
     Submitted: false,
     showMessage: false,
   });
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: dataInterface) => {
     const responsed = await getSignUpDetails(data);
     if (responsed.data.id === undefined) {
-      dispatch({ type: 'FAILED' });
+      dispatch({ type: MessageActionKind.FAILED });
       Alerts.error('Account already exists');
     } else {
-      dispatch({ type: 'SUCCESS' });
+      dispatch({ type: MessageActionKind.SUCCESS });
       Alerts.success('Account Created successfully');
       setTimeout(() => {
         navigate('/login');
@@ -98,14 +118,27 @@ const Signup = () => {
         </Box>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           <Box mb={2}>
-            <InputField
-              name="email"
-              labelAbove="What's your email?"
+            <Controller
               control={control}
-              placeholder="Enter your email address"
-              variant="outlined"
-              color="secondary"
+              name="email"
+              render={({ field }) => (
+                <OutlinedInput
+                  autoComplete="new-"
+                  color={'secondary'}
+                  {...field}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                  }}
+                  placeholder="Type Your Email"
+                  endAdornment={
+                    <InputAdornment position="end"></InputAdornment>
+                  }
+                />
+              )}
             />
+
             <p className="errorMsg">{errors.email?.message}</p>
           </Box>
           <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
@@ -118,10 +151,8 @@ const Signup = () => {
             render={({ field }) => (
               <OutlinedInput
                 autoComplete="new-password"
-                variant="outlined"
-                color="secondary"
+                color={'secondary'}
                 type={values.showPassword ? 'text' : 'password'}
-                value={values.password}
                 {...field}
                 sx={{
                   borderRadius: '25px',

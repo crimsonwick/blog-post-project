@@ -1,7 +1,12 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-const InputButton = (props) => {
+interface InputButtonInterface {
+  width?: string;
+  name?: string;
+}
+export const InputButton = (props: InputButtonInterface) => {
+  
   const customWidth = props.width;
   return (
     <Button
@@ -23,5 +28,3 @@ const InputButton = (props) => {
     </Button>
   );
 };
-
-export default InputButton;

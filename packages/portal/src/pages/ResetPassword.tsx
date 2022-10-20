@@ -18,7 +18,10 @@ const schema = yup
     email: yup.string().email().required(),
   })
   .required();
-function ResetPassword() {
+interface dataInterface {
+  email: string;
+}
+export const ResetPassword = () => {
   const navigate = useNavigate();
   const {
     control,
@@ -30,7 +33,7 @@ function ResetPassword() {
     },
     resolver: yupResolver(schema),
   });
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: dataInterface) => {
     try {
       const url = 'http://localhost:5000/users/forget-password';
       console.log(data, 'correct data');
@@ -40,9 +43,9 @@ function ResetPassword() {
         data: { email: data.email },
       };
       const response = await axios(options);
-      if(response){
-        Alerts.success("Mail is sent");
-        navigate("/login");
+      if (response) {
+        Alerts.success('Mail is sent');
+        navigate('/login');
       }
     } catch (err) {
       Alerts.error(' Email not Found');
@@ -59,15 +62,13 @@ function ResetPassword() {
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
-            fieldState: { invalid, isTouched, isDirty, error },
+            fieldState: { isTouched, isDirty, error },
             formState,
           }) => (
             <OutlinedInput
-              variant="outlined"
               color="secondary"
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
-              checked={value}
               inputRef={ref}
               sx={{
                 borderRadius: 18,
@@ -97,5 +98,4 @@ function ResetPassword() {
       </form>
     </Container>
   );
-}
-export default ResetPassword;
+};

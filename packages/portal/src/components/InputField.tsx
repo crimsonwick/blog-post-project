@@ -1,8 +1,17 @@
 import { Box, FormLabel, OutlinedInput } from '@mui/material';
 import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
-const InputField = (props) => {
+interface InputFieldInterface {
+  width: string;
+  labelAbove: string;
+  placeholder: string;
+  name: string;
+  control: Control<any,any>
+  labelBelow?: string; 
+}
+
+export const InputField = (props: InputFieldInterface) => {
   const customWidth = props.width;
   return (
     <Box>
@@ -22,7 +31,6 @@ const InputField = (props) => {
             <OutlinedInput
               {...field}
               autoComplete="username"
-              variant="outlined"
               sx={{
                 borderRadius: '25px',
                 width: customWidth || '100%',
@@ -42,5 +50,3 @@ const InputField = (props) => {
     </Box>
   );
 };
-
-export default InputField;

@@ -5,19 +5,20 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
 import {Protected} from './components/Protected';
-import { AppContextInterface, SearchDataInterface, UserInterface } from './interface/App';
-import AccountDetails from './pages/AccountDetails';
-import ArticleDetailPage from './pages/ArticleDetailPage';
+import { AppContextInterface, SearchDataInterface, SearchMyDataInterface, UserInterface } from './interface/App';
+import {AccountDetails} from './pages/AccountDetails';
+import {ArticleDetailPage} from './pages/ArticleDetailPage';
 import ChangePassword from './pages/ChangePassword';
 import CreateArticle from './pages/CreateArticle';
-import LandingPage from './pages/LandingPage';
-import Login from './pages/Login';
-import MyArticles from './pages/MyArticles';
-import Page404 from './pages/Page404';
-import ResetPassword from './pages/ResetPassword';
-import Signup from './pages/Signup';
+import {Home} from './pages/LandingPage';
+import {Login} from './pages/Login';
+import {MyArticles} from './pages/MyArticles';
+import {Page404} from './pages/Page404';
+import {ResetPassword} from './pages/ResetPassword';
+import {Signup} from './pages/Signup';
 import { theme } from './themes/theme';
-export const AppContext = createContext<AppContextInterface | null >(null);
+
+export const AppContext = createContext<AppContextInterface<UserInterface> | null>(null);
 
 function App() {
   const [dp, setDp] = useState<string>('');
@@ -26,8 +27,9 @@ function App() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [searchData, setSearchData] = useState<SearchDataInterface[]>([]);
-  const [searchMyData, setSearchMyData] = useState<SearchDataInterface[]>([]);
+  const [searchMyData, setSearchMyData] = useState<SearchMyDataInterface[]>([]);
   const [cursorPaginationLink, setCursorPaginationLink] = useState<string>('');
+  const [postImage, setPostImage] = useState<Blob | File | null>(null);
 
   useEffect(() => {
     WebFont.load({
@@ -57,6 +59,8 @@ function App() {
         setSearchMyData,
         cursorPaginationLink,
         setCursorPaginationLink,
+        postImage,
+        setPostImage
       }}
     >
       <ThemeProvider theme={theme}>
@@ -72,7 +76,7 @@ function App() {
 
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<LandingPage />} />
+              <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route path="/reset-password" element={<ResetPassword />} />
@@ -81,7 +85,7 @@ function App() {
                 path="/create-article"
                 element={
                   accessToken ? (
-                    <Protected Component={CreateArticle} />
+                    <Protected Component={<CreateArticle/>} />
                   ) : (
                     <Navigate replace to={'/login'} />
                   )
@@ -91,7 +95,7 @@ function App() {
                 path="/my-articles"
                 element={
                   accessToken ? (
-                    <Protected Component={MyArticles}></Protected>
+                    <Protected Component={<MyArticles/>}></Protected>
                   ) : (
                     <Navigate replace to={'/login'} />
                   )
@@ -101,7 +105,7 @@ function App() {
                 path="/article-detail"
                 element={
                   accessToken ? (
-                    <Protected Component={ArticleDetailPage}></Protected>
+                    <Protected Component={<ArticleDetailPage/>}></Protected>
                   ) : (
                     <Navigate replace to={'/login'} />
                   )
@@ -111,7 +115,7 @@ function App() {
                 path="/account-details"
                 element={
                   accessToken ? (
-                    <Protected Component={AccountDetails}></Protected>
+                    <Protected Component={<AccountDetails/>}></Protected>
                   ) : (
                     <Navigate replace to={'/login'} />
                   )

@@ -7,23 +7,32 @@ import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 import { useContext } from 'react';
 import { AppContext } from '../App';
+import { AppContextInterface, UserInterface } from '../interface/App';
 
-function createData(name, details) {
+function createData(name: string, details: string): {name: string,details: string} {
   return { name, details };
 }
 
-const BasicTable = () => {
-  const { userData } = useContext(AppContext);
+export const BasicTable = () => {
+  const context: AppContextInterface<UserInterface> | null = useContext(AppContext);
+  if(!context){
+    return <h1> Not Working</h1>;
+  }
+  else{
+    if(!context.userData.id || !context.userData.email){
+      return <h1> Not Working</h1>;
+    }
+  }
   const rows = [
-    createData('uuid', userData.id),
-    createData('Email', userData.email),
+    context && createData('uuid', context.userData.id),
+    context && createData('Email', context.userData.email),
   ];
-
   return (
-    <TableContainer component={Paper} elevation={2}>
+    <React.Fragment>
+      <TableContainer component={Paper} elevation={2}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableBody>
-          {rows.map((row) => (
+          {rows && rows.map((row) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -37,7 +46,6 @@ const BasicTable = () => {
         </TableBody>
       </Table>
     </TableContainer>
+    </React.Fragment>
   );
 };
-
-export default BasicTable;

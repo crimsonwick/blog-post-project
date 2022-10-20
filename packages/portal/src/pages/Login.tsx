@@ -18,11 +18,16 @@ import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { AppContext } from '../App';
 import { Alerts } from '../components/Alerts';
+import { AppContextInterface, UserInterface } from '../interface/App';
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
 import styles from '../styles/Login/Login.module.css';
 import '../styles/signup.css';
 YupPassword(yup);
 
+interface dataInterface {
+  email: string;
+  password: string
+}
 const schema = yup
   .object({
     email: yup.string().email().required(),
@@ -34,19 +39,29 @@ const schema = yup
       .minSymbols(1, 'Password must include atleast one symbol'),
   })
   .required();
-
-const reducer = (state, action) => {
+  enum MessageActionKind {
+    FAILED = 'FAILED',
+    SUCCESS = 'SUCCESS',
+  }
+  interface MessageAction {
+    type: MessageActionKind;
+  }
+  interface StateInterface {
+    Submitted: boolean;
+    showMessage: boolean;
+  }
+const reducer = (state: StateInterface, action: MessageAction) => {
   switch (action.type) {
-    case 'FAILED':
+    case MessageActionKind.FAILED:
       return { Submitted: !state.Submitted, showMessage: state.showMessage };
-    case 'SUCCESS':
+    case MessageActionKind.SUCCESS:
       return { Submitted: !state.Submitted, showMessage: !state.showMessage };
     default:
       return state
   }
 };
 
-function Login() {
+export const  Login = () => {
   const {
     control,
     handleSubmit,
@@ -59,25 +74,28 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  const { setUser, setAccessToken, setRefreshToken, setLoggedIn } =
-    useContext(AppContext);
+  const context: AppContextInterface<UserInterface> | null = useContext(AppContext);
   const [state, dispatch] = useReducer(reducer, {
     Submitted: false,
     showMessage: false,
   });
-  const navigate = useNavigate();
-  const onSubmit = async (data) => {
+  if(!context){
+    return <h1></h1>
+  }
+  else{
+    const navigate = useNavigate();
+  const onSubmit = async (data: dataInterface) => {
     try {
       const response = await getLoginDetails(data);
       console.log(' i am in submit handler,', response);
       if (response.data.accessToken) {
-        dispatch({ type: 'SUCCESS' });
+        dispatch({type: MessageActionKind.SUCCESS});
         Alerts.success('Logged In Successfully');
-        setAccessToken(response.data.accessToken);
-        setRefreshToken(response.data.refreshToken);
-        setLoggedIn(true);
+        context.setAccessToken(response.data.accessToken);
+        context.setRefreshToken(response.data.refreshToken);
+        context.setLoggedIn(true);
         const parsetoken = parseJwt(response.data.accessToken);
-        setUser(parsetoken.user);
+        context.setUserData(parsetoken.user);
         localStorage.setItem("login", response.data.accessToken);
         if(state){
           setTimeout(() => {
@@ -85,7 +103,7 @@ function Login() {
           }, 100);
         }
       } else {
-        dispatch({ type: 'FAILED' });
+        dispatch({type: MessageActionKind.FAILED});
         Alerts.error('Wrong Credentials');
       }
     } catch (err) {
@@ -94,13 +112,15 @@ function Login() {
   };
   const [values, setValues] = React.useState({
     showPassword: false,
+    password: ''
   });
   const handleClickShowPassword = () => {
     setValues({
+      ...values,
       showPassword: !values.showPassword,
     });
   };
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
   return (
@@ -114,16 +134,15 @@ function Login() {
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
-            fieldState: { invalid, isTouched, isDirty, error },
+            fieldState: { isTouched, isDirty, error },
             formState,
           }) => (
             <OutlinedInput
+            placeholder="Enter your Email"
               autoComplete="username"
-              variant="outlined"
               color="secondary"
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
-              checked={value}
               inputRef={ref}
               sx={{
                 borderRadius: 18,
@@ -142,34 +161,34 @@ function Login() {
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
-            fieldState: { invalid, isTouched, isDirty, error },
+            fieldState: {  isTouched, isDirty, error },
             formState,
           }) => (
             <OutlinedInput
-              variant="outlined"
-              autoComplete="current-password"
-              color="secondary"
-              type={values.showPassword ? 'text' : 'password'}
-              value={values.password}
-              onChange={onChange} // send value to hook form
-              sx={{
-                borderRadius: 18,
-                width: 550,
-                marginBottom: 2,
-              }}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
+                autoComplete="new-password"
+                onBlur={onBlur} // notify when input is touched
+                onChange={onChange} // send value to hook form
+                color={"secondary"}
+                type={values.showPassword ? 'text' : 'password'}
+                sx={{
+                  borderRadius: '25px',
+                  fontFamily: 'Poppins',
+                  width: '100%',
+                }}
+                placeholder="Enter your password"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
           )}
         />
         {errors.password && (
@@ -227,6 +246,6 @@ function Login() {
       </Box>
     </Container>
   );
+  }
+  
 }
-
-export default Login;

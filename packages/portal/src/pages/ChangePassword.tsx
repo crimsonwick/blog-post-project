@@ -1,22 +1,22 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { FormLabel, OutlinedInput } from '@mui/material';
+import { FormLabel, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
+import { InputAdornment } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
-import Header from '../components/Header';
+import { Header } from '../components/Header';
 import styles from '../styles/ChangePassword/ChangePassword.module.css';
 YupPassword(yup);
-
 const schema = yup
   .object({
     password1: yup
@@ -26,7 +26,6 @@ const schema = yup
       .max(20)
       .minUppercase(1, 'Password must include atleast one upper-case letter')
       .minSymbols(1, 'Password must include atleast one symbol'),
-
     password2: yup
       .string()
       .required()
@@ -37,7 +36,7 @@ const schema = yup
       .minSymbols(1, 'Password must include atleast one symbol'),
   })
   .required();
-function ChangePassword() {
+export const ChangePassword = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState(false);
   const {
@@ -51,7 +50,12 @@ function ChangePassword() {
     },
     resolver: yupResolver(schema),
   });
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
+    password1: '',
+    showPassword: false,
+  });
+  const [values2, setValues2] = useState({
+    password2: '',
     showPassword: false,
   });
   const location = useLocation();
@@ -61,10 +65,16 @@ function ChangePassword() {
       showPassword: !values.showPassword,
     });
   };
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword = (event: any) => {
     event.preventDefault();
   };
-  const onSubmit = async (data) => {
+  const handleClickShowPassword2 = () => {
+    setValues2({
+      ...values2,
+      showPassword: !values2.showPassword,
+    });
+  };
+  const onSubmit = async (data: { password1: string; password2: string }) => {
     try {
       errors.password1 ? setMessage(false) : setMessage(true);
       setMessage(true);
@@ -79,9 +89,10 @@ function ChangePassword() {
         data: { password1: data.password1, password2: data.password2 },
       };
       const response = await axios(options);
-      if(response.data){
-        Alerts.success("Password Updated");
-        navigate("/login")
+      if (response.data) {
+        console.log(message);
+        Alerts.success('Password Updated');
+        navigate('/login');
       }
     } catch (err) {
       Alerts.error('Something Bad Occurs');
@@ -101,40 +112,32 @@ function ChangePassword() {
           <Controller
             control={control}
             name="password1"
-            rules={{ required: true }}
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
-              formState,
-            }) => (
-              <OutlinedInput
-                onBlur={onBlur} // notify when input is touched
-                onChange={onChange} // send value to hook form
-                checked={value}
-                inputRef={ref}
-                type={values.showPassword ? 'text' : 'password'}
-                value={values.password}
-                sx={{
-                  marginBottom: '25px',
-                  borderRadius: '25px',
-                  fontSize: '18px',
-                  height: '56px',
-                  textTransform: 'capitalize',
-                  fontWeight: 'bold',
-                }}
-                fullWidth
+            render={({ field }) => (
+              <TextField
+                {...field}
+                autoComplete="new-password"
                 variant="outlined"
                 color="secondary"
+                type={values.showPassword ? 'text' : 'password'}
+                value={values.password1}
+                sx={{
+                  borderRadius: '25px',
+                  fontFamily: 'Poppins',
+                  width: '100%',
+                }}
+                placeholder="Enter your password"
+                //@ts-ignore
                 endAdornment={
                   <InputAdornment position="end">
-                    <IconButton
+                    <TextField
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
+                      //@ts-ignore
                       edge="end"
                     >
                       {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
+                    </TextField>
                   </InputAdornment>
                 }
               />
@@ -143,53 +146,50 @@ function ChangePassword() {
           {errors.password1 && (
             <p className={styles.errorMsg}>{errors.password1.message}</p>
           )}
-
-          <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
-            Type new password again
-          </FormLabel>
-          <Controller
-            control={control}
-            name="password2"
-            rules={{ required: true }}
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
-              formState,
-            }) => (
-              <OutlinedInput
-                onBlur={onBlur} // notify when input is touched
-                onChange={onChange} // send value to hook form
-                checked={value}
-                inputRef={ref}
-                type={values.showPassword ? 'text' : 'password'}
-                value={values.password}
-                sx={{
-                  borderRadius: '25px',
-                  fontSize: '18px',
-                  height: '56px',
-                  textTransform: 'capitalize',
-                  fontWeight: 'bold',
-                }}
-                fullWidth
-                variant="outlined"
-                color="secondary"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
+          <Box mt={1}>
+            <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
+              Type new password again
+            </FormLabel>
+            <Controller
+              control={control}
+              name="password2"
+              render={({ field: undefined }) => (
+                <TextField
+                  autoComplete="new-password"
+                  variant="outlined"
+                  color="secondary"
+                  type={values2.showPassword ? 'text' : 'password'}
+                  value={values2.password2}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                  }}
+                  placeholder="Enter your password"
+                  //@ts-ignore
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword2}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {values2.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              )}
+            />
+            {errors.password2 && (
+              <p className={styles.errorMsg}>{errors.password2.message}</p>
             )}
-          />
-          {errors.password2 && <p>{errors.password2.message}</p>}
-
+          </Box>
           <Button
             type="submit"
             variant="contained"
@@ -210,5 +210,5 @@ function ChangePassword() {
       </Container>
     </div>
   );
-}
+};
 export default ChangePassword;

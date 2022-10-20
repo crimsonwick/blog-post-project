@@ -14,66 +14,86 @@ import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { logout, searchAPI, searchMyPosts } from '../services/LoginApi.js'
+import { logout, searchAPI, searchMyPosts } from '../services/LoginApi'
 import { Alerts } from "./Alerts"
 import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
-} from '../styles/NavBar.js';
-import { AppContext } from '../App.js';
+} from '../styles/NavBar';
+import { AppContext } from '../App';
+import { AppContextInterface, UserInterface } from '../interface/App';
 
-const Navbar = (props) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { setLoggedIn, refreshToken, setSearchData, userData, dp,setSearchMyData,accessToken,setDp } =
+interface NavbarProps{
+  mainPage?: boolean;
+  login?: boolean;
+  isNavActive?: boolean | null; 
+  isMyActive?: boolean | null;
+}
+
+export const Navbar = (props: NavbarProps)=> {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
+    if(!context){
+      return <h1> Not Working</h1>;
+    }
+    else{
+      if(!context.accessToken && !context.setDp && !context.refreshToken && !context.setSearchMyData && (context.userData.id === undefined) && !context.dp){
+        return <h1> Not Working</h1>;
+      }
+    }
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleKeyDown = async (event) => {
+  const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if(!event){
+      return
+    }
+    const target = event.target as HTMLInputElement;
     if(props.mainPage) {
-      const response = await searchAPI(event.target.value);
-    setSearchData(response.data);
+      const response = await searchAPI(target.value);
+    context.setSearchData(response.data);
     }
     else{
       const config = {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${context.accessToken}`,
         },
       };
-      const response = await searchMyPosts(event.target.value,userData.id,config);
-      setSearchMyData(response.data)
+      const response = await searchMyPosts(target.value,context.userData.id,config);
+      context.setSearchMyData(response.data)
     }
   };
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     [event.target.name] = [event.target.value];
   };
   const handleLogout = async () => {
     try {
-      const body = { data: { token: `${refreshToken}` } };
+      const body = { data: { token: `${context.refreshToken}` } };
       await logout(body);
-      console.log(`revoking token: ${refreshToken}`);
-      setLoggedIn(false);
-      setDp('');
+      console.log(`revoking token: ${context.refreshToken}`);
+      context.setLoggedIn(false);
+      context.setDp('');
       Alerts.success("Logged out Successfully");
     } catch (err) {
       console.log(err);
     }
   };
   return (
+    <>
     <AppBar position="fixed" style={{ background: '#FFFFFF' }}>
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
           <Typography
             component={NavLink}
-            style={({ isActive }) => {
-              return { color: isActive ? 'black' : 'gray' };
-            }}
+            style={(props.isNavActive)? {color: 'black'}: {color: 'grey'}}
             to="/"
             variant="h6"
             sx={{
@@ -87,9 +107,7 @@ const Navbar = (props) => {
           {props.login && (
             <Typography
               component={NavLink}
-              style={({ isActive }) => {
-                return { color: isActive ? 'black' : 'gray' };
-              }}
+              style={(props.isMyActive)? {color: 'black'}: {color: 'grey'}}
               to="/my-articles"
               variant="h6"
               sx={{
@@ -166,10 +184,10 @@ const Navbar = (props) => {
                 <Avatar
                   alt="user display picture"
                   src={
-                    dp
-                      ? require(`../images/${dp}`)
-                      : userData.avatar
-                      ? require(`../images/${userData.avatar}`)
+                    context.dp
+                      ? require(`../images/${context.dp}`)
+                      : context.userData.avatar
+                      ? require(`../images/${context.userData.avatar}`)
                       : ''
                   }
                   sx={{ width: 32, height: 32 }}
@@ -219,10 +237,10 @@ const Navbar = (props) => {
                   <Avatar
                     alt="user display picture"
                     src={
-                      dp
-                        ? require(`../images/${dp}`)
-                        : userData.avatar
-                        ? require(`../images/${userData.avatar}`)
+                      context.dp
+                        ? require(`../images/${context.dp}`)
+                        : context.userData.avatar
+                        ? require(`../images/${context.userData.avatar}`)
                         : ''
                     }
                   />
@@ -247,7 +265,7 @@ const Navbar = (props) => {
         )}
       </Toolbar>
     </AppBar>
+    </>
   );
 };
 
-export default Navbar;

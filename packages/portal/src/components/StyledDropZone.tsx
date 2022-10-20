@@ -2,8 +2,15 @@ import React, { useCallback, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { AppContext } from '../App';
+import { AppContextInterface, UserInterface } from '../interface/App';
 
-const getColor = (props) => {
+interface ColorInterface {
+  isDragAccept: boolean;
+  isDragReject: boolean;
+  isFocused: boolean;
+}
+
+const getColor = (props: ColorInterface) => {
   if (props.isDragAccept) {
     return '#00e676';
   }
@@ -25,7 +32,7 @@ const Container = styled.div`
   padding: 20px;
   border-width: 2px;
   border-radius: 25px;
-  border-color: ${(props) => getColor(props)};
+  border-color: ${(props: ColorInterface) => getColor(props)};
   border-style: dashed;
   background-color: #fafafa;
   color: #bdbdbd;
@@ -33,13 +40,19 @@ const Container = styled.div`
   transition: border 0.24s ease-in-out;
 `;
 
-export const StyledDropZone = (props) => {
-  const { setPostImage } = useContext(AppContext);
+export const StyledDropZone = () => {
+  const context: AppContextInterface<UserInterface> | null = useContext(AppContext);
 
-  const onDrop = useCallback((acceptedFile) => {
-    const file = acceptedFile[0];
-    setPostImage(file);
-  }, [setPostImage]);
+  if(!context){
+    return <h1>Not Working!</h1>
+  }
+    const onDrop = useCallback(
+      (acceptedFile: File[]) => {
+        const file = acceptedFile[0];
+        context.setPostImage(file);
+      },
+      [context.setPostImage]
+    );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1,

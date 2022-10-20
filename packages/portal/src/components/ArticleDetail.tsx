@@ -7,22 +7,21 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import React, { useContext } from 'react';
 import { AppContext } from '../App';
+import { AppContextInterface, UserInterface } from '../interface/App';
+import { PostInterface } from '../interface/ArticleDetailPage';
 import { parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
-import flexContainer from '../styles/Article/List';
+import {CardMediaStyle, CardStyle, flexContainer } from '../styles/Article/List';
 
-const ArticleDetail = (props) => {
-  const { dp } = useContext(AppContext);
+export const ArticleDetail = (props: PostInterface) => {
+  const context: AppContextInterface<UserInterface> | null = useContext(AppContext);
+  if(props.object === undefined || !context){
+    return <h1>Not Working</h1>
+  }
   return (
     <Card
-      mt={1}
-      sx={{
-        marginTop: '20px',
-        marginBottom: '10px',
-        border: 'none',
-        boxShadow: 'none',
-      }}
-    >
+      sx={CardStyle}
+        >
       <Chip
         label="Travel"
         sx={{
@@ -61,8 +60,8 @@ const ArticleDetail = (props) => {
           <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
             <Avatar
               src={
-                dp
-                  ? require(`../images/${dp}`)
+                context.dp
+                  ? require(`../images/${context.dp}`)
                   : props.object.Posted_By.avatar
                   ? require(`../images/${props.object.Posted_By.avatar}`)
                   : ''
@@ -93,14 +92,7 @@ const ArticleDetail = (props) => {
         height="432"
         image={require(`../images/${props.object.image}`)}
         alt="post_detail_image"
-        sx={{
-          objectFit: 'fill',
-          width: '856px',
-          borderRadius: '5px',
-          marginY: '10px',
-        }}
-        mr={1}
-        my={10}
+        sx={CardMediaStyle}
       />
       <Typography
         variant="h6"
@@ -111,5 +103,3 @@ const ArticleDetail = (props) => {
     </Card>
   );
 };
-
-export default ArticleDetail;

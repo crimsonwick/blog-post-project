@@ -1,6 +1,11 @@
 import { Divider, Typography } from '@mui/material';
 
-export const PostsHeader = (props) => {
+interface PostHeaderProps {
+  textSize?: string;
+  count?: number;
+  name?: string;
+}
+export const PostsHeader = (props: PostHeaderProps) => {
   const customSize = props.textSize;
   return (
     <>

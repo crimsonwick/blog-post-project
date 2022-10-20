@@ -3,20 +3,26 @@ import { Container } from '@mui/system';
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AppContext } from '../App';
-import AddComment from '../components/AddComment';
-import ArticleDetail from '../components/ArticleDetail';
-import Comment from '../components/Comment';
-import NavBar from '../components/NavBar';
+import {AddComment} from '../components/AddComment';
+import { ArticleDetail } from '../components/ArticleDetail';
+import {Comment} from '../components/Comment';
+import {Navbar} from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
+import { AppContextInterface, UserInterface } from '../interface/App';
+import { PostInterface } from '../interface/ArticleDetailPage';
+import { CommentInterface } from '../services/CommentApi';
 import { getComments } from '../services/LoginApi';
 
-const ArticleDetailPage = () => {
+export const ArticleDetailPage = () => {
   const location = useLocation();
-  const { object } = location.state;
-  const { loggedIn } = useContext(AppContext);
-  const [data, setData] = useState([]);
+  const {object}  = location.state as PostInterface;
+  const context: AppContextInterface<UserInterface> | null = useContext(AppContext);
+  const [data, setData] = useState<CommentInterface[]>([]);
 
-  const allComments = async (id) => {
+  if(!object || !context){
+    return <h1>Not Working!</h1>
+  }
+  const allComments = async (id: string) => {
     const response = await getComments(id);
     setData(response.data);
   };
@@ -25,8 +31,8 @@ const ArticleDetailPage = () => {
   }, [object.id]);
   return (
     <>
-      {loggedIn ? <NavBar login={true} /> : <NavBar />}
-      <Container sx={{ marginY: 9 }}>
+      {context.loggedIn ? <Navbar login={true} /> : <Navbar />}
+      <Container sx={{ marginTop: 9 }}>
         <Box>
           <ArticleDetail object={object} />
         </Box>
@@ -36,7 +42,7 @@ const ArticleDetailPage = () => {
         <Box>
           <AddComment
             width="1000px"
-            object={object}
+            postObject={object}
             placeholder="Write a comment..."
             labelAbove="Add Comment"
             refreshComment={allComments}
@@ -53,5 +59,3 @@ const ArticleDetailPage = () => {
     </>
   );
 };
-
-export default ArticleDetailPage;
