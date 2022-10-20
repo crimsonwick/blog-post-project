@@ -11,17 +11,17 @@ import { AppContextInterface, UserInterface } from '../interface/App';
 import { PostInterface } from '../interface/ArticleDetailPage';
 import { parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
-import {CardMediaStyle, CardStyle, flexContainer } from '../styles/Article/List';
+import {
+  CardMediaStyle,
+  CardStyle,
+  flexContainer,
+} from '../styles/Article/List';
 
 export const ArticleDetail = (props: PostInterface) => {
-  const context: AppContextInterface<UserInterface> | null = useContext(AppContext);
-  if(props.object === undefined || !context){
-    return <h1>Not Working</h1>
-  }
+  const context: AppContextInterface<UserInterface> | null =
+    useContext(AppContext);
   return (
-    <Card
-      sx={CardStyle}
-        >
+    <Card sx={CardStyle}>
       <Chip
         label="Travel"
         sx={{
@@ -44,7 +44,7 @@ export const ArticleDetail = (props: PostInterface) => {
           height: '38px',
         }}
       >
-        {props.object.title}
+        {props?.object?.title}
       </Typography>
       <List style={flexContainer}>
         <ListItem
@@ -60,16 +60,20 @@ export const ArticleDetail = (props: PostInterface) => {
           <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
             <Avatar
               src={
-                context.dp
+                context?.dp
                   ? require(`../images/${context.dp}`)
-                  : props.object.Posted_By.avatar
+                  : props?.object?.Posted_By.avatar
                   ? require(`../images/${props.object.Posted_By.avatar}`)
                   : ''
               }
               alt="user_dp"
             />
           </ListItemIcon>
-          <ListItemText primary={parseName(props.object.Posted_By.email)} />
+          <ListItemText
+            primary={parseName(
+              props?.object?.Posted_By.email as unknown as string
+            )}
+          />
         </ListItem>
         <ListItem
           className="timeToRead"
@@ -84,13 +88,13 @@ export const ArticleDetail = (props: PostInterface) => {
           <ListItemIcon sx={{ minWidth: 'auto' }}>
             <CalendarTodayIcon sx={{ marginRight: '10px' }} />
           </ListItemIcon>
-          <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
+          <ListItemText primary={`${props?.object?.timetoRead} Min. To Read`} />
         </ListItem>
       </List>
       <CardMedia
         component="img"
         height="432"
-        image={require(`../images/${props.object.image}`)}
+        image={require(`../images/${props?.object?.image}`)}
         alt="post_detail_image"
         sx={CardMediaStyle}
       />
@@ -98,7 +102,7 @@ export const ArticleDetail = (props: PostInterface) => {
         variant="h6"
         sx={{ height: 'auto', width: '856px', marginTop: '20px' }}
       >
-        {props.object.body}
+        {props?.object?.body}
       </Typography>
     </Card>
   );

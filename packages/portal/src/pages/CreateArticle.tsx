@@ -48,29 +48,25 @@ const CreateArticle = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: dataInterface) => {
-    if (!context) {
-      return <h1>Error</h1>;
-    } else {
-      try {
-        let formData = new FormData();
-        formData.append('userId', context.userData.id as unknown as string);
-        formData.append('title', data.title);
-        formData.append('body', data.body);
-        formData.append('file', context.postImage as unknown as string);
-        formData.append('timetoRead', data.mins as unknown as Blob);
-        Alerts.success('Post Created successfully');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${context.accessToken}`,
-          },
-        };
-        await addPost(formData, config);
-        setTimeout(() => {
-          navigate('/my-articles');
-        }, 250);
-      } catch (err) {
-        Alerts.error('Something went Wrong');
-      }
+    try {
+      let formData = new FormData();
+      formData.append('userId', context?.userData.id as unknown as string);
+      formData.append('title', data.title);
+      formData.append('body', data.body);
+      formData.append('file', context?.postImage as unknown as string);
+      formData.append('timetoRead', data.mins as unknown as Blob);
+      Alerts.success('Post Created successfully');
+      const config = {
+        headers: {
+          Authorization: `Bearer ${context?.accessToken}`,
+        },
+      };
+      await addPost(formData, config);
+      setTimeout(() => {
+        navigate('/my-articles');
+      }, 250);
+    } catch (err) {
+      Alerts.error('Something went Wrong');
     }
   };
 
@@ -78,13 +74,13 @@ const CreateArticle = () => {
     <>
       <Navbar login={true} />
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name='Create New Article' />
-        <Box component='form' onSubmit={handleSubmit(onSubmit)} mt={3}>
+        <PostsHeader name="Create New Article" />
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} mt={3}>
           <FormLabel>Give it a title </FormLabel>
           <br />
           <Controller
             control={control}
-            name='title'
+            name="title"
             rules={{ required: true }}
             render={({
               field: { onChange, onBlur, value, name, ref },
@@ -101,7 +97,7 @@ const CreateArticle = () => {
                   width: 700,
                   marginTop: 1,
                 }}
-                color='secondary'
+                color="secondary"
               />
             )}
           />
@@ -116,7 +112,7 @@ const CreateArticle = () => {
           <br />
           <Controller
             control={control}
-            name='mins'
+            name="mins"
             rules={{ required: true }}
             render={({
               field: { onChange, onBlur, value, name, ref },
@@ -133,7 +129,7 @@ const CreateArticle = () => {
                   width: 700,
                   marginTop: 1,
                 }}
-                color='secondary'
+                color="secondary"
               />
             )}
           />
@@ -150,7 +146,7 @@ const CreateArticle = () => {
 
           <Controller
             control={control}
-            name='body'
+            name="body"
             rules={{ required: true }}
             render={({
               field: { onChange, onBlur, value, name, ref },
@@ -170,7 +166,7 @@ const CreateArticle = () => {
                   width: 700,
                   marginTop: 1,
                 }}
-                color='secondary'
+                color="secondary"
               />
             )}
           />
@@ -184,9 +180,9 @@ const CreateArticle = () => {
             <StyledDropZone />
           </Box>
           <Button
-            type='submit'
-            variant='contained'
-            color='secondary'
+            type="submit"
+            variant="contained"
+            color="secondary"
             fullWidth
             sx={{
               borderRadius: '25px',
