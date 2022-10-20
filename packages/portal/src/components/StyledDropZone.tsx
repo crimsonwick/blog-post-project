@@ -41,18 +41,15 @@ const Container = styled.div`
 `;
 
 export const StyledDropZone = () => {
-  const context: AppContextInterface<UserInterface> | null = useContext(AppContext);
-
-  if(!context){
-    return <h1>Not Working!</h1>
-  }
-    const onDrop = useCallback(
-      (acceptedFile: File[]) => {
-        const file = acceptedFile[0];
-        context.setPostImage(file);
-      },
-      [context.setPostImage]
-    );
+  const context: AppContextInterface<UserInterface> | null =
+    useContext(AppContext);
+  const onDrop = useCallback(
+    (acceptedFile: File[]) => {
+      const file = acceptedFile[0];
+      context?.setPostImage(file);
+    },
+    [context]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1,
@@ -62,7 +59,7 @@ export const StyledDropZone = () => {
 
   return (
     <Container {...getRootProps()}>
-      <input {...getInputProps()} type="file" name="file" accept="image/*" />
+      <input {...getInputProps()} type='file' name='file' accept='image/*' />
       {isDragActive ? (
         <p>Drop the files here ...</p>
       ) : (

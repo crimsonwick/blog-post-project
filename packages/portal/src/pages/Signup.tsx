@@ -14,7 +14,6 @@ import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
 import { InputButton } from '../components/InputButton';
-import { InputField } from '../components/InputField';
 import { getSignUpDetails } from '../services/LoginApi';
 import '../styles/signup.css';
 import { theme } from '../themes/theme';
@@ -108,22 +107,28 @@ export const Signup = () => {
   };
   return (
     <>
-      <Container maxWidth="sm">
-        <Box>
+      <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
+        <Box mb={4}>
           <Header
-            heading="Create An Account"
-            desc="Already have an account? "
-            link="/login"
+            heading='Create An Account'
+            desc='Already have an account? '
+            link='/login'
           />
         </Box>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        <FormLabel
+          htmlFor='form-label-above-email'
+          sx={{ fontFamily: 'Poppins' }}
+        >
+          What's your email?
+        </FormLabel>
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
           <Box mb={2}>
             <Controller
               control={control}
-              name="email"
+              name='email'
               render={({ field }) => (
                 <OutlinedInput
-                  autoComplete="new-"
+                  autoComplete='username'
                   color={'secondary'}
                   {...field}
                   sx={{
@@ -131,26 +136,25 @@ export const Signup = () => {
                     fontFamily: 'Poppins',
                     width: '100%',
                   }}
-                  placeholder="Type Your Email"
+                  placeholder='Enter your email address'
                   endAdornment={
-                    <InputAdornment position="end"></InputAdornment>
+                    <InputAdornment position='end'></InputAdornment>
                   }
                 />
               )}
             />
-
-            <p className="errorMsg">{errors.email?.message}</p>
+            <p className='errorMsg'>{errors.email?.message}</p>
           </Box>
-          <FormLabel htmlFor="form-label-above" sx={{ fontFamily: 'Poppins' }}>
+          <FormLabel htmlFor='form-label-above' sx={{ fontFamily: 'Poppins' }}>
             Create a Password
           </FormLabel>
 
           <Controller
             control={control}
-            name="password"
+            name='password'
             render={({ field }) => (
               <OutlinedInput
-                autoComplete="new-password"
+                autoComplete='new-password'
                 color={'secondary'}
                 type={values.showPassword ? 'text' : 'password'}
                 {...field}
@@ -159,14 +163,14 @@ export const Signup = () => {
                   fontFamily: 'Poppins',
                   width: '100%',
                 }}
-                placeholder="Enter your password"
+                placeholder='Enter your password'
                 endAdornment={
-                  <InputAdornment position="end">
+                  <InputAdornment position='end'>
                     <IconButton
-                      aria-label="toggle password visibility"
+                      aria-label='toggle password visibility'
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
-                      edge="end"
+                      edge='end'
                     >
                       {values.showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -176,15 +180,15 @@ export const Signup = () => {
             )}
           />
           <FormLabel
-            htmlFor="form-label-below"
+            htmlFor='form-label-below'
             sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
           >
             Use 8 or more characters with a mix of letters, numbers & symbols
           </FormLabel>
-          <p className="errorMsg">{errors.password?.message}</p>
+          <p className='errorMsg'>{errors.password?.message}</p>
           <ThemeProvider theme={theme}>
             <Box mt={3}>
-              <InputButton name="Create An Account" />
+              <InputButton name='Create An Account' />
             </Box>
           </ThemeProvider>
         </Box>

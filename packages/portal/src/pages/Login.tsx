@@ -22,11 +22,12 @@ import { AppContextInterface, UserInterface } from '../interface/App';
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
 import styles from '../styles/Login/Login.module.css';
 import '../styles/signup.css';
+import { Header } from '../components/Header';
 YupPassword(yup);
 
 interface dataInterface {
   email: string;
-  password: string
+  password: string;
 }
 const schema = yup
   .object({
@@ -39,17 +40,17 @@ const schema = yup
       .minSymbols(1, 'Password must include atleast one symbol'),
   })
   .required();
-  enum MessageActionKind {
-    FAILED = 'FAILED',
-    SUCCESS = 'SUCCESS',
-  }
-  interface MessageAction {
-    type: MessageActionKind;
-  }
-  interface StateInterface {
-    Submitted: boolean;
-    showMessage: boolean;
-  }
+enum MessageActionKind {
+  FAILED = 'FAILED',
+  SUCCESS = 'SUCCESS',
+}
+interface MessageAction {
+  type: MessageActionKind;
+}
+interface StateInterface {
+  Submitted: boolean;
+  showMessage: boolean;
+}
 const reducer = (state: StateInterface, action: MessageAction) => {
   switch (action.type) {
     case MessageActionKind.FAILED:
@@ -57,11 +58,11 @@ const reducer = (state: StateInterface, action: MessageAction) => {
     case MessageActionKind.SUCCESS:
       return { Submitted: !state.Submitted, showMessage: !state.showMessage };
     default:
-      return state
+      return state;
   }
 };
 
-export const  Login = () => {
+export const Login = () => {
   const {
     control,
     handleSubmit,
@@ -74,36 +75,34 @@ export const  Login = () => {
     resolver: yupResolver(schema),
   });
 
-  const context: AppContextInterface<UserInterface> | null = useContext(AppContext);
+  const context: AppContextInterface<UserInterface> | null =
+    useContext(AppContext);
   const [state, dispatch] = useReducer(reducer, {
     Submitted: false,
     showMessage: false,
   });
-  if(!context){
-    return <h1></h1>
-  }
-  else{
-    const navigate = useNavigate();
+
+  const navigate = useNavigate();
   const onSubmit = async (data: dataInterface) => {
     try {
       const response = await getLoginDetails(data);
       console.log(' i am in submit handler,', response);
       if (response.data.accessToken) {
-        dispatch({type: MessageActionKind.SUCCESS});
+        dispatch({ type: MessageActionKind.SUCCESS });
         Alerts.success('Logged In Successfully');
-        context.setAccessToken(response.data.accessToken);
-        context.setRefreshToken(response.data.refreshToken);
-        context.setLoggedIn(true);
+        context?.setAccessToken(response.data.accessToken);
+        context?.setRefreshToken(response.data.refreshToken);
+        context?.setLoggedIn(true);
         const parsetoken = parseJwt(response.data.accessToken);
-        context.setUserData(parsetoken.user);
-        localStorage.setItem("login", response.data.accessToken);
-        if(state){
+        context?.setUserData(parsetoken.user);
+        localStorage.setItem('login', response.data.accessToken);
+        if (state) {
           setTimeout(() => {
-            navigate("/");
+            navigate('/');
           }, 100);
         }
       } else {
-        dispatch({type: MessageActionKind.FAILED});
+        dispatch({ type: MessageActionKind.FAILED });
         Alerts.error('Wrong Credentials');
       }
     } catch (err) {
@@ -112,7 +111,7 @@ export const  Login = () => {
   };
   const [values, setValues] = React.useState({
     showPassword: false,
-    password: ''
+    password: '',
   });
   const handleClickShowPassword = () => {
     setValues({
@@ -120,17 +119,19 @@ export const  Login = () => {
       showPassword: !values.showPassword,
     });
   };
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
   };
   return (
-    <Container maxWidth="sm">
-      <h1 className={styles.headingOne}>Log In</h1>
+    <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
+      <Header heading='Log In' />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor="my-input">Email address</FormLabel>{' '}
+        <FormLabel htmlFor='my-input'>Email address</FormLabel>{' '}
         <Controller
           control={control}
-          name="email"
+          name='email'
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
@@ -138,9 +139,9 @@ export const  Login = () => {
             formState,
           }) => (
             <OutlinedInput
-            placeholder="Enter your Email"
-              autoComplete="username"
-              color="secondary"
+              placeholder='Enter your Email'
+              autoComplete='username'
+              color='secondary'
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
               inputRef={ref}
@@ -152,60 +153,60 @@ export const  Login = () => {
             />
           )}
         />
-        {errors.email && <p className="errorMsg">{errors.email.message}</p>}
+        {errors.email && <p className='errorMsg'>{errors.email.message}</p>}
         <Box mt={2} />
-        <FormLabel htmlFor="my-input">Password</FormLabel>
+        <FormLabel htmlFor='my-input'>Password</FormLabel>
         <Controller
           control={control}
-          name="password"
+          name='password'
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
-            fieldState: {  isTouched, isDirty, error },
+            fieldState: { isTouched, isDirty, error },
             formState,
           }) => (
             <OutlinedInput
-                autoComplete="new-password"
-                onBlur={onBlur} // notify when input is touched
-                onChange={onChange} // send value to hook form
-                color={"secondary"}
-                type={values.showPassword ? 'text' : 'password'}
-                sx={{
-                  borderRadius: '25px',
-                  fontFamily: 'Poppins',
-                  width: '100%',
-                }}
-                placeholder="Enter your password"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
+              autoComplete='new-password'
+              onBlur={onBlur} // notify when input is touched
+              onChange={onChange} // send value to hook form
+              color={'secondary'}
+              type={values.showPassword ? 'text' : 'password'}
+              sx={{
+                borderRadius: '25px',
+                fontFamily: 'Poppins',
+                width: '100%',
+              }}
+              placeholder='Enter your password'
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    aria-label='toggle password visibility'
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge='end'
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
           )}
         />
         {errors.password && (
-          <p className="errorMsg">{errors.password.message}</p>
+          <p className='errorMsg'>{errors.password.message}</p>
         )}
-        <Link to="/reset-password" style={{ color: 'black' }}>
+        <Link to='/reset-password' style={{ color: 'black' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
-          control={<Checkbox color="secondary" />}
-          label="Remember Me"
+          control={<Checkbox color='secondary' />}
+          label='Remember Me'
           sx={{ marginBottom: 2 }}
         />
         <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
+          type='submit'
+          variant='contained'
+          color='secondary'
           fullWidth
           sx={{
             borderRadius: '25px',
@@ -226,11 +227,11 @@ export const  Login = () => {
       <h3 className={styles.h3}>Don't have an account?</h3>
 
       <Box mb={2}>
-        <Link to="/signup" style={{ textDecoration: 'none', color: 'black' }}>
+        <Link to='/signup' style={{ textDecoration: 'none', color: 'black' }}>
           <Button
             fullWidth
-            variant="outlined"
-            color="secondary"
+            variant='outlined'
+            color='secondary'
             sx={{
               borderRadius: '25px',
               fontSize: '18px',
@@ -246,6 +247,4 @@ export const  Login = () => {
       </Box>
     </Container>
   );
-  }
-  
-}
+};

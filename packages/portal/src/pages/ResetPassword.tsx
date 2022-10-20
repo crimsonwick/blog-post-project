@@ -10,8 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
-import styles from '../styles/Login/Login.module.css';
+import { Header } from '../components/Header';
+import '../styles/Login/Login.module.css';
 import '../styles/signup.css';
+import Divider from '@mui/material/Divider';
 YupPassword(yup);
 const schema = yup
   .object({
@@ -52,13 +54,13 @@ export const ResetPassword = () => {
     }
   };
   return (
-    <Container maxWidth="sm">
-      <h1 className={styles.headingOne}>Reset Password</h1>
+    <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
+      <Header heading='Reset Password' />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor="my-input">Email address</FormLabel>
+        <FormLabel htmlFor='my-input'>Email address</FormLabel>
         <Controller
           control={control}
-          name="email"
+          name='email'
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
@@ -66,7 +68,7 @@ export const ResetPassword = () => {
             formState,
           }) => (
             <OutlinedInput
-              color="secondary"
+              color='secondary'
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
               inputRef={ref}
@@ -79,12 +81,12 @@ export const ResetPassword = () => {
           )}
         />
         {errors.email && (
-          <span className="errorMsg">{errors.email.message}</span>
+          <span className='errorMsg'>{errors.email.message}</span>
         )}
         <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
+          type='submit'
+          variant='contained'
+          color='secondary'
           fullWidth
           sx={{
             marginTop: '10px',

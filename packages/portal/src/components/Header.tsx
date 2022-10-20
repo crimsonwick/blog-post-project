@@ -2,17 +2,15 @@ import { Box } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
 interface HeaderInterface {
-  desc?:string;
+  desc?: string;
   link?: string;
   heading?: string;
 }
 export const Header = (props: HeaderInterface) => {
-  if(!props){
-    return <h1>Not Working!</h1>
-  }
-  else{
+  if (!props) {
+    return <h1>Not Working!</h1>;
+  } else {
     return (
       <Box
         sx={{

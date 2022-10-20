@@ -10,12 +10,13 @@ export const PostsHeader = (props: PostHeaderProps) => {
   return (
     <>
       <Typography
-        variant="h1"
+        variant='h1'
         sx={{
           fontFamily: 'Poppins',
           fontWeight: 'bold',
           fontSize: customSize || '2em',
           marginBottom: '24px',
+          marginTop: '32px',
         }}
       >
         {props.count && props.count} {props.name}

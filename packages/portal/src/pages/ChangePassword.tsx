@@ -1,14 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { FormLabel, TextField } from '@mui/material';
+import { FormLabel, InputAdornment, OutlinedInput } from '@mui/material';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { InputAdornment } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -99,45 +97,38 @@ export const ChangePassword = () => {
     }
   };
   return (
-    <div className={styles.padding}>
-      <Divider />
-      <Box>
-        <Header heading="Change Password" />
-      </Box>
-      <Container maxWidth="sm">
-        <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
-          Type new password
-        </FormLabel>
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
+      <Header heading='Change Password' />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box mt={2}>
+          <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
+            Type new password
+          </FormLabel>
           <Controller
             control={control}
-            name="password1"
+            name='password1'
             render={({ field }) => (
-              <TextField
-                {...field}
-                autoComplete="new-password"
-                variant="outlined"
-                color="secondary"
+              <OutlinedInput
+                autoComplete='new-password'
+                color={'secondary'}
                 type={values.showPassword ? 'text' : 'password'}
-                value={values.password1}
+                {...field}
                 sx={{
                   borderRadius: '25px',
                   fontFamily: 'Poppins',
                   width: '100%',
                 }}
-                placeholder="Enter your password"
-                //@ts-ignore
+                placeholder='Enter your password'
                 endAdornment={
-                  <InputAdornment position="end">
-                    <TextField
-                      aria-label="toggle password visibility"
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
-                      //@ts-ignore
-                      edge="end"
+                      edge='end'
                     >
                       {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </TextField>
+                    </IconButton>
                   </InputAdornment>
                 }
               />
@@ -146,69 +137,67 @@ export const ChangePassword = () => {
           {errors.password1 && (
             <p className={styles.errorMsg}>{errors.password1.message}</p>
           )}
-          <Box mt={1}>
-            <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
-              Type new password again
-            </FormLabel>
-            <Controller
-              control={control}
-              name="password2"
-              render={({ field: undefined }) => (
-                <TextField
-                  autoComplete="new-password"
-                  variant="outlined"
-                  color="secondary"
-                  type={values2.showPassword ? 'text' : 'password'}
-                  value={values2.password2}
-                  sx={{
-                    borderRadius: '25px',
-                    fontFamily: 'Poppins',
-                    width: '100%',
-                  }}
-                  placeholder="Enter your password"
-                  //@ts-ignore
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword2}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {values2.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              )}
-            />
-            {errors.password2 && (
-              <p className={styles.errorMsg}>{errors.password2.message}</p>
+        </Box>
+        <Box mt={2}>
+          <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
+            Type new password again
+          </FormLabel>
+          <Controller
+            control={control}
+            name='password2'
+            render={({ field }) => (
+              <OutlinedInput
+                autoComplete='new-password'
+                color={'secondary'}
+                type={values2.showPassword ? 'text' : 'password'}
+                {...field}
+                sx={{
+                  borderRadius: '25px',
+                  fontFamily: 'Poppins',
+                  width: '100%',
+                }}
+                placeholder='Enter your password'
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={handleClickShowPassword2}
+                      onMouseDown={handleMouseDownPassword}
+                      edge='end'
+                    >
+                      {values2.showPassword ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
             )}
-          </Box>
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            fullWidth
-            sx={{
-              borderRadius: '25px',
-              fontSize: '18px',
-              marginTop: '25px',
-              height: '56px',
-              textTransform: 'capitalize',
-              fontWeight: 'bold',
-            }}
-          >
-            Save Changes
-          </Button>
-        </form>
-      </Container>
-    </div>
+          />
+          {errors.password2 && (
+            <p className={styles.errorMsg}>{errors.password2.message}</p>
+          )}
+        </Box>
+        <Button
+          type='submit'
+          variant='contained'
+          color='secondary'
+          fullWidth
+          sx={{
+            borderRadius: '25px',
+            fontSize: '18px',
+            marginTop: '25px',
+            height: '56px',
+            textTransform: 'capitalize',
+            fontWeight: 'bold',
+          }}
+        >
+          Save Changes
+        </Button>
+      </form>
+    </Container>
   );
 };
 export default ChangePassword;
