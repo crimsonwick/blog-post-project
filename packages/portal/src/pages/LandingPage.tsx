@@ -11,7 +11,7 @@ import { AppContextInterface, UserInterface } from '../interface/App';
 import {
   LandingPageInterface,
   PostInterfaceForLandingPage,
-} from '../interface/LandingPage';
+} from '../interface/App';
 import { Loader } from '../components/Loader';
 
 export const Home = () => {

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { UserInterface } from '../interface/App';
+import { PostsAdd } from '../interface/App';
 const baseURL: string = 'http://localhost:5000';
 
 interface LoginDetailInterface {

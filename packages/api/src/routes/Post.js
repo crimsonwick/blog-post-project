@@ -1,40 +1,24 @@
-import express from 'express';
-import {
-  PostController
-} from '../controllers/Post.js';
-import { Authentication } from '../middleware/Authentication.js';
-import multer from 'multer';
+import express from 'express'
+import { PostController } from '../controllers/Post.js'
+import { Authentication } from '../middleware/Authentication.js'
+import { upload } from '../utils/multer.js'
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, '../portal/src/images');
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-const upload = multer({ storage: storage });
+const router = express.Router()
+class PostRouter {
+  constructor() {}
 
-const router = express.Router();
-
-class PostRouter{
-  constructor(){
-
-  }
-
-  checkRequests(){
-    const PostObject = new PostController();
-    router.post('/', Authentication, upload.single('file'), PostObject.AddPost);
-    router.get('/search', PostObject.searchPosts);
-    router.get('/:id/comments', PostObject.getRepliesfromOnePost);
-    router.get('/', PostObject.getPosts);
-    router.get('/:id',Authentication,PostObject.getCursorPostsOfSingleUser)
+  checkRequests() {
+    const PostObject = new PostController()
+    router.post('/', Authentication, upload.single('file'), PostObject.AddPost)
+    router.get('/search', PostObject.searchPosts)
+    router.get('/:id/comments', PostObject.getRepliesfromOnePost)
+    router.get('/', PostObject.getPosts)
+    router.get('/:id', Authentication, PostObject.getCursorPostsOfSingleUser)
   }
 }
 
-const call = new PostRouter();
+const call = new PostRouter()
 
-call.checkRequests();
+call.checkRequests()
 
-
-export default router;
+export default router

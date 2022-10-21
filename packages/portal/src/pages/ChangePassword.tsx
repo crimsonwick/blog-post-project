@@ -13,7 +13,7 @@ import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
-import styles from '../styles/ChangePassword/ChangePassword.module.css';
+// import styles from '../styles/ChangePassword/ChangePassword.module.css';
 import '../styles/signup.css';
 YupPassword(yup);
 const schema = yup
