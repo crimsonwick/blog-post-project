@@ -1,42 +1,27 @@
-<<<<<<< HEAD
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { AppContext } from '../App';
-import { AppContextInterface, UserInterface } from '../interface/App';
-import '../styles/dropzone.css';
-
-interface ColorInterface {
-  isDragAccept: boolean;
-  isDragReject: boolean;
-  isFocused: boolean;
-}
-=======
-import React, { useCallback, useContext, useState } from 'react'
-import { useDropzone } from 'react-dropzone'
-import styled from 'styled-components'
-import { AppContext } from '../App'
 import {
   AppContextInterface,
   UserInterface,
   ColorInterface,
   MyFile,
-} from '../interface/App'
-import '../styles/StyledDropZone.css'
->>>>>>> feature/modularity-dropzone
+} from '../interface/App';
+import '../styles/StyledDropZone.css';
 
 const getColor = (props: ColorInterface) => {
   if (props.isDragAccept) {
-    return '#00e676'
+    return '#00e676';
   }
   if (props.isDragReject) {
-    return '#ff1744'
+    return '#ff1744';
   }
   if (props.isFocused) {
-    return '#2196f3'
+    return '#2196f3';
   }
-  return '#eeeeee'
-}
+  return '#eeeeee';
+};
 
 const Container = styled.div`
   flex: 1;
@@ -56,33 +41,32 @@ const Container = styled.div`
   color: #bdbdbd;
   outline: none;
   transition: border 0.24s ease-in-out;
-`
+`;
 
 export const StyledDropZone = () => {
-  const [myFile, setMyFile] = useState<MyFile[]>([])
+  const [myFile, setMyFile] = useState<MyFile[]>([]);
 
-  const context: AppContextInterface<UserInterface> | null = useContext(
-    AppContext,
-  )
+  const context: AppContextInterface<UserInterface> | null =
+    useContext(AppContext);
 
   const onDrop = useCallback(
     (acceptedFile: File[]) => {
-      const file = acceptedFile[0]
+      const file = acceptedFile[0];
       setMyFile(
         acceptedFile.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
-          }),
-        ),
-      )
-      context?.setPostImage(file)
+          })
+        )
+      );
+      context?.setPostImage(file);
     },
-    [context, myFile],
-  )
+    [context, myFile]
+  );
 
   const removeFile = (file: MyFile) => () => {
-    setMyFile([])
-  }
+    setMyFile([]);
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1,
@@ -93,19 +77,19 @@ export const StyledDropZone = () => {
       'image/jpg': [],
       'image/png': [],
     },
-  })
+  });
 
   const removeFileList = myFile.map((file_) => (
     // <li key={file_.path}>
     //   {file_.path} - {file_.size} bytes{" "}
     <button onClick={removeFile(file_)}>Remove File</button>
     ///* </li> */}
-  ))
+  ));
 
   const thumbs = myFile.map((file) => (
     <div
       key={file.name}
-      className="thumb"
+      className='thumb'
       style={{
         display: 'inline-flex',
         borderRadius: 2,
@@ -119,48 +103,36 @@ export const StyledDropZone = () => {
       }}
     >
       <div
-        className="thumbInner"
+        className='thumbInner'
         style={{ display: 'flex', minWidth: 0, overflow: 'hidden' }}
       >
         <img
           src={file.preview}
-          className="img"
+          className='img'
           style={{ display: 'block', width: 'auto', height: '100%' }}
           onLoad={() => {
-            URL.revokeObjectURL(file.preview)
+            URL.revokeObjectURL(file.preview);
           }}
         />
       </div>
     </div>
-  ))
+  ));
 
   return (
-<<<<<<< HEAD
-    <Container {...getRootProps()}>
-      <input {...getInputProps()} type='file' name='file' accept='image/*' />
-      {isDragActive ? (
-        <p className='autoMargin'>Drop the files here ...</p>
-      ) : (
-        <p className='autoMargin'>
-          Drag 'n' drop some files here, or click to select files
-        </p>
-      )}
-    </Container>
-  );
-};
-=======
     <div>
       <Container {...getRootProps()}>
-        <input {...getInputProps()} type="file" name="file" accept="image/*" />
+        <input {...getInputProps()} type='file' name='file' accept='image/*' />
         {isDragActive ? (
-          <p>Drop the file here ...</p>
+          <p className='autoMargin'>Drop the file here ...</p>
         ) : (
-          <p>Drag 'n' drop file here, or click to select file</p>
+          <p className='autoMargin'>
+            Drag 'n' drop file here, or click to select file
+          </p>
         )}
       </Container>
 
       <div
-        className="thumbsContainer"
+        className='thumbsContainer'
         style={{
           display: 'flex',
           flexDirection: 'row',
@@ -172,6 +144,5 @@ export const StyledDropZone = () => {
       </div>
       {removeFileList}
     </div>
-  )
-}
->>>>>>> feature/modularity-dropzone
+  );
+};

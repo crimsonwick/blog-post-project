@@ -1,15 +1,7 @@
 import { Box, FormLabel, OutlinedInput } from '@mui/material';
 import React from 'react';
-import { Control, Controller } from 'react-hook-form';
-
-interface InputFieldInterface {
-  width: string;
-  labelAbove: string;
-  placeholder: string;
-  name: string;
-  control: Control<any, any>;
-  labelBelow?: string;
-}
+import { Controller } from 'react-hook-form';
+import { InputFieldInterface } from '../interface/App';
 
 export const InputField = (props: InputFieldInterface) => {
   const customWidth = props.width;

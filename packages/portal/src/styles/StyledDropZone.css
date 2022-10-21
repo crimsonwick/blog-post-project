@@ -28,3 +28,7 @@
     width: 'auto';
     height: '100%';
   }
+
+  .autoMargin {
+    margin: auto;
+  }
