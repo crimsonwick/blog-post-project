@@ -80,7 +80,9 @@ const CreateArticle = () => {
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name='Create New Article' />
         <Box component='form' onSubmit={handleSubmit(onSubmit)} mt={3}>
-          <FormLabel>Give it a title </FormLabel>
+          {/* <FormLabel>Give it a title </FormLabel> */}
+          <label className={styles.poppins}>Give it a title</label>
+
           <br />
           <Controller
             control={control}

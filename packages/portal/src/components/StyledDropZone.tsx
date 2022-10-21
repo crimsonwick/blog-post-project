@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 import { AppContext } from "../App";
 import { AppContextInterface, UserInterface } from "../interface/App";
-import "../styles/
+import "../styles/StyledDropZone.css";
 
 interface ColorInterface {
   isDragAccept: boolean;
@@ -90,11 +90,29 @@ export const StyledDropZone = () => {
   ));
 
   const thumbs = myFile.map((file) => (
-    <div key={file.name} className='thumb'>
-      <div className="thumbInner">
+    <div
+      key={file.name}
+      className="thumb"
+      style={{
+        display: "inline-flex",
+        borderRadius: 2,
+        border: "1px solid #eaeaea",
+        marginBottom: 8,
+        marginRight: 8,
+        width: 100,
+        height: 100,
+        padding: 4,
+        boxSizing: "border-box",
+      }}
+    >
+      <div
+        className="thumbInner"
+        style={{ display: "flex", minWidth: 0, overflow: "hidden" }}
+      >
         <img
           src={file.preview}
-          className='img'
+          className="img"
+          style={{ display: "block", width: "auto", height: "100%" }}
           onLoad={() => {
             URL.revokeObjectURL(file.preview);
           }}
@@ -114,7 +132,17 @@ export const StyledDropZone = () => {
         )}
       </Container>
 
-      <div className='thumbsContainer'>{thumbs}</div>
+      <div
+        className="thumbsContainer"
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          marginTop: 16,
+        }}
+      >
+        {thumbs}
+      </div>
       {removeFileList}
     </div>
   );
