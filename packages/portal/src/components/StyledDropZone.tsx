@@ -2,25 +2,27 @@ import React, { useCallback, useContext, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import { AppContext } from '../App'
-import { AppContextInterface, UserInterface } from '../interface/App'
+import {
+  AppContextInterface,
+  UserInterface,
+  ColorInterface,
+  MyFile,
+} from '../interface/App'
 import '../styles/StyledDropZone.css'
-interface ColorInterface {
-  isDragAccept: boolean
-  isDragReject: boolean
-  isFocused: boolean
-}
+
 const getColor = (props: ColorInterface) => {
   if (props.isDragAccept) {
-    return '#00E676'
+    return '#00e676'
   }
   if (props.isDragReject) {
-    return '#FF1744'
+    return '#ff1744'
   }
   if (props.isFocused) {
-    return '#2196F3'
+    return '#2196f3'
   }
-  return '#EEEEEE'
+  return '#eeeeee'
 }
+
 const Container = styled.div`
   flex: 1;
   display: flex;
@@ -37,15 +39,14 @@ const Container = styled.div`
   outline: none;
   transition: border 0.24s ease-in-out;
 `
-interface MyFile {
-  preview: string
-  name: string
-}
+
 export const StyledDropZone = () => {
   const [myFile, setMyFile] = useState<MyFile[]>([])
+
   const context: AppContextInterface<UserInterface> | null = useContext(
     AppContext,
   )
+
   const onDrop = useCallback(
     (acceptedFile: File[]) => {
       const file = acceptedFile[0]
@@ -60,9 +61,11 @@ export const StyledDropZone = () => {
     },
     [context, myFile],
   )
+
   const removeFile = (file: MyFile) => () => {
     setMyFile([])
   }
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1,
     multiple: false,
@@ -73,12 +76,14 @@ export const StyledDropZone = () => {
       'image/png': [],
     },
   })
+
   const removeFileList = myFile.map((file_) => (
     // <li key={file_.path}>
     //   {file_.path} - {file_.size} bytes{" "}
     <button onClick={removeFile(file_)}>Remove File</button>
     ///* </li> */}
   ))
+
   const thumbs = myFile.map((file) => (
     <div
       key={file.name}
@@ -86,7 +91,7 @@ export const StyledDropZone = () => {
       style={{
         display: 'inline-flex',
         borderRadius: 2,
-        border: '1px solid #EAEAEA',
+        border: '1px solid #eaeaea',
         marginBottom: 8,
         marginRight: 8,
         width: 100,
@@ -110,6 +115,7 @@ export const StyledDropZone = () => {
       </div>
     </div>
   ))
+
   return (
     <div>
       <Container {...getRootProps()}>
@@ -120,6 +126,7 @@ export const StyledDropZone = () => {
           <p>Drag 'n' drop file here, or click to select file</p>
         )}
       </Container>
+
       <div
         className="thumbsContainer"
         style={{

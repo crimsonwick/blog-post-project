@@ -14,17 +14,12 @@ import { StyledDropZone } from '../components/StyledDropZone'
 import { AppContextInterface, UserInterface } from '../interface/App'
 import { addPost } from '../services/LoginApi'
 import styles from '../styles/CreateArticle/CreateArticle.module.css'
-
-interface dataInterface {
-  title: string
-  mins: number
-  body: string
-}
+import { dataInterface } from '../interface/App'
 
 const schema = yup
   .object({
     title: yup.string().required(),
-    mins: yup.number().typeError('Must be a number').required(),
+    mins: yup.number().required(),
     body: yup.string().required(),
   })
   .required()

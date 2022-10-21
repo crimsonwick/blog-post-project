@@ -209,3 +209,14 @@ export interface PostInterfaceForLandingPage {
     updatedAt: string
   }
 }
+
+export interface dataInterface {
+  title: string
+  mins: number
+  body: string
+}
+
+export interface MyFile {
+  preview: string
+  name: string
+}
