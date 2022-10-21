@@ -1,24 +1,23 @@
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
-import { Avatar, Card, List } from '@mui/material';
-import Chip from '@mui/material/Chip';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
-import { Box } from '@mui/system';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { PostInterface } from '../interface/ArticleDetailPage';
-import { parseDate, parseName } from '../services/LoginApi';
-import '../styles/Article/Article.css';
-import {flexContainer} from '../styles/Article/List';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import QueryBuilderIcon from '@mui/icons-material/QueryBuilder'
+import { Avatar, Card, List } from '@mui/material'
+import Chip from '@mui/material/Chip'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Typography from '@mui/material/Typography'
+import { Box } from '@mui/system'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { PostInterface } from '../interface/App'
+import { parseDate, parseName } from '../services/LoginApi'
+import '../styles/Article/Article.css'
+import { flexContainer } from '../styles/Article/List'
 
 export const ArticleCard = (props: PostInterface) => {
-  if(!props.object){
+  if (!props.object) {
     return <h1>Not Working!!</h1>
-  }
-  else{
+  } else {
     return (
       <Card
         elevation={0}
@@ -126,7 +125,9 @@ export const ArticleCard = (props: PostInterface) => {
               <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
                 <QueryBuilderIcon />
               </ListItemIcon>
-              <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
+              <ListItemText
+                primary={`${props.object.timetoRead} Min. To Read`}
+              />
             </ListItem>
           </List>
           <Typography
@@ -143,6 +144,6 @@ export const ArticleCard = (props: PostInterface) => {
           </Typography>
         </Box>
       </Card>
-    );
+    )
   }
 }

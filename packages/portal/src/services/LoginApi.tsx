@@ -1,87 +1,87 @@
-import axios from 'axios';
-import { UserInterface } from '../interface/App';
-import { PostsAdd } from '../interface/ArticleDetailPage';
-const baseURL: string = 'http://localhost:5000';
+import axios from 'axios'
+import { UserInterface } from '../interface/App'
+import { PostsAdd } from '../interface/App'
+const baseURL: string = 'http://localhost:5000'
 
 interface LoginDetailInterface {
-  email?: string;
-  password?: string;
+  email?: string
+  password?: string
 }
 
-interface ConfigInterface{
+interface ConfigInterface {
   headers?: {
     Authorization?: string
   }
 }
 
-interface LogoutInterface{
+interface LogoutInterface {
   data?: {
-    token?: string;
+    token?: string
   }
 }
 
 export const getLoginDetails = async (object: LoginDetailInterface) => {
-  return await axios.post(`${baseURL}/users/login`, object);
-};
+  return await axios.post(`${baseURL}/users/login`, object)
+}
 
 export const getSignUpDetails = async (object: LoginDetailInterface) => {
-  return await axios.post(`${baseURL}/users/signup`, object);
-};
+  return await axios.post(`${baseURL}/users/signup`, object)
+}
 
 export const parseJwt = (token: string) => {
   try {
     // Get Token Header
-    const base64HeaderUrl = token.split('.')[0];
-    const base64Header = base64HeaderUrl.replace('-', '+').replace('_', '/');
-    const headerData = JSON.parse(window.atob(base64Header));
+    const base64HeaderUrl = token.split('.')[0]
+    const base64Header = base64HeaderUrl.replace('-', '+').replace('_', '/')
+    const headerData = JSON.parse(window.atob(base64Header))
 
     // Get Token payload and date's
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    const dataJWT = JSON.parse(window.atob(base64));
-    dataJWT.header = headerData;
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace('-', '+').replace('_', '/')
+    const dataJWT = JSON.parse(window.atob(base64))
+    dataJWT.header = headerData
 
     // TODO: add expiration at check ...
-    return dataJWT;
+    return dataJWT
   } catch (err) {
-    return false;
+    return false
   }
-};
+}
 
 export const addPost = async (object: FormData, config: ConfigInterface) => {
-  return await axios.post(`${baseURL}/posts`, object, config);
-};
+  return await axios.post(`${baseURL}/posts`, object, config)
+}
 
 export const gettingPosts = async (config: ConfigInterface, userId: string) => {
-  return await axios.get(`${baseURL}/users/${userId}/posts`, config);
-};
+  return await axios.get(`${baseURL}/users/${userId}/posts`, config)
+}
 
 export const allPostsComing = async () => {
-  return await axios.get(`${baseURL}/posts`);
-};
+  return await axios.get(`${baseURL}/posts`)
+}
 
 export const logout = async (body: LogoutInterface) => {
-  return await axios.delete(`${baseURL}/users/logout`, body);
-};
+  return await axios.delete(`${baseURL}/users/logout`, body)
+}
 
 export const parseTime = (str: string) => {
-  let incomingDate = new Date(str);
-  let currentDate = new Date();
+  let incomingDate = new Date(str)
+  let currentDate = new Date()
 
-  let diff = diff_hours(incomingDate, currentDate);
+  let diff = diff_hours(incomingDate, currentDate)
   if (diff > 24) {
-    let dayDiff = diff / 24;
-    dayDiff = dayDiff;
-    if (dayDiff === 1) return `${dayDiff} day ago`;
-    return `${dayDiff} days ago`;
+    let dayDiff = diff / 24
+    dayDiff = dayDiff
+    if (dayDiff === 1) return `${dayDiff} day ago`
+    return `${dayDiff} days ago`
   }
-  return `${diff}h ago`;
-};
+  return `${diff}h ago`
+}
 
 function diff_hours(dt2: Date, dt1: Date) {
-  var diff = (dt2.getTime() - dt1.getTime()) / 1000;
-  diff /= 60 * 60;
-  return Math.abs(Math.round(diff));
+  var diff = (dt2.getTime() - dt1.getTime()) / 1000
+  diff /= 60 * 60
+  return Math.abs(Math.round(diff))
 }
 
 export const parseDate = (str: string) => {
@@ -89,73 +89,80 @@ export const parseDate = (str: string) => {
     day: str.slice(8, 10),
     month: parseInt(str.slice(5, 7)),
     year: str.slice(0, 4),
-  };
-  var getMonth = '';
+  }
+  var getMonth = ''
   switch (object.month) {
     case 1:
-      getMonth = 'January';
-      break;
+      getMonth = 'January'
+      break
     case 2:
-      getMonth = 'February';
-      break;
+      getMonth = 'February'
+      break
     case 3:
-      getMonth = 'March';
-      break;
+      getMonth = 'March'
+      break
     case 4:
-      getMonth = 'April';
-      break;
+      getMonth = 'April'
+      break
     case 5:
-      getMonth = 'May';
-      break;
+      getMonth = 'May'
+      break
     case 6:
-      getMonth = 'June';
-      break;
+      getMonth = 'June'
+      break
     case 7:
-      getMonth = 'July';
-      break;
+      getMonth = 'July'
+      break
     case 8:
-      getMonth = 'August';
-      break;
+      getMonth = 'August'
+      break
     case 9:
-      getMonth = 'September';
-      break;
+      getMonth = 'September'
+      break
     case 10:
-      getMonth = 'October';
-      break;
+      getMonth = 'October'
+      break
     case 11:
-      getMonth = 'November';
-      break;
+      getMonth = 'November'
+      break
     case 12:
-      getMonth = 'December';
-      break;
+      getMonth = 'December'
+      break
     default:
-      getMonth = '';
-      break;
+      getMonth = ''
+      break
   }
-  const DateInChars = `${object.day} ${getMonth} ${object.year}`;
-  return DateInChars;
-};
+  const DateInChars = `${object.day} ${getMonth} ${object.year}`
+  return DateInChars
+}
 
 export const searchAPI = async (title: string) => {
-  return await axios.get(`${baseURL}/posts/search?title=${title}`);
-};
+  return await axios.get(`${baseURL}/posts/search?title=${title}`)
+}
 
 export const getComments = async (id: string) => {
-  return await axios.get(`${baseURL}/posts/${id}/comments`);
-};
+  return await axios.get(`${baseURL}/posts/${id}/comments`)
+}
 
 export const getReply = async (id: string) => {
-  return await axios.get(`${baseURL}/comments/${id}/replies`);
-};
+  return await axios.get(`${baseURL}/comments/${id}/replies`)
+}
 
 export const parseName = (str: string) => {
-  let nameField = str.split('@');
-  return nameField[0];
+  let nameField = str.split('@')
+  return nameField[0]
 }
-export const searchMyPosts = async(title: string,id: string | undefined,config: ConfigInterface) => {
-  return await axios.get(`${baseURL}/users/${id}/posts/search?title=${title}`,config)
+export const searchMyPosts = async (
+  title: string,
+  id: string | undefined,
+  config: ConfigInterface,
+) => {
+  return await axios.get(
+    `${baseURL}/users/${id}/posts/search?title=${title}`,
+    config,
+  )
 }
 
-export const PaginationforPosts = async(page: number,limit: number) => {
+export const PaginationforPosts = async (page: number, limit: number) => {
   return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`)
 }

@@ -7,31 +7,30 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
-} from '@mui/material';
-import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react';
-import { CommentInterface } from '../services/CommentApi';
-import { getReply, parseName, parseTime } from '../services/LoginApi';
-import {AddComment} from './AddComment';
+} from '@mui/material'
+import { Box } from '@mui/system'
+import React, { useEffect, useState } from 'react'
+import { CommentInterface } from '../services/CommentApi'
+import { getReply, parseName, parseTime } from '../services/LoginApi'
+import { AddComment } from './AddComment'
 
-interface CommentComponentInterface<C>{
+interface CommentComponentInterface<C> {
   object: C
 }
 
 export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
-  const [replies, setReplies] = useState<boolean>(false);
-  const [reply, setReply] = useState<CommentInterface[]>([]);
+  const [replies, setReplies] = useState<boolean>(false)
+  const [reply, setReply] = useState<CommentInterface[]>([])
   const getReplies = async (commentId: string) => {
-    const response = await getReply(commentId);
-    setReply(response.data);
-  };
-  useEffect(() => {
-    getReplies(props.object.id);
-  }, [props]);
-  if(props.object.Commented_By === undefined){
-    return <h1>Not Working!!!</h1>
+    const response = await getReply(commentId)
+    setReply(response.data)
   }
-  else{
+  useEffect(() => {
+    getReplies(props.object.id)
+  }, [props])
+  if (props.object.Commented_By === undefined) {
+    return <h1>Not Working!!!</h1>
+  } else {
     return (
       <Card
         elevation={0}
@@ -73,7 +72,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
                 <Button
                   variant="text"
                   onClick={() => {
-                    setReplies(!replies);
+                    setReplies(!replies)
                   }}
                   sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
                 >
@@ -84,7 +83,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
                 <Button
                   variant="text"
                   onClick={() => {
-                    setReplies(!replies);
+                    setReplies(!replies)
                   }}
                   sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
                 >
@@ -93,7 +92,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
               )}
           {replies && reply.length > 0
             ? reply.map((o) => {
-                return <Comment key={o.id} object={o} />;
+                return <Comment key={o.id} object={o} />
               })
             : null}
           <AddComment
@@ -103,12 +102,11 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
             Comment={false}
             labelAbove="Add Reply"
             placeholder={`Reply to ${parseName(
-              props.object.Commented_By.email
+              props.object.Commented_By.email,
             )}...`}
           />
         </Box>
       </Card>
-    );
+    )
   }
-  
-};
+}

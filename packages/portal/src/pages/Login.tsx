@@ -1,33 +1,33 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import { Box } from '@mui/system';
-import { default as React, useContext, useReducer } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import YupPassword from 'yup-password';
-import { AppContext } from '../App';
-import { Alerts } from '../components/Alerts';
-import { AppContextInterface, UserInterface } from '../interface/App';
-import { getLoginDetails, parseJwt } from '../services/LoginApi';
-import styles from '../styles/Login/Login.module.css';
-import '../styles/signup.css';
-import { Header } from '../components/Header';
-YupPassword(yup);
+import { yupResolver } from '@hookform/resolvers/yup'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import Container from '@mui/material/Container'
+import Divider from '@mui/material/Divider'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormLabel from '@mui/material/FormLabel'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import { Box } from '@mui/system'
+import { default as React, useContext, useReducer } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
+import * as yup from 'yup'
+import YupPassword from 'yup-password'
+import { AppContext } from '../App'
+import { Alerts } from '../components/Alerts'
+import { AppContextInterface, UserInterface } from '../interface/App'
+import { getLoginDetails, parseJwt } from '../services/LoginApi'
+import styles from '../styles/Login/Login.module.css'
+import '../styles/signup.css'
+import { Header } from '../components/Header'
+YupPassword(yup)
 
 interface dataInterface {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 const schema = yup
   .object({
@@ -39,28 +39,28 @@ const schema = yup
       .minUppercase(1, 'Password must include atleast one upper-case letter')
       .minSymbols(1, 'Password must include atleast one symbol'),
   })
-  .required();
+  .required()
 enum MessageActionKind {
   FAILED = 'FAILED',
   SUCCESS = 'SUCCESS',
 }
 interface MessageAction {
-  type: MessageActionKind;
+  type: MessageActionKind
 }
 interface StateInterface {
-  Submitted: boolean;
-  showMessage: boolean;
+  Submitted: boolean
+  showMessage: boolean
 }
 const reducer = (state: StateInterface, action: MessageAction) => {
   switch (action.type) {
     case MessageActionKind.FAILED:
-      return { Submitted: !state.Submitted, showMessage: state.showMessage };
+      return { Submitted: !state.Submitted, showMessage: state.showMessage }
     case MessageActionKind.SUCCESS:
-      return { Submitted: !state.Submitted, showMessage: !state.showMessage };
+      return { Submitted: !state.Submitted, showMessage: !state.showMessage }
     default:
-      return state;
+      return state
   }
-};
+}
 
 export const Login = () => {
   const {
@@ -73,65 +73,66 @@ export const Login = () => {
       password: '',
     },
     resolver: yupResolver(schema),
-  });
+  })
 
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface<UserInterface> | null = useContext(
+    AppContext,
+  )
   const [state, dispatch] = useReducer(reducer, {
     Submitted: false,
     showMessage: false,
-  });
+  })
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const onSubmit = async (data: dataInterface) => {
     try {
-      const response = await getLoginDetails(data);
-      console.log(' i am in submit handler,', response);
+      const response = await getLoginDetails(data)
+      console.log(' i am in submit handler,', response)
       if (response.data.accessToken) {
-        dispatch({ type: MessageActionKind.SUCCESS });
-        Alerts.success('Logged In Successfully');
-        context?.setAccessToken(response.data.accessToken);
-        context?.setRefreshToken(response.data.refreshToken);
-        context?.setLoggedIn(true);
-        const parsetoken = parseJwt(response.data.accessToken);
-        context?.setUserData(parsetoken.user);
-        localStorage.setItem('login', response.data.accessToken);
+        dispatch({ type: MessageActionKind.SUCCESS })
+        Alerts.success('Logged In Successfully')
+        context?.setAccessToken(response.data.accessToken)
+        context?.setRefreshToken(response.data.refreshToken)
+        context?.setLoggedIn(true)
+        const parsetoken = parseJwt(response.data.accessToken)
+        context?.setUserData(parsetoken.user)
+        localStorage.setItem('login', response.data.accessToken)
         if (state) {
           setTimeout(() => {
-            navigate('/');
-          }, 100);
+            navigate('/')
+          }, 100)
         }
       } else {
-        dispatch({ type: MessageActionKind.FAILED });
-        Alerts.error('Wrong Credentials');
+        dispatch({ type: MessageActionKind.FAILED })
+        Alerts.error('Wrong Credentials')
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
   const [values, setValues] = React.useState({
     showPassword: false,
     password: '',
-  });
+  })
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
-    });
-  };
+    })
+  }
   const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    event.preventDefault();
-  };
+    event.preventDefault()
+  }
   return (
-    <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
-      <Header heading='Log In' />
+    <Container maxWidth="sm" sx={{ marginTop: '10em' }}>
+      <Header heading="Log In" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor='my-input'>Email address</FormLabel>{' '}
+        <FormLabel htmlFor="my-input">Email address</FormLabel>{' '}
         <Controller
           control={control}
-          name='email'
+          name="email"
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
@@ -139,9 +140,9 @@ export const Login = () => {
             formState,
           }) => (
             <OutlinedInput
-              placeholder='Enter your Email'
-              autoComplete='username'
-              color='secondary'
+              placeholder="Enter your Email"
+              autoComplete="username"
+              color="secondary"
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
               inputRef={ref}
@@ -153,12 +154,12 @@ export const Login = () => {
             />
           )}
         />
-        {errors.email && <p className='errorMsg'>{errors.email.message}</p>}
+        {errors.email && <p className="errorMsg">{errors.email.message}</p>}
         <Box mt={2} />
-        <FormLabel htmlFor='my-input'>Password</FormLabel>
+        <FormLabel htmlFor="my-input">Password</FormLabel>
         <Controller
           control={control}
-          name='password'
+          name="password"
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
@@ -166,7 +167,7 @@ export const Login = () => {
             formState,
           }) => (
             <OutlinedInput
-              autoComplete='new-password'
+              autoComplete="new-password"
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
               color={'secondary'}
@@ -176,14 +177,14 @@ export const Login = () => {
                 fontFamily: 'Poppins',
                 width: '100%',
               }}
-              placeholder='Enter your password'
+              placeholder="Enter your password"
               endAdornment={
-                <InputAdornment position='end'>
+                <InputAdornment position="end">
                   <IconButton
-                    aria-label='toggle password visibility'
+                    aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
-                    edge='end'
+                    edge="end"
                   >
                     {values.showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -193,20 +194,20 @@ export const Login = () => {
           )}
         />
         {errors.password && (
-          <p className='errorMsg'>{errors.password.message}</p>
+          <p className="errorMsg">{errors.password.message}</p>
         )}
-        <Link to='/reset-password' style={{ color: 'black' }}>
+        <Link to="/reset-password" style={{ color: 'black' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
-          control={<Checkbox color='secondary' />}
-          label='Remember Me'
+          control={<Checkbox color="secondary" />}
+          label="Remember Me"
           sx={{ marginBottom: 2 }}
         />
         <Button
-          type='submit'
-          variant='contained'
-          color='secondary'
+          type="submit"
+          variant="contained"
+          color="secondary"
           fullWidth
           sx={{
             borderRadius: '25px',
@@ -227,11 +228,11 @@ export const Login = () => {
       <h3 className={styles.h3}>Don't have an account?</h3>
 
       <Box mb={2}>
-        <Link to='/signup' style={{ textDecoration: 'none', color: 'black' }}>
+        <Link to="/signup" style={{ textDecoration: 'none', color: 'black' }}>
           <Button
             fullWidth
-            variant='outlined'
-            color='secondary'
+            variant="outlined"
+            color="secondary"
             sx={{
               borderRadius: '25px',
               fontSize: '18px',
@@ -246,5 +247,5 @@ export const Login = () => {
         </Link>
       </Box>
     </Container>
-  );
-};
+  )
+}

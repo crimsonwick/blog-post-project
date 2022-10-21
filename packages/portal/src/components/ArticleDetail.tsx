@@ -1,27 +1,31 @@
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import { Avatar, Card, CardMedia, List } from '@mui/material';
-import Chip from '@mui/material/Chip';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
-import React, { useContext } from 'react';
-import { AppContext } from '../App';
-import { AppContextInterface, UserInterface } from '../interface/App';
-import { PostInterface } from '../interface/ArticleDetailPage';
-import { parseName } from '../services/LoginApi';
-import '../styles/Article/Article.css';
-import {CardMediaStyle, CardStyle, flexContainer } from '../styles/Article/List';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import { Avatar, Card, CardMedia, List } from '@mui/material'
+import Chip from '@mui/material/Chip'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Typography from '@mui/material/Typography'
+import React, { useContext } from 'react'
+import { AppContext } from '../App'
+import { AppContextInterface, UserInterface } from '../interface/App'
+import { PostInterface } from '../interface/App'
+import { parseName } from '../services/LoginApi'
+import '../styles/Article/Article.css'
+import {
+  CardMediaStyle,
+  CardStyle,
+  flexContainer,
+} from '../styles/Article/List'
 
 export const ArticleDetail = (props: PostInterface) => {
-  const context: AppContextInterface<UserInterface> | null = useContext(AppContext);
-  if(props.object === undefined || !context){
+  const context: AppContextInterface<UserInterface> | null = useContext(
+    AppContext,
+  )
+  if (props.object === undefined || !context) {
     return <h1>Not Working</h1>
   }
   return (
-    <Card
-      sx={CardStyle}
-        >
+    <Card sx={CardStyle}>
       <Chip
         label="Travel"
         sx={{
@@ -101,5 +105,5 @@ export const ArticleDetail = (props: PostInterface) => {
         {props.object.body}
       </Typography>
     </Card>
-  );
-};
+  )
+}
