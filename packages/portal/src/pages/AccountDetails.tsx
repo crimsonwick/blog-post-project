@@ -1,78 +1,72 @@
-import { Button } from '@mui/material'
-import { Box, Container } from '@mui/system'
-import React, { useContext, useState } from 'react'
-import { AppContext } from '../App'
-import { Alerts } from '../components/Alerts'
-import { BasicTable } from '../components/BasicTable'
-import { Navbar } from '../components/NavBar'
-import { PostsHeader } from '../components/PostsHeader'
-import { parseJwt } from '../services/LoginApi'
-import axios from 'axios'
-import { ImageInterface } from '../interface/App'
-import { AppContextInterface, UserInterface } from '../interface/App'
+import { Button } from '@mui/material';
+import { Box, Container } from '@mui/system';
+import React, { useContext, useState } from 'react';
+import { AppContext } from '../App';
+import { Alerts } from '../components/Alerts';
+import { BasicTable } from '../components/BasicTable';
+import { Navbar } from '../components/NavBar';
+import { PostsHeader } from '../components/PostsHeader';
+import { parseJwt } from '../services/LoginApi';
+import axios from 'axios';
+import { ImageInterface } from '../interface/App';
+import { AppContextInterface, UserInterface } from '../interface/App';
 
 export const AccountDetails = () => {
-  const [image, setImage] = useState<ImageInterface>({ preview: '', data: '' })
-  const context: AppContextInterface<UserInterface> | null = useContext(
-    AppContext,
-  )
+  const [image, setImage] = useState<ImageInterface>({ preview: '', data: '' });
+  const context: AppContextInterface<UserInterface> | null =
+    useContext(AppContext);
   const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    if (context) {
-      try {
-        let formData = new FormData()
-        formData.append('file', image.data)
-        if (!context.accessToken) {
-          return
-        }
-        const parsetoken = parseJwt(context.accessToken)
-        const user = parsetoken.user
-        context.setUserData(user)
-        const config = {
-          headers: {
-            Authorization: `Bearer ${context.accessToken}`,
-          },
-        }
-        const response = await axios.put(
-          `http://localhost:5000/users/${user.id}`,
-          formData,
-          config,
-        )
-        if (response.data) {
-          context.setDp(response.data.image)
-          Alerts.success('Dp uploaded')
-        }
-      } catch (err) {
-        console.log(err)
+    e.preventDefault();
+    try {
+      let formData = new FormData();
+      formData.append('file', image.data);
+      const parsetoken = parseJwt(context?.accessToken as unknown as string);
+      const user = parsetoken.user;
+      context?.setUserData(user);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${context?.accessToken}`,
+        },
+      };
+      const response = await axios.put(
+        `http://localhost:5000/users/${user.id}`,
+        formData,
+        config
+      );
+      if (response.data) {
+        context?.setDp(response.data.image);
+        Alerts.success('Dp uploaded');
       }
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) {
-      return
+      return;
     }
     const img: ImageInterface = {
       preview: URL.createObjectURL(e.target.files[0]),
       data: e.target.files[0],
-    }
-    setImage(img)
-  }
+    };
+    setImage(img);
+  };
 
   return (
     <>
       <Navbar login={true} mainPage={false} />
       <Container sx={{ marginY: 10 }}>
         <Box mb={3}>
-          <PostsHeader name="Account Details" />
+          <PostsHeader name='Account Details' />
         </Box>
         <BasicTable />
         <Box mt={7}>
-          <PostsHeader name="Change Display Picture" />
-          <Box component="form" onSubmit={handleSubmit}>
+          <PostsHeader name='Change Display Picture' />
+          <Box component='form' onSubmit={handleSubmit}>
             <Button
-              variant="contained"
-              component="label"
+              variant='contained'
+              component='label'
               sx={{
                 borderRadius: '20px',
                 width: '12%',
@@ -83,18 +77,18 @@ export const AccountDetails = () => {
                 textTransform: 'capitalize',
                 fontWeight: 'bold',
               }}
-              color="secondary"
+              color='secondary'
             >
               Upload
               <input
-                type="file"
-                name="file"
+                type='file'
+                name='file'
                 onChange={handleFileChange}
                 hidden
               />
             </Button>
             <Button
-              variant="contained"
+              variant='contained'
               sx={{
                 borderRadius: '20px',
                 marginLeft: '10px',
@@ -106,7 +100,7 @@ export const AccountDetails = () => {
                 textTransform: 'capitalize',
                 fontWeight: 'bold',
               }}
-              type="submit"
+              type='submit'
             >
               Submit
             </Button>
@@ -114,5 +108,5 @@ export const AccountDetails = () => {
         </Box>
       </Container>
     </>
-  )
-}
+  );
+};

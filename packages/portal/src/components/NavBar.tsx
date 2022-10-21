@@ -31,20 +31,6 @@ export const Navbar = (props: NavbarProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
-  if (!context) {
-    return <h1> Not Working</h1>;
-  } else {
-    if (
-      !context.accessToken &&
-      !context.setDp &&
-      !context.refreshToken &&
-      !context.setSearchMyData &&
-      context.userData.id === undefined &&
-      !context.dp
-    ) {
-      return <h1> Not Working</h1>;
-    }
-  }
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -63,19 +49,19 @@ export const Navbar = (props: NavbarProps) => {
     const target = event.target as HTMLInputElement;
     if (props.mainPage) {
       const response = await searchAPI(target.value);
-      context.setSearchData(response.data);
+      context?.setSearchData(response.data);
     } else {
       const config = {
         headers: {
-          Authorization: `Bearer ${context.accessToken}`,
+          Authorization: `Bearer ${context?.accessToken}`,
         },
       };
       const response = await searchMyPosts(
         target.value,
-        context.userData.id,
+        context?.userData.id,
         config
       );
-      context.setSearchMyData(response.data);
+      context?.setSearchMyData(response.data);
     }
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,11 +69,11 @@ export const Navbar = (props: NavbarProps) => {
   };
   const handleLogout = async () => {
     try {
-      const body = { data: { token: `${context.refreshToken}` } };
+      const body = { data: { token: `${context?.refreshToken}` } };
       await logout(body);
-      console.log(`revoking token: ${context.refreshToken}`);
-      context.setLoggedIn(false);
-      context.setDp('');
+      console.log(`revoking token: ${context?.refreshToken}`);
+      context?.setLoggedIn(false);
+      context?.setDp('');
       Alerts.success('Logged out Successfully');
     } catch (err) {
       console.log(err);
@@ -95,14 +81,14 @@ export const Navbar = (props: NavbarProps) => {
   };
   return (
     <>
-      <AppBar position='sticky' style={{ background: '#FFFFFF' }}>
+      <AppBar position="sticky" style={{ background: '#FFFFFF' }}>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
             <Typography
               component={NavLink}
               style={props.isNavActive ? { color: 'black' } : { color: 'grey' }}
-              to='/'
-              variant='h6'
+              to="/"
+              variant="h6"
               sx={{
                 marginLeft: '5px',
                 textTransform: 'capitalize',
@@ -117,8 +103,8 @@ export const Navbar = (props: NavbarProps) => {
                 style={
                   props.isMyActive ? { color: 'black' } : { color: 'grey' }
                 }
-                to='/my-articles'
-                variant='h6'
+                to="/my-articles"
+                variant="h6"
                 sx={{
                   marginLeft: '15px',
                   textTransform: 'capitalize',
@@ -137,7 +123,7 @@ export const Navbar = (props: NavbarProps) => {
 
             <StyledInputBase
               sx={{ color: '#111111' }}
-              placeholder='Search…'
+              placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
@@ -146,9 +132,9 @@ export const Navbar = (props: NavbarProps) => {
           {props.login && (
             <Button
               component={Link}
-              to='/create-article'
-              variant='contained'
-              color='secondary'
+              to="/create-article"
+              variant="contained"
+              color="secondary"
               sx={{
                 fontWeight: '600',
                 textTransform: 'capitalize',
@@ -162,18 +148,18 @@ export const Navbar = (props: NavbarProps) => {
             <div>
               <Button
                 component={Link}
-                to='/login'
-                variant='contained'
-                color='primary'
+                to="/login"
+                variant="contained"
+                color="primary"
                 sx={{ marginRight: '10px' }}
               >
                 Login
               </Button>
               <Button
                 component={Link}
-                to='/signup'
-                variant='contained'
-                color='secondary'
+                to="/signup"
+                variant="contained"
+                color="secondary"
               >
                 Sign Up
               </Button>
@@ -181,21 +167,21 @@ export const Navbar = (props: NavbarProps) => {
           )}
           {props.login && (
             <div>
-              <Tooltip title='Account settings'>
+              <Tooltip title="Account settings">
                 <IconButton
                   onClick={handleClick}
-                  size='small'
+                  size="small"
                   sx={{ ml: 2 }}
                   aria-controls={open ? 'account-menu' : undefined}
-                  aria-haspopup='true'
+                  aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
                 >
                   <Avatar
-                    alt='user display picture'
+                    alt="user display picture"
                     src={
-                      context.dp
+                      context?.dp
                         ? require(`../images/${context.dp}`)
-                        : context.userData.avatar
+                        : context?.userData.avatar
                         ? require(`../images/${context.userData.avatar}`)
                         : ''
                     }
@@ -205,7 +191,7 @@ export const Navbar = (props: NavbarProps) => {
               </Tooltip>
               <Menu
                 anchorEl={anchorEl}
-                id='account-menu'
+                id="account-menu"
                 open={open}
                 onClose={handleClose}
                 onClick={handleClose}
@@ -239,16 +225,16 @@ export const Navbar = (props: NavbarProps) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
                 <Link
-                  to='/account-details'
+                  to="/account-details"
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
                   <MenuItem>
                     <Avatar
-                      alt='user display picture'
+                      alt="user display picture"
                       src={
-                        context.dp
+                        context?.dp
                           ? require(`../images/${context.dp}`)
-                          : context.userData.avatar
+                          : context?.userData.avatar
                           ? require(`../images/${context.userData.avatar}`)
                           : ''
                       }
@@ -258,13 +244,13 @@ export const Navbar = (props: NavbarProps) => {
                 </Link>
                 <Divider />
                 <Link
-                  to='/'
+                  to="/"
                   style={{ textDecoration: 'none', color: 'black' }}
                   onClick={handleLogout}
                 >
                   <MenuItem>
                     <ListItemIcon>
-                      <Logout fontSize='small' />
+                      <Logout fontSize="small" />
                     </ListItemIcon>
                     Logout
                   </MenuItem>

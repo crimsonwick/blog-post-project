@@ -1,33 +1,29 @@
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
-import { Avatar, Card, CardMedia, List } from '@mui/material'
-import Chip from '@mui/material/Chip'
-import ListItem from '@mui/material/ListItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Typography from '@mui/material/Typography'
-import React, { useContext } from 'react'
-import { AppContext } from '../App'
-import { AppContextInterface, UserInterface } from '../interface/App'
-import { PostInterface } from '../interface/App'
-import { parseName } from '../services/LoginApi'
-import '../styles/Article/Article.css'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { Avatar, Card, CardMedia, List } from '@mui/material';
+import Chip from '@mui/material/Chip';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+import React, { useContext } from 'react';
+import { AppContext } from '../App';
+import { AppContextInterface, UserInterface } from '../interface/App';
+import { PostInterface } from '../interface/App';
+import { parseName } from '../services/LoginApi';
+import '../styles/Article/Article.css';
 import {
   CardMediaStyle,
   CardStyle,
   flexContainer,
-} from '../styles/Article/List'
+} from '../styles/Article/List';
 
 export const ArticleDetail = (props: PostInterface) => {
-  const context: AppContextInterface<UserInterface> | null = useContext(
-    AppContext,
-  )
-  if (props.object === undefined || !context) {
-    return <h1>Not Working</h1>
-  }
+  const context: AppContextInterface<UserInterface> | null =
+    useContext(AppContext);
   return (
     <Card sx={CardStyle}>
       <Chip
-        label="Travel"
+        label='Travel'
         sx={{
           borderRadius: '3px',
           backgroundColor: '#F2F8F7',
@@ -37,7 +33,7 @@ export const ArticleDetail = (props: PostInterface) => {
         }}
       />
       <Typography
-        variant="h1"
+        variant='h1'
         sx={{
           fontFamily: 'Poppins',
           fontWeight: '600',
@@ -48,11 +44,11 @@ export const ArticleDetail = (props: PostInterface) => {
           height: '38px',
         }}
       >
-        {props.object.title}
+        {props?.object?.title}
       </Typography>
       <List style={flexContainer}>
         <ListItem
-          className="user"
+          className='user'
           disablePadding={true}
           sx={{
             borderColor: 'gray',
@@ -64,19 +60,23 @@ export const ArticleDetail = (props: PostInterface) => {
           <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
             <Avatar
               src={
-                context.dp
+                context?.dp
                   ? require(`../images/${context.dp}`)
-                  : props.object.Posted_By.avatar
+                  : props?.object?.Posted_By.avatar
                   ? require(`../images/${props.object.Posted_By.avatar}`)
                   : ''
               }
-              alt="user_dp"
+              alt='user_dp'
             />
           </ListItemIcon>
-          <ListItemText primary={parseName(props.object.Posted_By.email)} />
+          <ListItemText
+            primary={parseName(
+              props?.object?.Posted_By.email as unknown as string
+            )}
+          />
         </ListItem>
         <ListItem
-          className="timeToRead"
+          className='timeToRead'
           sx={{
             borderLeft: '2px solid',
             borderColor: 'gray',
@@ -88,22 +88,22 @@ export const ArticleDetail = (props: PostInterface) => {
           <ListItemIcon sx={{ minWidth: 'auto' }}>
             <CalendarTodayIcon sx={{ marginRight: '10px' }} />
           </ListItemIcon>
-          <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
+          <ListItemText primary={`${props?.object?.timetoRead} Min. To Read`} />
         </ListItem>
       </List>
       <CardMedia
-        component="img"
-        height="432"
-        image={require(`../images/${props.object.image}`)}
-        alt="post_detail_image"
+        component='img'
+        height='432'
+        image={require(`../images/${props?.object?.image}`)}
+        alt='post_detail_image'
         sx={CardMediaStyle}
       />
       <Typography
-        variant="h6"
+        variant='h6'
         sx={{ height: 'auto', width: '856px', marginTop: '20px' }}
       >
-        {props.object.body}
+        {props?.object?.body}
       </Typography>
     </Card>
-  )
-}
+  );
+};
