@@ -11,9 +11,7 @@ import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
-import '../styles/Login/Login.module.css';
 import '../styles/signup.css';
-import Divider from '@mui/material/Divider';
 YupPassword(yup);
 const schema = yup
   .object({
@@ -75,21 +73,18 @@ export const ResetPassword = () => {
               sx={{
                 borderRadius: 18,
                 width: 550,
-                marginBottom: 2,
               }}
             />
           )}
         />
-        {errors.email && (
-          <span className='errorMsg'>{errors.email.message}</span>
-        )}
+        <span className='errorMsg'>{errors.email?.message}</span>
         <Button
           type='submit'
           variant='contained'
           color='secondary'
           fullWidth
           sx={{
-            marginTop: '10px',
+            marginTop: '15px',
             borderRadius: '25px',
             fontSize: '22px',
             textTransform: 'capitalize',

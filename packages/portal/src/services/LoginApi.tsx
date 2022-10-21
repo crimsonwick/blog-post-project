@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { UserInterface } from '../interface/App';
-import { PostsAdd } from '../interface/ArticleDetailPage';
 const baseURL: string = 'http://localhost:5000';
 
 interface LoginDetailInterface {
@@ -8,16 +6,16 @@ interface LoginDetailInterface {
   password?: string;
 }
 
-interface ConfigInterface{
+interface ConfigInterface {
   headers?: {
-    Authorization?: string
-  }
+    Authorization?: string;
+  };
 }
 
-interface LogoutInterface{
+interface LogoutInterface {
   data?: {
     token?: string;
-  }
+  };
 }
 
 export const getLoginDetails = async (object: LoginDetailInterface) => {
@@ -70,16 +68,27 @@ export const parseTime = (str: string) => {
 
   let diff = diff_hours(incomingDate, currentDate);
   if (diff > 24) {
-    let dayDiff = diff / 24;
-    dayDiff = dayDiff;
-    if (dayDiff === 1) return `${dayDiff} day ago`;
-    return `${dayDiff} days ago`;
+    let dayDiff = Math.trunc(diff / 24);
+    if (dayDiff === 1) return `${dayDiff}d ago`;
+    return `${dayDiff}d ago`;
   }
-  return `${diff}h ago`;
+  if (diff !== 0) return `${diff}h ago`;
+  let diffMins = diff_mins(incomingDate, currentDate);
+  return `${diffMins}m ago`;
 };
 
+function diff_mins(dt2: Date, dt1: Date) {
+  console.log('dt2.getTime()): ', dt2.getTime());
+  console.log('dt1.getTime()): ', dt1.getTime());
+  let diff = (dt2.getTime() - dt1.getTime()) / 1000;
+  console.log('diff: ', diff);
+  diff /= 60;
+  console.log('diff: ', diff);
+  return Math.abs(Math.round(diff));
+}
+
 function diff_hours(dt2: Date, dt1: Date) {
-  var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+  let diff = (dt2.getTime() - dt1.getTime()) / 1000;
   diff /= 60 * 60;
   return Math.abs(Math.round(diff));
 }
@@ -151,11 +160,18 @@ export const getReply = async (id: string) => {
 export const parseName = (str: string) => {
   let nameField = str.split('@');
   return nameField[0];
-}
-export const searchMyPosts = async(title: string,id: string | undefined,config: ConfigInterface) => {
-  return await axios.get(`${baseURL}/users/${id}/posts/search?title=${title}`,config)
-}
+};
+export const searchMyPosts = async (
+  title: string,
+  id: string | undefined,
+  config: ConfigInterface
+) => {
+  return await axios.get(
+    `${baseURL}/users/${id}/posts/search?title=${title}`,
+    config
+  );
+};
 
-export const PaginationforPosts = async(page: number,limit: number) => {
-  return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`)
-}
+export const PaginationforPosts = async (page: number, limit: number) => {
+  return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`);
+};

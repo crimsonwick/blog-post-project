@@ -1,5 +1,4 @@
-import React from "react";
-
+import React from 'react';
 
 export const flexContainer: React.CSSProperties | undefined = {
   display: 'flex',
@@ -7,16 +6,15 @@ export const flexContainer: React.CSSProperties | undefined = {
 };
 
 export const CardMediaStyle: React.CSSProperties | undefined = {
-    objectFit: 'fill',
-    width: '856px',
-    borderRadius: '5px',
-    margin: '10px 1px'
-  };
+  objectFit: 'contain',
+  width: '856px',
+  borderRadius: '5px',
+  margin: '10px 1px',
+};
 
 export const CardStyle: React.CSSProperties | undefined = {
-        marginTop: '20px',
-        marginBottom: '10px',
-        border: 'none',
-        boxShadow: 'none',
-}
-
+  marginTop: '20px',
+  marginBottom: '10px',
+  border: 'none',
+  boxShadow: 'none',
+};

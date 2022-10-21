@@ -14,6 +14,7 @@ import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
 import styles from '../styles/ChangePassword/ChangePassword.module.css';
+import '../styles/signup.css';
 YupPassword(yup);
 const schema = yup
   .object({
@@ -135,7 +136,7 @@ export const ChangePassword = () => {
             )}
           />
           {errors.password1 && (
-            <p className={styles.errorMsg}>{errors.password1.message}</p>
+            <p className='errorMsg'>{errors.password1.message}</p>
           )}
         </Box>
         <Box mt={2}>
@@ -177,7 +178,7 @@ export const ChangePassword = () => {
             )}
           />
           {errors.password2 && (
-            <p className={styles.errorMsg}>{errors.password2.message}</p>
+            <p className='errorMsg'>{errors.password2.message}</p>
           )}
         </Box>
         <Button
@@ -188,7 +189,7 @@ export const ChangePassword = () => {
           sx={{
             borderRadius: '25px',
             fontSize: '18px',
-            marginTop: '25px',
+            marginTop: '20px',
             height: '56px',
             textTransform: 'capitalize',
             fontWeight: 'bold',

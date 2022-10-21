@@ -3,6 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { AppContext } from '../App';
 import { AppContextInterface, UserInterface } from '../interface/App';
+import '../styles/dropzone.css';
 
 interface ColorInterface {
   isDragAccept: boolean;
@@ -27,6 +28,9 @@ const Container = styled.div`
   flex: 1;
   display: flex;
   width: 662px;
+  height: 161px;
+  font-family: Poppins;
+  align-text: centre;
   flex-direction: column;
   align-items: center;
   padding: 20px;
@@ -61,9 +65,11 @@ export const StyledDropZone = () => {
     <Container {...getRootProps()}>
       <input {...getInputProps()} type='file' name='file' accept='image/*' />
       {isDragActive ? (
-        <p>Drop the files here ...</p>
+        <p className='autoMargin'>Drop the files here ...</p>
       ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p className='autoMargin'>
+          Drag 'n' drop some files here, or click to select files
+        </p>
       )}
     </Container>
   );

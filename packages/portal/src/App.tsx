@@ -4,25 +4,31 @@ import { createContext, useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
-import {Protected} from './components/Protected';
-import { AppContextInterface, SearchDataInterface, SearchMyDataInterface, UserInterface } from './interface/App';
-import {AccountDetails} from './pages/AccountDetails';
-import {ArticleDetailPage} from './pages/ArticleDetailPage';
+import { Protected } from './components/Protected';
+import {
+  AppContextInterface,
+  SearchDataInterface,
+  SearchMyDataInterface,
+  UserInterface,
+} from './interface/App';
+import { AccountDetails } from './pages/AccountDetails';
+import { ArticleDetailPage } from './pages/ArticleDetailPage';
 import ChangePassword from './pages/ChangePassword';
 import CreateArticle from './pages/CreateArticle';
-import {Home} from './pages/LandingPage';
-import {Login} from './pages/Login';
-import {MyArticles} from './pages/MyArticles';
-import {Page404} from './pages/Page404';
-import {ResetPassword} from './pages/ResetPassword';
-import {Signup} from './pages/Signup';
+import { Home } from './pages/LandingPage';
+import { Login } from './pages/Login';
+import { MyArticles } from './pages/MyArticles';
+import { Page404 } from './pages/Page404';
+import { ResetPassword } from './pages/ResetPassword';
+import { Signup } from './pages/Signup';
 import { theme } from './themes/theme';
 
-export const AppContext = createContext<AppContextInterface<UserInterface> | null>(null);
+export const AppContext =
+  createContext<AppContextInterface<UserInterface> | null>(null);
 
 function App() {
   const [dp, setDp] = useState<string>('');
-  const [userData, setUserData] =useState<UserInterface>({});
+  const [userData, setUserData] = useState<UserInterface>({});
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -38,7 +44,6 @@ function App() {
       },
     });
   }, []);
-
 
   return (
     <AppContext.Provider
@@ -60,7 +65,7 @@ function App() {
         cursorPaginationLink,
         setCursorPaginationLink,
         postImage,
-        setPostImage
+        setPostImage,
       }}
     >
       <ThemeProvider theme={theme}>
@@ -76,53 +81,53 @@ function App() {
 
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/change-password" element={<ChangePassword />} />
+              <Route path='/' element={<Home />} />
+              <Route path='/signup' element={<Signup />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/reset-password' element={<ResetPassword />} />
+              <Route path='/change-password' element={<ChangePassword />} />
               <Route
-                path="/create-article"
+                path='/create-article'
                 element={
                   accessToken ? (
-                    <Protected Component={<CreateArticle/>} />
+                    <Protected Component={<CreateArticle />} />
                   ) : (
                     <Navigate replace to={'/login'} />
                   )
                 }
               />
               <Route
-                path="/my-articles"
+                path='/my-articles'
                 element={
                   accessToken ? (
-                    <Protected Component={<MyArticles/>}></Protected>
+                    <Protected Component={<MyArticles />}></Protected>
                   ) : (
                     <Navigate replace to={'/login'} />
                   )
                 }
               />
               <Route
-                path="/article-detail"
+                path='/article-detail'
                 element={
                   accessToken ? (
-                    <Protected Component={<ArticleDetailPage/>}></Protected>
+                    <Protected Component={<ArticleDetailPage />}></Protected>
                   ) : (
                     <Navigate replace to={'/login'} />
                   )
                 }
               />
               <Route
-                path="/account-details"
+                path='/account-details'
                 element={
                   accessToken ? (
-                    <Protected Component={<AccountDetails/>}></Protected>
+                    <Protected Component={<AccountDetails />}></Protected>
                   ) : (
                     <Navigate replace to={'/login'} />
                   )
                 }
               />
 
-              <Route path="*" element={<Page404 />} />
+              <Route path='*' element={<Page404 />} />
             </Routes>
           </BrowserRouter>
         </SnackbarProvider>

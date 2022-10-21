@@ -143,7 +143,7 @@ export const Signup = () => {
                 />
               )}
             />
-            <p className='errorMsg'>{errors.email?.message}</p>
+            <span className='errorMsg'>{errors.email?.message}</span>
           </Box>
           <FormLabel htmlFor='form-label-above' sx={{ fontFamily: 'Poppins' }}>
             Create a Password

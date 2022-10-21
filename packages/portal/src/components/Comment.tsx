@@ -12,10 +12,12 @@ import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import { CommentInterface } from '../services/CommentApi';
 import { getReply, parseName, parseTime } from '../services/LoginApi';
-import {AddComment} from './AddComment';
+import { AddComment } from './AddComment';
 
-interface CommentComponentInterface<C>{
-  object: C
+// import moment from 'moment';
+
+interface CommentComponentInterface<C> {
+  object: C;
 }
 
 export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
@@ -28,10 +30,9 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
   useEffect(() => {
     getReplies(props.object.id);
   }, [props]);
-  if(props.object.Commented_By === undefined){
-    return <h1>Not Working!!!</h1>
-  }
-  else{
+  if (props.object.Commented_By === undefined) {
+    return <h1>Not Working!!!</h1>;
+  } else {
     return (
       <Card
         elevation={0}
@@ -54,7 +55,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
                       ? require(`../images/${props.object.Commented_By.avatar}`)
                       : ''
                   }
-                  alt="user_dp"
+                  alt='user_dp'
                 />
               </ListItemIcon>
               <ListItemText sx={{ marginRight: '10px' }}>
@@ -71,7 +72,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
           {!replies
             ? reply.length > 0 && (
                 <Button
-                  variant="text"
+                  variant='text'
                   onClick={() => {
                     setReplies(!replies);
                   }}
@@ -82,7 +83,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
               )
             : reply.length > 0 && (
                 <Button
-                  variant="text"
+                  variant='text'
                   onClick={() => {
                     setReplies(!replies);
                   }}
@@ -97,11 +98,11 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
               })
             : null}
           <AddComment
-            width="550px"
+            width='550px'
             commentObject={props.object}
             refreshReplies={getReplies}
             Comment={false}
-            labelAbove="Add Reply"
+            labelAbove='Add Reply'
             placeholder={`Reply to ${parseName(
               props.object.Commented_By.email
             )}...`}
@@ -110,5 +111,4 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
       </Card>
     );
   }
-  
 };

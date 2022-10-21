@@ -12,6 +12,7 @@ import {
   LandingPageInterface,
   PostInterfaceForLandingPage,
 } from '../interface/LandingPage';
+import { Loader } from '../components/Loader';
 
 export const Home = () => {
   const context: AppContextInterface<UserInterface> | null =
@@ -62,7 +63,7 @@ export const Home = () => {
             dataLength={posts.Posts.length}
             next={fetchMore}
             hasMore={posts.totalPages >= page}
-            loader={<h4>Loading...</h4>}
+            loader={<Loader />}
           >
             <Box mt={5}>
               {posts.Posts.map((object, index) => {

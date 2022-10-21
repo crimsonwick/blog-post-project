@@ -12,13 +12,12 @@ import { Link } from 'react-router-dom';
 import { PostInterface } from '../interface/ArticleDetailPage';
 import { parseDate, parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
-import {flexContainer} from '../styles/Article/List';
+import { flexContainer } from '../styles/Article/List';
 
 export const ArticleCard = (props: PostInterface) => {
-  if(!props.object){
-    return <h1>Not Working!!</h1>
-  }
-  else{
+  if (!props.object) {
+    return <h1>Not Working!!</h1>;
+  } else {
     return (
       <Card
         elevation={0}
@@ -32,19 +31,19 @@ export const ArticleCard = (props: PostInterface) => {
       >
         <img
           src={require(`../images/${props.object.image}`)}
-          alt="user_image"
-          className="articleImg"
+          alt='user_image'
+          className='articleImg'
           style={{
             borderRadius: '5px',
             width: '300px',
             height: '250px',
-            objectFit: 'fill',
+            objectFit: 'contain',
             marginRight: '50px',
           }}
         />
         <Box mt={1}>
           <Chip
-            label="Travel"
+            label='Travel'
             sx={{
               borderRadius: '3px',
               backgroundColor: '#F2F8F7',
@@ -54,12 +53,12 @@ export const ArticleCard = (props: PostInterface) => {
             }}
           />
           <Link
-            to="/article-detail"
+            to='/article-detail'
             state={props}
             style={{ textDecoration: 'none', color: 'rgba(0,0,0,0.87)' }}
           >
             <Typography
-              variant="h1"
+              variant='h1'
               sx={{
                 fontFamily: 'Poppins',
                 fontWeight: '600',
@@ -75,7 +74,7 @@ export const ArticleCard = (props: PostInterface) => {
           </Link>
           <List style={flexContainer}>
             <ListItem
-              className="user"
+              className='user'
               disablePadding={true}
               sx={{
                 borderRight: '2px solid',
@@ -87,7 +86,7 @@ export const ArticleCard = (props: PostInterface) => {
             >
               <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
                 <Avatar
-                  alt="user display picture"
+                  alt='user display picture'
                   src={
                     props.object.Posted_By.avatar
                       ? require(`../images/${props.object.Posted_By.avatar}`)
@@ -99,7 +98,7 @@ export const ArticleCard = (props: PostInterface) => {
               <ListItemText primary={parseName(props.object.Posted_By.email)} />
             </ListItem>
             <ListItem
-              className="date"
+              className='date'
               disablePadding={true}
               sx={{
                 borderRight: '2px solid',
@@ -115,7 +114,7 @@ export const ArticleCard = (props: PostInterface) => {
               <ListItemText primary={parseDate(props.object.createdAt)} />
             </ListItem>
             <ListItem
-              className="timeToRead"
+              className='timeToRead'
               disablePadding={true}
               sx={{
                 marginRight: '10px',
@@ -126,11 +125,13 @@ export const ArticleCard = (props: PostInterface) => {
               <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
                 <QueryBuilderIcon />
               </ListItemIcon>
-              <ListItemText primary={`${props.object.timetoRead} Min. To Read`} />
+              <ListItemText
+                primary={`${props.object.timetoRead} Min. To Read`}
+              />
             </ListItem>
           </List>
           <Typography
-            variant="h6"
+            variant='h6'
             sx={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -145,4 +146,4 @@ export const ArticleCard = (props: PostInterface) => {
       </Card>
     );
   }
-}
+};

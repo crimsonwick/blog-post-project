@@ -148,12 +148,14 @@ export const Login = () => {
               sx={{
                 borderRadius: 18,
                 width: 550,
-                marginBottom: 2,
+                marginBottom: 0,
               }}
             />
           )}
         />
-        {errors.email && <p className='errorMsg'>{errors.email.message}</p>}
+        {errors.email && (
+          <span className='errorMsg'>{errors.email.message}</span>
+        )}
         <Box mt={2} />
         <FormLabel htmlFor='my-input'>Password</FormLabel>
         <Controller
@@ -175,6 +177,7 @@ export const Login = () => {
                 borderRadius: '25px',
                 fontFamily: 'Poppins',
                 width: '100%',
+                marginBottom: '0px',
               }}
               placeholder='Enter your password'
               endAdornment={
@@ -193,7 +196,7 @@ export const Login = () => {
           )}
         />
         {errors.password && (
-          <p className='errorMsg'>{errors.password.message}</p>
+          <span className='errorMsg'>{errors.password.message}</span>
         )}
         <Link to='/reset-password' style={{ color: 'black' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
@@ -211,7 +214,6 @@ export const Login = () => {
           sx={{
             borderRadius: '25px',
             fontSize: '18px',
-            marginTop: '25px',
             height: '56px',
             textTransform: 'capitalize',
             fontWeight: 'bold',
@@ -235,7 +237,6 @@ export const Login = () => {
             sx={{
               borderRadius: '25px',
               fontSize: '18px',
-              marginTop: '25px',
               height: '56px',
               textTransform: 'capitalize',
               fontWeight: 'bold',
