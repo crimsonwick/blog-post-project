@@ -133,16 +133,14 @@ export const ArticleCard = (props: PostInterface) => {
           <Typography
             variant='h6'
             sx={{
-              fontFamily: 'Poppins',
-              fontWeight: '600',
-              fontSize: '26px',
-              lineHeight: '140%',
-              marginTop: '10px',
-              width: '768px',
-              height: '38px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: '3',
+              WebkitBoxOrient: 'vertical',
             }}
           >
-            {props?.object?.title}
+            {props.object.body}
           </Typography>
         </Box>
       </Card>

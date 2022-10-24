@@ -53,8 +53,8 @@ export const Signup = () => {
       .string()
       .min(8)
       .max(20)
-      .minUppercase(1, 'Password must include atleast one upper-case letter')
-      .minSymbols(1, 'Password must include atleast one symbol')
+      .minUppercase(1, 'password must include atleast one upper-case letter')
+      .minSymbols(1, 'password must include atleast one symbol')
       .required(),
   });
 
@@ -122,70 +122,150 @@ export const Signup = () => {
           What's your email?
         </FormLabel>
         <Box component='form' onSubmit={handleSubmit(onSubmit)}>
-          <Box mb={2}>
-            <Controller
-              control={control}
-              name='email'
-              render={({ field }) => (
-                <OutlinedInput
-                  autoComplete='username'
-                  color={'secondary'}
-                  {...field}
-                  sx={{
-                    borderRadius: '25px',
-                    fontFamily: 'Poppins',
-                    width: '100%',
-                  }}
-                  placeholder='Enter your email address'
-                  endAdornment={
-                    <InputAdornment position='end'></InputAdornment>
-                  }
-                />
-              )}
-            />
-            <span className='errorMsg'>{errors.email?.message}</span>
-          </Box>
+          {errors.email ? (
+            <Box mb={2}>
+              <Controller
+                control={control}
+                name='email'
+                render={({ field }) => (
+                  <OutlinedInput
+                    error
+                    autoComplete='username'
+                    color={'secondary'}
+                    {...field}
+                    sx={{
+                      borderRadius: '25px',
+                      fontFamily: 'Poppins',
+                      width: '100%',
+                    }}
+                    placeholder='Enter your email address'
+                    endAdornment={
+                      <InputAdornment position='end'></InputAdornment>
+                    }
+                  />
+                )}
+              />
+              <span className='errorMsg'>{errors.email?.message}</span>
+            </Box>
+          ) : (
+            <Box mb={2}>
+              <Controller
+                control={control}
+                name='email'
+                render={({ field }) => (
+                  <OutlinedInput
+                    autoComplete='username'
+                    color={'secondary'}
+                    {...field}
+                    sx={{
+                      borderRadius: '25px',
+                      fontFamily: 'Poppins',
+                      width: '100%',
+                    }}
+                    placeholder='Enter your email address'
+                    endAdornment={
+                      <InputAdornment position='end'></InputAdornment>
+                    }
+                  />
+                )}
+              />
+            </Box>
+          )}
+
           <FormLabel htmlFor='form-label-above' sx={{ fontFamily: 'Poppins' }}>
             Create a Password
           </FormLabel>
-
-          <Controller
-            control={control}
-            name='password'
-            render={({ field }) => (
-              <OutlinedInput
-                autoComplete='new-password'
-                color={'secondary'}
-                type={values.showPassword ? 'text' : 'password'}
-                {...field}
-                sx={{
-                  borderRadius: '25px',
-                  fontFamily: 'Poppins',
-                  width: '100%',
-                }}
-                placeholder='Enter your password'
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      aria-label='toggle password visibility'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge='end'
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
+          {errors.password ? (
+            <Box>
+              <Controller
+                control={control}
+                name='password'
+                render={({ field }) => (
+                  <OutlinedInput
+                    error
+                    autoComplete='new-password'
+                    color={'secondary'}
+                    type={values.showPassword ? 'text' : 'password'}
+                    {...field}
+                    sx={{
+                      borderRadius: '25px',
+                      fontFamily: 'Poppins',
+                      width: '100%',
+                    }}
+                    placeholder='Enter your password'
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <IconButton
+                          aria-label='toggle password visibility'
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge='end'
+                        >
+                          {values.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                )}
               />
-            )}
-          />
-          <FormLabel
-            htmlFor='form-label-below'
-            sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
-          >
-            Use 8 or more characters with a mix of letters, numbers & symbols
-          </FormLabel>
-          <p className='errorMsg'>{errors.password?.message}</p>
+              <FormLabel
+                htmlFor='form-label-below'
+                sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
+              >
+                Use 8 or more characters with a mix of letters, numbers &
+                symbols
+              </FormLabel>
+              <p className='errorMsg'>{errors.password?.message}</p>
+            </Box>
+          ) : (
+            <Box>
+              <Controller
+                control={control}
+                name='password'
+                render={({ field }) => (
+                  <OutlinedInput
+                    autoComplete='new-password'
+                    color={'secondary'}
+                    type={values.showPassword ? 'text' : 'password'}
+                    {...field}
+                    sx={{
+                      borderRadius: '25px',
+                      fontFamily: 'Poppins',
+                      width: '100%',
+                    }}
+                    placeholder='Enter your password'
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <IconButton
+                          aria-label='toggle password visibility'
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge='end'
+                        >
+                          {values.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                )}
+              />
+              <FormLabel
+                htmlFor='form-label-below'
+                sx={{ fontFamily: 'Poppins', fontSize: '14px' }}
+              >
+                Use 8 or more characters with a mix of letters, numbers &
+                symbols
+              </FormLabel>
+            </Box>
+          )}
           <ThemeProvider theme={theme}>
             <Box mt={3}>
               <InputButton name='Create An Account' />

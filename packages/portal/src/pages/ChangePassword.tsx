@@ -23,16 +23,16 @@ const schema = yup
       .required()
       .min(8)
       .max(20)
-      .minUppercase(1, 'Password must include atleast one upper-case letter')
-      .minSymbols(1, 'Password must include atleast one symbol'),
+      .minUppercase(1, 'password must include atleast one upper-case letter')
+      .minSymbols(1, 'password must include atleast one symbol'),
     password2: yup
       .string()
       .required()
       .oneOf([yup.ref('password1'), null], 'Passwords must match')
       .min(8)
       .max(20)
-      .minUppercase(1, 'Password must include atleast one upper-case letter')
-      .minSymbols(1, 'Password must include atleast one symbol'),
+      .minUppercase(1, 'password must include atleast one upper-case letter')
+      .minSymbols(1, 'password must include atleast one symbol'),
   })
   .required();
 export const ChangePassword = () => {
@@ -101,86 +101,172 @@ export const ChangePassword = () => {
     <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
       <Header heading='Change Password' />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box mt={2}>
-          <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
-            Type new password
-          </FormLabel>
-          <Controller
-            control={control}
-            name='password1'
-            render={({ field }) => (
-              <OutlinedInput
-                autoComplete='new-password'
-                color={'secondary'}
-                type={values.showPassword ? 'text' : 'password'}
-                {...field}
-                sx={{
-                  borderRadius: '25px',
-                  fontFamily: 'Poppins',
-                  width: '100%',
-                }}
-                placeholder='Enter your password'
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      aria-label='toggle password visibility'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge='end'
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            )}
-          />
-          {errors.password1 && (
+        {errors.password1 ? (
+          <Box mt={2}>
+            <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
+              Type new password
+            </FormLabel>
+            <Controller
+              control={control}
+              name='password1'
+              render={({ field }) => (
+                <OutlinedInput
+                  error
+                  autoComplete='new-password'
+                  color={'secondary'}
+                  type={values.showPassword ? 'text' : 'password'}
+                  {...field}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                  }}
+                  placeholder='Enter your password'
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              )}
+            />
             <p className='errorMsg'>{errors.password1.message}</p>
-          )}
-        </Box>
+          </Box>
+        ) : (
+          <Box mt={2}>
+            <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
+              Type new password
+            </FormLabel>
+            <Controller
+              control={control}
+              name='password1'
+              render={({ field }) => (
+                <OutlinedInput
+                  autoComplete='new-password'
+                  color={'secondary'}
+                  type={values.showPassword ? 'text' : 'password'}
+                  {...field}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                  }}
+                  placeholder='Enter your password'
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              )}
+            />
+          </Box>
+        )}
+
         <Box mt={2}>
           <FormLabel sx={{ fontFamily: 'Poppins', fontSize: '14px' }}>
             Type new password again
           </FormLabel>
-          <Controller
-            control={control}
-            name='password2'
-            render={({ field }) => (
-              <OutlinedInput
-                autoComplete='new-password'
-                color={'secondary'}
-                type={values2.showPassword ? 'text' : 'password'}
-                {...field}
-                sx={{
-                  borderRadius: '25px',
-                  fontFamily: 'Poppins',
-                  width: '100%',
-                }}
-                placeholder='Enter your password'
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      aria-label='toggle password visibility'
-                      onClick={handleClickShowPassword2}
-                      onMouseDown={handleMouseDownPassword}
-                      edge='end'
-                    >
-                      {values2.showPassword ? (
-                        <VisibilityOff />
-                      ) : (
-                        <Visibility />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            )}
-          />
-          {errors.password2 && (
-            <p className='errorMsg'>{errors.password2.message}</p>
-          )}
         </Box>
+        {errors.password2 ? (
+          <Box>
+            <Controller
+              control={control}
+              name='password2'
+              render={({ field }) => (
+                <OutlinedInput
+                  error
+                  autoComplete='new-password'
+                  color={'secondary'}
+                  type={values2.showPassword ? 'text' : 'password'}
+                  {...field}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                  }}
+                  placeholder='Enter your password'
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword2}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {values2.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              )}
+            />
+            <p className='errorMsg'>{errors.password2.message}</p>
+          </Box>
+        ) : (
+          <Box>
+            <Controller
+              control={control}
+              name='password2'
+              render={({ field }) => (
+                <OutlinedInput
+                  autoComplete='new-password'
+                  color={'secondary'}
+                  type={values2.showPassword ? 'text' : 'password'}
+                  {...field}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                  }}
+                  placeholder='Enter your password'
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword2}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {values2.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              )}
+            />
+          </Box>
+        )}
         <Button
           type='submit'
           variant='contained'
@@ -195,7 +281,7 @@ export const ChangePassword = () => {
             fontWeight: 'bold',
           }}
         >
-          Save Changes
+          Submit
         </Button>
       </form>
     </Container>

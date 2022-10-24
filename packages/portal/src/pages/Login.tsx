@@ -36,8 +36,8 @@ const schema = yup
       .string()
       .min(8)
       .max(20)
-      .minUppercase(1, 'Password must include atleast one upper-case letter')
-      .minSymbols(1, 'Password must include atleast one symbol'),
+      .minUppercase(1, 'password must include atleast one upper-case letter')
+      .minSymbols(1, 'password must include atleast one symbol'),
   })
   .required();
 enum MessageActionKind {
@@ -126,78 +126,163 @@ export const Login = () => {
   };
   return (
     <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
-      <Header heading='Log In' />
+      <Box mb={4}>
+        <Header heading='Log In' />
+      </Box>
+      <FormLabel htmlFor='my-input'>Email address</FormLabel>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor='my-input'>Email address</FormLabel>{' '}
-        <Controller
-          control={control}
-          name='email'
-          rules={{ required: true }}
-          render={({
-            field: { onChange, onBlur, value, name, ref },
-            fieldState: { isTouched, isDirty, error },
-            formState,
-          }) => (
-            <OutlinedInput
-              placeholder='Enter your Email'
-              autoComplete='username'
-              color='secondary'
-              onBlur={onBlur} // notify when input is touched
-              onChange={onChange} // send value to hook form
-              inputRef={ref}
-              sx={{
-                borderRadius: 18,
-                width: 550,
-                marginBottom: 0,
-              }}
+        {errors.email ? (
+          <Box>
+            <Controller
+              control={control}
+              name='email'
+              rules={{ required: true }}
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
+                formState,
+              }) => (
+                <OutlinedInput
+                  error
+                  placeholder='Enter your Email'
+                  autoComplete='username'
+                  color='secondary'
+                  onBlur={onBlur} // notify when input is touched
+                  onChange={onChange} // send value to hook form
+                  inputRef={ref}
+                  sx={{
+                    borderRadius: 18,
+                    width: 550,
+                    marginBottom: 0,
+                  }}
+                />
+              )}
             />
-          )}
-        />
-        {errors.email && (
-          <span className='errorMsg'>{errors.email.message}</span>
-        )}
-        <Box mt={2} />
-        <FormLabel htmlFor='my-input'>Password</FormLabel>
-        <Controller
-          control={control}
-          name='password'
-          rules={{ required: true }}
-          render={({
-            field: { onChange, onBlur, value, name, ref },
-            fieldState: { isTouched, isDirty, error },
-            formState,
-          }) => (
-            <OutlinedInput
-              autoComplete='new-password'
-              onBlur={onBlur} // notify when input is touched
-              onChange={onChange} // send value to hook form
-              color={'secondary'}
-              type={values.showPassword ? 'text' : 'password'}
-              sx={{
-                borderRadius: '25px',
-                fontFamily: 'Poppins',
-                width: '100%',
-                marginBottom: '0px',
-              }}
-              placeholder='Enter your password'
-              endAdornment={
-                <InputAdornment position='end'>
-                  <IconButton
-                    aria-label='toggle password visibility'
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge='end'
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
+            <span className='errorMsg'>{errors.email.message}</span>
+          </Box>
+        ) : (
+          <Box>
+            <Controller
+              control={control}
+              name='email'
+              rules={{ required: true }}
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
+                formState,
+              }) => (
+                <OutlinedInput
+                  placeholder='Enter your Email'
+                  autoComplete='username'
+                  color='secondary'
+                  onBlur={onBlur} // notify when input is touched
+                  onChange={onChange} // send value to hook form
+                  inputRef={ref}
+                  sx={{
+                    borderRadius: 18,
+                    width: 550,
+                    marginBottom: 0,
+                  }}
+                />
+              )}
             />
-          )}
-        />
-        {errors.password && (
-          <span className='errorMsg'>{errors.password.message}</span>
+          </Box>
         )}
+
+        {errors.password ? (
+          <Box mt={2}>
+            <FormLabel htmlFor='my-input'>Password</FormLabel>
+            <Controller
+              control={control}
+              name='password'
+              rules={{ required: true }}
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
+                formState,
+              }) => (
+                <OutlinedInput
+                  error
+                  autoComplete='new-password'
+                  onBlur={onBlur} // notify when input is touched
+                  onChange={onChange} // send value to hook form
+                  color={'secondary'}
+                  type={values.showPassword ? 'text' : 'password'}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                    marginBottom: '0px',
+                  }}
+                  placeholder='Enter your password'
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              )}
+            />
+            <span className='errorMsg'>{errors.password.message}</span>
+          </Box>
+        ) : (
+          <Box mt={2}>
+            <FormLabel htmlFor='my-input'>Password</FormLabel>
+            <Controller
+              control={control}
+              name='password'
+              rules={{ required: true }}
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
+                formState,
+              }) => (
+                <OutlinedInput
+                  autoComplete='new-password'
+                  onBlur={onBlur} // notify when input is touched
+                  onChange={onChange} // send value to hook form
+                  color={'secondary'}
+                  type={values.showPassword ? 'text' : 'password'}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                    marginBottom: '0px',
+                  }}
+                  placeholder='Enter your password'
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              )}
+            />
+          </Box>
+        )}
+
         <Link to='/reset-password' style={{ color: 'black' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
