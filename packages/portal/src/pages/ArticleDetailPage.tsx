@@ -9,7 +9,7 @@ import { Comment } from '../components/Comment';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { AppContextInterface, UserInterface } from '../interface/App';
-import { PostInterface } from '../interface/ArticleDetailPage';
+import { PostInterface } from '../interface/App';
 import { CommentInterface } from '../services/CommentApi';
 import { getComments } from '../services/LoginApi';
 
@@ -37,14 +37,14 @@ export const ArticleDetailPage = () => {
           <ArticleDetail object={object} />
         </Box>
         <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-          <PostsHeader count={data.length} name="comments" textSize="24px" />
+          <PostsHeader count={data.length} name='comments' textSize='24px' />
         </Box>
         <Box>
           <AddComment
-            width="1000px"
+            width='1000px'
             postObject={object}
-            placeholder="Write a comment..."
-            labelAbove="Add Comment"
+            placeholder='Write a comment...'
+            labelAbove='Add Comment'
             refreshComment={allComments}
             Comment={true}
           />

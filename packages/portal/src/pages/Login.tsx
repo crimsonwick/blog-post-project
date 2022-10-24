@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { Box } from '@mui/system';
-import { default as React, useContext, useReducer } from 'react';
+import { default as React, useContext, useReducer, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -19,7 +19,7 @@ import YupPassword from 'yup-password';
 import { AppContext } from '../context/AppContext';
 import { Alerts } from '../components/Alerts';
 import { AppContextInterface, UserInterface } from '../interface/App';
-import { getLoginDetails, parseJwt } from '../services/LoginApi';
+import { getLoginDetails, parseJwt, refreshToken } from '../services/LoginApi';
 import styles from '../styles/Login/Login.module.css';
 import '../styles/signup.css';
 import { Header } from '../components/Header';
@@ -30,6 +30,7 @@ interface dataInterface {
   email: string;
   password: string;
 }
+
 const schema = yup
   .object({
     email: yup.string().email().required(),
@@ -37,8 +38,8 @@ const schema = yup
       .string()
       .min(8)
       .max(20)
-      .minUppercase(1, 'Password must include atleast one upper-case letter')
-      .minSymbols(1, 'Password must include atleast one symbol'),
+      .minUppercase(1, 'password must include atleast one upper-case letter')
+      .minSymbols(1, 'password must include atleast one symbol'),
   })
   .required();
 enum MessageActionKind {
@@ -64,6 +65,7 @@ const reducer = (state: StateInterface, action: MessageAction) => {
 };
 
 export const Login = () => {
+  const [checkBox, setCheckBox] = useState(false);
   const {
     control,
     handleSubmit,
@@ -82,7 +84,6 @@ export const Login = () => {
     Submitted: false,
     showMessage: false,
   });
-
   const navigate = useNavigate();
   const onSubmit = async (data: dataInterface) => {
     try {
@@ -104,6 +105,17 @@ export const Login = () => {
         context?.setUserData(parsetoken.user);
         localStorage.setItem('login', response.data.accessToken);
         localStorage.setItem('userDetails', JSON.stringify(parsetoken.user));
+        if (checkBox) {
+          const responseRefreshToken = response.data.refreshToken;
+          if (responseRefreshToken) {
+            const body = {
+              token: responseRefreshToken,
+            };
+            await refreshToken(body);
+            console.log('remembered me');
+          }
+        }
+
         if (state) {
           setTimeout(() => {
             navigate('/');
@@ -133,93 +145,182 @@ export const Login = () => {
     event.preventDefault();
   };
   return (
-    <Container maxWidth="sm" sx={{ marginTop: '10em' }}>
-      <Header heading="Log In" />
+    <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
+      <Box mb={4}>
+        <Header heading='Log In' />
+      </Box>
+      <FormLabel htmlFor='my-input'>Email address</FormLabel>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor="my-input">Email address</FormLabel>{' '}
-        <Controller
-          control={control}
-          name="email"
-          rules={{ required: true }}
-          render={({
-            field: { onChange, onBlur, value, name, ref },
-            fieldState: { isTouched, isDirty, error },
-            formState,
-          }) => (
-            <OutlinedInput
-              placeholder="Enter your Email"
-              autoComplete="username"
-              color="secondary"
-              onBlur={onBlur} // notify when input is touched
-              onChange={onChange} // send value to hook form
-              inputRef={ref}
-              sx={{
-                borderRadius: 18,
-                width: 550,
-                marginBottom: 2,
-              }}
+        {errors.email ? (
+          <Box>
+            <Controller
+              control={control}
+              name='email'
+              rules={{ required: true }}
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
+                formState,
+              }) => (
+                <OutlinedInput
+                  error
+                  placeholder='Enter your Email'
+                  autoComplete='username'
+                  color='secondary'
+                  onBlur={onBlur} // notify when input is touched
+                  onChange={onChange} // send value to hook form
+                  inputRef={ref}
+                  sx={{
+                    borderRadius: 18,
+                    width: 550,
+                    marginBottom: 0,
+                  }}
+                />
+              )}
             />
-          )}
-        />
-        {errors.email && <p className="errorMsg">{errors.email.message}</p>}
-        <Box mt={2} />
-        <FormLabel htmlFor="my-input">Password</FormLabel>
-        <Controller
-          control={control}
-          name="password"
-          rules={{ required: true }}
-          render={({
-            field: { onChange, onBlur, value, name, ref },
-            fieldState: { isTouched, isDirty, error },
-            formState,
-          }) => (
-            <OutlinedInput
-              autoComplete="new-password"
-              onBlur={onBlur} // notify when input is touched
-              onChange={onChange} // send value to hook form
-              color={'secondary'}
-              type={values.showPassword ? 'text' : 'password'}
-              sx={{
-                borderRadius: '25px',
-                fontFamily: 'Poppins',
-                width: '100%',
-              }}
-              placeholder="Enter your password"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
+            <span className='errorMsg'>{errors.email.message}</span>
+          </Box>
+        ) : (
+          <Box>
+            <Controller
+              control={control}
+              name='email'
+              rules={{ required: true }}
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
+                formState,
+              }) => (
+                <OutlinedInput
+                  placeholder='Enter your Email'
+                  autoComplete='username'
+                  color='secondary'
+                  onBlur={onBlur} // notify when input is touched
+                  onChange={onChange} // send value to hook form
+                  inputRef={ref}
+                  sx={{
+                    borderRadius: 18,
+                    width: 550,
+                  }}
+                />
+              )}
             />
-          )}
-        />
-        {errors.password && (
-          <p className="errorMsg">{errors.password.message}</p>
+          </Box>
         )}
-        <Link to="/reset-password" style={{ color: 'black' }}>
+
+        {errors.password ? (
+          <Box mt={2}>
+            <FormLabel htmlFor='my-input'>Password</FormLabel>
+            <Controller
+              control={control}
+              name='password'
+              rules={{ required: true }}
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
+                formState,
+              }) => (
+                <OutlinedInput
+                  error
+                  autoComplete='new-password'
+                  onBlur={onBlur} // notify when input is touched
+                  onChange={onChange} // send value to hook form
+                  color={'secondary'}
+                  type={values.showPassword ? 'text' : 'password'}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                    marginBottom: '0px',
+                  }}
+                  placeholder='Enter your password'
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              )}
+            />
+            <span className='errorMsg'>{errors.password.message}</span>
+          </Box>
+        ) : (
+          <Box mt={2}>
+            <FormLabel htmlFor='my-input'>Password</FormLabel>
+            <Controller
+              control={control}
+              name='password'
+              rules={{ required: true }}
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
+                formState,
+              }) => (
+                <OutlinedInput
+                  autoComplete='new-password'
+                  onBlur={onBlur} // notify when input is touched
+                  onChange={onChange} // send value to hook form
+                  color={'secondary'}
+                  type={values.showPassword ? 'text' : 'password'}
+                  sx={{
+                    borderRadius: '25px',
+                    fontFamily: 'Poppins',
+                    width: '100%',
+                    marginBottom: '0px',
+                  }}
+                  placeholder='Enter your password'
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              )}
+            />
+          </Box>
+        )}
+
+        <Link to='/reset-password' style={{ color: 'black' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
-          control={<Checkbox color="secondary" />}
-          label="Remember Me"
+          control={<Checkbox color='secondary' />}
+          label='Remember Me'
           sx={{ marginBottom: 2 }}
+          onChange={() => {
+            setCheckBox(!checkBox);
+          }}
         />
         <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
+          type='submit'
+          variant='contained'
+          color='secondary'
           fullWidth
           sx={{
             borderRadius: '25px',
             fontSize: '18px',
-            marginTop: '25px',
             height: '56px',
             textTransform: 'capitalize',
             fontWeight: 'bold',
@@ -235,15 +336,14 @@ export const Login = () => {
       <h3 className={styles.h3}>Don't have an account?</h3>
 
       <Box mb={2}>
-        <Link to="/signup" style={{ textDecoration: 'none', color: 'black' }}>
+        <Link to='/signup' style={{ textDecoration: 'none', color: 'black' }}>
           <Button
             fullWidth
-            variant="outlined"
-            color="secondary"
+            variant='outlined'
+            color='secondary'
             sx={{
               borderRadius: '25px',
               fontSize: '18px',
-              marginTop: '25px',
               height: '56px',
               textTransform: 'capitalize',
               fontWeight: 'bold',

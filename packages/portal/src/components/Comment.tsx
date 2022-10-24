@@ -14,6 +14,8 @@ import { CommentInterface } from '../services/CommentApi';
 import { getReply, parseName, parseTime } from '../services/LoginApi';
 import { AddComment } from './AddComment';
 
+// import moment from 'moment';
+
 interface CommentComponentInterface<C> {
   object: C;
 }
@@ -28,85 +30,85 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
   useEffect(() => {
     getReplies(props.object.id);
   }, [props]);
-  return (
-    <Card
-      elevation={0}
-      sx={{
-        borderRadius: '0px',
-        marginLeft: '20px',
-        marginTop: '10px',
-        borderLeft: '1px solid',
-        borderColor: 'black',
-        paddingLeft: '5px',
-      }}
-    >
-      <Box sx={{ display: 'flex', allignItems: 'left' }}>
-        <List>
-          <ListItem>
-            <ListItemIcon>
-              <Avatar
-                src={
-                  props?.object?.Commented_By?.avatar
-                    ? require(`../images/${props.object.Commented_By.avatar}`)
-                    : ''
-                }
-                alt="user_dp"
-              />
-            </ListItemIcon>
-            <ListItemText sx={{ marginRight: '10px' }}>
-              {parseName(
-                props?.object?.Commented_By?.email as unknown as string
+  if (props.object.Commented_By === undefined) {
+    return <h1>Not Working!!!</h1>;
+  } else {
+    return (
+      <Card
+        elevation={0}
+        sx={{
+          borderRadius: '0px',
+          marginLeft: '20px',
+          marginTop: '10px',
+          borderLeft: '1px solid',
+          borderColor: 'black',
+          paddingLeft: '5px',
+        }}
+      >
+        <Box sx={{ display: 'flex', allignItems: 'left' }}>
+          <List>
+            <ListItem>
+              <ListItemIcon>
+                <Avatar
+                  src={
+                    props.object.Commented_By.avatar
+                      ? require(`../images/${props.object.Commented_By.avatar}`)
+                      : ''
+                  }
+                  alt='user_dp'
+                />
+              </ListItemIcon>
+              <ListItemText sx={{ marginRight: '10px' }}>
+                {parseName(props.object.Commented_By.email)}
+              </ListItemText>
+              <ListItemText>{parseTime(props.object.createdAt)}</ListItemText>
+            </ListItem>
+          </List>
+        </Box>
+        <Box ml={2}>
+          <Typography sx={{ fontFamily: 'Poppins' }}>
+            {props.object.body}
+          </Typography>
+          {!replies
+            ? reply.length > 0 && (
+                <Button
+                  variant='text'
+                  onClick={() => {
+                    setReplies(!replies);
+                  }}
+                  sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
+                >
+                  Show Replies ({reply.length})
+                </Button>
+              )
+            : reply.length > 0 && (
+                <Button
+                  variant='text'
+                  onClick={() => {
+                    setReplies(!replies);
+                  }}
+                  sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
+                >
+                  Hide Replies ({reply.length})
+                </Button>
               )}
-            </ListItemText>
-            <ListItemText>
-              {parseTime(props.object.createdAt as unknown as string)}
-            </ListItemText>
-          </ListItem>
-        </List>
-      </Box>
-      <Box ml={2}>
-        <Typography sx={{ fontFamily: 'Poppins' }}>
-          {props.object.body}
-        </Typography>
-        {!replies
-          ? reply.length > 0 && (
-              <Button
-                variant="text"
-                onClick={() => {
-                  setReplies(!replies);
-                }}
-                sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
-              >
-                Show Replies ({reply.length})
-              </Button>
-            )
-          : reply.length > 0 && (
-              <Button
-                variant="text"
-                onClick={() => {
-                  setReplies(!replies);
-                }}
-                sx={{ color: '#00A1E7', fontFamily: 'Poppins' }}
-              >
-                Hide Replies ({reply.length})
-              </Button>
-            )}
-        {replies && reply.length > 0
-          ? reply.map((o) => {
-              return <Comment key={o.id} object={o} />;
-            })
-          : null}
-        <AddComment
-          width="550px"
-          commentObject={props.object}
-          refreshReplies={getReplies}
-          Comment={false}
-          labelAbove="Add Reply"
-          placeholder={`Reply to ${parseName(
-            props?.object?.Commented_By?.email as unknown as string
-          )}...`}
-        />
-      </Box>
-    </Card>
-  );
+          {replies && reply.length > 0
+            ? reply.map((o) => {
+                return <Comment key={o.id} object={o} />;
+              })
+            : null}
+          <AddComment
+            width='550px'
+            commentObject={props.object}
+            refreshReplies={getReplies}
+            Comment={false}
+            labelAbove='Add Reply'
+            placeholder={`Reply to ${parseName(
+              props.object.Commented_By.email
+            )}...`}
+          />
+        </Box>
+      </Card>
+    );
+  }
 };

@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import { Box } from '@mui/material';
 import FormLabel from '@mui/material/FormLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import axios from 'axios';
@@ -11,9 +12,7 @@ import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
-import '../styles/Login/Login.module.css';
 import '../styles/signup.css';
-import Divider from '@mui/material/Divider';
 YupPassword(yup);
 const schema = yup
   .object({
@@ -58,30 +57,42 @@ export const ResetPassword = () => {
       <Header heading='Reset Password' />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel htmlFor='my-input'>Email address</FormLabel>
-        <Controller
-          control={control}
-          name='email'
-          rules={{ required: true }}
-          render={({
-            field: { onChange, onBlur, value, name, ref },
-            fieldState: { isTouched, isDirty, error },
-            formState,
-          }) => (
-            <OutlinedInput
-              color='secondary'
-              onBlur={onBlur} // notify when input is touched
-              onChange={onChange} // send value to hook form
-              inputRef={ref}
-              sx={{
-                borderRadius: 18,
-                width: 550,
-                marginBottom: 2,
-              }}
+        {errors.email ? (
+          <Box>
+            <Controller
+              control={control}
+              name='email'
+              render={({ field }) => (
+                <OutlinedInput
+                  error
+                  color='secondary'
+                  {...field}
+                  sx={{
+                    borderRadius: 18,
+                    width: 550,
+                  }}
+                />
+              )}
             />
-          )}
-        />
-        {errors.email && (
-          <span className='errorMsg'>{errors.email.message}</span>
+            <span className='errorMsg'>{errors.email?.message}</span>
+          </Box>
+        ) : (
+          <Box>
+            <Controller
+              control={control}
+              name='email'
+              render={({ field }) => (
+                <OutlinedInput
+                  color='secondary'
+                  {...field}
+                  sx={{
+                    borderRadius: 18,
+                    width: 550,
+                  }}
+                />
+              )}
+            />
+          </Box>
         )}
         <Button
           type='submit'
@@ -89,7 +100,7 @@ export const ResetPassword = () => {
           color='secondary'
           fullWidth
           sx={{
-            marginTop: '10px',
+            marginTop: '15px',
             borderRadius: '25px',
             fontSize: '22px',
             textTransform: 'capitalize',

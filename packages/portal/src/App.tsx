@@ -6,7 +6,12 @@ import WebFont from 'webfontloader';
 import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
 import { Protected } from './components/Protected';
 import { AppContext } from './context/AppContext';
-import { AppContextInterface, UserInterface } from './interface/App';
+import {
+  AppContextInterface,
+  SearchDataInterface,
+  SearchMyDataInterface,
+  UserInterface,
+} from './interface/App';
 import { AccountDetails } from './pages/AccountDetails';
 import { ArticleDetailPage } from './pages/ArticleDetailPage';
 import ChangePassword from './pages/ChangePassword';
@@ -77,13 +82,13 @@ function App() {
 
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/reset-password' element={<ResetPassword />} />
+            <Route path='/change-password' element={<ChangePassword />} />
             <Route
-              path="/create-article"
+              path='/create-article'
               element={
                 context?.accessToken ? (
                   <Protected Component={<CreateArticle />} />
@@ -93,7 +98,7 @@ function App() {
               }
             />
             <Route
-              path="/my-articles"
+              path='/my-articles'
               element={
                 context?.accessToken ? (
                   <Protected Component={<MyArticles />}></Protected>
@@ -103,7 +108,7 @@ function App() {
               }
             />
             <Route
-              path="/article-detail"
+              path='/article-detail'
               element={
                 context?.accessToken ? (
                   <Protected Component={<ArticleDetailPage />}></Protected>
@@ -113,7 +118,7 @@ function App() {
               }
             />
             <Route
-              path="/account-details"
+              path='/account-details'
               element={
                 context?.accessToken ? (
                   <Protected Component={<AccountDetails />}></Protected>
@@ -123,7 +128,7 @@ function App() {
               }
             />
 
-            <Route path="*" element={<Page404 />} />
+            <Route path='*' element={<Page404 />} />
           </Routes>
         </BrowserRouter>
       </SnackbarProvider>

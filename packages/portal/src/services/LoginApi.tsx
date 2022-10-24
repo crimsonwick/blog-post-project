@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { UserInterface } from '../interface/App';
+import { PostsAdd } from '../interface/App';
 const baseURL: string = 'http://localhost:5000';
 
 interface LoginDetailInterface {
@@ -16,6 +18,10 @@ interface LogoutInterface {
   data?: {
     token?: string;
   };
+}
+
+interface RefreshToken {
+  token?: string;
 }
 
 export const getLoginDetails = async (object: LoginDetailInterface) => {
@@ -62,22 +68,37 @@ export const logout = async (body: LogoutInterface) => {
   return await axios.delete(`${baseURL}/users/logout`, body);
 };
 
+export const refreshToken = async (body: RefreshToken) => {
+  return await axios.post(`${baseURL}/users/refresh-access`, body);
+};
+
 export const parseTime = (str: string) => {
   let incomingDate = new Date(str);
   let currentDate = new Date();
 
   let diff = diff_hours(incomingDate, currentDate);
   if (diff > 24) {
-    let dayDiff = diff / 24;
-    dayDiff = dayDiff;
-    if (dayDiff === 1) return `${dayDiff} day ago`;
-    return `${dayDiff} days ago`;
+    let dayDiff = Math.trunc(diff / 24);
+    if (dayDiff === 1) return `${dayDiff}d ago`;
+    return `${dayDiff}d ago`;
   }
-  return `${diff}h ago`;
+  if (diff !== 0) return `${diff}h ago`;
+  let diffMins = diff_mins(incomingDate, currentDate);
+  return `${diffMins}m ago`;
 };
 
+function diff_mins(dt2: Date, dt1: Date) {
+  console.log('dt2.getTime()): ', dt2.getTime());
+  console.log('dt1.getTime()): ', dt1.getTime());
+  let diff = (dt2.getTime() - dt1.getTime()) / 1000;
+  console.log('diff: ', diff);
+  diff /= 60;
+  console.log('diff: ', diff);
+  return Math.abs(Math.round(diff));
+}
+
 function diff_hours(dt2: Date, dt1: Date) {
-  var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+  let diff = (dt2.getTime() - dt1.getTime()) / 1000;
   diff /= 60 * 60;
   return Math.abs(Math.round(diff));
 }

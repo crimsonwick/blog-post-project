@@ -2,14 +2,14 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import model from '../models';
+import { sendEmail } from '../utils/sendMail';
 
 import { ErrorHandling } from '../middleware/Errors.js';
-import sgMail from '@sendgrid/mail';
-
-const sendGridKey = process.env.SENDGRID_KEY;
-const resetSecret = process.env.RESET_PASSWORD_KEY;
 
 dotenv.config();
+
+const resetSecret = process.env.RESET_PASSWORD_KEY;
+
 const salt = bcrypt.genSaltSync(10);
 const { Users } = model;
 export let tokens = [];
@@ -81,7 +81,7 @@ export class UserController {
 
   token = (req, res) => {
     const refreshToken = req.body.token;
-    if (refreshToken == null) return res.sendStatus(401);
+    if (refreshToken == null) return res.sendStatus(404);
     if (!tokens.includes(refreshToken)) return res.sendStatus(403);
     jwt.verify(
       refreshToken,
@@ -142,25 +142,12 @@ export class UserController {
       await user.save();
 
       // we'll define this function below
-      this.sendEmail(user, resetLink);
+      sendEmail(user, resetLink);
       return res.status(200).json({ message: 'Check your email' });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
   };
-
-  sendEmail(user, token) {
-    sgMail.setApiKey(sendGridKey);
-
-    const msg = {
-      to: user.email,
-      from: 'talha.shakil@kwanso.com', // your email
-      subject: 'Reset password requested',
-      html: `<a href=${process.env.clientURL}/change-password?token=${token}>${token}</a>`,
-    };
-
-    sgMail.send(msg);
-  }
 
   ResetPassword = async (req, res) => {
     try {

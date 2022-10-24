@@ -1,16 +1,12 @@
-import { Divider, Typography } from '@mui/material';
+import { Divider, Typography } from '@mui/material'
+import { PostHeaderProps } from '../interface/App'
 
-interface PostHeaderProps {
-  textSize?: string;
-  count?: number;
-  name?: string;
-}
 export const PostsHeader = (props: PostHeaderProps) => {
-  const customSize = props.textSize;
+  const customSize = props.textSize
   return (
     <>
       <Typography
-        variant='h1'
+        variant="h1"
         sx={{
           fontFamily: 'Poppins',
           fontWeight: 'bold',
@@ -23,5 +19,5 @@ export const PostsHeader = (props: PostHeaderProps) => {
       </Typography>
       <Divider />
     </>
-  );
-};
+  )
+}

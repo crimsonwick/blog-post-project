@@ -3,18 +3,9 @@ import multer from 'multer';
 import { PostController } from '../controllers/Post.js';
 import { UserController } from '../controllers/User.js';
 import { Authentication } from '../middleware/Authentication.js';
+import { upload } from '../utils/multer.js';
 
 const router = express.Router();
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, '../portal/src/images');
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-const upload = multer({ storage: storage });
 
 class UserRouter {
   constructor() {}

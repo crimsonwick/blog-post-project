@@ -39,7 +39,7 @@ export const MyArticles = () => {
         <Navbar mainPage={false} isMyActive={true} />
       )}
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name="My Articles" />
+        <PostsHeader name='My Articles' />
         <Box mt={5}>
           {posts && context?.searchMyData?.length === 0
             ? posts.map((post, index) => {

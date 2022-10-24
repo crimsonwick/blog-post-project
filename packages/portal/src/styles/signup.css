@@ -1,4 +1,10 @@
 .errorMsg {
+    margin: 0;
+    padding: 0;
     font: 15px 'Poppins', sans-serif;
     color: red;
+}
+
+.Mui-error {
+    border-color: red;
 }
