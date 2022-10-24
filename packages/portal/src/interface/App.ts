@@ -83,34 +83,6 @@ export interface AppContextInterface<U> {
     logoutToken: () => void;
 }
 
-export interface FormDataInterface{
-    id: string | Blob,
-    email?: string,
-    password?: string,
-    avatar?: string | null;
-    resetLink?: string;
-    createdAt?: string;
-    updatedAt?: string;
-  dp: string
-  setDp: React.Dispatch<React.SetStateAction<string>>
-  setUserData: React.Dispatch<React.SetStateAction<U>>
-  userData: U
-  setAccessToken: React.Dispatch<React.SetStateAction<string | null>>
-  setRefreshToken: React.Dispatch<React.SetStateAction<string | null>>
-  accessToken: string | null
-  refreshToken: string | null
-  loggedIn: boolean | null
-  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
-  searchData: SearchDataInterface[] | undefined
-  setSearchData: React.Dispatch<React.SetStateAction<SearchDataInterface[]>>
-  searchMyData: SearchMyDataInterface[] | undefined
-  setSearchMyData: React.Dispatch<React.SetStateAction<SearchMyDataInterface[]>>
-  cursorPaginationLink: string
-  setCursorPaginationLink: React.Dispatch<React.SetStateAction<string>>
-  postImage: File | null | Blob
-  setPostImage: React.Dispatch<React.SetStateAction<File | null | Blob>>
-}
-
 export interface FormDataInterface {
   id: string | Blob
   email?: string

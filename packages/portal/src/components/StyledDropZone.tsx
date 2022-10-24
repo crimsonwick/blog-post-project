@@ -80,10 +80,9 @@ export const StyledDropZone = () => {
   });
 
   const removeFileList = myFile.map((file_) => (
-    // <li key={file_.path}>
-    //   {file_.path} - {file_.size} bytes{" "}
-    <button onClick={removeFile(file_)}>Remove File</button>
-    ///* </li> */}
+    <button key={file_.name} onClick={removeFile(file_)}>
+      Remove File
+    </button>
   ));
 
   const thumbs = myFile.map((file) => (
@@ -126,9 +125,14 @@ export const StyledDropZone = () => {
         {isDragActive ? (
           <p className='autoMargin'>Drop the file here ...</p>
         ) : (
-          <p className='autoMargin'>
-            Drag 'n' drop file here, or click to select file
-          </p>
+          <div className='autoMargin'>
+            <p className='autoMargin'>
+              Drag 'n' drop file here, or click to select file
+            </p>
+            <em className='autoMargin'>
+              (Only *.jpeg, *jpg and *.png images will be accepted)
+            </em>
+          </div>
         )}
       </Container>
 

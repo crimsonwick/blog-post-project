@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { UserInterface } from '../interface/App';
-import { PostsAdd } from '../interface/App';
 const baseURL: string = 'http://localhost:5000';
 
 interface LoginDetailInterface {
@@ -88,12 +86,8 @@ export const parseTime = (str: string) => {
 };
 
 function diff_mins(dt2: Date, dt1: Date) {
-  console.log('dt2.getTime()): ', dt2.getTime());
-  console.log('dt1.getTime()): ', dt1.getTime());
   let diff = (dt2.getTime() - dt1.getTime()) / 1000;
-  console.log('diff: ', diff);
   diff /= 60;
-  console.log('diff: ', diff);
   return Math.abs(Math.round(diff));
 }
 
