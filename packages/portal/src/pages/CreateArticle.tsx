@@ -1,31 +1,37 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, FormLabel, OutlinedInput } from '@mui/material';
-import Button from '@mui/material/Button';
-import { Container } from '@mui/system';
-import React, { useContext } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { AppContext } from '../App';
-import { Alerts } from '../components/Alerts';
-import { Navbar } from '../components/NavBar';
-import { PostsHeader } from '../components/PostsHeader';
-import { StyledDropZone } from '../components/StyledDropZone';
-import { AppContextInterface, UserInterface } from '../interface/App';
-import { addPost } from '../services/LoginApi';
-import styles from '../styles/CreateArticle/CreateArticle.module.css';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { Box, FormLabel, OutlinedInput } from "@mui/material";
+import Button from "@mui/material/Button";
+import { Container } from "@mui/system";
+import React, { useContext } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { AppContext } from "../App";
+import { Alerts } from "../components/Alerts";
+import { Navbar } from "../components/NavBar";
+import { PostsHeader } from "../components/PostsHeader";
+import { StyledDropZone } from "../components/StyledDropZone";
+import { AppContextInterface, UserInterface } from "../interface/App";
+import { addPost } from "../services/LoginApi";
+import styles from "../styles/CreateArticle/CreateArticle.module.css";
 
 interface dataInterface {
   title: string;
-  mins: number;
+  mins: number | null;
   body: string;
+  // file: string|null
 }
 
 const schema = yup
   .object({
     title: yup.string().required(),
-    mins: yup.number().typeError('Must be a number').required(),
+    mins: yup
+      .number()
+      .required("Minutes to read is required")
+      .typeError("Must be a number"),
     body: yup.string().required(),
+    // file: yup.mixed().required('File is required')
   })
   .required();
 
@@ -38,9 +44,10 @@ const CreateArticle = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: '',
-      body: '',
-      mins: 0,
+      title: "",
+      body: "",
+      mins: null,
+      file: null,
     },
     resolver: yupResolver(schema),
   });
@@ -51,25 +58,29 @@ const CreateArticle = () => {
     if (!context) {
       return <h1>Error</h1>;
     } else {
-      try {
-        let formData = new FormData();
-        formData.append('userId', context.userData.id as unknown as string);
-        formData.append('title', data.title);
-        formData.append('body', data.body);
-        formData.append('file', context.postImage as unknown as string);
-        formData.append('timetoRead', data.mins as unknown as Blob);
-        Alerts.success('Post Created successfully');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${context.accessToken}`,
-          },
-        };
-        await addPost(formData, config);
-        setTimeout(() => {
-          navigate('/my-articles');
-        }, 250);
-      } catch (err) {
-        Alerts.error('Something went Wrong');
+      if (context.postImage === null ) {
+        Alerts.error("add an image");
+      } else {
+        try {
+          let formData = new FormData();
+          formData.append("userId", context.userData.id as unknown as string);
+          formData.append("title", data.title);
+          formData.append("body", data.body);
+          formData.append("file", context.postImage as unknown as string);
+          formData.append("timetoRead", data.mins as unknown as Blob);
+          Alerts.success("Post Created successfully");
+          const config = {
+            headers: {
+              Authorization: `Bearer ${context.accessToken}`,
+            },
+          };
+          await addPost(formData, config);
+          setTimeout(() => {
+            navigate("/my-articles");
+          }, 250);
+        } catch (err) {
+          Alerts.error("Something went Wrong");
+        }
       }
     }
   };
@@ -78,15 +89,14 @@ const CreateArticle = () => {
     <>
       <Navbar login={true} />
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name='Create New Article' />
-        <Box component='form' onSubmit={handleSubmit(onSubmit)} mt={3}>
-          {/* <FormLabel>Give it a title </FormLabel> */}
+        <PostsHeader name="Create New Article" />
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} mt={3}>
           <label className={styles.poppins}>Give it a title</label>
 
           <br />
           <Controller
             control={control}
-            name='title'
+            name="title"
             rules={{ required: true }}
             render={({
               field: { onChange, onBlur, value, name, ref },
@@ -103,7 +113,7 @@ const CreateArticle = () => {
                   width: 700,
                   marginTop: 1,
                 }}
-                color='secondary'
+                color="secondary"
               />
             )}
           />
@@ -118,7 +128,7 @@ const CreateArticle = () => {
           <br />
           <Controller
             control={control}
-            name='mins'
+            name="mins"
             rules={{ required: true }}
             render={({
               field: { onChange, onBlur, value, name, ref },
@@ -135,7 +145,7 @@ const CreateArticle = () => {
                   width: 700,
                   marginTop: 1,
                 }}
-                color='secondary'
+                color="secondary"
               />
             )}
           />
@@ -152,7 +162,7 @@ const CreateArticle = () => {
 
           <Controller
             control={control}
-            name='body'
+            name="body"
             rules={{ required: true }}
             render={({
               field: { onChange, onBlur, value, name, ref },
@@ -172,7 +182,7 @@ const CreateArticle = () => {
                   width: 700,
                   marginTop: 1,
                 }}
-                color='secondary'
+                color="secondary"
               />
             )}
           />
@@ -184,20 +194,24 @@ const CreateArticle = () => {
 
           <Box mt={2} mb={4}>
             <StyledDropZone />
+            {/* {context && context.postImage && (
+              <span className={styles.errorMsg}>Image is required</span>
+            )} */}
           </Box>
+
           <Button
-            type='submit'
-            variant='contained'
-            color='secondary'
+            type="submit"
+            variant="contained"
+            color="secondary"
             fullWidth
             sx={{
-              borderRadius: '25px',
-              fontFamily: ['Poppins', 'serif'].join(','),
+              borderRadius: "25px",
+              fontFamily: ["Poppins", "serif"].join(","),
               fontSize: 18,
-              width: '705px',
-              height: '56px',
-              textTransform: 'capitalize',
-              fontWeight: 'bold',
+              width: "705px",
+              height: "56px",
+              textTransform: "capitalize",
+              fontWeight: "bold",
             }}
           >
             Publish Article

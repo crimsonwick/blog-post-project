@@ -47,7 +47,7 @@ interface MyFile {
 }
 
 export const StyledDropZone = () => {
-  const [myFile, setMyFile] = useState<MyFile[]>([]);
+  const [myFile, setMyFile] = useState<MyFile[] | null>([]);
 
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
@@ -68,7 +68,9 @@ export const StyledDropZone = () => {
   );
 
   const removeFile = (file: MyFile) => () => {
-    setMyFile([]);
+    setMyFile(null);
+    context?.setPostImage(null);
+
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -82,14 +84,14 @@ export const StyledDropZone = () => {
     },
   });
 
-  const removeFileList = myFile.map((file_) => (
+  const removeFileList = myFile && myFile.map((file_) => (
     // <li key={file_.path}>
     //   {file_.path} - {file_.size} bytes{" "}
     <button onClick={removeFile(file_)}>Remove File</button>
     ///* </li> */}
   ));
 
-  const thumbs = myFile.map((file) => (
+  const thumbs =myFile && myFile.map((file) => (
     <div
       key={file.name}
       className="thumb"
@@ -112,7 +114,9 @@ export const StyledDropZone = () => {
         <img
           src={file.preview}
           className="img"
-          style={{ display: "block", width: "auto", height: "100%" }}
+          style={{    display: 'block',
+          width: 'auto',
+          height: '100%'}}
           onLoad={() => {
             URL.revokeObjectURL(file.preview);
           }}
