@@ -105,6 +105,24 @@ export const AccountDetails = () => {
               />
             </Button>
 
+            <Button
+              variant="contained"
+              sx={{
+                borderRadius: "20px",
+                marginLeft: "10px",
+                width: "12%",
+                fontFamily: ["Poppins", "serif"].join(","),
+                fontSize: 18,
+                marginTop: "25px",
+                height: "56px",
+                textTransform: "capitalize",
+                fontWeight: "bold",
+              }}
+              type="submit"
+            >
+              Submit
+            </Button>
+
             <br />
             <br />
 
@@ -150,23 +168,7 @@ export const AccountDetails = () => {
             {image && <button onClick={removeFile()}>Remove File</button>}
 
             <br />
-            <Button
-              variant="contained"
-              sx={{
-                borderRadius: "20px",
-                marginLeft: "10px",
-                width: "12%",
-                fontFamily: ["Poppins", "serif"].join(","),
-                fontSize: 18,
-                marginTop: "25px",
-                height: "56px",
-                textTransform: "capitalize",
-                fontWeight: "bold",
-              }}
-              type="submit"
-            >
-              Submit
-            </Button>
+
           </Box>
         </Box>
       </Container>
