@@ -44,7 +44,7 @@ const Container = styled.div`
 `;
 
 export const StyledDropZone = () => {
-  const [myFile, setMyFile] = useState<MyFile[]>([]);
+  const [myFile, setMyFile] = useState<MyFile[] | null>([]);
 
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
@@ -65,7 +65,8 @@ export const StyledDropZone = () => {
   );
 
   const removeFile = (file: MyFile) => () => {
-    setMyFile([]);
+    setMyFile(null);
+    context?.setPostImage(null);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -85,38 +86,40 @@ export const StyledDropZone = () => {
     </button>
   ));
 
-  const thumbs = myFile.map((file) => (
-    <div
-      key={file.name}
-      className='thumb'
-      style={{
-        display: 'inline-flex',
-        borderRadius: 2,
-        border: '1px solid #eaeaea',
-        marginBottom: 8,
-        marginRight: 8,
-        width: 100,
-        height: 100,
-        padding: 4,
-        boxSizing: 'border-box',
-      }}
-    >
+  const thumbs =
+    myFile &&
+    myFile.map((file) => (
       <div
-        className='thumbInner'
-        style={{ display: 'flex', minWidth: 0, overflow: 'hidden' }}
+        key={file.name}
+        className='thumb'
+        style={{
+          display: 'inline-flex',
+          borderRadius: 2,
+          border: '1px solid #eaeaea',
+          marginBottom: 8,
+          marginRight: 8,
+          width: 100,
+          height: 100,
+          padding: 4,
+          boxSizing: 'border-box',
+        }}
       >
-        <img
-          src={file.preview}
-          className='img'
-          alt='no_preview_available'
-          style={{ display: 'block', width: 'auto', height: '100%' }}
-          onLoad={() => {
-            URL.revokeObjectURL(file.preview);
-          }}
-        />
+        <div
+          className='thumbInner'
+          style={{ display: 'flex', minWidth: 0, overflow: 'hidden' }}
+        >
+          <img
+            src={file.preview}
+            className='img'
+            alt='no_preview_available'
+            style={{ display: 'block', width: 'auto', height: '100%' }}
+            onLoad={() => {
+              URL.revokeObjectURL(file.preview);
+            }}
+          />
+        </div>
       </div>
-    </div>
-  ));
+    ));
 
   return (
     <div>

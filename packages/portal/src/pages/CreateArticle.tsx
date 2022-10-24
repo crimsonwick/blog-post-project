@@ -13,7 +13,6 @@ import { PostsHeader } from '../components/PostsHeader';
 import { StyledDropZone } from '../components/StyledDropZone';
 import { AppContextInterface, UserInterface } from '../interface/App';
 import { addPost } from '../services/LoginApi';
-import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import { dataInterface } from '../interface/App';
 import '../styles/signup.css';
 
@@ -22,6 +21,7 @@ const schema = yup
     title: yup.string().required(),
     mins: yup.number().positive().typeError('must be a number').required(),
     body: yup.string().required(),
+    // file: yup.mixed().required('File is required')
   })
   .required();
 
@@ -36,7 +36,8 @@ const CreateArticle = () => {
     defaultValues: {
       title: '',
       body: '',
-      mins: 0,
+      mins: null,
+      file: null,
     },
     resolver: yupResolver(schema),
   });
@@ -271,6 +272,7 @@ const CreateArticle = () => {
           <Box mt={2} mb={4}>
             <StyledDropZone />
           </Box>
+
           <Button
             type='submit'
             variant='contained'
