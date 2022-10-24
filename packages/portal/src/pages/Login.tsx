@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { Box } from '@mui/system';
-import { default as React, useContext, useReducer } from 'react';
+import { default as React, useContext, useReducer, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -19,7 +19,7 @@ import YupPassword from 'yup-password';
 import { AppContext } from '../App';
 import { Alerts } from '../components/Alerts';
 import { AppContextInterface, UserInterface } from '../interface/App';
-import { getLoginDetails, parseJwt } from '../services/LoginApi';
+import { getLoginDetails, parseJwt, refreshToken } from '../services/LoginApi';
 import styles from '../styles/Login/Login.module.css';
 import '../styles/signup.css';
 import { Header } from '../components/Header';
@@ -29,6 +29,7 @@ interface dataInterface {
   email: string;
   password: string;
 }
+
 const schema = yup
   .object({
     email: yup.string().email().required(),
@@ -63,6 +64,7 @@ const reducer = (state: StateInterface, action: MessageAction) => {
 };
 
 export const Login = () => {
+  const [checkBox, setCheckBox] = useState(false);
   const {
     control,
     handleSubmit,
@@ -81,7 +83,6 @@ export const Login = () => {
     Submitted: false,
     showMessage: false,
   });
-
   const navigate = useNavigate();
   const onSubmit = async (data: dataInterface) => {
     try {
@@ -96,6 +97,17 @@ export const Login = () => {
         const parsetoken = parseJwt(response.data.accessToken);
         context?.setUserData(parsetoken.user);
         localStorage.setItem('login', response.data.accessToken);
+        if (checkBox) {
+          const responseRefreshToken = response.data.refreshToken;
+          if (responseRefreshToken) {
+            const body = {
+              token: responseRefreshToken,
+            };
+            await refreshToken(body);
+            console.log('remembered me');
+          }
+        }
+
         if (state) {
           setTimeout(() => {
             navigate('/');
@@ -181,7 +193,6 @@ export const Login = () => {
                   sx={{
                     borderRadius: 18,
                     width: 550,
-                    marginBottom: 0,
                   }}
                 />
               )}
@@ -290,6 +301,9 @@ export const Login = () => {
           control={<Checkbox color='secondary' />}
           label='Remember Me'
           sx={{ marginBottom: 2 }}
+          onChange={() => {
+            setCheckBox(!checkBox);
+          }}
         />
         <Button
           type='submit'

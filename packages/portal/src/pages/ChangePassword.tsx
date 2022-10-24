@@ -28,7 +28,7 @@ const schema = yup
     password2: yup
       .string()
       .required()
-      .oneOf([yup.ref('password1'), null], 'Passwords must match')
+      .oneOf([yup.ref('password1'), null], 'passwords must match')
       .min(8)
       .max(20)
       .minUppercase(1, 'password must include atleast one upper-case letter')
@@ -281,7 +281,7 @@ export const ChangePassword = () => {
             fontWeight: 'bold',
           }}
         >
-          Submit
+          Save Changes
         </Button>
       </form>
     </Container>

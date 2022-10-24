@@ -20,6 +20,10 @@ interface LogoutInterface {
   };
 }
 
+interface RefreshToken {
+  token?: string;
+}
+
 export const getLoginDetails = async (object: LoginDetailInterface) => {
   return await axios.post(`${baseURL}/users/login`, object);
 };
@@ -62,6 +66,10 @@ export const allPostsComing = async () => {
 
 export const logout = async (body: LogoutInterface) => {
   return await axios.delete(`${baseURL}/users/logout`, body);
+};
+
+export const refreshToken = async (body: RefreshToken) => {
+  return await axios.post(`${baseURL}/users/refresh-access`, body);
 };
 
 export const parseTime = (str: string) => {

@@ -15,11 +15,12 @@ import { AppContextInterface, UserInterface } from '../interface/App';
 import { addPost } from '../services/LoginApi';
 import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import { dataInterface } from '../interface/App';
+import '../styles/signup.css';
 
 const schema = yup
   .object({
     title: yup.string().required(),
-    mins: yup.number().required(),
+    mins: yup.number().positive().typeError('must be a number').required(),
     body: yup.string().required(),
   })
   .required();
@@ -70,105 +71,201 @@ const CreateArticle = () => {
       <Navbar login={true} />
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name='Create New Article' />
-        <Box component='form' onSubmit={handleSubmit(onSubmit)} mt={3}>
-          <FormLabel>Give it a title </FormLabel>
-          <br />
-          <Controller
-            control={control}
-            name='title'
-            rules={{ required: true }}
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { isTouched, isDirty, error },
-              formState,
-            }) => (
-              <OutlinedInput
-                onBlur={onBlur} // notify when input is touched
-                onChange={onChange} // send value to hook form
-                inputRef={ref}
-                sx={{
-                  borderRadius: 5,
-                  marginBottom: 3,
-                  width: 700,
-                  marginTop: 1,
-                }}
-                color='secondary'
+        <Box mt={3}>
+          <FormLabel
+            htmlFor='form-label-above-title'
+            sx={{ fontFamily: 'Poppins' }}
+          >
+            Give it a title
+          </FormLabel>
+        </Box>
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+          {errors.title ? (
+            <Box>
+              <Controller
+                control={control}
+                name='title'
+                rules={{ required: true }}
+                render={({
+                  field: { onChange, onBlur, value, name, ref },
+                  fieldState: { isTouched, isDirty, error },
+                  formState,
+                }) => (
+                  <OutlinedInput
+                    error
+                    onBlur={onBlur} // notify when input is touched
+                    onChange={onChange} // send value to hook form
+                    inputRef={ref}
+                    sx={{
+                      borderRadius: 5,
+                      width: 700,
+                      marginTop: 1,
+                    }}
+                    color='secondary'
+                  />
+                )}
               />
-            )}
-          />
-          <br />
-          {errors.title && (
-            <span className={styles.errorMsg}>{errors.title.message}</span>
+              <p className='errorMsg'>{errors.title.message}</p>
+            </Box>
+          ) : (
+            <Box>
+              <Controller
+                control={control}
+                name='title'
+                rules={{ required: true }}
+                render={({
+                  field: { onChange, onBlur, value, name, ref },
+                  fieldState: { isTouched, isDirty, error },
+                  formState,
+                }) => (
+                  <OutlinedInput
+                    onBlur={onBlur} // notify when input is touched
+                    onChange={onChange} // send value to hook form
+                    inputRef={ref}
+                    sx={{
+                      borderRadius: 5,
+                      marginBottom: 2.8,
+                      width: 700,
+                      marginTop: 1,
+                    }}
+                    color='secondary'
+                  />
+                )}
+              />
+            </Box>
           )}
 
-          <br />
-
-          <label className={styles.poppins}>Min. to read it</label>
-          <br />
-          <Controller
-            control={control}
-            name='mins'
-            rules={{ required: true }}
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { isTouched, isDirty, error },
-              formState,
-            }) => (
-              <OutlinedInput
-                onBlur={onBlur} // notify when input is touched
-                onChange={onChange} // send value to hook form
-                inputRef={ref}
-                sx={{
-                  borderRadius: 5,
-                  marginBottom: 3,
-                  width: 700,
-                  marginTop: 1,
-                }}
-                color='secondary'
+          <Box mt={3}>
+            <FormLabel
+              htmlFor='form-label-above-title'
+              sx={{ fontFamily: 'Poppins' }}
+            >
+              Min. to read
+            </FormLabel>
+          </Box>
+          {errors.mins ? (
+            <Box>
+              <Controller
+                control={control}
+                name='mins'
+                rules={{ required: true }}
+                render={({
+                  field: { onChange, onBlur, value, name, ref },
+                  fieldState: { isTouched, isDirty, error },
+                  formState,
+                }) => (
+                  <OutlinedInput
+                    error
+                    onBlur={onBlur} // notify when input is touched
+                    onChange={onChange} // send value to hook form
+                    inputRef={ref}
+                    sx={{
+                      borderRadius: 5,
+                      width: 700,
+                      marginTop: 1,
+                    }}
+                    color='secondary'
+                  />
+                )}
               />
-            )}
-          />
-          <br />
-          {errors.mins && (
-            <span className={styles.errorMsg}>{errors.mins.message}</span>
+              <p className='errorMsg'> {errors.mins.message}</p>
+            </Box>
+          ) : (
+            <Box>
+              <Controller
+                control={control}
+                name='mins'
+                rules={{ required: true }}
+                render={({
+                  field: { onChange, onBlur, value, name, ref },
+                  fieldState: { isTouched, isDirty, error },
+                  formState,
+                }) => (
+                  <OutlinedInput
+                    onBlur={onBlur} // notify when input is touched
+                    onChange={onChange} // send value to hook form
+                    inputRef={ref}
+                    sx={{
+                      borderRadius: 5,
+                      width: 700,
+                      marginBottom: 2.8,
+                      marginTop: 1,
+                    }}
+                    color='secondary'
+                  />
+                )}
+              />
+            </Box>
           )}
 
-          <br />
-          <br />
+          <Box mt={3}>
+            <FormLabel
+              htmlFor='form-label-above-title'
+              sx={{ fontFamily: 'Poppins' }}
+            >
+              Write something about it
+            </FormLabel>
+          </Box>
 
-          <label className={styles.poppins}>Write something about it</label>
-          <br />
-
-          <Controller
-            control={control}
-            name='body'
-            rules={{ required: true }}
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { isTouched, isDirty, error },
-              formState,
-            }) => (
-              <OutlinedInput
-                onBlur={onBlur} // notify when input is touched
-                onChange={onChange} // send value to hook form
-                inputRef={ref}
-                multiline
-                minRows={7}
-                maxRows={7}
-                sx={{
-                  borderRadius: 5,
-                  marginBottom: 3,
-                  width: 700,
-                  marginTop: 1,
-                }}
-                color='secondary'
+          {errors.body ? (
+            <Box>
+              <Controller
+                control={control}
+                name='body'
+                rules={{ required: true }}
+                render={({
+                  field: { onChange, onBlur, value, name, ref },
+                  fieldState: { isTouched, isDirty, error },
+                  formState,
+                }) => (
+                  <OutlinedInput
+                    error
+                    onBlur={onBlur} // notify when input is touched
+                    onChange={onChange} // send value to hook form
+                    inputRef={ref}
+                    multiline
+                    minRows={7}
+                    maxRows={7}
+                    sx={{
+                      borderRadius: 5,
+                      width: 700,
+                      marginTop: 1,
+                    }}
+                    color='secondary'
+                  />
+                )}
               />
-            )}
-          />
-
-          <br />
-          {errors.body && (
-            <span className={styles.errorMsg}>{errors.body.message}</span>
+              <p className='errorMsg'>{errors.body.message}</p>
+            </Box>
+          ) : (
+            <Box>
+              <Controller
+                control={control}
+                name='body'
+                rules={{ required: true }}
+                render={({
+                  field: { onChange, onBlur, value, name, ref },
+                  fieldState: { isTouched, isDirty, error },
+                  formState,
+                }) => (
+                  <OutlinedInput
+                    onBlur={onBlur} // notify when input is touched
+                    onChange={onChange} // send value to hook form
+                    inputRef={ref}
+                    multiline
+                    minRows={7}
+                    maxRows={7}
+                    sx={{
+                      borderRadius: 5,
+                      marginBottom: 2.8,
+                      width: 700,
+                      marginTop: 1,
+                    }}
+                    color='secondary'
+                  />
+                )}
+              />
+            </Box>
           )}
 
           <Box mt={2} mb={4}>
