@@ -160,7 +160,9 @@ export class PostController {
         const myPosts = await client.search(query);
         if (!myPosts) return res.json(`You haven't Posted Anything!!`);
         else {
-          const filtered = myPosts.body.hits.hits;
+          const filtered = myPosts.body.hits.hits.filter((o) =>
+            o._source.title.includes(req.query.title)
+          );
           return res.json(filtered);
         }
       }

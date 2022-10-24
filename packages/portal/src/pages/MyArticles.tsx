@@ -49,28 +49,25 @@ export const MyArticles = () => {
       )}
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name="My Articles" />
-        <Box mt={5}>
-          {posts && context?.searchMyData?.length === 0 ? (
-            <Box mt={5}>
-              {posts.map((post, index) => {
-                if (posts.length === index + 1) {
-                  return (
-                    <ArticleCard ref={lastPost} object={post} key={index} />
-                  );
-                }
-                return <ArticleCard object={post} key={index} />;
-              })}
-              <Typography>{loading && 'Loading...'}</Typography>
-              <Typography>{error && 'Error'}</Typography>
-            </Box>
-          ) : (
-            context?.searchMyData?.map((object) => {
-              return (
-                <ArticleCard key={object._source.id} object={object._source} />
-              );
-            })
-          )}
-        </Box>
+
+        {posts && context?.searchMyData?.length === 0 ? (
+          <Box mt={5}>
+            {posts.map((post, index) => {
+              if (posts.length === index + 1) {
+                return <ArticleCard ref={lastPost} object={post} key={index} />;
+              }
+              return <ArticleCard object={post} key={index} />;
+            })}
+            <Typography>{loading && 'Loading...'}</Typography>
+            <Typography>{error && 'Error'}</Typography>
+          </Box>
+        ) : (
+          context?.searchMyData?.map((object) => {
+            return (
+              <ArticleCard key={object._source.id} object={object._source} />
+            );
+          })
+        )}
       </Container>
     </>
   );

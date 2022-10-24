@@ -9,10 +9,10 @@ const useInfiniteScrollOnMyArticles = (
   id: string,
   headers: ConfigInterface
 ) => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [posts, setPosts] = useState<PostInterface[]>([]);
-  const [hasMore, setHasMore] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState(false);
   const cursor = useRef<any>();
 
   useEffect(() => {
