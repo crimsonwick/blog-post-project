@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserInterface } from '../interface/App';
 
 interface ColorInterface {
@@ -59,7 +59,7 @@ export const StyledDropZone = () => {
 
   return (
     <Container {...getRootProps()}>
-      <input {...getInputProps()} type='file' name='file' accept='image/*' />
+      <input {...getInputProps()} type="file" name="file" accept="image/*" />
       {isDragActive ? (
         <p>Drop the files here ...</p>
       ) : (

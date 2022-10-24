@@ -16,25 +16,28 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-class UserRouter{
-  constructor(){
+class UserRouter {
+  constructor() {}
 
-  }
-
-  checkRequests(){
+  checkRequests() {
     const UserObject = new UserController();
     const PostObject = new PostController();
-    router.get('/refresh-access', UserObject.token);
+    router.post('/refresh-access', UserObject.token);
     router.post('/forget-password', UserObject.ForgetPassword);
     router.put('/reset-password', UserObject.ResetPassword);
-    router.put('/:userId', Authentication, upload.single('file'), UserObject.UpdateUserAvatar);
+    router.put(
+      '/:userId',
+      Authentication,
+      upload.single('file'),
+      UserObject.UpdateUserAvatar
+    );
     router.post('/signup', UserObject.SignUp);
     router.post('/login', UserObject.Login);
     router.delete('/logout', UserObject.Logout);
     router.put('/:id/post/:pid', Authentication, PostObject.updatePosts);
     router.delete('/:id/post/:pid', Authentication, PostObject.deletePosts);
-    router.get('/:id/posts',Authentication,PostObject.myPosts);
-    router.get('/:id/posts/search',Authentication,PostObject.searchMyPost);
+    router.get('/:id/posts', Authentication, PostObject.myPosts);
+    router.get('/:id/posts/search', Authentication, PostObject.searchMyPost);
   }
 }
 

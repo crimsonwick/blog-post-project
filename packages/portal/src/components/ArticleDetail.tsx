@@ -6,7 +6,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import React, { useContext } from 'react';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserInterface } from '../interface/App';
 import { PostInterface } from '../interface/ArticleDetailPage';
 import { parseName } from '../services/LoginApi';

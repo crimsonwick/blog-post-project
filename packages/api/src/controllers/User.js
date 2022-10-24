@@ -15,10 +15,8 @@ const { Users } = model;
 export let tokens = [];
 
 export class UserController {
-  constructor(){
+  constructor() {}
 
-  }
-  
   SignUp = async (req, res) => {
     const { email, password, avatar } = req.body;
     const hasedPassword = bcrypt.hashSync(password, salt);
@@ -42,8 +40,8 @@ export class UserController {
       console.log(error);
     }
   };
-  
-    Login = async (req, res) => {
+
+  Login = async (req, res) => {
     const { email, password } = req.body;
     try {
       const user = await Users.findOne({
@@ -74,33 +72,37 @@ export class UserController {
       ErrorHandling(err, 500);
     }
   };
-  
-    generateAccessToken = (user) => {
+
+  generateAccessToken = (user) => {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: process.env.EXPIRES_IN,
     });
   };
-  
-    token = (req, res) => {
+
+  token = (req, res) => {
     const refreshToken = req.body.token;
     if (refreshToken == null) return res.sendStatus(401);
     if (!tokens.includes(refreshToken)) return res.sendStatus(403);
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
-      if (error) return res.sendStatus(403);
-      const accessToken = this.generateAccessToken({
-        email: user.email,
-        password: user.password,
-      });
-      res.json({ accessToken: accessToken });
-    });
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      (error, user) => {
+        if (error) return res.sendStatus(403);
+        const accessToken = this.generateAccessToken({
+          email: user.email,
+          password: user.password,
+        });
+        res.json({ accessToken: accessToken });
+      }
+    );
   };
-  
-    Logout = async (req, res) => {
+
+  Logout = async (req, res) => {
     tokens = tokens.filter((token) => token !== req.body.token);
     return res.sendStatus(204);
   };
-  
-    UpdateUserAvatar = async (req, res) => {
+
+  UpdateUserAvatar = async (req, res) => {
     const userId = req.params.userId;
     let image;
     if (req.file) {
@@ -108,7 +110,7 @@ export class UserController {
     } else {
       return res.sendStatus(404);
     }
-  
+
     try {
       const user = await Users.findOne({ where: { id: userId } });
       user.avatar = image;
@@ -119,10 +121,10 @@ export class UserController {
       res.sendStatus(500);
     }
   };
-  
-    ForgetPassword = async (req, res) => {
+
+  ForgetPassword = async (req, res) => {
     const { email } = req.body;
-  
+
     try {
       // look for email in database
       const user = await Users.findOne({
@@ -138,7 +140,7 @@ export class UserController {
       });
       user.resetLink = resetLink;
       await user.save();
-  
+
       // we'll define this function below
       this.sendEmail(user, resetLink);
       return res.status(200).json({ message: 'Check your email' });
@@ -146,41 +148,40 @@ export class UserController {
       return res.status(500).json({ message: error.message });
     }
   };
-  
-   sendEmail(user, token) {
+
+  sendEmail(user, token) {
     sgMail.setApiKey(sendGridKey);
-  
+
     const msg = {
       to: user.email,
       from: 'talha.shakil@kwanso.com', // your email
       subject: 'Reset password requested',
       html: `<a href=${process.env.clientURL}/change-password?token=${token}>${token}</a>`,
     };
-  
+
     sgMail.send(msg);
   }
-  
-    ResetPassword = async (req, res) => {
+
+  ResetPassword = async (req, res) => {
     try {
-  
       const { token } = req.query;
       // Get the token from params
       const { password1, password2 } = req.body;
       const resetLink = token;
-  
+
       const user = await Users.findOne({
         where: {
           resetLink,
         },
       });
-  
+
       // if there is no user, send back an error
       if (!user) {
         return res
           .status(400)
           .json({ message: 'We could not find a match for this link' });
       }
-  
+
       jwt.verify(token, resetSecret, (error) => {
         if (error) {
           return res.status(400).json({ message: 'token is invalid' });
@@ -193,12 +194,9 @@ export class UserController {
         user.resetLink = null;
         await user.save();
         return res.status(200).json({ message: 'Password updated' });
-  
       }
     } catch (error) {
-  
       res.status(500).json({ message: error.message });
     }
-  }
-  
+  };
 }

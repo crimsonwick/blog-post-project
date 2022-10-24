@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { UserInterface } from '../interface/App';
-import { PostsAdd } from '../interface/ArticleDetailPage';
 const baseURL: string = 'http://localhost:5000';
 
 interface LoginDetailInterface {
@@ -8,16 +6,16 @@ interface LoginDetailInterface {
   password?: string;
 }
 
-interface ConfigInterface{
+interface ConfigInterface {
   headers?: {
-    Authorization?: string
-  }
+    Authorization?: string;
+  };
 }
 
-interface LogoutInterface{
+interface LogoutInterface {
   data?: {
     token?: string;
-  }
+  };
 }
 
 export const getLoginDetails = async (object: LoginDetailInterface) => {
@@ -52,8 +50,8 @@ export const addPost = async (object: FormData, config: ConfigInterface) => {
   return await axios.post(`${baseURL}/posts`, object, config);
 };
 
-export const gettingPosts = async (config: ConfigInterface, userId: string) => {
-  return await axios.get(`${baseURL}/users/${userId}/posts`, config);
+export const gettingPosts = async (config: ConfigInterface, id: string) => {
+  return await axios.get(`${baseURL}/users/${id}/posts`, config);
 };
 
 export const allPostsComing = async () => {
@@ -151,11 +149,18 @@ export const getReply = async (id: string) => {
 export const parseName = (str: string) => {
   let nameField = str.split('@');
   return nameField[0];
-}
-export const searchMyPosts = async(title: string,id: string | undefined,config: ConfigInterface) => {
-  return await axios.get(`${baseURL}/users/${id}/posts/search?title=${title}`,config)
-}
+};
+export const searchMyPosts = async (
+  title: string,
+  id: string,
+  config: ConfigInterface
+) => {
+  return await axios.get(
+    `${baseURL}/users/${id}/posts/search?title=${title}`,
+    config
+  );
+};
 
-export const PaginationforPosts = async(page: number,limit: number) => {
-  return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`)
-}
+export const PaginationforPosts = async (page: number, limit: number) => {
+  return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`);
+};

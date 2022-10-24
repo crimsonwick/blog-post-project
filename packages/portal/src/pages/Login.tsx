@@ -16,13 +16,14 @@ import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { Alerts } from '../components/Alerts';
 import { AppContextInterface, UserInterface } from '../interface/App';
 import { getLoginDetails, parseJwt } from '../services/LoginApi';
 import styles from '../styles/Login/Login.module.css';
 import '../styles/signup.css';
 import { Header } from '../components/Header';
+
 YupPassword(yup);
 
 interface dataInterface {
@@ -90,12 +91,19 @@ export const Login = () => {
       if (response.data.accessToken) {
         dispatch({ type: MessageActionKind.SUCCESS });
         Alerts.success('Logged In Successfully');
-        context?.setAccessToken(response.data.accessToken);
-        context?.setRefreshToken(response.data.refreshToken);
+        context?.setLoginToken(
+          response.data.accessToken,
+          response.data.refreshToken
+        );
+        context?.setAccessToken(localStorage.getItem('accessToken'));
+        context?.setRefreshToken(localStorage.getItem('refreshToken'));
         context?.setLoggedIn(true);
-        const parsetoken = parseJwt(response.data.accessToken);
+        const parsetoken = parseJwt(
+          localStorage.getItem('accessToken') as unknown as string
+        );
         context?.setUserData(parsetoken.user);
         localStorage.setItem('login', response.data.accessToken);
+        localStorage.setItem('userDetails', JSON.stringify(parsetoken.user));
         if (state) {
           setTimeout(() => {
             navigate('/');
@@ -125,13 +133,13 @@ export const Login = () => {
     event.preventDefault();
   };
   return (
-    <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
-      <Header heading='Log In' />
+    <Container maxWidth="sm" sx={{ marginTop: '10em' }}>
+      <Header heading="Log In" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor='my-input'>Email address</FormLabel>{' '}
+        <FormLabel htmlFor="my-input">Email address</FormLabel>{' '}
         <Controller
           control={control}
-          name='email'
+          name="email"
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
@@ -139,9 +147,9 @@ export const Login = () => {
             formState,
           }) => (
             <OutlinedInput
-              placeholder='Enter your Email'
-              autoComplete='username'
-              color='secondary'
+              placeholder="Enter your Email"
+              autoComplete="username"
+              color="secondary"
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
               inputRef={ref}
@@ -153,12 +161,12 @@ export const Login = () => {
             />
           )}
         />
-        {errors.email && <p className='errorMsg'>{errors.email.message}</p>}
+        {errors.email && <p className="errorMsg">{errors.email.message}</p>}
         <Box mt={2} />
-        <FormLabel htmlFor='my-input'>Password</FormLabel>
+        <FormLabel htmlFor="my-input">Password</FormLabel>
         <Controller
           control={control}
-          name='password'
+          name="password"
           rules={{ required: true }}
           render={({
             field: { onChange, onBlur, value, name, ref },
@@ -166,7 +174,7 @@ export const Login = () => {
             formState,
           }) => (
             <OutlinedInput
-              autoComplete='new-password'
+              autoComplete="new-password"
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
               color={'secondary'}
@@ -176,14 +184,14 @@ export const Login = () => {
                 fontFamily: 'Poppins',
                 width: '100%',
               }}
-              placeholder='Enter your password'
+              placeholder="Enter your password"
               endAdornment={
-                <InputAdornment position='end'>
+                <InputAdornment position="end">
                   <IconButton
-                    aria-label='toggle password visibility'
+                    aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
-                    edge='end'
+                    edge="end"
                   >
                     {values.showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -193,20 +201,20 @@ export const Login = () => {
           )}
         />
         {errors.password && (
-          <p className='errorMsg'>{errors.password.message}</p>
+          <p className="errorMsg">{errors.password.message}</p>
         )}
-        <Link to='/reset-password' style={{ color: 'black' }}>
+        <Link to="/reset-password" style={{ color: 'black' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
-          control={<Checkbox color='secondary' />}
-          label='Remember Me'
+          control={<Checkbox color="secondary" />}
+          label="Remember Me"
           sx={{ marginBottom: 2 }}
         />
         <Button
-          type='submit'
-          variant='contained'
-          color='secondary'
+          type="submit"
+          variant="contained"
+          color="secondary"
           fullWidth
           sx={{
             borderRadius: '25px',
@@ -227,11 +235,11 @@ export const Login = () => {
       <h3 className={styles.h3}>Don't have an account?</h3>
 
       <Box mb={2}>
-        <Link to='/signup' style={{ textDecoration: 'none', color: 'black' }}>
+        <Link to="/signup" style={{ textDecoration: 'none', color: 'black' }}>
           <Button
             fullWidth
-            variant='outlined'
-            color='secondary'
+            variant="outlined"
+            color="secondary"
             sx={{
               borderRadius: '25px',
               fontSize: '18px',

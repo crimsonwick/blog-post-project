@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 import { useContext } from 'react';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserInterface } from '../interface/App';
 
 function createData(

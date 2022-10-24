@@ -1,3 +1,4 @@
+import React from "react";
 export interface ImageInterface{
     preview: string | React.FormEvent<HTMLInputElement>;
     data: File | string;

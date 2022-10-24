@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { Container } from '@mui/system';
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { AddComment } from '../components/AddComment';
 import { ArticleDetail } from '../components/ArticleDetail';
 import { Comment } from '../components/Comment';
@@ -37,14 +37,14 @@ export const ArticleDetailPage = () => {
           <ArticleDetail object={object} />
         </Box>
         <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-          <PostsHeader count={data.length} name='comments' textSize='24px' />
+          <PostsHeader count={data.length} name="comments" textSize="24px" />
         </Box>
         <Box>
           <AddComment
-            width='1000px'
+            width="1000px"
             postObject={object}
-            placeholder='Write a comment...'
-            labelAbove='Add Comment'
+            placeholder="Write a comment..."
+            labelAbove="Add Comment"
             refreshComment={allComments}
             Comment={true}
           />

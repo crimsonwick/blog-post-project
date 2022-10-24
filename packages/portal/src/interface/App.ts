@@ -1,4 +1,6 @@
+import { AxiosResponse } from "axios";
 import React from "react";
+import { bodyInterface } from "../context/AppContext";
 
 export interface UserInterface {
     id?: string,
@@ -75,6 +77,9 @@ export interface AppContextInterface<U> {
     setCursorPaginationLink: React.Dispatch<React.SetStateAction<string>>;
     postImage: File | null | Blob;
     setPostImage: React.Dispatch<React.SetStateAction<File | null | Blob>>;
+    getLoginToken: (object: bodyInterface) => Promise<AxiosResponse<any, any>>;
+    setLoginToken: (accessToken: string,refreshToken: string) => void;
+    logoutToken: () => void;
 }
 
 export interface FormDataInterface{

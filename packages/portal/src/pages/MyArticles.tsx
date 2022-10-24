@@ -1,6 +1,6 @@
 import { Box, Container } from '@mui/system';
 import React, { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { ArticleCard } from '../components/ArticleCard';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
@@ -19,7 +19,7 @@ export const MyArticles = () => {
     const getMyPosts = async () => {
       const config = {
         headers: {
-          Authorization: `Bearer ${context?.accessToken}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       };
       const response = await gettingPosts(
@@ -33,9 +33,13 @@ export const MyArticles = () => {
 
   return (
     <>
-      <Navbar login={true} mainPage={false} isMyActive={true} />
+      {context?.loggedIn ? (
+        <Navbar login={true} mainPage={false} isMyActive={true} />
+      ) : (
+        <Navbar mainPage={false} isMyActive={true} />
+      )}
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name='My Articles' />
+        <PostsHeader name="My Articles" />
         <Box mt={5}>
           {posts && context?.searchMyData?.length === 0
             ? posts.map((post, index) => {

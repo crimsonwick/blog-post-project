@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import React, { useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserInterface } from '../interface/App';
 import { PostsAll } from '../interface/ArticleDetailPage';
 import { addComment, addReply, CommentInterface } from '../services/CommentApi';

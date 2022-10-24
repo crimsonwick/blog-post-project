@@ -6,7 +6,7 @@ import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { Alerts } from '../components/Alerts';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import Container from '@mui/material/Container';
 import React, { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { ArticleCard } from '../components/ArticleCard';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
@@ -43,6 +43,7 @@ export const Home = () => {
     setPage(p);
     getPaginatedPosts();
   };
+
   useEffect(() => {
     fetchMore();
   }, []);
@@ -56,7 +57,7 @@ export const Home = () => {
       )}
 
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name='Recent Posts' />
+        <PostsHeader name="Recent Posts" />
         {posts && context?.searchData?.length === 0 ? (
           <InfiniteScroll
             dataLength={posts.Posts.length}

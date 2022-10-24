@@ -14,10 +14,10 @@ import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { logout, searchAPI, searchMyPosts } from '../services/LoginApi';
+import { searchAPI, searchMyPosts } from '../services/LoginApi';
 import { Alerts } from './Alerts';
 import { Search, SearchIconWrapper, StyledInputBase } from '../styles/NavBar';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserInterface } from '../interface/App';
 
 interface NavbarProps {
@@ -58,7 +58,7 @@ export const Navbar = (props: NavbarProps) => {
       };
       const response = await searchMyPosts(
         target.value,
-        context?.userData.id,
+        context?.userData.id as unknown as string,
         config
       );
       context?.setSearchMyData(response.data);
@@ -67,10 +67,9 @@ export const Navbar = (props: NavbarProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     [event.target.name] = [event.target.value];
   };
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      const body = { data: { token: `${context?.refreshToken}` } };
-      await logout(body);
+      context?.logoutToken();
       console.log(`revoking token: ${context?.refreshToken}`);
       context?.setLoggedIn(false);
       context?.setDp('');
@@ -180,9 +179,9 @@ export const Navbar = (props: NavbarProps) => {
                     alt="user display picture"
                     src={
                       context?.dp
-                        ? require(`../images/${context.dp}`)
+                        ? require(`../images/${context?.dp}`)
                         : context?.userData.avatar
-                        ? require(`../images/${context.userData.avatar}`)
+                        ? require(`../images/${context?.userData.avatar}`)
                         : ''
                     }
                     sx={{ width: 32, height: 32 }}

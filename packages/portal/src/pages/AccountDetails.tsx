@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import React, { useContext, useState } from 'react';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 import { Alerts } from '../components/Alerts';
 import { BasicTable } from '../components/BasicTable';
 import { Navbar } from '../components/NavBar';
