@@ -6,12 +6,7 @@ import WebFont from 'webfontloader';
 import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
 import { Protected } from './components/Protected';
 import { AppContext } from './context/AppContext';
-import {
-  AppContextInterface,
-  SearchDataInterface,
-  SearchMyDataInterface,
-  UserInterface,
-} from './interface/App';
+import { AppContextInterface, UserInterface } from './interface/App';
 import { AccountDetails } from './pages/AccountDetails';
 import { ArticleDetailPage } from './pages/ArticleDetailPage';
 import ChangePassword from './pages/ChangePassword';
@@ -22,7 +17,6 @@ import { MyArticles } from './pages/MyArticles';
 import { Page404 } from './pages/Page404';
 import { ResetPassword } from './pages/ResetPassword';
 import { Signup } from './pages/Signup';
-import { parseJwt } from './services/LoginApi';
 import { theme } from './themes/theme';
 
 function App() {
@@ -46,10 +40,6 @@ function App() {
       JSON.parse(localStorage.getItem('userDetails') || '{}')
     );
     localStorage.setItem('login', response?.data.accessToken);
-    console.log(
-      'parsetoken.user>>>>>>>>>>>>>>>>>>>',
-      JSON.parse(localStorage.getItem('userDetails') || '{}')
-    );
   };
 
   useEffect(() => {
