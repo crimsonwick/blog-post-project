@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserInterface } from '../interface/App';
-import { PostsAll } from '../interface/ArticleDetailPage';
+import { PostsAll } from '../interface/App';
 import { addComment, addReply, CommentInterface } from '../services/CommentApi';
 import { InputButton } from './InputButton';
 import { InputField } from './InputField';

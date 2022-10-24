@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserInterface } from '../interface/App';
-import { PostInterface } from '../interface/ArticleDetailPage';
+import { PostInterface } from '../interface/App';
 import { parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import {

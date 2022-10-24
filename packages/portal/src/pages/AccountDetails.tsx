@@ -8,7 +8,7 @@ import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { parseJwt } from '../services/LoginApi';
 import axios from 'axios';
-import { ImageInterface } from '../interface/ArticleDetailPage';
+import { ImageInterface } from '../interface/App';
 import { AppContextInterface, UserInterface } from '../interface/App';
 
 export const AccountDetails = () => {

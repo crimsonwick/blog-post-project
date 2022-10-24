@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PostInterface } from '../interface/ArticleDetailPage';
+import { PostInterface } from '../interface/App';
 import { parseDate, parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import { flexContainer } from '../styles/Article/List';

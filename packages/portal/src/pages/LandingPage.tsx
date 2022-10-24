@@ -11,7 +11,7 @@ import { AppContextInterface, UserInterface } from '../interface/App';
 import {
   LandingPageInterface,
   PostInterfaceForLandingPage,
-} from '../interface/LandingPage';
+} from '../interface/App';
 
 export const Home = () => {
   const context: AppContextInterface<UserInterface> | null =

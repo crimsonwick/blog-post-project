@@ -9,7 +9,7 @@ import { Comment } from '../components/Comment';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { AppContextInterface, UserInterface } from '../interface/App';
-import { PostInterface } from '../interface/ArticleDetailPage';
+import { PostInterface } from '../interface/App';
 import { CommentInterface } from '../services/CommentApi';
 import { getComments } from '../services/LoginApi';
 
