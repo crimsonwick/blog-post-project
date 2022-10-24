@@ -58,8 +58,8 @@ const CreateArticle = () => {
     if (!context) {
       return <h1>Error</h1>;
     } else {
-      if (context.postImage === null ) {
-        Alerts.error("add an image");
+      if (context && context.postImage === null ) {
+        Alerts.error("Add an image");
       } else {
         try {
           let formData = new FormData();
