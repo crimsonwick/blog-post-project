@@ -6,7 +6,7 @@ interface LoginDetailInterface {
   password?: string;
 }
 
-interface ConfigInterface {
+export interface ConfigInterface {
   headers?: {
     Authorization?: string;
   };

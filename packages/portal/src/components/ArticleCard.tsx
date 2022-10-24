@@ -9,14 +9,14 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PostInterface } from '../interface/App';
 import { parseDate, parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import { flexContainer } from '../styles/Article/List';
 
-export const ArticleCard = (props: PostInterface) => {
+export const ArticleCard = React.forwardRef((props: any, ref: any) => {
   return (
     <Card
+      ref={ref}
       elevation={0}
       sx={{
         display: 'flex',
@@ -148,4 +148,4 @@ export const ArticleCard = (props: PostInterface) => {
       </Box>
     </Card>
   );
-};
+});
