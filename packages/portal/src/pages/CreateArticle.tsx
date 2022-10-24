@@ -13,6 +13,7 @@ import { PostsHeader } from '../components/PostsHeader';
 import { StyledDropZone } from '../components/StyledDropZone';
 import { AppContextInterface, UserInterface } from '../interface/App';
 import { addPost } from '../services/LoginApi';
+import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import { dataInterface } from '../interface/App';
 import '../styles/signup.css';
 
@@ -36,8 +37,7 @@ const CreateArticle = () => {
     defaultValues: {
       title: '',
       body: '',
-      mins: null,
-      file: null,
+      mins: 0,
     },
     resolver: yupResolver(schema),
   });
@@ -271,6 +271,9 @@ const CreateArticle = () => {
 
           <Box mt={2} mb={4}>
             <StyledDropZone />
+            {/* {context && context.postImage && (
+              <span className={styles.errorMsg}>Image is required</span>
+            )} */}
           </Box>
 
           <Button

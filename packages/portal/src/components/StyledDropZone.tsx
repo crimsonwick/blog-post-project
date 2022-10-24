@@ -44,7 +44,7 @@ const Container = styled.div`
 `;
 
 export const StyledDropZone = () => {
-  const [myFile, setMyFile] = useState<MyFile[] | null>([]);
+  const [myFile, setMyFile] = useState<MyFile[]>([]);
 
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
@@ -65,8 +65,7 @@ export const StyledDropZone = () => {
   );
 
   const removeFile = (file: MyFile) => () => {
-    setMyFile(null);
-    context?.setPostImage(null);
+    setMyFile([]);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
