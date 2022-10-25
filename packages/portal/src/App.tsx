@@ -4,7 +4,7 @@ import { useContext, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
-import { Protected } from './components/Protected';
+import { Protected, ProtectedLogin } from './components/Protected';
 import { AppContext } from './context/AppContext';
 import { AppContextInterface, UserInterface } from './interface/App';
 import { AccountDetails } from './pages/AccountDetails';
@@ -24,6 +24,8 @@ function App() {
     useContext(AppContext);
 
   const gets = async () => {
+    context?.setAccessToken(localStorage.getItem('accessToken'));
+    context?.setRefreshToken(localStorage.getItem('refreshToken'));
     context?.setLoggedIn(true);
     const body = {
       token: localStorage.getItem('refreshToken') as unknown as string,
@@ -33,9 +35,6 @@ function App() {
       response?.data.accessToken,
       localStorage.getItem('refreshToken') as unknown as string
     );
-    context?.setAccessToken(localStorage.getItem('accessToken'));
-    context?.setRefreshToken(localStorage.getItem('refreshToken'));
-    context?.setLoggedIn(true);
     context?.setUserData(
       JSON.parse(localStorage.getItem('userDetails') || '{}')
     );
@@ -43,13 +42,12 @@ function App() {
   };
 
   useEffect(() => {
-    if (!context?.loggedIn) {
-      if (
-        localStorage.getItem('accessToken') &&
-        localStorage.getItem('refreshToken')
-      ) {
-        gets();
-      }
+    if (
+      !context?.loggedIn &&
+      localStorage.getItem('accessToken') &&
+      localStorage.getItem('refreshToken')
+    ) {
+      gets();
     }
     WebFont.load({
       google: {
@@ -74,46 +72,17 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
+            <Route element={<ProtectedLogin />}>
+              <Route path="/login" element={<Login />} />
+            </Route>
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/change-password" element={<ChangePassword />} />
-            <Route
-              path="/create-article"
-              element={
-                context?.accessToken ? (
-                  <Protected Component={<CreateArticle />} />
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
-            <Route
-              path="/my-articles"
-              element={
-                context?.accessToken ? (
-                  <Protected Component={<MyArticles />}></Protected>
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
-            <Route
-              path="/article-detail"
-              element={
-                <Protected Component={<ArticleDetailPage />}></Protected>
-              }
-            />
-            <Route
-              path="/account-details"
-              element={
-                context?.accessToken ? (
-                  <Protected Component={<AccountDetails />}></Protected>
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
-              }
-            />
-
+            <Route element={<Protected />}>
+              <Route path="/create-article" element={<CreateArticle />} />
+              <Route path="/my-articles" element={<MyArticles />} />
+              <Route path="/account-details" element={<AccountDetails />} />
+            </Route>
+            <Route path="/article-detail" element={<ArticleDetailPage />} />
             <Route path="*" element={<Page404 />} />
           </Routes>
         </BrowserRouter>

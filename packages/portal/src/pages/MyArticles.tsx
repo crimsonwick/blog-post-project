@@ -15,10 +15,11 @@ export const MyArticles = () => {
   const [link, setLink] = useState('');
   const config = {
     headers: {
-      Authorization: `Bearer ${context?.accessToken}`,
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   };
-  const userId = context?.userData.id as unknown as string;
+  const userId = JSON.parse(localStorage.getItem('userDetails') || '{}')
+    .id as unknown as string;
 
   const { posts, hasMore, loading, cursor, error } =
     useInfiniteScrollOnMyArticles(limit, link, userId, config);
