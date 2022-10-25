@@ -66,6 +66,8 @@ export const StyledDropZone = () => {
 
   const removeFile = (file: MyFile) => () => {
     setMyFile([]);
+    context?.setPostImage(null);
+
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
