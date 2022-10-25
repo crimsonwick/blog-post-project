@@ -45,25 +45,29 @@ const CreateArticle = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: dataInterface) => {
-    try {
-      let formData = new FormData();
-      formData.append('userId', context?.userData.id as unknown as string);
-      formData.append('title', data.title);
-      formData.append('body', data.body);
-      formData.append('file', context?.postImage as unknown as string);
-      formData.append('timetoRead', data.mins as unknown as Blob);
-      Alerts.success('Post Created successfully');
-      const config = {
-        headers: {
-          Authorization: `Bearer ${context?.accessToken}`,
-        },
-      };
-      await addPost(formData, config);
-      setTimeout(() => {
-        navigate('/my-articles');
-      }, 250);
-    } catch (err) {
-      Alerts.error('Something went Wrong');
+    if (context?.postImage === null) {
+      Alerts.error('Add an Image.');
+    } else {
+      try {
+        let formData = new FormData();
+        formData.append('userId', context?.userData.id as unknown as string);
+        formData.append('title', data.title);
+        formData.append('body', data.body);
+        formData.append('file', context?.postImage as unknown as string);
+        formData.append('timetoRead', data.mins as unknown as Blob);
+        Alerts.success('Post Created successfully');
+        const config = {
+          headers: {
+            Authorization: `Bearer ${context?.accessToken}`,
+          },
+        };
+        await addPost(formData, config);
+        setTimeout(() => {
+          navigate('/my-articles');
+        }, 250);
+      } catch (err) {
+        Alerts.error('Something went Wrong');
+      }
     }
   };
 
@@ -71,21 +75,21 @@ const CreateArticle = () => {
     <>
       <Navbar login={true} />
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name='Create New Article' />
+        <PostsHeader name="Create New Article" />
         <Box mt={3}>
           <FormLabel
-            htmlFor='form-label-above-title'
+            htmlFor="form-label-above-title"
             sx={{ fontFamily: 'Poppins' }}
           >
             Give it a title
           </FormLabel>
         </Box>
-        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           {errors.title ? (
             <Box>
               <Controller
                 control={control}
-                name='title'
+                name="title"
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -102,17 +106,17 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color='secondary'
+                    color="secondary"
                   />
                 )}
               />
-              <p className='errorMsg'>{errors.title.message}</p>
+              <p className="errorMsg">{errors.title.message}</p>
             </Box>
           ) : (
             <Box>
               <Controller
                 control={control}
-                name='title'
+                name="title"
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -129,7 +133,7 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color='secondary'
+                    color="secondary"
                   />
                 )}
               />
@@ -138,7 +142,7 @@ const CreateArticle = () => {
 
           <Box mt={3}>
             <FormLabel
-              htmlFor='form-label-above-title'
+              htmlFor="form-label-above-title"
               sx={{ fontFamily: 'Poppins' }}
             >
               Min. to read
@@ -148,7 +152,7 @@ const CreateArticle = () => {
             <Box>
               <Controller
                 control={control}
-                name='mins'
+                name="mins"
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -165,17 +169,17 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color='secondary'
+                    color="secondary"
                   />
                 )}
               />
-              <p className='errorMsg'> {errors.mins.message}</p>
+              <p className="errorMsg"> {errors.mins.message}</p>
             </Box>
           ) : (
             <Box>
               <Controller
                 control={control}
-                name='mins'
+                name="mins"
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -192,7 +196,7 @@ const CreateArticle = () => {
                       marginBottom: 2.8,
                       marginTop: 1,
                     }}
-                    color='secondary'
+                    color="secondary"
                   />
                 )}
               />
@@ -201,7 +205,7 @@ const CreateArticle = () => {
 
           <Box mt={3}>
             <FormLabel
-              htmlFor='form-label-above-title'
+              htmlFor="form-label-above-title"
               sx={{ fontFamily: 'Poppins' }}
             >
               Write something about it
@@ -212,7 +216,7 @@ const CreateArticle = () => {
             <Box>
               <Controller
                 control={control}
-                name='body'
+                name="body"
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -232,17 +236,17 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color='secondary'
+                    color="secondary"
                   />
                 )}
               />
-              <p className='errorMsg'>{errors.body.message}</p>
+              <p className="errorMsg">{errors.body.message}</p>
             </Box>
           ) : (
             <Box>
               <Controller
                 control={control}
-                name='body'
+                name="body"
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -262,7 +266,7 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color='secondary'
+                    color="secondary"
                   />
                 )}
               />
@@ -277,9 +281,9 @@ const CreateArticle = () => {
           </Box>
 
           <Button
-            type='submit'
-            variant='contained'
-            color='secondary'
+            type="submit"
+            variant="contained"
+            color="secondary"
             fullWidth
             sx={{
               borderRadius: '25px',
