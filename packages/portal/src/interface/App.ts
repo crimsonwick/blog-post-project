@@ -98,27 +98,39 @@ export interface ImageInterface {
   data: File | string
 }
 
-export interface PostInterface {
+export interface ArticleDetailInterface {
   object?: {
     id: string
     userId: string
     title: string
     body: string
     image: string
-    timetoRead: number
+    timeToRead: number
     createdAt: string
     updatedAt: string
     Posted_By: {
-      id: string
       email: string
-      password: string
       avatar: string | null
-      resetLink: string
-      createdAt: string
-      updatedAt: string
     }
   }
 }
+
+
+export interface PostInterface 
+  {
+    id: string
+    userId: string
+    title: string
+    body: string
+    image: string
+    timeToRead: number
+    createdAt: string
+    updatedAt: string
+    Posted_By: {
+      email: string
+      avatar: string | null
+    }
+  }
 
 export interface PostsAll {
   id: string

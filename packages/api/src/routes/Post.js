@@ -13,7 +13,16 @@ class PostRouter {
     router.get('/search', PostObject.searchPosts);
     router.get('/:id/comments', PostObject.getRepliesfromOnePost);
     router.get('/', PostObject.getPosts);
-    router.get('/:id', Authentication, PostObject.getCursorPostsOfSingleUser);
+    router.get('/:id', PostObject.postDetail);
+    // router.put('/:id/post/:pid', Authentication, PostObject.updatePosts);
+    // router.delete('/:id/post/:pid', Authentication, PostObject.deletePosts);
+
+    // router.get(
+    //   '/:id/posts',
+    //   Authentication,
+    //   PostObject.getCursorPostsOfSingleUser
+    // );
+    // router.get('/:id/posts/search', Authentication, PostObject.searchMyPost);
   }
 }
 

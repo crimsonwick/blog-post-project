@@ -28,8 +28,8 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
     >
       <img
         src={require(`../images/${props?.object?.image}`)}
-        alt="user_image"
-        className="articleImg"
+        alt='user_image'
+        className='articleImg'
         style={{
           borderRadius: '5px',
           width: '300px',
@@ -40,7 +40,7 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
       />
       <Box mt={1}>
         <Chip
-          label="Travel"
+          label='Travel'
           sx={{
             borderRadius: '3px',
             backgroundColor: '#F2F8F7',
@@ -50,12 +50,12 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
           }}
         />
         <Link
-          to="/article-detail"
+          to={`articles/${props?.object?.id}`}
           state={props}
           style={{ textDecoration: 'none', color: 'rgba(0,0,0,0.87)' }}
         >
           <Typography
-            variant="h1"
+            variant='h1'
             sx={{
               fontFamily: 'Poppins',
               fontWeight: '600',
@@ -71,7 +71,7 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
         </Link>
         <List style={flexContainer}>
           <ListItem
-            className="user"
+            className='user'
             disablePadding={true}
             sx={{
               borderRight: '2px solid',
@@ -83,7 +83,7 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
           >
             <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
               <Avatar
-                alt="user display picture"
+                alt='user display picture'
                 src={
                   props?.object?.Posted_By.avatar
                     ? require(`../images/${props.object.Posted_By.avatar}`)
@@ -99,7 +99,7 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
             />
           </ListItem>
           <ListItem
-            className="date"
+            className='date'
             disablePadding={true}
             sx={{
               borderRight: '2px solid',
@@ -117,7 +117,7 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
             />
           </ListItem>
           <ListItem
-            className="timeToRead"
+            className='timeToRead'
             disablePadding={true}
             sx={{
               marginRight: '10px',
@@ -134,7 +134,7 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
           </ListItem>
         </List>
         <Typography
-          variant="h6"
+          variant='h6'
           sx={{
             overflow: 'hidden',
             textOverflow: 'ellipsis',

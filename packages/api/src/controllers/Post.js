@@ -6,8 +6,6 @@ const { Op } = require('sequelize');
 const { Users, Posts, Comments } = model;
 
 export class PostController {
-  constructor() {}
-
   AddPost = async (req, res) => {
     const { userId, title, body, timetoRead } = req.body;
     try {
@@ -37,22 +35,10 @@ export class PostController {
     }
   };
 
-  //    getPosts = async (req, res) => {
-  //   try {
-  //     const getAll = await client.search({
-  //       index: 'posts',
-  //     })
-  //     const posts = getAll.body.hits.hits.map((s) => s._source);
-  //     return res.json(posts);
-  //   } catch (error) {
-  //     ErrorHandling(res);
-  //   }
-  // }
-
   updatePosts = async (req, res) => {
     const { id, pid } = req.params;
     try {
-      const updatePost = await Posts.update(
+      await Posts.update(
         { ...req.body },
         {
           where: {
@@ -65,8 +51,8 @@ export class PostController {
           id: id,
         },
       });
-      const newValues = Object.assign(update, { ...req.body });
-      const U_post = await client.update({
+      const newValues = Object.assign(update, { ...req.body }); //creates reference to new object
+      await client.update({
         index: 'posts',
         id: pid,
         body: {
@@ -82,7 +68,7 @@ export class PostController {
   deletePosts = async (req, res) => {
     try {
       const { id, pid } = req.params;
-      const deletePosts = await Posts.destroy({ where: { id: id } });
+      const deletePosts = await Posts.destroy({ where: { id } });
       const D_posts = await client.delete({
         index: 'posts',
         id: pid,
@@ -213,6 +199,7 @@ export class PostController {
       ErrorHandling(res);
     }
   };
+
   getPosts = async (req, res) => {
     try {
       const limit = parseInt(req.query.limit);
@@ -347,14 +334,37 @@ export class PostController {
     // }
   };
 
+  postDetail = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      const post = await Posts.findOne({
+        where: { id },
+        include: [
+          {
+            model: Users,
+            as: 'Posted_By',
+            attributes: ['email', 'avatar'],
+          },
+        ],
+      });
+      return res.status(200).json(post);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }
+  };
+
   getCursorPostsOfSingleUser = async (req, res) => {
     try {
       const limit = parseInt(req.query.limit);
       const id = req.params.id;
       if (id) {
         if (isNaN(limit)) {
+          //default limit i.e. 50
           const allPosts = await Posts.findAll({
             where: { userId: id },
+            order: [['createdAt', 'ASC']],
             include: [
               {
                 model: Users,
@@ -481,6 +491,7 @@ export class PostController {
       return res.json({ error: `${err}` });
     }
   };
+
   PaginatedPosts = async (req, res) => {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);

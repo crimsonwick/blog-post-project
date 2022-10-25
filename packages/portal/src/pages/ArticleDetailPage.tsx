@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { Container } from '@mui/system';
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { AddComment } from '../components/AddComment';
 import { ArticleDetail } from '../components/ArticleDetail';
@@ -11,41 +11,55 @@ import { PostsHeader } from '../components/PostsHeader';
 import { AppContextInterface, UserInterface } from '../interface/App';
 import { PostInterface } from '../interface/App';
 import { CommentInterface } from '../services/CommentApi';
-import { getComments } from '../services/LoginApi';
+import { getComments, postDetail } from '../services/LoginApi';
+
+// declare function useParams<K extends string = string>(): Readonly<Params<K>>;
 
 export const ArticleDetailPage = () => {
-  const location = useLocation();
-  const { object } = location.state as PostInterface;
+  const { articleId } = useParams();
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
+  const [post, setPost] = useState<PostInterface>();
   const [data, setData] = useState<CommentInterface[]>([]);
 
+  const getPost = async (id: string) => {
+    const response = await postDetail(id);
+    setPost(response.data);
+    console.log(post);
+  };
   const allComments = async (id: string) => {
     const response = await getComments(id);
     setData(response.data);
   };
+
   useEffect(() => {
-    if (object) {
-      allComments(object.id);
+    if (articleId) {
+      getPost(articleId);
     }
-  }, [object]);
+  }, [articleId]);
+
+  useEffect(() => {
+    if (articleId) {
+      allComments(articleId);
+    }
+  }, [articleId]);
   return (
     <>
       {context?.loggedIn ? <Navbar login={true} /> : <Navbar />}
       <Container sx={{ marginTop: 9 }}>
         <Box>
-          <ArticleDetail object={object} />
+          <ArticleDetail object={post} />
         </Box>
         <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-          <PostsHeader count={data.length} name="comments" textSize="24px" />
+          <PostsHeader count={data.length} name='comments' textSize='24px' />
         </Box>
         <Box>
           {context?.loggedIn && (
             <AddComment
-              width="1000px"
-              postObject={object}
-              placeholder="Write a comment..."
-              labelAbove="Add Comment"
+              width='1000px'
+              // postObject={post}
+              placeholder='Write a comment...'
+              labelAbove='Add Comment'
               refreshComment={allComments}
               Comment={true}
             />

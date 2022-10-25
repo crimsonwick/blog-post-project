@@ -7,8 +7,11 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface, UserInterface } from '../interface/App';
-import { PostInterface } from '../interface/App';
+import {
+  AppContextInterface,
+  UserInterface,
+  ArticleDetailInterface,
+} from '../interface/App';
 import { parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import {
@@ -17,7 +20,7 @@ import {
   flexContainer,
 } from '../styles/Article/List';
 
-export const ArticleDetail = (props: PostInterface) => {
+export const ArticleDetail = (props: ArticleDetailInterface) => {
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
   return (
@@ -88,7 +91,7 @@ export const ArticleDetail = (props: PostInterface) => {
           <ListItemIcon sx={{ minWidth: 'auto' }}>
             <CalendarTodayIcon sx={{ marginRight: '10px' }} />
           </ListItemIcon>
-          <ListItemText primary={`${props?.object?.timetoRead} Min. To Read`} />
+          <ListItemText primary={`${props?.object?.timeToRead} Min. To Read`} />
         </ListItem>
       </List>
       <CardMedia

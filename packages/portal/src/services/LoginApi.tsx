@@ -70,6 +70,10 @@ export const refreshToken = async (body: RefreshToken) => {
   return await axios.post(`${baseURL}/users/refresh-access`, body);
 };
 
+export const postDetail = async (id: string) => {
+  return await axios.get(`${baseURL}/posts/${id}`);
+};
+
 export const parseTime = (str: string) => {
   let incomingDate = new Date(str);
   let currentDate = new Date();
