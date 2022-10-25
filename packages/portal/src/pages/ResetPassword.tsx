@@ -53,19 +53,19 @@ export const ResetPassword = () => {
     }
   };
   return (
-    <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
-      <Header heading='Reset Password' />
+    <Container maxWidth="sm" sx={{ marginTop: '10em' }}>
+      <Header heading="Reset Password" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor='my-input'>Email address</FormLabel>
+        <FormLabel htmlFor="my-input">Email address</FormLabel>
         {errors.email ? (
           <Box>
             <Controller
               control={control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <OutlinedInput
                   error
-                  color='secondary'
+                  color="secondary"
                   {...field}
                   sx={{
                     borderRadius: 18,
@@ -74,16 +74,16 @@ export const ResetPassword = () => {
                 />
               )}
             />
-            <span className='errorMsg'>{errors.email?.message}</span>
+            <span className="errorMsg">{errors.email?.message}</span>
           </Box>
         ) : (
           <Box>
             <Controller
               control={control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <OutlinedInput
-                  color='secondary'
+                  color="secondary"
                   {...field}
                   sx={{
                     borderRadius: 18,
@@ -95,9 +95,9 @@ export const ResetPassword = () => {
           </Box>
         )}
         <Button
-          type='submit'
-          variant='contained'
-          color='secondary'
+          type="submit"
+          variant="contained"
+          color="secondary"
           fullWidth
           sx={{
             marginTop: '15px',
