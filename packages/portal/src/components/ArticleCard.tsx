@@ -34,7 +34,7 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
           borderRadius: '5px',
           width: '300px',
           height: '250px',
-          objectFit: 'fill',
+          objectFit: 'contain',
           marginRight: '50px',
         }}
       />

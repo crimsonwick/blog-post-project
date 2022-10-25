@@ -59,7 +59,7 @@ export const MyArticles = () => {
               }
               return <ArticleCard object={post} key={index} />;
             })}
-            <Typography>{loading && <Loader />}</Typography>
+            {loading && <Loader />}
             <Typography>{error && 'Error'}</Typography>
           </Box>
         ) : (
