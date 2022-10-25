@@ -72,13 +72,13 @@ function App() {
 
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/reset-password' element={<ResetPassword />} />
-            <Route path='/change-password' element={<ChangePassword />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/change-password" element={<ChangePassword />} />
             <Route
-              path='/create-article'
+              path="/create-article"
               element={
                 context?.accessToken ? (
                   <Protected Component={<CreateArticle />} />
@@ -88,7 +88,7 @@ function App() {
               }
             />
             <Route
-              path='/my-articles'
+              path="/my-articles"
               element={
                 context?.accessToken ? (
                   <Protected Component={<MyArticles />}></Protected>
@@ -98,17 +98,13 @@ function App() {
               }
             />
             <Route
-              path='/article-detail'
+              path="/article-detail"
               element={
-                context?.accessToken ? (
-                  <Protected Component={<ArticleDetailPage />}></Protected>
-                ) : (
-                  <Navigate replace to={'/login'} />
-                )
+                <Protected Component={<ArticleDetailPage />}></Protected>
               }
             />
             <Route
-              path='/account-details'
+              path="/account-details"
               element={
                 context?.accessToken ? (
                   <Protected Component={<AccountDetails />}></Protected>
@@ -118,7 +114,7 @@ function App() {
               }
             />
 
-            <Route path='*' element={<Page404 />} />
+            <Route path="*" element={<Page404 />} />
           </Routes>
         </BrowserRouter>
       </SnackbarProvider>

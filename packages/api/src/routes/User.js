@@ -27,7 +27,11 @@ class UserRouter {
     router.delete('/logout', UserObject.Logout);
     router.put('/:id/post/:pid', Authentication, PostObject.updatePosts);
     router.delete('/:id/post/:pid', Authentication, PostObject.deletePosts);
-    router.get('/:id/posts', Authentication, PostObject.myPosts);
+    router.get(
+      '/:id/posts',
+      Authentication,
+      PostObject.getCursorPostsOfSingleUser
+    );
     router.get('/:id/posts/search', Authentication, PostObject.searchMyPost);
   }
 }

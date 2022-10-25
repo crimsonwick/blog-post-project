@@ -37,17 +37,19 @@ export const ArticleDetailPage = () => {
           <ArticleDetail object={object} />
         </Box>
         <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-          <PostsHeader count={data.length} name='comments' textSize='24px' />
+          <PostsHeader count={data.length} name="comments" textSize="24px" />
         </Box>
         <Box>
-          <AddComment
-            width='1000px'
-            postObject={object}
-            placeholder='Write a comment...'
-            labelAbove='Add Comment'
-            refreshComment={allComments}
-            Comment={true}
-          />
+          {context?.loggedIn && (
+            <AddComment
+              width="1000px"
+              postObject={object}
+              placeholder="Write a comment..."
+              labelAbove="Add Comment"
+              refreshComment={allComments}
+              Comment={true}
+            />
+          )}
         </Box>
         <Box mt={3}>
           {data.length > 0 &&

@@ -6,7 +6,7 @@ interface LoginDetailInterface {
   password?: string;
 }
 
-interface ConfigInterface {
+export interface ConfigInterface {
   headers?: {
     Authorization?: string;
   };
@@ -165,7 +165,7 @@ export const parseName = (str: string) => {
   let nameField = str.split('@');
   return nameField[0];
 };
-export const searchMyPosts = async (
+export const searchMyPostsAPI = async (
   title: string,
   id: string,
   config: ConfigInterface

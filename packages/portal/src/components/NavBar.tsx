@@ -14,7 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { searchAPI, searchMyPosts } from '../services/LoginApi';
+import { searchAPI, searchMyPostsAPI } from '../services/LoginApi';
 import { Alerts } from './Alerts';
 import { Search, SearchIconWrapper, StyledInputBase } from '../styles/NavBar';
 import { AppContext } from '../context/AppContext';
@@ -43,9 +43,6 @@ export const Navbar = (props: NavbarProps) => {
   const handleKeyDown = async (
     event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    if (!event) {
-      return;
-    }
     const target = event.target as HTMLInputElement;
     if (props.mainPage) {
       const response = await searchAPI(target.value);
@@ -56,7 +53,7 @@ export const Navbar = (props: NavbarProps) => {
           Authorization: `Bearer ${context?.accessToken}`,
         },
       };
-      const response = await searchMyPosts(
+      const response = await searchMyPostsAPI(
         target.value,
         context?.userData.id as unknown as string,
         config

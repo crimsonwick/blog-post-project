@@ -1,26 +1,26 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, FormLabel, OutlinedInput } from "@mui/material";
-import Button from "@mui/material/Button";
-import { Container } from "@mui/system";
-import React, { useContext } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
-import { AppContext } from "../context/AppContext";
-import { Alerts } from "../components/Alerts";
-import { Navbar } from "../components/NavBar";
-import { PostsHeader } from "../components/PostsHeader";
-import { StyledDropZone } from "../components/StyledDropZone";
-import { AppContextInterface, UserInterface } from "../interface/App";
-import { addPost } from "../services/LoginApi";
-import styles from "../styles/CreateArticle/CreateArticle.module.css";
-import { dataInterface } from "../interface/App";
-import "../styles/signup.css";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, FormLabel, OutlinedInput } from '@mui/material';
+import Button from '@mui/material/Button';
+import { Container } from '@mui/system';
+import React, { useContext } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+import { AppContext } from '../context/AppContext';
+import { Alerts } from '../components/Alerts';
+import { Navbar } from '../components/NavBar';
+import { PostsHeader } from '../components/PostsHeader';
+import { StyledDropZone } from '../components/StyledDropZone';
+import { AppContextInterface, UserInterface } from '../interface/App';
+import { addPost } from '../services/LoginApi';
+import styles from '../styles/CreateArticle/CreateArticle.module.css';
+import { dataInterface } from '../interface/App';
+import '../styles/signup.css';
 
 const schema = yup
   .object({
     title: yup.string().required(),
-    mins: yup.number().positive().typeError("must be a number").required(),
+    mins: yup.number().positive().typeError('must be a number').required(),
     body: yup.string().required(),
     // file: yup.mixed().required('File is required')
   })
@@ -35,8 +35,8 @@ const CreateArticle = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: "",
-      body: "",
+      title: '',
+      body: '',
       mins: 0,
     },
     resolver: yupResolver(schema),
@@ -46,7 +46,7 @@ const CreateArticle = () => {
 
   const onSubmit = async (data: dataInterface) => {
     if (context?.postImage === null) {
-      Alerts.error("Add an Image.");
+      Alerts.error('Add an Image.');
     } else {
       if (context?.postImage?.type === "image/png" || context?.postImage?.type === "image/jpg" || context?.postImage?.type === "image/jpeg") {
         try {
@@ -83,7 +83,7 @@ const CreateArticle = () => {
         <Box mt={3}>
           <FormLabel
             htmlFor="form-label-above-title"
-            sx={{ fontFamily: "Poppins" }}
+            sx={{ fontFamily: 'Poppins' }}
           >
             Give it a title
           </FormLabel>
@@ -147,7 +147,7 @@ const CreateArticle = () => {
           <Box mt={3}>
             <FormLabel
               htmlFor="form-label-above-title"
-              sx={{ fontFamily: "Poppins" }}
+              sx={{ fontFamily: 'Poppins' }}
             >
               Min. to read
             </FormLabel>
@@ -210,7 +210,7 @@ const CreateArticle = () => {
           <Box mt={3}>
             <FormLabel
               htmlFor="form-label-above-title"
-              sx={{ fontFamily: "Poppins" }}
+              sx={{ fontFamily: 'Poppins' }}
             >
               Write something about it
             </FormLabel>
@@ -290,13 +290,13 @@ const CreateArticle = () => {
             color="secondary"
             fullWidth
             sx={{
-              borderRadius: "25px",
-              fontFamily: ["Poppins", "serif"].join(","),
+              borderRadius: '25px',
+              fontFamily: ['Poppins', 'serif'].join(','),
               fontSize: 18,
-              width: "705px",
-              height: "56px",
-              textTransform: "capitalize",
-              fontWeight: "bold",
+              width: '705px',
+              height: '56px',
+              textTransform: 'capitalize',
+              fontWeight: 'bold',
             }}
           >
             Publish Article
