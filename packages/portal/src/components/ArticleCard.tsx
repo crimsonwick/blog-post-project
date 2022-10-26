@@ -85,8 +85,8 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
               <Avatar
                 alt="user display picture"
                 src={
-                  props?.object?.Posted_By.avatar
-                    ? require(`../images/${props.object.Posted_By.avatar}`)
+                  props?.object?.postedBy.avatar
+                    ? require(`../images/${props.object.postedBy.avatar}`)
                     : ''
                 }
                 sx={{ width: 32, height: 32 }}
@@ -94,7 +94,7 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
             </ListItemIcon>
             <ListItemText
               primary={parseName(
-                props?.object?.Posted_By.email as unknown as string
+                props?.object?.postedBy.email as unknown as string
               )}
             />
           </ListItem>

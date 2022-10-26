@@ -16,6 +16,7 @@ const useInfiniteScrollOnMyArticles = (
   const cursor = useRef<any>();
 
   useEffect(() => {
+    localStorage.setItem('link', '/my-articles');
     setLoading(true);
     setError(false);
     if (typeof id === 'string') {

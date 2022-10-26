@@ -10,6 +10,7 @@ const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
   const cursor = useRef<any>();
 
   useEffect(() => {
+    localStorage.setItem('link', '/');
     setLoading(true);
     setError(false);
     axios({

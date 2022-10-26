@@ -23,7 +23,7 @@ export const ArticleDetail = (props: PostInterface) => {
   return (
     <Card sx={CardStyle}>
       <Chip
-        label='Travel'
+        label="Travel"
         sx={{
           borderRadius: '3px',
           backgroundColor: '#F2F8F7',
@@ -33,7 +33,7 @@ export const ArticleDetail = (props: PostInterface) => {
         }}
       />
       <Typography
-        variant='h1'
+        variant="h1"
         sx={{
           fontFamily: 'Poppins',
           fontWeight: '600',
@@ -48,7 +48,7 @@ export const ArticleDetail = (props: PostInterface) => {
       </Typography>
       <List style={flexContainer}>
         <ListItem
-          className='user'
+          className="user"
           disablePadding={true}
           sx={{
             borderColor: 'gray',
@@ -62,21 +62,21 @@ export const ArticleDetail = (props: PostInterface) => {
               src={
                 context?.dp
                   ? require(`../images/${context.dp}`)
-                  : props?.object?.Posted_By.avatar
-                  ? require(`../images/${props.object.Posted_By.avatar}`)
+                  : props?.object?.postedBy.avatar
+                  ? require(`../images/${props.object.postedBy.avatar}`)
                   : ''
               }
-              alt='user_dp'
+              alt="user_dp"
             />
           </ListItemIcon>
           <ListItemText
             primary={parseName(
-              props?.object?.Posted_By.email as unknown as string
+              props?.object?.postedBy.email as unknown as string
             )}
           />
         </ListItem>
         <ListItem
-          className='timeToRead'
+          className="timeToRead"
           sx={{
             borderLeft: '2px solid',
             borderColor: 'gray',
@@ -92,14 +92,14 @@ export const ArticleDetail = (props: PostInterface) => {
         </ListItem>
       </List>
       <CardMedia
-        component='img'
-        height='432'
+        component="img"
+        height="432"
         image={require(`../images/${props?.object?.image}`)}
-        alt='post_detail_image'
+        alt="post_detail_image"
         sx={CardMediaStyle}
       />
       <Typography
-        variant='h6'
+        variant="h6"
         sx={{ height: 'auto', width: '856px', marginTop: '20px' }}
       >
         {props?.object?.body}

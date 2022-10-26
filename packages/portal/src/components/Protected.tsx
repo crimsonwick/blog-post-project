@@ -1,11 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
-import {
-  AppContextInterface,
-  ProtectedInterface,
-  UserInterface,
-} from '../interface/App';
+import { ProtectedInterface } from '../interface/App';
 
 export const Protected: React.FC<ProtectedInterface> = () => {
   return localStorage.getItem('accessToken') ? (
@@ -15,10 +10,10 @@ export const Protected: React.FC<ProtectedInterface> = () => {
   );
 };
 
-export const ProtectedLogin: React.FC<ProtectedInterface> = () => {
+export const Public: React.FC<ProtectedInterface> = () => {
   return !localStorage.getItem('accessToken') ? (
     <Outlet />
   ) : (
-    <Navigate to={'/my-articles'} />
+    <Navigate to={localStorage.getItem('link') as unknown as string} />
   );
 };

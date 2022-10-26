@@ -24,7 +24,7 @@ export class PostController {
         },
         include: {
           model: Users,
-          as: 'Posted_By',
+          as: 'postedBy',
         },
       });
       const C_post = await client.index({
@@ -180,7 +180,7 @@ export class PostController {
         },
         include: {
           model: Users,
-          as: 'Commented_By',
+          as: 'commentedBy',
         },
       });
       return res.json(AllComments);
@@ -221,7 +221,7 @@ export class PostController {
           include: [
             {
               model: Users,
-              as: 'Posted_By',
+              as: 'postedBy',
               attributes: ['email', 'avatar'],
             },
             {
@@ -248,7 +248,7 @@ export class PostController {
           include: [
             {
               model: Users,
-              as: 'Posted_By',
+              as: 'postedBy',
               attributes: ['email', 'avatar'],
             },
             {
@@ -275,7 +275,7 @@ export class PostController {
           include: [
             {
               model: Users,
-              as: 'Posted_By',
+              as: 'postedBy',
               attributes: ['email', 'avatar'],
             },
             {
@@ -308,7 +308,7 @@ export class PostController {
           include: [
             {
               model: Users,
-              as: 'Posted_By',
+              as: 'postedBy',
               attributes: ['email', 'avatar'],
             },
             {
@@ -358,7 +358,7 @@ export class PostController {
             include: [
               {
                 model: Users,
-                as: 'Posted_By',
+                as: 'postedBy',
                 attributes: ['email', 'avatar'],
               },
               {
@@ -386,7 +386,7 @@ export class PostController {
             include: [
               {
                 model: Users,
-                as: 'Posted_By',
+                as: 'postedBy',
                 attributes: ['email', 'avatar'],
               },
               {
@@ -415,7 +415,7 @@ export class PostController {
             include: [
               {
                 model: Users,
-                as: 'Posted_By',
+                as: 'postedBy',
                 attributes: ['email', 'avatar'],
               },
               {
@@ -450,7 +450,7 @@ export class PostController {
             include: [
               {
                 model: Users,
-                as: 'Posted_By',
+                as: 'postedBy',
                 attributes: ['email', 'avatar'],
               },
               {

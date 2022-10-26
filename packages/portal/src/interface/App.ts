@@ -22,7 +22,7 @@ export interface SearchDataInterface {
   timetoRead: number
   createdAt: string
   updatedAt: string
-  Posted_By: {
+  postedBy: {
     id: string
     email: string
     password: string
@@ -47,7 +47,7 @@ export interface SearchMyDataInterface {
     timetoRead: number
     createdAt: string
     updatedAt: string
-    Posted_By: {
+    postedBy: {
       id: string
       email: string
       password: string
@@ -108,7 +108,7 @@ export interface PostInterface {
     timetoRead: number
     createdAt: string
     updatedAt: string
-    Posted_By: {
+    postedBy: {
       id: string
       email: string
       password: string
@@ -129,7 +129,7 @@ export interface PostsAll {
   timetoRead?: number
   createdAt?: string
   updatedAt?: string
-  Posted_By: {
+  postedBy: {
     id: string
     email: string
     password: string
@@ -182,6 +182,10 @@ export interface ProtectedInterface {
   Component?: React.ReactNode
 }
 
+export interface ProtectedLoginInterface{
+  pathname: string;
+}
+
 export interface ColorInterface {
   isDragAccept: boolean
   isDragReject: boolean
@@ -204,7 +208,7 @@ export interface PostInterfaceForLandingPage {
   timetoRead: number
   createdAt: string
   updatedAt: string
-  Posted_By: {
+  postedBy: {
     id: string
     email: string
     password: string
@@ -243,7 +247,7 @@ export interface PostInterface {
     timetoRead: number;
     createdAt: string;
     updatedAt: string;
-    Posted_By: {
+    postedBy: {
             id : string;
             email: string;
             password: string;
@@ -264,7 +268,7 @@ export interface PostsAll {
     timetoRead?: number;
     createdAt?: string;
     updatedAt?: string;
-    Posted_By: {
+    postedBy: {
             id : string;
             email: string;
             password: string;
@@ -299,7 +303,7 @@ image: string;
 timetoRead: number;
 createdAt: string;
 updatedAt: string;
-Posted_By: {
+postedBy: {
         id : string;
         email: string;
         password: string;

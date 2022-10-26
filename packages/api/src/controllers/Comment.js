@@ -24,7 +24,7 @@ export class CommentController {
       const getAll = await Comments.findAll({
         include: {
           model: Users,
-          as: 'Commented_By',
+          as: 'commentedBy',
         },
       });
       res.json(getAll);
@@ -91,7 +91,7 @@ export class CommentController {
         },
         include: {
           model: Users,
-          as: 'Commented_By',
+          as: 'commentedBy',
         },
       });
       return res.json(response);

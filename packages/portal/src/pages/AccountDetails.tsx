@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Alerts } from '../components/Alerts';
 import { BasicTable } from '../components/BasicTable';
 import { Navbar } from '../components/NavBar';
@@ -14,6 +14,9 @@ export const AccountDetails = () => {
   const [image, setImage] = useState<File | null>(null);
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
+  useEffect(() => {
+    localStorage.setItem('link', '/account-details');
+  }, []);
   const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (context) {

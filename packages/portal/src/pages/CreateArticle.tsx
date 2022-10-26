@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, FormLabel, OutlinedInput } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Container } from '@mui/system';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -43,6 +43,9 @@ const CreateArticle = () => {
   });
 
   const navigate = useNavigate();
+  useEffect(() => {
+    localStorage.setItem('link', '/create-article');
+  }, []);
 
   const onSubmit = async (data: dataInterface) => {
     if (context?.postImage === null) {
