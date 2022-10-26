@@ -271,18 +271,15 @@ export class PostController {
         res.send(result);
       } else if (condition === cursorValues.next_page) {
         const posts = await query(limit, id, condition, all);
-        //*next page link
         if (posts[limit] === undefined) cursorValues.next_page = null;
         else {
-          //*convert to plain js object
           const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.next_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
+          cursorValues.next_page = clonePost[limit - 1].createdAt;
         }
-        //*prev page link
         if (posts[0] === undefined) cursorValues.prev_page = null;
         else {
           const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.prev_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
+          cursorValues.prev_page = clonePost[0].createdAt;
         }
         if (posts.length == limit + 1) posts.pop();
         const result = [cursorValues, posts];
