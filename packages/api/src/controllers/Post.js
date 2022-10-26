@@ -6,12 +6,11 @@ const { Op } = require('sequelize');
 const { Users, Posts, Comments } = model;
 
 export class PostController {
-
   /**
    * Add Post
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   AddPost = async (req, res) => {
     const { userId, title, body, timetoRead } = req.body;
@@ -42,80 +41,11 @@ export class PostController {
     }
   };
 
-  //    getPosts = async (req, res) => {
-  //   try {
-  //     const getAll = await client.search({
-  //       index: 'posts',
-  //     })
-  //     const posts = getAll.body.hits.hits.map((s) => s._source);
-  //     return res.json(posts);
-  //   } catch (error) {
-  //     ErrorHandling(res);
-  //   }
-  // }
-
-
-  /**
-   * Update Posts
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  updatePosts = async (req, res) => {
-    const { id, pid } = req.params;
-    try {
-      const updatePost = await Posts.update(
-        { ...req.body },
-        {
-          where: {
-            id: id,
-          },
-        }
-      );
-      const update = await Posts.findOne({
-        where: {
-          id: id,
-        },
-      });
-      const newValues = Object.assign(update, { ...req.body });
-      const U_post = await client.update({
-        index: 'posts',
-        id: pid,
-        body: {
-          doc: newValues,
-        },
-      });
-      return res.json(`Updated Successfully Id = ${id}`);
-    } catch (error) {
-      ErrorHandling(res);
-    }
-  };
-
-  /**
-   * Delete Posts
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  deletePosts = async (req, res) => {
-    try {
-      const { id, pid } = req.params;
-      const deletePosts = await Posts.destroy({ where: { id: id } });
-      const D_posts = await client.delete({
-        index: 'posts',
-        id: pid,
-      });
-      return res.json(`Successfully Deleted Id = ${id}`);
-    } catch (error) {
-      ErrorHandling(res);
-    }
-  };
-
   /**
    * Search Posts
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   searchPosts = async (req, res) => {
     let query = {
@@ -138,44 +68,11 @@ export class PostController {
     }
   };
 
-
-  /**
-   * Returns a single user's posts
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  myPosts = async (req, res) => {
-    let query = {
-      index: 'posts',
-      body: {
-        query: {
-          match: { userId: req.params.id },
-        },
-      },
-    };
-    try {
-      const LoginDetails = await Users.findAll({
-        where: {
-          email: req.user.user.email,
-        },
-      });
-      if (!LoginDetails) return res.json(`Un Authorized Access`);
-      else {
-        const myPosts = await client.search(query);
-        if (!myPosts) return res.json(`You haven't Posted Anything!!`);
-        else return res.json(myPosts.body.hits.hits);
-      }
-    } catch (error) {
-      ErrorHandling(res);
-    }
-  };
-
   /**
    * Searching in user's MyArticles Page
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   searchMyPost = async (req, res) => {
     let query = {
@@ -210,9 +107,9 @@ export class PostController {
 
   /**
    * Returns Replies for a single post
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   getRepliesfromOnePost = async (req, res) => {
     try {
@@ -231,42 +128,11 @@ export class PostController {
       ErrorHandling(res);
     }
   };
-
-  /**
-   * Retruns Paginated Posts
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  PaginatedPosts = async (req, res) => {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-    try {
-      const getAll = await client.search({
-        index: 'posts',
-      });
-      const getAllP = await client.search({
-        index: 'posts',
-        from: (page - 1) * limit,
-        size: limit,
-      });
-      const totalPages = Math.ceil(getAll.length / limit);
-      const posts = getAllP.body.hits.hits.map((s) => s._source);
-      return res.json({
-        Posts: posts,
-        datalength: posts.length,
-        totalPosts: getAll.body.hits.hits.map((s) => s._source).length,
-        totalPages: totalPages,
-      });
-    } catch (error) {
-      ErrorHandling(res);
-    }
-  };
   /**
    * Gets Posts
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   getPosts = async (req, res) => {
     try {
@@ -390,23 +256,13 @@ export class PostController {
       console.log(err);
       return res.json({ error: `${err}` });
     }
-
-    // try {
-    //   const getAll = await client.search({
-    //     index: 'posts',
-    //   })
-    //   const posts = getAll.body.hits.hits.map((s) => s._source);
-    //   return res.json(posts);
-    // } catch (error) {
-    //   ErrorHandling(res);
-    // }
   };
 
   /**
    *  Get Cursor Posts of Single User
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   getCursorPostsOfSingleUser = async (req, res) => {
     try {
@@ -540,41 +396,6 @@ export class PostController {
     } catch (err) {
       console.log(err);
       return res.json({ error: `${err}` });
-    }
-  };
-
-  /**
-   * Paginated Posts
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  PaginatedPosts = async (req, res) => {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-    try {
-      const getAll = await client.count({
-        index: 'posts',
-      });
-      const getAllP = await client.search({
-        index: 'posts',
-        body: {
-          from: (page - 1) * limit,
-          size: limit,
-          sort: [{ createdAt: { order: 'desc' } }],
-        },
-      });
-      const totalPosts = getAll.body.count;
-      const totalPages = Math.ceil(totalPosts / limit);
-      const posts = getAllP.body.hits.hits.map((s) => s._source);
-      return res.json({
-        Posts: posts,
-        datalength: posts.length,
-        totalPosts: totalPosts,
-        totalPages: totalPages,
-      });
-    } catch (error) {
-      ErrorHandling(res);
     }
   };
 }

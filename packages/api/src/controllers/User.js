@@ -15,13 +15,11 @@ const { Users } = model;
 export let tokens = [];
 
 export class UserController {
-  constructor() {}
-
   /**
    * SignUp
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   SignUp = async (req, res) => {
     const { email, password, avatar } = req.body;
@@ -49,9 +47,9 @@ export class UserController {
 
   /**
    * Login
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   Login = async (req, res) => {
     const { email, password } = req.body;
@@ -87,8 +85,8 @@ export class UserController {
 
   /**
    * Generate Access Token
-   * @param {*} user 
-   * @returns 
+   * @param {*} user
+   * @returns
    */
   generateAccessToken = (user) => {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
@@ -97,10 +95,10 @@ export class UserController {
   };
 
   /**
-   * 
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   token = (req, res) => {
     const refreshToken = req.body.token;
@@ -122,9 +120,9 @@ export class UserController {
 
   /**
    * Logout
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   Logout = async (req, res) => {
     tokens = tokens.filter((token) => token !== req.body.token);
@@ -133,9 +131,9 @@ export class UserController {
 
   /**
    * Update User Avatar
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   UpdateUserAvatar = async (req, res) => {
     const userId = req.params.userId;
@@ -159,9 +157,9 @@ export class UserController {
 
   /**
    * Send Email to user
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   ForgetPassword = async (req, res) => {
     const { email } = req.body;
@@ -192,9 +190,9 @@ export class UserController {
 
   /**
    * Reset Password
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   ResetPassword = async (req, res) => {
     try {
