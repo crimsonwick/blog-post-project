@@ -6,8 +6,13 @@ const { Op } = require('sequelize');
 const { Users, Posts, Comments } = model;
 
 export class PostController {
-  constructor() {}
 
+  /**
+   * Add Post
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   AddPost = async (req, res) => {
     const { userId, title, body, timetoRead } = req.body;
     try {
@@ -49,6 +54,13 @@ export class PostController {
   //   }
   // }
 
+
+  /**
+   * Update Posts
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   updatePosts = async (req, res) => {
     const { id, pid } = req.params;
     try {
@@ -79,6 +91,12 @@ export class PostController {
     }
   };
 
+  /**
+   * Delete Posts
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   deletePosts = async (req, res) => {
     try {
       const { id, pid } = req.params;
@@ -93,6 +111,12 @@ export class PostController {
     }
   };
 
+  /**
+   * Search Posts
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   searchPosts = async (req, res) => {
     let query = {
       index: 'posts',
@@ -114,6 +138,13 @@ export class PostController {
     }
   };
 
+
+  /**
+   * Returns a single user's posts
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   myPosts = async (req, res) => {
     let query = {
       index: 'posts',
@@ -140,6 +171,12 @@ export class PostController {
     }
   };
 
+  /**
+   * Searching in user's MyArticles Page
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   searchMyPost = async (req, res) => {
     let query = {
       index: 'posts',
@@ -171,6 +208,12 @@ export class PostController {
     }
   };
 
+  /**
+   * Returns Replies for a single post
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   getRepliesfromOnePost = async (req, res) => {
     try {
       const AllComments = await Comments.findAll({
@@ -189,6 +232,12 @@ export class PostController {
     }
   };
 
+  /**
+   * Retruns Paginated Posts
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   PaginatedPosts = async (req, res) => {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
@@ -213,6 +262,12 @@ export class PostController {
       ErrorHandling(res);
     }
   };
+  /**
+   * Gets Posts
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   getPosts = async (req, res) => {
     try {
       const limit = parseInt(req.query.limit);
@@ -347,6 +402,12 @@ export class PostController {
     // }
   };
 
+  /**
+   *  Get Cursor Posts of Single User
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   getCursorPostsOfSingleUser = async (req, res) => {
     try {
       const limit = parseInt(req.query.limit);
@@ -481,6 +542,13 @@ export class PostController {
       return res.json({ error: `${err}` });
     }
   };
+
+  /**
+   * Paginated Posts
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   PaginatedPosts = async (req, res) => {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);

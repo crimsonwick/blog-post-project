@@ -33,13 +33,25 @@ export const Navbar = (props: NavbarProps) => {
     useContext(AppContext);
   const open = Boolean(anchorEl);
 
+  /**
+   * Handle Click Functiom
+   * @param event 
+   */
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  /**
+   * Handle Close Function
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  /**
+   * Handle Key Down Function
+   * @param event 
+   */
   const handleKeyDown = async (
     event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {

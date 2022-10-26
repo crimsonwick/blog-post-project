@@ -44,6 +44,10 @@ const CreateArticle = () => {
 
   const navigate = useNavigate();
 
+  /**
+   * On Submit Function.
+   * @param data 
+   */
   const onSubmit = async (data: dataInterface) => {
     if (context?.postImage === null) {
       Alerts.error('Add an Image.');

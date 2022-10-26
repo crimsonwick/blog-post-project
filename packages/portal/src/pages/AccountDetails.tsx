@@ -14,6 +14,12 @@ export const AccountDetails = () => {
   const [image, setImage] = useState<File | null>(null);
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
+
+  /**
+   * Handle Submit Function
+   * @param e 
+   * @returns 
+   */  
   const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (context) {
@@ -60,7 +66,11 @@ export const AccountDetails = () => {
       }
     }
   };
-
+/**
+ * Handles File Change
+ * @param e 
+ * @returns 
+ */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) {
       return;
@@ -76,6 +86,10 @@ export const AccountDetails = () => {
     // console.log(image.data.name);
   };
 
+  /**
+   * Remove file from image state
+   * @returns 
+   */
   const removeFile = () => () => {
     setImage(null);
   };
