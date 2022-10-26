@@ -14,8 +14,6 @@ import { CommentInterface } from '../services/CommentApi';
 import { getReply, parseName, parseTime } from '../services/LoginApi';
 import { AddComment } from './AddComment';
 
-// import moment from 'moment';
-
 interface CommentComponentInterface<C> {
   object: C;
 }

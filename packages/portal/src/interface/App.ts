@@ -184,6 +184,10 @@ export interface InputFieldInterface {
   labelBelow?: string
 }
 
+export interface ArticleDetailComponentInterface {
+  articleId: string
+}
+
 export interface PostHeaderProps {
   textSize?: string
   count?: number
@@ -245,27 +249,27 @@ export interface ImageInterface{
     data: File | string;
 }
 
-export interface PostInterface {
-    object?: {
-        id: string;
-    userId: string;
-    title: string;
-    body: string;
-    image: string;
-    timetoRead: number;
-    createdAt: string;
-    updatedAt: string;
-    Posted_By: {
-            id : string;
-            email: string;
-            password: string;
-            avatar : string | null;
-            resetLink: string;
-            createdAt: string;
-            updatedAt: string;
-          }
-    }
-}
+// export interface PostInterface {
+//     object?: {
+//         id: string;
+//     userId: string;
+//     title: string;
+//     body: string;
+//     image: string;
+//     timetoRead: number;
+//     createdAt: string;
+//     updatedAt: string;
+//     Posted_By: {
+//             id : string;
+//             email: string;
+//             password: string;
+//             avatar : string | null;
+//             resetLink: string;
+//             createdAt: string;
+//             updatedAt: string;
+//           }
+//     }
+// }
 
 export interface PostsAll {
         id: string;

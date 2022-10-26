@@ -7,8 +7,6 @@ import { upload } from '../utils/multer.js';
 const router = express.Router();
 
 class UserRouter {
-  constructor() {}
-
   checkRequests() {
     const UserObject = new UserController();
     const PostObject = new PostController();
@@ -24,6 +22,11 @@ class UserRouter {
     router.post('/signup', UserObject.SignUp);
     router.post('/login', UserObject.Login);
     router.delete('/logout', UserObject.Logout);
+    router.get(
+      '/:id/posts',
+      Authentication,
+      PostObject.getCursorPostsOfSingleUser
+    );
   }
 }
 

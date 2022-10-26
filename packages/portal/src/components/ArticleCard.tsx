@@ -14,6 +14,8 @@ import '../styles/Article/Article.css';
 import { flexContainer } from '../styles/Article/List';
 
 export const ArticleCard = React.forwardRef((props: any, ref: any) => {
+  console.log('props::: ', props);
+  console.log('ref::: ', ref);
   return (
     <Card
       ref={ref}
@@ -49,8 +51,9 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
             fontFamily: 'Poppins',
           }}
         />
+
         <Link
-          to={`articles/${props?.object?.id}`}
+          to={`/articles/${props?.object?.id}`}
           state={props}
           style={{ textDecoration: 'none', color: 'rgba(0,0,0,0.87)' }}
         >

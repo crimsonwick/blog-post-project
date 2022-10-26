@@ -1,13 +1,13 @@
+import { Typography } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import React, { useCallback, useContext, useRef, useState } from 'react';
-import { AppContext } from '../context/AppContext';
 import { ArticleCard } from '../components/ArticleCard';
+import { Loader } from '../components/Loader';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
-import { AppContextInterface, UserInterface } from '../interface/App';
 import useInfiniteScrollOnMyArticles from '../components/useInfiniteScrollOnMyArticles';
-import { Typography } from '@mui/material';
-import { Loader } from '../components/Loader';
+import { AppContext } from '../context/AppContext';
+import { AppContextInterface, UserInterface } from '../interface/App';
 export const MyArticles = () => {
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
@@ -49,9 +49,9 @@ export const MyArticles = () => {
         <Navbar mainPage={false} isMyActive={true} />
       )}
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name="My Articles" />
+        <PostsHeader name='My Articles' />
 
-        {posts && context?.searchMyData?.length === 0 ? (
+        {!error && posts && context?.searchMyData?.length === 0 ? (
           <Box mt={5}>
             {posts.map((post, index) => {
               if (posts.length === index + 1) {
@@ -60,7 +60,11 @@ export const MyArticles = () => {
               return <ArticleCard object={post} key={index} />;
             })}
             {loading && <Loader />}
-            <Typography>{error && 'Error'}</Typography>
+            {error && (
+              <Typography sx={{ marginTop: '20px' }} align='center'>
+                Error occured in loading post...
+              </Typography>
+            )}
           </Box>
         ) : (
           context?.searchMyData?.map((object) => {
@@ -68,6 +72,11 @@ export const MyArticles = () => {
               <ArticleCard key={object._source.id} object={object._source} />
             );
           })
+        )}
+        {!loading && !hasMore && (
+          <Typography sx={{ marginTop: '20px' }} align='center'>
+            No more articles to show...
+          </Typography>
         )}
       </Container>
     </>

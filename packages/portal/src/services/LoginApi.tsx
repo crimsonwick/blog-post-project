@@ -79,7 +79,7 @@ export const parseTime = (str: string) => {
   let currentDate = new Date();
 
   let diff = diff_hours(incomingDate, currentDate);
-  if (diff > 24) {
+  if (diff >= 24) {
     let dayDiff = Math.trunc(diff / 24);
     if (dayDiff === 1) return `${dayDiff}d ago`;
     return `${dayDiff}d ago`;

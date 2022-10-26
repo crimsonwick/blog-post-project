@@ -74,15 +74,15 @@ export const AccountDetails = () => {
       <Navbar login={true} mainPage={false} />
       <Container sx={{ marginY: 10 }}>
         <Box mb={3}>
-          <PostsHeader name="Account Details" />
+          <PostsHeader name='Account Details' />
         </Box>
         <BasicTable />
         <Box mt={7}>
-          <PostsHeader name="Change Display Picture" />
-          <Box component="form" onSubmit={handleSubmit}>
+          <PostsHeader name='Change Display Picture' />
+          <Box component='form' onSubmit={handleSubmit}>
             <Button
-              variant="contained"
-              component="label"
+              variant='contained'
+              component='label'
               sx={{
                 borderRadius: '20px',
                 width: '12%',
@@ -93,19 +93,19 @@ export const AccountDetails = () => {
                 textTransform: 'capitalize',
                 fontWeight: 'bold',
               }}
-              color="secondary"
+              color='secondary'
             >
               Upload
               <input
-                type="file"
-                name="file"
+                type='file'
+                name='file'
                 onChange={handleFileChange}
                 hidden
               />
             </Button>
 
             <Button
-              variant="contained"
+              variant='contained'
               sx={{
                 borderRadius: '20px',
                 marginLeft: '10px',
@@ -117,7 +117,7 @@ export const AccountDetails = () => {
                 textTransform: 'capitalize',
                 fontWeight: 'bold',
               }}
-              type="submit"
+              type='submit'
             >
               Submit
             </Button>
@@ -152,7 +152,7 @@ export const AccountDetails = () => {
                   >
                     <img
                       src={URL.createObjectURL(image)}
-                      alt="image_preview"
+                      alt='image_preview'
                       style={{
                         display: 'block',
                         width: 'auto',

@@ -1,13 +1,13 @@
 import { Box, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import React, { useCallback, useContext, useRef, useState } from 'react';
-import { AppContext } from '../context/AppContext';
 import { ArticleCard } from '../components/ArticleCard';
+import { Loader } from '../components/Loader';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
-import { AppContextInterface, UserInterface } from '../interface/App';
-import { Loader } from '../components/Loader';
 import useInfiniteScrollOnHome from '../components/useInfiniteScrollOnHome';
+import { AppContext } from '../context/AppContext';
+import { AppContextInterface, UserInterface } from '../interface/App';
 
 export const Home = () => {
   const context: AppContextInterface<UserInterface> | null =
@@ -47,7 +47,7 @@ export const Home = () => {
       )}
 
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name="Recent Posts" />
+        <PostsHeader name='Recent Posts' />
         {posts && context?.searchData?.length === 0 ? (
           <Box mt={5}>
             {posts.map((post, index) => {
@@ -57,12 +57,21 @@ export const Home = () => {
               return <ArticleCard object={post} key={index} />;
             })}
             {loading && <Loader />}
-            <Typography>{error && 'Error'}</Typography>
+            {error && (
+              <Typography sx={{ marginTop: '20px' }} align='center'>
+                Error occured in loading post...
+              </Typography>
+            )}
           </Box>
         ) : (
           context?.searchData?.map((object) => {
             return <ArticleCard key={object.id} object={object} />;
           })
+        )}
+        {!loading && !hasMore && (
+          <Typography sx={{ marginTop: '20px' }} align='center'>
+            No more articles to show...
+          </Typography>
         )}
       </Container>
     </>

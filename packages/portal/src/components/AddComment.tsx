@@ -1,18 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserInterface } from '../interface/App';
-import { PostsAll } from '../interface/App';
 import { addComment, addReply, CommentInterface } from '../services/CommentApi';
 import { InputButton } from './InputButton';
 import { InputField } from './InputField';
 
-interface AddCommentInterface<P, C> {
+interface AddCommentInterface<C> {
   width: string;
-  postObject?: P;
+  articleId?: string;
   commentObject?: C;
   placeholder: string;
   labelAbove: string;
@@ -21,9 +20,7 @@ interface AddCommentInterface<P, C> {
   refreshReplies?: (commentId: string) => void;
 }
 
-export const AddComment = (
-  props: AddCommentInterface<PostsAll, CommentInterface>
-) => {
+export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
   // const inputRef = useRef(null);
   const schema = yup.object().shape({
     comment: yup.string().required(),
@@ -45,13 +42,13 @@ export const AddComment = (
   }
   const onSubmit = async (data: { comment: string }) => {
     setValue('comment', '');
-    if (context.accessToken && props.Comment && props.postObject) {
+    if (context.accessToken && props.Comment && props.articleId) {
       await addComment({
-        postId: props.postObject.id,
+        postId: props.articleId,
         userId: context.userData.id,
         body: data.comment,
       });
-      if (props.refreshComment) props.refreshComment(props.postObject.id);
+      if (props.refreshComment) props.refreshComment(props.articleId);
     }
     if (context.accessToken && !props.Comment && props.commentObject) {
       await addReply({
@@ -68,7 +65,7 @@ export const AddComment = (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         {context.loggedIn && (
-          <Box display="flex" gap={2} alignItems="flex-end">
+          <Box display='flex' gap={2} alignItems='flex-end'>
             <InputField
               name={'comment'}
               control={control}
@@ -78,9 +75,9 @@ export const AddComment = (
             />
             <Box
               sx={{ display: 'flex', allignItems: 'centre', marginTop: '5px' }}
-              display="flex"
+              display='flex'
             >
-              <InputButton name="Post" width="100px" />
+              <InputButton name='Post' width='100px' />
             </Box>
           </Box>
         )}

@@ -77,14 +77,14 @@ export const Navbar = (props: NavbarProps) => {
   };
   return (
     <>
-      <AppBar position="sticky" style={{ background: '#FFFFFF' }}>
+      <AppBar position='sticky' style={{ background: '#FFFFFF' }}>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
             <Typography
               component={NavLink}
               style={props.isNavActive ? { color: 'black' } : { color: 'grey' }}
-              to="/"
-              variant="h6"
+              to='/'
+              variant='h6'
               sx={{
                 marginLeft: '5px',
                 textTransform: 'capitalize',
@@ -99,8 +99,8 @@ export const Navbar = (props: NavbarProps) => {
                 style={
                   props.isMyActive ? { color: 'black' } : { color: 'grey' }
                 }
-                to="/my-articles"
-                variant="h6"
+                to='/articles'
+                variant='h6'
                 sx={{
                   marginLeft: '15px',
                   textTransform: 'capitalize',
@@ -119,7 +119,7 @@ export const Navbar = (props: NavbarProps) => {
 
             <StyledInputBase
               sx={{ color: '#111111' }}
-              placeholder="Search…"
+              placeholder='Search…'
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
@@ -128,9 +128,9 @@ export const Navbar = (props: NavbarProps) => {
           {props.login && (
             <Button
               component={Link}
-              to="/create-article"
-              variant="contained"
-              color="secondary"
+              to='/create-article'
+              variant='contained'
+              color='secondary'
               sx={{
                 fontWeight: '600',
                 textTransform: 'capitalize',
@@ -144,18 +144,18 @@ export const Navbar = (props: NavbarProps) => {
             <div>
               <Button
                 component={Link}
-                to="/login"
-                variant="contained"
-                color="primary"
+                to='/login'
+                variant='contained'
+                color='primary'
                 sx={{ marginRight: '10px' }}
               >
                 Login
               </Button>
               <Button
                 component={Link}
-                to="/signup"
-                variant="contained"
-                color="secondary"
+                to='/signup'
+                variant='contained'
+                color='secondary'
               >
                 Sign Up
               </Button>
@@ -163,17 +163,17 @@ export const Navbar = (props: NavbarProps) => {
           )}
           {props.login && (
             <div>
-              <Tooltip title="Account settings">
+              <Tooltip title='Account settings'>
                 <IconButton
                   onClick={handleClick}
-                  size="small"
+                  size='small'
                   sx={{ ml: 2 }}
                   aria-controls={open ? 'account-menu' : undefined}
-                  aria-haspopup="true"
+                  aria-haspopup='true'
                   aria-expanded={open ? 'true' : undefined}
                 >
                   <Avatar
-                    alt="user display picture"
+                    alt='user display picture'
                     src={
                       context?.dp
                         ? require(`../images/${context?.dp}`)
@@ -187,7 +187,7 @@ export const Navbar = (props: NavbarProps) => {
               </Tooltip>
               <Menu
                 anchorEl={anchorEl}
-                id="account-menu"
+                id='account-menu'
                 open={open}
                 onClose={handleClose}
                 onClick={handleClose}
@@ -221,12 +221,12 @@ export const Navbar = (props: NavbarProps) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
                 <Link
-                  to="/account-details"
+                  to='/account-details'
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
                   <MenuItem>
                     <Avatar
-                      alt="user display picture"
+                      alt='user display picture'
                       src={
                         context?.dp
                           ? require(`../images/${context.dp}`)
@@ -240,13 +240,13 @@ export const Navbar = (props: NavbarProps) => {
                 </Link>
                 <Divider />
                 <Link
-                  to="/"
+                  to='/'
                   style={{ textDecoration: 'none', color: 'black' }}
                   onClick={handleLogout}
                 >
                   <MenuItem>
                     <ListItemIcon>
-                      <Logout fontSize="small" />
+                      <Logout fontSize='small' />
                     </ListItemIcon>
                     Logout
                   </MenuItem>
