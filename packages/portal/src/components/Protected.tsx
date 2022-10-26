@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ProtectedInterface } from '../interface/App'
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { ProtectedInterface } from '../interface/App';
 
-export const Protected: React.FC<ProtectedInterface> = (props) => {
-  const { Component } = props
-  const navigate = useNavigate()
-  useEffect(() => {
-    let login = localStorage.getItem('login')
-    if (!login) {
-      navigate('/login')
-    }
-  })
+export const Protected: React.FC<ProtectedInterface> = () => {
+  return localStorage.getItem('accessToken') ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" />
+  );
+};
 
-  return <div>{Component}</div>
-}
+export const Public: React.FC<ProtectedInterface> = () => {
+  return !localStorage.getItem('accessToken') ? (
+    <Outlet />
+  ) : (
+    <Navigate to={localStorage.getItem('link') as unknown as string} />
+  );
+};

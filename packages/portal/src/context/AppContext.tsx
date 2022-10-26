@@ -38,6 +38,7 @@ export const ContextProvider = (props: { children?: React.ReactNode }) => {
   const logoutToken = async () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('login');
     setAccessToken(null);
     setRefreshToken(null);
   };

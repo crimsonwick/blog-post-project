@@ -49,6 +49,10 @@ export const StyledDropZone = () => {
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
 
+
+  /**
+   * On Drop Function
+   */
   const onDrop = useCallback(
     (acceptedFile: File[]) => {
       const file = acceptedFile[0];
@@ -64,6 +68,11 @@ export const StyledDropZone = () => {
     [context, myFile]
   );
 
+  /**
+   * Removes File
+   * @param file 
+   * @returns 
+   */
   const removeFile = (file: MyFile) => () => {
     setMyFile([]);
     context?.setPostImage(null);
@@ -81,6 +90,9 @@ export const StyledDropZone = () => {
     },
   });
 
+  /**
+   * Remove File Html Button
+   */
   const removeFileList = myFile.map((file_) => (
     <button key={file_.name} onClick={removeFile(file_)}>
       Remove File

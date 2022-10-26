@@ -1,24 +1,24 @@
-"use strict";
-import { Model } from "sequelize";
+'use strict';
+import { Model } from 'sequelize';
 
 export default (sequelize, DataTypes) => {
   class Comments extends Model {
     static associate(models) {
       Comments.belongsTo(models.Posts, {
-        foreignKey: "postId",
-        as: "Commented_on",
+        foreignKey: 'postId',
+        as: 'commentedOn',
       });
       Comments.belongsTo(models.Users, {
-        foreignKey: "userId",
-        as: "Commented_By",
+        foreignKey: 'userId',
+        as: 'commentedBy',
       });
       Comments.hasMany(models.Comments, {
-        foreignKey: "parentId",
-        as: "Replies",
+        foreignKey: 'parentId',
+        as: 'Replies',
       });
       Comments.belongsTo(models.Comments, {
-        foreignKey: "parentId",
-        as: "Replied_on",
+        foreignKey: 'parentId',
+        as: 'repliedOn',
       });
     }
   }
@@ -28,29 +28,29 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
-        defaultValue: sequelize.fn("uuid_generate_v4"),
+        defaultValue: sequelize.fn('uuid_generate_v4'),
       },
       postId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: "Posts",
-          key: "id",
+          model: 'Posts',
+          key: 'id',
         },
       },
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: "Users",
-          key: "id",
+          model: 'Users',
+          key: 'id',
         },
       },
       parentId: {
         type: DataTypes.UUID,
         references: {
-          model: "Comments",
-          key: "id",
+          model: 'Comments',
+          key: 'id',
         },
         defaultValue: null,
       },
@@ -58,7 +58,7 @@ export default (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Comments",
+      modelName: 'Comments',
     }
   );
   return Comments;
