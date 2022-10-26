@@ -73,6 +73,12 @@ export const ChangePassword = () => {
       showPassword: !values2.showPassword,
     });
   };
+ 
+ 
+ /**
+  * On Submit Function
+  * @param data 
+  */
   const onSubmit = async (data: { password1: string; password2: string }) => {
     try {
       errors.password1 ? setMessage(false) : setMessage(true);

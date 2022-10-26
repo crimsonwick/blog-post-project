@@ -1,25 +1,15 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box } from '@mui/material';
-import React, { useContext } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { AppContext } from '../context/AppContext';
-import { AppContextInterface, UserInterface } from '../interface/App';
-import { PostsAll } from '../interface/App';
-import { addComment, addReply, CommentInterface } from '../services/CommentApi';
-import { InputButton } from './InputButton';
-import { InputField } from './InputField';
-
-interface AddCommentInterface<P, C> {
-  width: string;
-  postObject?: P;
-  commentObject?: C;
-  placeholder: string;
-  labelAbove: string;
-  Comment: boolean;
-  refreshComment?: (id: string) => void;
-  refreshReplies?: (commentId: string) => void;
-}
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Box } from "@mui/material";
+import React, { useContext } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { AppContext } from "../context/AppContext";
+import { AppContextInterface, UserInterface } from "../interface/App";
+import { PostsAll } from "../interface/App";
+import { addComment, addReply, CommentInterface } from "../services/CommentApi";
+import { InputButton } from "./InputButton";
+import { InputField } from "./InputField";
+import { AddCommentInterface } from "../interface/App";
 
 export const AddComment = (
   props: AddCommentInterface<PostsAll, CommentInterface>
@@ -29,7 +19,7 @@ export const AddComment = (
     comment: yup.string().required(),
   });
   const methods = useForm({
-    defaultValues: { comment: '' },
+    defaultValues: { comment: "" },
     resolver: yupResolver(schema),
   });
 
@@ -43,8 +33,13 @@ export const AddComment = (
       return <h1>Not Working!!</h1>;
     }
   }
+
+  /**
+   * Onsubmit Function
+   * @param data 
+   */
   const onSubmit = async (data: { comment: string }) => {
-    setValue('comment', '');
+    setValue("comment", "");
     if (context.accessToken && props.Comment && props.postObject) {
       await addComment({
         postId: props.postObject.id,
@@ -70,14 +65,14 @@ export const AddComment = (
         {context.loggedIn && (
           <Box display="flex" gap={2} alignItems="flex-end">
             <InputField
-              name={'comment'}
+              name={"comment"}
               control={control}
               width={props.width}
               labelAbove={props.labelAbove}
               placeholder={props.placeholder}
             />
             <Box
-              sx={{ display: 'flex', allignItems: 'centre', marginTop: '5px' }}
+              sx={{ display: "flex", allignItems: "centre", marginTop: "5px" }}
               display="flex"
             >
               <InputButton name="Post" width="100px" />

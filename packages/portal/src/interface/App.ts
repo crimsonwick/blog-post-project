@@ -3,6 +3,18 @@ import { bodyInterface } from "../context/AppContext";
 import React from 'react'
 import { Control } from 'react-hook-form'
 
+
+export interface AddCommentInterface<P, C> {
+  width: string;
+  postObject?: P;
+  commentObject?: C;
+  placeholder: string;
+  labelAbove: string;
+  Comment: boolean;
+  refreshComment?: (id: string) => void;
+  refreshReplies?: (commentId: string) => void;
+}
+
 export interface UserInterface {
   id?: string
   email?: string

@@ -9,6 +9,11 @@ import {
 import React from 'react'
 
 let useSnackbarRef: ProviderContext
+
+/**
+ * Snackbar configuration
+ * @returns 
+ */
 export const SnackbarUtilsConfiguration = (): null => {
   useSnackbarRef = useSnackbar()
   return null
@@ -17,7 +22,11 @@ export const SnackbarUtilsConfiguration = (): null => {
 type CloseButtonInterface = {
   id?: SnackbarKey | undefined
 }
-
+/**
+ * Close Buttton
+ * @param param0 
+ * @returns 
+ */
 export const CloseButton = ({ id }: CloseButtonInterface) => {
   const { closeSnackbar } = useSnackbar()
   return (

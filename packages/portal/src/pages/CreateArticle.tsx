@@ -47,29 +47,37 @@ const CreateArticle = () => {
     localStorage.setItem('link', '/create-article');
   }, []);
 
+  /**
+   * On Submit Function.
+   * @param data 
+   */
   const onSubmit = async (data: dataInterface) => {
     if (context?.postImage === null) {
       Alerts.error('Add an Image.');
     } else {
-      try {
-        let formData = new FormData();
-        formData.append('userId', context?.userData.id as unknown as string);
-        formData.append('title', data.title);
-        formData.append('body', data.body);
-        formData.append('file', context?.postImage as unknown as string);
-        formData.append('timetoRead', data.mins as unknown as Blob);
-        Alerts.success('Post Created successfully');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${context?.accessToken}`,
-          },
-        };
-        await addPost(formData, config);
-        setTimeout(() => {
-          navigate('/my-articles');
-        }, 250);
-      } catch (err) {
-        Alerts.error('Something went Wrong');
+      if (context?.postImage?.type === "image/png" || context?.postImage?.type === "image/jpg" || context?.postImage?.type === "image/jpeg") {
+        try {
+          let formData = new FormData();
+          formData.append("userId", context?.userData.id as unknown as string);
+          formData.append("title", data.title);
+          formData.append("body", data.body);
+          formData.append("file", context?.postImage as unknown as string);
+          formData.append("timetoRead", data.mins as unknown as Blob);
+          Alerts.success("Post Created successfully");
+          const config = {
+            headers: {
+              Authorization: `Bearer ${context?.accessToken}`,
+            },
+          };
+          await addPost(formData, config);
+          setTimeout(() => {
+            navigate("/my-articles");
+          }, 250);
+        } catch (err) {
+          Alerts.error("Something went Wrong");
+        }
+      } else {
+        Alerts.error("We only accept png/jpeg/jpg images");
       }
     }
   };

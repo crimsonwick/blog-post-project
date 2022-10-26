@@ -26,6 +26,18 @@ export const AccountDetails = () => {
           formData.append('file', image); //?.data);
         }
 
+        if (
+          image &&
+          !(
+            image.type === 'image/png' ||
+            image.type === 'image/jpg' ||
+            image.type === 'image/jpeg'
+          )
+        ) {
+          Alerts.error('Upload png/jpg/jpeg please');
+          return;
+        }
+
         if (!context.accessToken) {
           return;
         }
@@ -51,7 +63,11 @@ export const AccountDetails = () => {
       }
     }
   };
-
+  /**
+   * Handles File Change
+   * @param e
+   * @returns
+   */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) {
       return;
@@ -67,6 +83,10 @@ export const AccountDetails = () => {
     // console.log(image.data.name);
   };
 
+  /**
+   * Remove file from image state
+   * @returns
+   */
   const removeFile = () => () => {
     setImage(null);
   };

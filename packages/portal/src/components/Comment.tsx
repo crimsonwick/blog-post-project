@@ -23,6 +23,11 @@ interface CommentComponentInterface<C> {
 export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
   const [replies, setReplies] = useState<boolean>(false);
   const [reply, setReply] = useState<CommentInterface[]>([]);
+
+  /**
+   * Get Replies of a certain comment using it's ID
+   * @param commentId 
+   */
   const getReplies = async (commentId: string) => {
     const response = await getReply(commentId);
     setReply(response.data);
