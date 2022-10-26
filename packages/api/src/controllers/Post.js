@@ -12,13 +12,10 @@ const query = async (qLimit, qId, qCondition, qAll) => {
     const id = qId;
     const condition = qCondition;
     if (condition === '') {
-      where = { userId: id };
-      console.log(where);
     } else {
       where = {
         [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
       };
-      console.log(where);
     }
   } else {
     const condition = qCondition;
