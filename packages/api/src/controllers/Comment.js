@@ -24,31 +24,10 @@ export class CommentController {
       const getAll = await Comments.findAll({
         include: {
           model: Users,
-          as: 'Commented_By',
+          as: 'commentedBy',
         },
       });
       res.json(getAll);
-    } catch (error) {
-      ErrorHandling(res);
-    }
-  };
-
-  updateComment = async (req, res) => {
-    const update = { ...req.body };
-    const { id } = req.params;
-    try {
-      const updateC = await Comments.update(update, { where: { id: id } });
-      res.json(`Successfully Updated Id = ${id}`);
-    } catch (error) {
-      ErrorHandling(res);
-    }
-  };
-
-  deleteComment = async (req, res) => {
-    const { id } = req.params;
-    try {
-      const deleteC = await Comments.destroy({ where: { id: id } });
-      res.json(`Successfully Deleted Id = ${id}`);
     } catch (error) {
       ErrorHandling(res);
     }
@@ -91,7 +70,7 @@ export class CommentController {
         },
         include: {
           model: Users,
-          as: 'Commented_By',
+          as: 'commentedBy',
         },
       });
       return res.json(response);

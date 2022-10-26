@@ -27,6 +27,7 @@ class UserRouter {
       Authentication,
       PostObject.getCursorPostsOfSingleUser
     );
+    router.get('/:id/posts/search', Authentication, PostObject.searchMyPost);
   }
 }
 

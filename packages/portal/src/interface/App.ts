@@ -3,6 +3,18 @@ import { bodyInterface } from "../context/AppContext";
 import React from 'react'
 import { Control } from 'react-hook-form'
 
+
+export interface AddCommentInterface<P, C> {
+  width: string;
+  postObject?: P;
+  commentObject?: C;
+  placeholder: string;
+  labelAbove: string;
+  Comment: boolean;
+  refreshComment?: (id: string) => void;
+  refreshReplies?: (commentId: string) => void;
+}
+
 export interface UserInterface {
   id?: string
   email?: string
@@ -19,10 +31,10 @@ export interface SearchDataInterface {
   title: string
   body: string
   image: string
-  timetoRead: number
+  timeToRead: number
   createdAt: string
   updatedAt: string
-  Posted_By: {
+  postedBy: {
     id: string
     email: string
     password: string
@@ -44,10 +56,10 @@ export interface SearchMyDataInterface {
     title: string
     body: string
     image: string
-    timetoRead: number
+    timeToRead: number
     createdAt: string
     updatedAt: string
-    Posted_By: {
+    postedBy: {
       id: string
       email: string
       password: string
@@ -108,7 +120,8 @@ export interface ArticleDetailInterface {
     timeToRead: number
     createdAt: string
     updatedAt: string
-    Posted_By: {
+    postedBy: {
+      id: string
       email: string
       avatar: string | null
     }
@@ -126,7 +139,7 @@ export interface PostInterface
     timeToRead: number
     createdAt: string
     updatedAt: string
-    Posted_By: {
+    postedBy: {
       email: string
       avatar: string | null
     }
@@ -138,10 +151,10 @@ export interface PostsAll {
   title?: string
   body?: string
   image?: string
-  timetoRead?: number
+  timeToRead?: number
   createdAt?: string
   updatedAt?: string
-  Posted_By: {
+  postedBy: {
     id: string
     email: string
     password: string
@@ -157,7 +170,7 @@ export interface PostsAdd {
   title: string
   body: string
   image: string
-  timetoRead: number
+  timeToRead: number
 }
 
 export interface DataObject {
@@ -198,6 +211,10 @@ export interface ProtectedInterface {
   Component?: React.ReactNode
 }
 
+export interface ProtectedLoginInterface{
+  pathname: string;
+}
+
 export interface ColorInterface {
   isDragAccept: boolean
   isDragReject: boolean
@@ -217,10 +234,10 @@ export interface PostInterfaceForLandingPage {
   title: string
   body: string
   image: string
-  timetoRead: number
+  timeToRead: number
   createdAt: string
   updatedAt: string
-  Posted_By: {
+  postedBy: {
     id: string
     email: string
     password: string
@@ -249,27 +266,27 @@ export interface ImageInterface{
     data: File | string;
 }
 
-// export interface PostInterface {
-//     object?: {
-//         id: string;
-//     userId: string;
-//     title: string;
-//     body: string;
-//     image: string;
-//     timetoRead: number;
-//     createdAt: string;
-//     updatedAt: string;
-//     Posted_By: {
-//             id : string;
-//             email: string;
-//             password: string;
-//             avatar : string | null;
-//             resetLink: string;
-//             createdAt: string;
-//             updatedAt: string;
-//           }
-//     }
-// }
+export interface PostInterface {
+    object?: {
+        id: string;
+    userId: string;
+    title: string;
+    body: string;
+    image: string;
+    timeToRead: number;
+    createdAt: string;
+    updatedAt: string;
+    postedBy: {
+            id : string;
+            email: string;
+            password: string;
+            avatar : string | null;
+            resetLink: string;
+            createdAt: string;
+            updatedAt: string;
+          }
+    }
+}
 
 export interface PostsAll {
         id: string;
@@ -277,10 +294,10 @@ export interface PostsAll {
     title?: string;
     body?: string;
     image?: string;
-    timetoRead?: number;
+    timeToRead?: number;
     createdAt?: string;
     updatedAt?: string;
-    Posted_By: {
+    postedBy: {
             id : string;
             email: string;
             password: string;
@@ -296,7 +313,7 @@ userId: string;
 title: string;
 body: string;
 image: string;
-timetoRead: number;
+timeToRead: number;
 }
 
 export interface LandingPageInterface<T> {
@@ -312,10 +329,10 @@ userId: string;
 title: string;
 body: string;
 image: string;
-timetoRead: number;
+timeToRead: number;
 createdAt: string;
 updatedAt: string;
-Posted_By: {
+postedBy: {
         id : string;
         email: string;
         password: string;

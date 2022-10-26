@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Alerts } from '../components/Alerts';
 import { BasicTable } from '../components/BasicTable';
 import { Navbar } from '../components/NavBar';
@@ -14,6 +14,9 @@ export const AccountDetails = () => {
   const [image, setImage] = useState<File | null>(null);
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
+  useEffect(() => {
+    localStorage.setItem('link', '/account-details');
+  }, []);
   const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (context) {
@@ -21,6 +24,18 @@ export const AccountDetails = () => {
         let formData = new FormData();
         if (image) {
           formData.append('file', image); //?.data);
+        }
+
+        if (
+          image &&
+          !(
+            image.type === 'image/png' ||
+            image.type === 'image/jpg' ||
+            image.type === 'image/jpeg'
+          )
+        ) {
+          Alerts.error('Upload png/jpg/jpeg please');
+          return;
         }
 
         if (!context.accessToken) {
@@ -48,7 +63,11 @@ export const AccountDetails = () => {
       }
     }
   };
-
+  /**
+   * Handles File Change
+   * @param e
+   * @returns
+   */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) {
       return;
@@ -64,6 +83,10 @@ export const AccountDetails = () => {
     // console.log(image.data.name);
   };
 
+  /**
+   * Remove file from image state
+   * @returns
+   */
   const removeFile = () => () => {
     setImage(null);
   };

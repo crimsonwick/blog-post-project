@@ -52,7 +52,7 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
       {post && (
         <Card sx={CardStyle}>
           <Chip
-            label='Travel'
+            label="Travel"
             sx={{
               borderRadius: '3px',
               backgroundColor: '#F2F8F7',
@@ -62,7 +62,7 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
             }}
           />
           <Typography
-            variant='h1'
+            variant="h1"
             sx={{
               fontFamily: 'Poppins',
               fontWeight: '600',
@@ -77,7 +77,7 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
           </Typography>
           <List style={flexContainer}>
             <ListItem
-              className='user'
+              className="user"
               disablePadding={true}
               sx={{
                 borderColor: 'gray',
@@ -91,19 +91,19 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
                   src={
                     context?.dp
                       ? require(`../images/${context.dp}`)
-                      : post?.Posted_By.avatar
-                      ? require(`../images/${post?.Posted_By.avatar}`)
+                      : post?.postedBy.avatar
+                      ? require(`../images/${post?.postedBy.avatar}`)
                       : ''
                   }
-                  alt='user_dp'
+                  alt="user_dp"
                 />
               </ListItemIcon>
               <ListItemText
-                primary={parseName(post?.Posted_By.email as unknown as string)}
+                primary={parseName(post?.postedBy.email as unknown as string)}
               />
             </ListItem>
             <ListItem
-              className='timeToRead'
+              className="timeToRead"
               sx={{
                 borderLeft: '2px solid',
                 borderColor: 'gray',
@@ -119,14 +119,14 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
             </ListItem>
           </List>
           <CardMedia
-            component='img'
-            height='432'
+            component="img"
+            height="432"
             image={require(`../images/${post?.image}`)}
-            alt='post_detail_image'
+            alt="post_detail_image"
             sx={CardMediaStyle}
           />
           <Typography
-            variant='h6'
+            variant="h6"
             sx={{ height: 'auto', width: '856px', marginTop: '20px' }}
           >
             {post?.body}
@@ -137,7 +137,7 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
       >
-        <CircularProgress color='inherit' />
+        <CircularProgress color="inherit" />
       </Backdrop>
     </>
   );

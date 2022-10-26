@@ -21,6 +21,11 @@ interface CommentComponentInterface<C> {
 export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
   const [replies, setReplies] = useState<boolean>(false);
   const [reply, setReply] = useState<CommentInterface[]>([]);
+
+  /**
+   * Get Replies of a certain comment using it's ID
+   * @param commentId 
+   */
   const getReplies = async (commentId: string) => {
     const response = await getReply(commentId);
     setReply(response.data);
@@ -28,7 +33,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
   useEffect(() => {
     getReplies(props.object.id);
   }, [props]);
-  if (props.object.Commented_By === undefined) {
+  if (props.object.commentedBy === undefined) {
     return <h1>Not Working!!!</h1>;
   } else {
     return (
@@ -49,15 +54,15 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
               <ListItemIcon>
                 <Avatar
                   src={
-                    props.object.Commented_By.avatar
-                      ? require(`../images/${props.object.Commented_By.avatar}`)
+                    props.object.commentedBy.avatar
+                      ? require(`../images/${props.object.commentedBy.avatar}`)
                       : ''
                   }
-                  alt='user_dp'
+                  alt="user_dp"
                 />
               </ListItemIcon>
               <ListItemText sx={{ marginRight: '10px' }}>
-                {parseName(props.object.Commented_By.email)}
+                {parseName(props.object.commentedBy.email)}
               </ListItemText>
               <ListItemText>{parseTime(props.object.createdAt)}</ListItemText>
             </ListItem>
@@ -70,7 +75,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
           {!replies
             ? reply.length > 0 && (
                 <Button
-                  variant='text'
+                  variant="text"
                   onClick={() => {
                     setReplies(!replies);
                   }}
@@ -81,7 +86,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
               )
             : reply.length > 0 && (
                 <Button
-                  variant='text'
+                  variant="text"
                   onClick={() => {
                     setReplies(!replies);
                   }}
@@ -96,13 +101,13 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
               })
             : null}
           <AddComment
-            width='550px'
+            width="550px"
             commentObject={props.object}
             refreshReplies={getReplies}
             Comment={false}
-            labelAbove='Add Reply'
+            labelAbove="Add Reply"
             placeholder={`Reply to ${parseName(
-              props.object.Commented_By.email
+              props.object.commentedBy.email
             )}...`}
           />
         </Box>

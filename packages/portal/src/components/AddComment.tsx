@@ -40,6 +40,11 @@ export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
       return <h1>Not Working!!</h1>;
     }
   }
+
+  /**
+   * Onsubmit Function
+   * @param data
+   */
   const onSubmit = async (data: { comment: string }) => {
     setValue('comment', '');
     if (context.accessToken && props.Comment && props.articleId) {
@@ -65,7 +70,7 @@ export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         {context.loggedIn && (
-          <Box display='flex' gap={2} alignItems='flex-end'>
+          <Box display="flex" gap={2} alignItems="flex-end">
             <InputField
               name={'comment'}
               control={control}
@@ -75,9 +80,9 @@ export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
             />
             <Box
               sx={{ display: 'flex', allignItems: 'centre', marginTop: '5px' }}
-              display='flex'
+              display="flex"
             >
-              <InputButton name='Post' width='100px' />
+              <InputButton name="Post" width="100px" />
             </Box>
           </Box>
         )}

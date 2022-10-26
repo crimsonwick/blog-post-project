@@ -28,6 +28,7 @@ export const ArticleDetailPage = () => {
   };
 
   useEffect(() => {
+    localStorage.setItem('link', `/articles/${articleId}`);
     if (articleId) {
       allComments(articleId);
     }
@@ -40,15 +41,15 @@ export const ArticleDetailPage = () => {
           <ArticleDetail articleId={`${articleId}`} />
         </Box>
         <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-          <PostsHeader count={data.length} name='comments' textSize='24px' />
+          <PostsHeader count={data.length} name="comments" textSize="24px" />
         </Box>
         <Box>
           {context?.loggedIn && (
             <AddComment
-              width='1000px'
+              width="1000px"
               articleId={`${articleId}`}
-              placeholder='Write a comment...'
-              labelAbove='Add Comment'
+              placeholder="Write a comment..."
+              labelAbove="Add Comment"
               refreshComment={allComments}
               Comment={true}
             />
