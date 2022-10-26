@@ -69,7 +69,7 @@ export class UserController {
         }
       });
     } catch (err) {
-      ErrorHandling(err, 500);
+      return res.status(500).json({ error: err.message });
     }
   };
 

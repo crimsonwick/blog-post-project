@@ -5,6 +5,49 @@ const { Op } = require('sequelize');
 
 const { Users, Posts, Comments } = model;
 
+const query = async (qLimit, qId, qCondition, qAll) => {
+  const limit = qLimit;
+  let where = {};
+  if (!qAll) {
+    const id = qId;
+    const condition = qCondition;
+    if (condition === '') {
+      where = { userId: id };
+      console.log(where);
+    } else {
+      where = {
+        [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
+      };
+      console.log(where);
+    }
+  } else {
+    const condition = qCondition;
+    if (condition === '') {
+      where = {};
+    } else {
+      where = { createdAt: { [Op.gt]: condition } };
+    }
+  }
+
+  const posts = await Posts.findAll({
+    where: where,
+    limit: limit + 1,
+    order: [['createdAt', 'ASC']],
+    include: [
+      {
+        model: Users,
+        as: 'Posted_By',
+        attributes: ['email', 'avatar'],
+      },
+      {
+        model: Comments,
+        as: 'Comments',
+      },
+    ],
+  });
+  return posts;
+};
+
 export class PostController {
   AddPost = async (req, res) => {
     const { userId, title, body, timetoRead } = req.body;
@@ -202,23 +245,9 @@ export class PostController {
 
   getPosts = async (req, res) => {
     try {
-      const limit = parseInt(req.query.limit);
-      if (isNaN(limit)) {
-        const allPosts = await Posts.findAll({
-          include: [
-            {
-              model: Users,
-              as: 'Posted_By',
-              attributes: ['email', 'avatar'],
-            },
-            {
-              model: Comments,
-              as: 'Comments',
-            },
-          ],
-        });
-        return res.json(allPosts);
-      }
+      const limit = parseInt(req.query.limit) || 4;
+      const all = true;
+      const id = 0;
 
       const cursorValues = {};
       cursorValues.next_page = req.query.next_page || '';
@@ -229,21 +258,7 @@ export class PostController {
       else if (cursorValues.prev_page) condition = cursorValues.prev_page;
 
       if (!condition) {
-        const posts = await Posts.findAll({
-          limit: limit + 1,
-          order: [['createdAt', 'ASC']],
-          include: [
-            {
-              model: Users,
-              as: 'Posted_By',
-              attributes: ['email', 'avatar'],
-            },
-            {
-              model: Comments,
-              as: 'Comments',
-            },
-          ],
-        });
+        const posts = await query(limit, id, condition, all);
         cursorValues.prev_page = null;
         if (posts[limit] === undefined) cursorValues.next_page = null;
         else {
@@ -255,22 +270,7 @@ export class PostController {
         const result = [cursorValues, posts];
         res.send(result);
       } else if (condition === cursorValues.next_page) {
-        const posts = await Posts.findAll({
-          limit: limit + 1,
-          where: { createdAt: { [Op.gt]: condition } },
-          order: [['createdAt', 'ASC']],
-          include: [
-            {
-              model: Users,
-              as: 'Posted_By',
-              attributes: ['email', 'avatar'],
-            },
-            {
-              model: Comments,
-              as: 'Comments',
-            },
-          ],
-        });
+        const posts = await query(limit, id, condition, all);
         //*next page link
         if (posts[limit] === undefined) cursorValues.next_page = null;
         else {
@@ -287,51 +287,11 @@ export class PostController {
         if (posts.length == limit + 1) posts.pop();
         const result = [cursorValues, posts];
         res.send(result);
-      } else if (condition === cursorValues.prev_page) {
-        const posts = await Posts.findAll({
-          limit: limit + 1,
-          where: { createdAt: { [Op.lt]: condition } },
-          order: [['createdAt', 'DESC']],
-          include: [
-            {
-              model: Users,
-              as: 'Posted_By',
-              attributes: ['email', 'avatar'],
-            },
-            {
-              model: Comments,
-              as: 'Comments',
-            },
-          ],
-        });
-        if (posts[limit] === undefined) cursorValues.prev_page = null;
-        else {
-          const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.prev_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
-        }
-        if (posts[0] === undefined) cursorValues.next_page = null;
-        else {
-          const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.next_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
-        }
-        if (posts.length == limit + 1) posts.pop();
-        const result = [cursorValues, posts];
-        res.send(result);
       }
     } catch (err) {
       console.log(err);
-      return res.json({ error: `${err}` });
+      return res.json({ error: err.message });
     }
-
-    // try {
-    //   const getAll = await client.search({
-    //     index: 'posts',
-    //   })
-    //   const posts = getAll.body.hits.hits.map((s) => s._source);
-    //   return res.json(posts);
-    // } catch (error) {
-    //   ErrorHandling(res);
-    // }
   };
 
   postDetail = async (req, res) => {
@@ -357,30 +317,10 @@ export class PostController {
 
   getCursorPostsOfSingleUser = async (req, res) => {
     try {
-      const limit = parseInt(req.query.limit);
+      const limit = parseInt(req.query.limit) || 4;
       const id = req.params.id;
       if (id) {
-        if (isNaN(limit)) {
-          //default limit i.e. 50
-          const allPosts = await Posts.findAll({
-            where: { userId: id },
-            order: [['createdAt', 'ASC']],
-            include: [
-              {
-                model: Users,
-                as: 'Posted_By',
-                attributes: ['email', 'avatar'],
-              },
-              {
-                model: Comments,
-                as: 'Comments',
-              },
-            ],
-          });
-          return res.json(allPosts);
-        }
-
-        const cursorValues = {};
+        let cursorValues = {};
         cursorValues.next_page = req.query.next_page || '';
         cursorValues.prev_page = req.query.prev_page || '';
 
@@ -389,22 +329,7 @@ export class PostController {
         else if (cursorValues.prev_page) condition = cursorValues.prev_page;
 
         if (!condition) {
-          const posts = await Posts.findAll({
-            where: { userId: id },
-            limit: limit + 1,
-            order: [['createdAt', 'ASC']],
-            include: [
-              {
-                model: Users,
-                as: 'Posted_By',
-                attributes: ['email', 'avatar'],
-              },
-              {
-                model: Comments,
-                as: 'Comments',
-              },
-            ],
-          });
+          const posts = await query(limit, id, condition);
           cursorValues.prev_page = null;
           if (posts[limit] === undefined) cursorValues.next_page = null;
           else {
@@ -416,68 +341,16 @@ export class PostController {
           const result = [cursorValues, posts];
           res.send(result);
         } else if (condition === cursorValues.next_page) {
-          const posts = await Posts.findAll({
-            where: {
-              [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
-            },
-            limit: limit + 1,
-            order: [['createdAt', 'ASC']],
-            include: [
-              {
-                model: Users,
-                as: 'Posted_By',
-                attributes: ['email', 'avatar'],
-              },
-              {
-                model: Comments,
-                as: 'Comments',
-              },
-            ],
-          });
-          //*next page link
+          const posts = await query(limit, id, condition);
           if (posts[limit] === undefined) cursorValues.next_page = null;
           else {
-            //*convert to plain js object
             const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.next_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
+            cursorValues.next_page = clonePost[limit - 1].createdAt;
           }
-          //*prev page link
           if (posts[0] === undefined) cursorValues.prev_page = null;
           else {
             const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.prev_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
-          }
-          if (posts.length == limit + 1) posts.pop();
-          const result = [cursorValues, posts];
-          res.send(result);
-        } else if (condition === cursorValues.prev_page) {
-          const posts = await Posts.findAll({
-            where: {
-              [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
-            },
-            limit: limit + 1,
-            order: [['createdAt', 'DESC']],
-            include: [
-              {
-                model: Users,
-                as: 'Posted_By',
-                attributes: ['email', 'avatar'],
-              },
-              {
-                model: Comments,
-                as: 'Comments',
-              },
-            ],
-          });
-          if (posts[limit] === undefined) cursorValues.prev_page = null;
-          else {
-            const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.prev_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
-          }
-          if (posts[0] === undefined) cursorValues.next_page = null;
-          else {
-            const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.next_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
+            cursorValues.prev_page = clonePost[0].createdAt;
           }
           if (posts.length == limit + 1) posts.pop();
           const result = [cursorValues, posts];
@@ -487,8 +360,7 @@ export class PostController {
         return res.status(404).json('User not found');
       }
     } catch (err) {
-      console.log(err);
-      return res.json({ error: `${err}` });
+      return res.json({ error: err.message });
     }
   };
 
