@@ -18,8 +18,7 @@ export const ArticleDetailPage = () => {
   const { articleId } = useParams();
   // const location = useLocation();
   // const { object } = location.state as PostInterface;
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
   const [data, setData] = useState<CommentInterface[]>([]);
 
   const allComments = async (id: string) => {

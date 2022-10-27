@@ -8,12 +8,12 @@ export class CommentController {
   addComment = async (req, res) => {
     const { postId, userId, body } = req.body;
     try {
-      const addC = await Comments.create({
+      const addUserComment = await Comments.create({
         postId: postId,
         userId: userId,
         body: body,
       });
-      res.json(addC);
+      res.json(addUserComment);
     } catch (error) {
       ErrorHandling(res);
     }
@@ -21,13 +21,13 @@ export class CommentController {
 
   getComments = async (req, res) => {
     try {
-      const getAll = await Comments.findAll({
+      const getAllComments = await Comments.findAll({
         include: {
           model: Users,
           as: 'commentedBy',
         },
       });
-      res.json(getAll);
+      res.json(getAllComments);
     } catch (error) {
       ErrorHandling(res);
     }

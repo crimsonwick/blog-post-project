@@ -27,8 +27,7 @@ const schema = yup
   .required();
 
 const CreateArticle = () => {
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
   const {
     control,
     handleSubmit,

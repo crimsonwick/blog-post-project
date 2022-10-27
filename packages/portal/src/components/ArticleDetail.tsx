@@ -27,8 +27,7 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
   const [loading, setLoading] = useState(false);
   const [post, setPost] = useState<PostInterface>();
   const id = props.articleId;
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
 
   const getPost = async (id: string) => {
     try {

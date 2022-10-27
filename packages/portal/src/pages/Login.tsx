@@ -78,8 +78,7 @@ export const Login = () => {
     resolver: yupResolver(schema),
   });
 
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
   const [state, dispatch] = useReducer(reducer, {
     Submitted: false,
     showMessage: false,

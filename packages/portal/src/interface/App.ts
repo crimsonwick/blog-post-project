@@ -3,18 +3,6 @@ import { bodyInterface } from "../context/AppContext";
 import React from 'react'
 import { Control } from 'react-hook-form'
 
-
-export interface AddCommentInterface<P, C> {
-  width: string;
-  postObject?: P;
-  commentObject?: C;
-  placeholder: string;
-  labelAbove: string;
-  Comment: boolean;
-  refreshComment?: (id: string) => void;
-  refreshReplies?: (commentId: string) => void;
-}
-
 export interface UserInterface {
   id?: string
   email?: string
@@ -71,11 +59,11 @@ export interface SearchMyDataInterface {
   }
 }
 
-export interface AppContextInterface<U> {
+export interface AppContextInterface {
     dp: string;
     setDp: React.Dispatch<React.SetStateAction<string>>;
-    setUserData: React.Dispatch<React.SetStateAction<U>>;
-    userData: U;
+    setUserData: React.Dispatch<React.SetStateAction<UserInterface>>;
+    userData: UserInterface;
     setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
     setRefreshToken: React.Dispatch<React.SetStateAction<string | null>>;
     accessToken: string | null;

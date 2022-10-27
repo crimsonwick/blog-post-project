@@ -11,12 +11,11 @@ import { AppContextInterface, UserInterface } from '../interface/App';
 import { parseName } from '../services/LoginApi';
 import { styled } from '@mui/material/styles';
 
-
 /**
  * Returns created data from parameters
- * @param name 
- * @param details 
- * @returns 
+ * @param name
+ * @param details
+ * @returns
  */
 function createData(
   name: string,
@@ -26,8 +25,7 @@ function createData(
 }
 
 export const BasicTable = () => {
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
   if (!context) {
     return <h1> Not Working</h1>;
   } else {
@@ -53,7 +51,7 @@ export const BasicTable = () => {
   return (
     <React.Fragment>
       <TableContainer component={Paper} elevation={2}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
             {rows &&
               rows.map((row) => (
@@ -61,10 +59,10 @@ export const BasicTable = () => {
                   key={row.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component='th' scope='row'>
+                  <TableCell component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell align='left'>{row.details}</TableCell>
+                  <TableCell align="left">{row.details}</TableCell>
                 </StyledTableRow>
               ))}
           </TableBody>

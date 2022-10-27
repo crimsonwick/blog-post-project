@@ -62,20 +62,7 @@ export class PostController {
         image: req.file.originalname,
         timeToRead: timeToRead,
       });
-      const readNewPost = await Posts.findOne({
-        where: {
-          id: addNewPost.id,
-        },
-        include: {
-          model: Users,
-          as: 'postedBy',
-        },
-      });
-      const C_post = await client.index({
-        index: 'posts',
-        body: readNewPost,
-      });
-      return res.json(C_post);
+      return res.json(addNewPost);
     } catch (error) {
       console.log(error);
     }
@@ -134,8 +121,8 @@ export class PostController {
         const myPosts = await client.search(query);
         if (!myPosts) return res.json(`You haven't Posted Anything!!`);
         else {
-          const filtered = myPosts.body.hits.hits.filter((o) =>
-            o._source.title.includes(req.query.title)
+          const filtered = myPosts.body.hits.hits.filter((object) =>
+            object._source.title.includes(req.query.title)
           );
           return res.json(filtered);
         }

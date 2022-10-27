@@ -20,8 +20,7 @@ import { Signup } from './pages/Signup';
 import { theme } from './themes/theme';
 
 function App() {
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
 
   const gets = async () => {
     context?.setAccessToken(localStorage.getItem('accessToken'));

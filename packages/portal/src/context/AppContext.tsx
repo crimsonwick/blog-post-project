@@ -7,8 +7,7 @@ import {
   UserInterface,
 } from '../interface/App';
 
-export const AppContext =
-  createContext<AppContextInterface<UserInterface> | null>(null);
+export const AppContext = createContext<AppContextInterface | null>(null);
 export interface bodyInterface {
   token: string;
 }

@@ -9,10 +9,10 @@ import { addComment, addReply, CommentInterface } from '../services/CommentApi';
 import { InputButton } from './InputButton';
 import { InputField } from './InputField';
 
-interface AddCommentInterface<C> {
+interface AddCommentInterface {
   width: string;
   articleId?: string;
-  commentObject?: C;
+  commentObject?: CommentInterface;
   placeholder: string;
   labelAbove: string;
   Comment: boolean;
@@ -20,7 +20,7 @@ interface AddCommentInterface<C> {
   refreshReplies?: (commentId: string) => void;
 }
 
-export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
+export const AddComment = (props: AddCommentInterface) => {
   // const inputRef = useRef(null);
   const schema = yup.object().shape({
     comment: yup.string().required(),
@@ -31,8 +31,7 @@ export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
   });
 
   const { handleSubmit, control, setValue } = methods;
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
   if (!context) {
     return <h1>Not Working!!</h1>;
   } else {
