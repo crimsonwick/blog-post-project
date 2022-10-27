@@ -34,6 +34,11 @@ export const ResetPassword = () => {
     },
     resolver: yupResolver(schema),
   });
+
+  /**
+   * OnSubmit Function
+   * @param data 
+   */
   const onSubmit = async (data: dataInterface) => {
     try {
       const url = 'http://localhost:5000/users/forget-password';

@@ -1,4 +1,10 @@
-export const ErrorHandling = (status = 500) => {
+/**
+ * Error Handling Middleware
+ * @param {*} res
+ * @param {*} status
+ * @returns
+ */
+export const ErrorHandling = (res, status = 500) => {
   const error = { status, message: '' };
 
   switch (status) {
@@ -23,5 +29,5 @@ export const ErrorHandling = (status = 500) => {
       error.message = 'User Not Found';
   }
 
-  return error;
+  return res.json(error);
 };

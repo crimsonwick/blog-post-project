@@ -1,5 +1,5 @@
-"use strict";
-import { Model } from "sequelize";
+'use strict';
+import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
   class Posts extends Model {
     /**
@@ -8,8 +8,8 @@ export default (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Posts.belongsTo(models.Users, { foreignKey: "userId", as: "Posted_By" });
-      Posts.hasMany(models.Comments, { foreignKey: "postId", as: "Comments" });
+      Posts.belongsTo(models.Users, { foreignKey: 'userId', as: 'postedBy' });
+      Posts.hasMany(models.Comments, { foreignKey: 'postId', as: 'Comments' });
     }
   }
   Posts.init(
@@ -18,14 +18,14 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
-        defaultValue: sequelize.fn("uuid_generate_v4"),
+        defaultValue: sequelize.fn('uuid_generate_v4'),
       },
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: "Users",
-          key: "id",
+          model: 'Users',
+          key: 'id',
         },
       },
       title: {
@@ -41,11 +41,11 @@ export default (sequelize, DataTypes) => {
       },
       timetoRead: {
         type: DataTypes.INTEGER,
-      }
+      },
     },
     {
       sequelize,
-      modelName: "Posts",
+      modelName: 'Posts',
     }
   );
   return Posts;

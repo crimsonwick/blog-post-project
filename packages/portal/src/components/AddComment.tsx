@@ -40,6 +40,11 @@ export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
       return <h1>Not Working!!</h1>;
     }
   }
+
+  /**
+   * Onsubmit Function
+   * @param data
+   */
   const onSubmit = async (data: { comment: string }) => {
     setValue('comment', '');
     if (context.accessToken && props.Comment && props.articleId) {

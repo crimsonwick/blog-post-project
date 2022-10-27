@@ -11,6 +11,13 @@ import { AppContextInterface, UserInterface } from '../interface/App';
 import { parseName } from '../services/LoginApi';
 import { styled } from '@mui/material/styles';
 
+
+/**
+ * Returns created data from parameters
+ * @param name 
+ * @param details 
+ * @returns 
+ */
 function createData(
   name: string,
   details: string
