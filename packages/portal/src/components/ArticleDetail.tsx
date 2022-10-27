@@ -29,6 +29,10 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
   const id = props.articleId;
   const context: AppContextInterface | null = useContext(AppContext);
 
+  /**
+   * Get Post
+   * @param id 
+   */  
   const getPost = async (id: string) => {
     try {
       setLoading(true);

@@ -71,10 +71,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route element={<Public />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/change-password" element={<ChangePassword />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/signup' element={<Signup />} />
+              <Route path='/reset-password' element={<ResetPassword />} />
+              <Route path='/change-password' element={<ChangePassword />} />
             </Route>
             <Route element={<Protected />}>
               <Route path="/create-article" element={<CreateArticle />} />

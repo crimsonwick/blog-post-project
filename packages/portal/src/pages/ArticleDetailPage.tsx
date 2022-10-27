@@ -16,11 +16,14 @@ import { getComments } from '../services/LoginApi';
 
 export const ArticleDetailPage = () => {
   const { articleId } = useParams();
-  // const location = useLocation();
-  // const { object } = location.state as PostInterface;
+
   const context: AppContextInterface | null = useContext(AppContext);
   const [data, setData] = useState<CommentInterface[]>([]);
 
+  /**
+   * set state with all comments
+   * @param id 
+   */
   const allComments = async (id: string) => {
     const response = await getComments(id);
     setData(response.data);

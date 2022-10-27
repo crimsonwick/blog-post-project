@@ -180,6 +180,12 @@ export const searchMyPostsAPI = async (
   );
 };
 
+/**
+ * Post Pagination
+ * @param page 
+ * @param limit 
+ * @returns 
+ */
 export const PaginationforPosts = async (page: number, limit: number) => {
   return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`);
 };

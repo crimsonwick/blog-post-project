@@ -44,14 +44,14 @@ export const MyArticles = () => {
   return (
     <>
       {context?.loggedIn ? (
-        <Navbar login={true} mainPage={false} isMyActive={true} />
+        <Navbar login={true} isMyActive={true} />
       ) : (
-        <Navbar mainPage={false} isMyActive={true} />
+        <Navbar isMyActive={true} />
       )}
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name="My Articles" />
 
-        {!error && posts && context?.searchMyData?.length === 0 ? (
+        {posts && context?.searchMyData?.length === 0 ? (
           <Box mt={5}>
             {posts.map((post, index) => {
               if (posts.length === index + 1) {

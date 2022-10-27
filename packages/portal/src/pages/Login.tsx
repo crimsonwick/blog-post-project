@@ -84,6 +84,11 @@ export const Login = () => {
     showMessage: false,
   });
   const navigate = useNavigate();
+
+  /**
+   * On Submit Function
+   * @param data 
+   */
   const onSubmit = async (data: dataInterface) => {
     try {
       const response = await getLoginDetails(data);
@@ -132,29 +137,37 @@ export const Login = () => {
     showPassword: false,
     password: '',
   });
+  /**
+   * Handle Click Show Password
+   */
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
     });
   };
+
+  /**
+   * Handle Mouse Down Password
+   * @param event 
+   */
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
   return (
-    <Container maxWidth="sm" sx={{ marginTop: '10em' }}>
+    <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
       <Box mb={4}>
-        <Header heading="Log In" />
+        <Header heading='Log In' />
       </Box>
-      <FormLabel htmlFor="my-input">Email address</FormLabel>
+      <FormLabel htmlFor='my-input'>Email address</FormLabel>
       <form onSubmit={handleSubmit(onSubmit)}>
         {errors.email ? (
           <Box>
             <Controller
               control={control}
-              name="email"
+              name='email'
               rules={{ required: true }}
               render={({
                 field: { onChange, onBlur, value, name, ref },
@@ -163,9 +176,9 @@ export const Login = () => {
               }) => (
                 <OutlinedInput
                   error
-                  placeholder="Enter your Email"
-                  autoComplete="username"
-                  color="secondary"
+                  placeholder='Enter your Email'
+                  autoComplete='username'
+                  color='secondary'
                   onBlur={onBlur} // notify when input is touched
                   onChange={onChange} // send value to hook form
                   inputRef={ref}
@@ -177,13 +190,13 @@ export const Login = () => {
                 />
               )}
             />
-            <span className="errorMsg">{errors.email.message}</span>
+            <span className='errorMsg'>{errors.email.message}</span>
           </Box>
         ) : (
           <Box>
             <Controller
               control={control}
-              name="email"
+              name='email'
               rules={{ required: true }}
               render={({
                 field: { onChange, onBlur, value, name, ref },
@@ -191,9 +204,9 @@ export const Login = () => {
                 formState,
               }) => (
                 <OutlinedInput
-                  placeholder="Enter your Email"
-                  autoComplete="username"
-                  color="secondary"
+                  placeholder='Enter your Email'
+                  autoComplete='username'
+                  color='secondary'
                   onBlur={onBlur} // notify when input is touched
                   onChange={onChange} // send value to hook form
                   inputRef={ref}
@@ -209,10 +222,10 @@ export const Login = () => {
 
         {errors.password ? (
           <Box mt={2}>
-            <FormLabel htmlFor="my-input">Password</FormLabel>
+            <FormLabel htmlFor='my-input'>Password</FormLabel>
             <Controller
               control={control}
-              name="password"
+              name='password'
               rules={{ required: true }}
               render={({
                 field: { onChange, onBlur, value, name, ref },
@@ -221,7 +234,7 @@ export const Login = () => {
               }) => (
                 <OutlinedInput
                   error
-                  autoComplete="new-password"
+                  autoComplete='new-password'
                   onBlur={onBlur} // notify when input is touched
                   onChange={onChange} // send value to hook form
                   color={'secondary'}
@@ -232,14 +245,14 @@ export const Login = () => {
                     width: '100%',
                     marginBottom: '0px',
                   }}
-                  placeholder="Enter your password"
+                  placeholder='Enter your password'
                   endAdornment={
-                    <InputAdornment position="end">
+                    <InputAdornment position='end'>
                       <IconButton
-                        aria-label="toggle password visibility"
+                        aria-label='toggle password visibility'
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        edge="end"
+                        edge='end'
                       >
                         {values.showPassword ? (
                           <VisibilityOff />
@@ -252,14 +265,14 @@ export const Login = () => {
                 />
               )}
             />
-            <span className="errorMsg">{errors.password.message}</span>
+            <span className='errorMsg'>{errors.password.message}</span>
           </Box>
         ) : (
           <Box mt={2}>
-            <FormLabel htmlFor="my-input">Password</FormLabel>
+            <FormLabel htmlFor='my-input'>Password</FormLabel>
             <Controller
               control={control}
-              name="password"
+              name='password'
               rules={{ required: true }}
               render={({
                 field: { onChange, onBlur, value, name, ref },
@@ -267,7 +280,7 @@ export const Login = () => {
                 formState,
               }) => (
                 <OutlinedInput
-                  autoComplete="new-password"
+                  autoComplete='new-password'
                   onBlur={onBlur} // notify when input is touched
                   onChange={onChange} // send value to hook form
                   color={'secondary'}
@@ -278,14 +291,14 @@ export const Login = () => {
                     width: '100%',
                     marginBottom: '0px',
                   }}
-                  placeholder="Enter your password"
+                  placeholder='Enter your password'
                   endAdornment={
-                    <InputAdornment position="end">
+                    <InputAdornment position='end'>
                       <IconButton
-                        aria-label="toggle password visibility"
+                        aria-label='toggle password visibility'
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        edge="end"
+                        edge='end'
                       >
                         {values.showPassword ? (
                           <VisibilityOff />
@@ -301,21 +314,21 @@ export const Login = () => {
           </Box>
         )}
 
-        <Link to="/reset-password" style={{ color: 'black' }}>
+        <Link to='/reset-password' style={{ color: 'black' }}>
           <h5 className={styles.headingFive}>Forgot your password?</h5>
         </Link>
         <FormControlLabel
-          control={<Checkbox color="secondary" />}
-          label="Remember Me"
+          control={<Checkbox color='secondary' />}
+          label='Remember Me'
           sx={{ marginBottom: 2 }}
           onChange={() => {
             setCheckBox(!checkBox);
           }}
         />
         <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
+          type='submit'
+          variant='contained'
+          color='secondary'
           fullWidth
           sx={{
             borderRadius: '25px',
@@ -335,11 +348,11 @@ export const Login = () => {
       <h3 className={styles.h3}>Don't have an account?</h3>
 
       <Box mb={2}>
-        <Link to="/signup" style={{ textDecoration: 'none', color: 'black' }}>
+        <Link to='/signup' style={{ textDecoration: 'none', color: 'black' }}>
           <Button
             fullWidth
-            variant="outlined"
-            color="secondary"
+            variant='outlined'
+            color='secondary'
             sx={{
               borderRadius: '25px',
               fontSize: '18px',

@@ -1,39 +1,45 @@
-import { Button } from '@mui/material';
-import { Box, Container } from '@mui/system';
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import { Alerts } from '../components/Alerts';
-import { BasicTable } from '../components/BasicTable';
-import { Navbar } from '../components/NavBar';
-import { PostsHeader } from '../components/PostsHeader';
-import { AppContext } from '../context/AppContext';
-import { AppContextInterface, UserInterface } from '../interface/App';
-import { parseJwt } from '../services/LoginApi';
+import { Button } from "@mui/material";
+import { Box, Container } from "@mui/system";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { Alerts } from "../components/Alerts";
+import { BasicTable } from "../components/BasicTable";
+import { Navbar } from "../components/NavBar";
+import { PostsHeader } from "../components/PostsHeader";
+import { AppContext } from "../context/AppContext";
+import { AppContextInterface, UserInterface } from "../interface/App";
+import { parseJwt } from "../services/LoginApi";
 
 export const AccountDetails = () => {
   const [image, setImage] = useState<File | null>(null);
   const context: AppContextInterface | null = useContext(AppContext);
   useEffect(() => {
-    localStorage.setItem('link', '/account-details');
+    localStorage.setItem("link", "/account-details");
   }, []);
+
+  /**
+   * Handle Submit
+   * @param e
+   * @returns
+   */
   const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (context) {
       try {
         let formData = new FormData();
         if (image) {
-          formData.append('file', image); //?.data);
+          formData.append("file", image); //?.data);
         }
 
         if (
           image &&
           !(
-            image.type === 'image/png' ||
-            image.type === 'image/jpg' ||
-            image.type === 'image/jpeg'
+            image.type === "image/png" ||
+            image.type === "image/jpg" ||
+            image.type === "image/jpeg"
           )
         ) {
-          Alerts.error('Upload png/jpg/jpeg please');
+          Alerts.error("Upload png/jpg/jpeg please");
           return;
         }
 
@@ -55,7 +61,7 @@ export const AccountDetails = () => {
         );
         if (response.data) {
           context.setDp(response.data.image);
-          Alerts.success('Dp uploaded');
+          Alerts.success("Dp uploaded");
         }
       } catch (err) {
         console.log(err);
@@ -71,15 +77,7 @@ export const AccountDetails = () => {
     if (!e.target.files) {
       return;
     }
-    // const img: ImageInterface = {
-    //   preview: URL.createObjectURL(e.target.files[0]),
-    //   data: e.target.files[0],
-    // };
-
-    // let img<File | null> = e.target.files[0];
     setImage(e.target.files[0]);
-    //console.log(image);
-    // console.log(image.data.name);
   };
 
   /**
@@ -106,14 +104,14 @@ export const AccountDetails = () => {
               variant="contained"
               component="label"
               sx={{
-                borderRadius: '20px',
-                width: '12%',
-                fontFamily: ['Poppins', 'serif'].join(','),
+                borderRadius: "20px",
+                width: "12%",
+                fontFamily: ["Poppins", "serif"].join(","),
                 fontSize: 18,
-                marginTop: '25px',
-                height: '56px',
-                textTransform: 'capitalize',
-                fontWeight: 'bold',
+                marginTop: "25px",
+                height: "56px",
+                textTransform: "capitalize",
+                fontWeight: "bold",
               }}
               color="secondary"
             >
@@ -129,66 +127,67 @@ export const AccountDetails = () => {
             <Button
               variant="contained"
               sx={{
-                borderRadius: '20px',
-                marginLeft: '10px',
-                width: '12%',
-                fontFamily: ['Poppins', 'serif'].join(','),
+                borderRadius: "20px",
+                marginLeft: "10px",
+                width: "12%",
+                fontFamily: ["Poppins", "serif"].join(","),
                 fontSize: 18,
-                marginTop: '25px',
-                height: '56px',
-                textTransform: 'capitalize',
-                fontWeight: 'bold',
+                marginTop: "25px",
+                height: "56px",
+                textTransform: "capitalize",
+                fontWeight: "bold",
               }}
               type="submit"
             >
               Submit
             </Button>
 
-            <br />
-            <br />
-
             {image && (
-              <div
-                style={{
-                  display: 'inline-flex',
-                  borderRadius: 2,
-                  border: '1px solid #eaeaea',
-                  marginBottom: 8,
-                  marginRight: 8,
-                  width: 100,
-                  height: 100,
-                  padding: 4,
-                  boxSizing: 'border-box',
-                }}
-              >
+              <Box mt={3}>
                 <div
-                  style={{ display: 'flex', minWidth: 0, overflow: 'hidden' }}
+                  style={{
+                    display: "inline-flex",
+                    borderRadius: 2,
+                    border: "1px solid #eaeaea",
+                    marginBottom: 8,
+                    marginRight: 8,
+                    width: 100,
+                    height: 100,
+                    padding: 4,
+                    boxSizing: "border-box",
+                  }}
                 >
                   <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      flexWrap: 'wrap',
-                      marginTop: 16,
-                    }}
+                    style={{ display: "flex", minWidth: 0, overflow: "hidden" }}
                   >
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt="image_preview"
+                    <div
                       style={{
-                        display: 'block',
-                        width: 'auto',
-                        height: '100%',
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: 16,
                       }}
-                    />
+                    >
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt="image_preview"
+                        style={{
+                          display: "block",
+                          width: "auto",
+                          height: "100%",
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Box>
             )}
-            <br />
-            {image && <button onClick={removeFile()}>Remove File</button>}
 
-            <br />
+            {image && (
+              <Box mt={1}>
+                <button onClick={removeFile()}>Remove File</button>
+              </Box>
+            )}
           </Box>
         </Box>
       </Container>
