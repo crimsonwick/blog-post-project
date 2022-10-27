@@ -7,11 +7,10 @@ import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import useInfiniteScrollOnHome from '../components/useInfiniteScrollOnHome';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface, UserInterface } from '../interface/App';
+import { AppContextInterface } from '../interface/App';
 
 export const Home = () => {
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
   const limit = 4;
   const [link, setLink] = useState('');
 
@@ -47,7 +46,7 @@ export const Home = () => {
       )}
 
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name='Recent Posts' />
+        <PostsHeader name="Recent Posts" />
         {posts && context?.searchData?.length === 0 ? (
           <Box mt={5}>
             {posts.map((post, index) => {
@@ -58,7 +57,7 @@ export const Home = () => {
             })}
             {loading && <Loader />}
             {error && (
-              <Typography sx={{ marginTop: '20px' }} align='center'>
+              <Typography sx={{ marginTop: '20px' }} align="center">
                 Error occured in loading post...
               </Typography>
             )}
@@ -69,7 +68,7 @@ export const Home = () => {
           })
         )}
         {!loading && !hasMore && (
-          <Typography sx={{ marginTop: '20px' }} align='center'>
+          <Typography sx={{ marginTop: '20px' }} align="center">
             No more articles to show...
           </Typography>
         )}

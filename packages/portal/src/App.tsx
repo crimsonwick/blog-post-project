@@ -20,8 +20,7 @@ import { Signup } from './pages/Signup';
 import { theme } from './themes/theme';
 
 function App() {
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
 
   const gets = async () => {
     context?.setAccessToken(localStorage.getItem('accessToken'));
@@ -70,7 +69,7 @@ function App() {
 
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route element={<Public />}>
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<Signup />} />
@@ -78,15 +77,15 @@ function App() {
               <Route path='/change-password' element={<ChangePassword />} />
             </Route>
             <Route element={<Protected />}>
-              <Route path='/create-article' element={<CreateArticle />} />
-              <Route path='/articles' element={<MyArticles />} />
-              <Route path='/account-details' element={<AccountDetails />} />
+              <Route path="/create-article" element={<CreateArticle />} />
+              <Route path="/articles" element={<MyArticles />} />
+              <Route path="/account-details" element={<AccountDetails />} />
             </Route>
             <Route
-              path='/articles/:articleId'
+              path="/articles/:articleId"
               element={<ArticleDetailPage />}
             />
-            <Route path='/*' element={<Page404 />} />
+            <Route path="/*" element={<Page404 />} />
           </Routes>
         </BrowserRouter>
       </SnackbarProvider>

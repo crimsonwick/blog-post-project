@@ -29,5 +29,5 @@ export const errorHandling = (res, status = 500) => {
       error.message = 'User Not Found';
   }
 
-  return res.json(error);
+  return error;
 };

@@ -46,8 +46,7 @@ const Container = styled.div`
 export const StyledDropZone = () => {
   const [myFile, setMyFile] = useState<MyFile[]>([]);
 
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
 
   /**
    * On Drop Function
@@ -102,7 +101,7 @@ export const StyledDropZone = () => {
     myFile.map((file) => (
       <div
         key={file.name}
-        className='thumb'
+        className="thumb"
         style={{
           display: 'inline-flex',
           borderRadius: 2,
@@ -116,13 +115,13 @@ export const StyledDropZone = () => {
         }}
       >
         <div
-          className='thumbInner'
+          className="thumbInner"
           style={{ display: 'flex', minWidth: 0, overflow: 'hidden' }}
         >
           <img
             src={file.preview}
-            className='img'
-            alt='no_preview_available'
+            className="img"
+            alt="no_preview_available"
             style={{ display: 'block', width: 'auto', height: '100%' }}
             onLoad={() => {
               URL.revokeObjectURL(file.preview);
@@ -135,15 +134,15 @@ export const StyledDropZone = () => {
   return (
     <div>
       <Container {...getRootProps()}>
-        <input {...getInputProps()} type='file' name='file' accept='image/*' />
+        <input {...getInputProps()} type="file" name="file" accept="image/*" />
         {isDragActive ? (
-          <p className='autoMargin'>Drop the file here ...</p>
+          <p className="autoMargin">Drop the file here ...</p>
         ) : (
-          <div className='autoMargin'>
-            <p className='autoMargin'>
+          <div className="autoMargin">
+            <p className="autoMargin">
               Drag 'n' drop file here, or click to select file
             </p>
-            <em className='autoMargin'>
+            <em className="autoMargin">
               (Only *.jpeg, *jpg and *.png images will be accepted)
             </em>
           </div>
@@ -151,7 +150,7 @@ export const StyledDropZone = () => {
       </Container>
 
       <div
-        className='thumbsContainer'
+        className="thumbsContainer"
         style={{
           display: 'flex',
           flexDirection: 'row',

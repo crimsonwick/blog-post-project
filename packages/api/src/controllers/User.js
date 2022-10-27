@@ -14,6 +14,12 @@ const { Users } = model;
 export let tokens = [];
 
 export class UserController {
+  /**
+   * SignUp
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
   signUp = async (req, res) => {
     const { email, password, avatar } = req.body;
     const hasedPassword = bcrypt.hashSync(password, salt);
@@ -38,6 +44,12 @@ export class UserController {
     }
   };
 
+  /**
+   * Login
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
   logIn = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -105,11 +117,23 @@ export class UserController {
     );
   };
 
+  /**
+   * Logout
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
   logOut = async (req, res) => {
     tokens = tokens.filter((token) => token !== req.body.token);
     return res.sendStatus(204);
   };
 
+  /**
+   * Update User Avatar
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
   updateUserAvatar = async (req, res) => {
     const userId = req.params.userId;
     let image;
@@ -130,6 +154,12 @@ export class UserController {
     }
   };
 
+  /**
+   * Send Email to user
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
   forgetPassword = async (req, res) => {
     const { email } = req.body;
 
@@ -157,6 +187,12 @@ export class UserController {
     }
   };
 
+  /**
+   * Reset Password
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
   resetPassword = async (req, res) => {
     try {
       const { token } = req.query;

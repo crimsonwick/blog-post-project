@@ -4,7 +4,7 @@ import { errorHandling } from '../middleware/Errors.js';
 const { Comments, Users } = model;
 
 export class CommentController {
-  //static ->?
+  
   addComment = async (req, res) => {
     const { postId, userId, body } = req.body;
     try {

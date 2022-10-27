@@ -26,8 +26,7 @@ const schema = yup
   .required();
 
 const CreateArticle = () => {
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -65,7 +64,7 @@ const CreateArticle = () => {
           formData.append('title', data.title);
           formData.append('body', data.body);
           formData.append('file', context?.postImage as unknown as string);
-          formData.append('timetoRead', data.mins as unknown as Blob);
+          formData.append('timeToRead', data.mins as unknown as Blob);
           Alerts.success('Post Created successfully');
           const config = {
             headers: {

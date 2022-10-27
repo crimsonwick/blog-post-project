@@ -13,7 +13,6 @@ const query = async (qLimit, qId, qCondition, qAll) => {
     const id = qId;
     const condition = qCondition;
     if (condition === '') {
-      where = { userId: id };
     } else {
       where = {
         [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
@@ -84,43 +83,6 @@ export class PostController {
       console.log(error);
     }
   };
-
-  updatePosts = async (req, res) => {
-    const { id, pid } = req.params;
-    try {
-      await Posts.update(
-        { ...req.body },
-        {
-          where: {
-            id: id,
-          },
-        }
-      );
-      const update = await Posts.findOne({
-        where: {
-          id: id,
-        },
-      });
-      const newValues = Object.assign(update, { ...req.body }); //creates reference to new object
-      await client.update({
-        index: 'posts',
-        id: pid,
-        body: {
-          doc: newValues,
-        },
-      });
-      return res.json(`Updated Successfully Id = ${id}`);
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
-
-  /**
-   * Delete Posts
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
 
   /**
    * Search Posts
@@ -207,8 +169,8 @@ export class PostController {
         const myPosts = await client.search(query);
         if (!myPosts) return res.json(`You haven't Posted Anything!!`);
         else {
-          const filtered = myPosts.body.hits.hits.filter((o) =>
-            o._source.title.includes(req.query.title)
+          const filtered = myPosts.body.hits.hits.filter((object) =>
+            object._source.title.includes(req.query.title)
           );
           return res.json(filtered);
         }
@@ -242,38 +204,6 @@ export class PostController {
       errorHandling(res);
     }
   };
-
-  /**
-   * Retruns Paginated Posts
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
-  PaginatedPosts = async (req, res) => {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-    try {
-      const getAll = await client.search({
-        index: 'posts',
-      });
-      const getAllP = await client.search({
-        index: 'posts',
-        from: (page - 1) * limit,
-        size: limit,
-      });
-      const totalPages = Math.ceil(getAll.length / limit);
-      const posts = getAllP.body.hits.hits.map((s) => s._source);
-      return res.json({
-        Posts: posts,
-        datalength: posts.length,
-        totalPosts: getAll.body.hits.hits.map((s) => s._source).length,
-        totalPages: totalPages,
-      });
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
-
   /**
    * Gets Posts
    * @param {*} req
@@ -401,41 +331,6 @@ export class PostController {
       }
     } catch (err) {
       return res.json({ error: err.message });
-    }
-  };
-
-  /**
-   * Paginated Posts
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
-  PaginatedPosts = async (req, res) => {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-    try {
-      const getAll = await client.count({
-        index: 'posts',
-      });
-      const getAllP = await client.search({
-        index: 'posts',
-        body: {
-          from: (page - 1) * limit,
-          size: limit,
-          sort: [{ createdAt: { order: 'desc' } }],
-        },
-      });
-      const totalPosts = getAll.body.count;
-      const totalPages = Math.ceil(totalPosts / limit);
-      const posts = getAllP.body.hits.hits.map((s) => s._source);
-      return res.json({
-        Posts: posts,
-        datalength: posts.length,
-        totalPosts: totalPosts,
-        totalPages: totalPages,
-      });
-    } catch (error) {
-      errorHandling(res);
     }
   };
 }

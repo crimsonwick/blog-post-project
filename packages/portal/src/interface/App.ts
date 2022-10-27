@@ -2,18 +2,7 @@ import { AxiosResponse } from "axios";
 import { bodyInterface } from "../context/AppContext";
 import React from 'react'
 import { Control } from 'react-hook-form'
-
-
-export interface AddCommentInterface<P, C> {
-  width: string;
-  postObject?: P;
-  commentObject?: C;
-  placeholder: string;
-  labelAbove: string;
-  Comment: boolean;
-  refreshComment?: (id: string) => void;
-  refreshReplies?: (commentId: string) => void;
-}
+import { CommentInterface } from "../services/CommentApi";
 
 export interface UserInterface {
   id?: string
@@ -31,7 +20,7 @@ export interface SearchDataInterface {
   title: string
   body: string
   image: string
-  timetoRead: number
+  timeToRead: number
   createdAt: string
   updatedAt: string
   postedBy: {
@@ -56,7 +45,7 @@ export interface SearchMyDataInterface {
     title: string
     body: string
     image: string
-    timetoRead: number
+    timeToRead: number
     createdAt: string
     updatedAt: string
     postedBy: {
@@ -71,11 +60,11 @@ export interface SearchMyDataInterface {
   }
 }
 
-export interface AppContextInterface<U> {
+export interface AppContextInterface {
     dp: string;
     setDp: React.Dispatch<React.SetStateAction<string>>;
-    setUserData: React.Dispatch<React.SetStateAction<U>>;
-    userData: U;
+    setUserData: React.Dispatch<React.SetStateAction<UserInterface>>;
+    userData: UserInterface;
     setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
     setRefreshToken: React.Dispatch<React.SetStateAction<string | null>>;
     accessToken: string | null;
@@ -151,7 +140,7 @@ export interface PostsAll {
   title?: string
   body?: string
   image?: string
-  timetoRead?: number
+  timeToRead?: number
   createdAt?: string
   updatedAt?: string
   postedBy: {
@@ -170,7 +159,7 @@ export interface PostsAdd {
   title: string
   body: string
   image: string
-  timetoRead: number
+  timeToRead: number
 }
 
 export interface DataObject {
@@ -235,7 +224,7 @@ export interface PostInterfaceForLandingPage {
   title: string
   body: string
   image: string
-  timetoRead: number
+  timeToRead: number
   createdAt: string
   updatedAt: string
   postedBy: {
@@ -274,7 +263,7 @@ export interface PostInterface {
     title: string;
     body: string;
     image: string;
-    timetoRead: number;
+    timeToRead: number;
     createdAt: string;
     updatedAt: string;
     postedBy: {
@@ -295,7 +284,7 @@ export interface PostsAll {
     title?: string;
     body?: string;
     image?: string;
-    timetoRead?: number;
+    timeToRead?: number;
     createdAt?: string;
     updatedAt?: string;
     postedBy: {
@@ -314,7 +303,7 @@ userId: string;
 title: string;
 body: string;
 image: string;
-timetoRead: number;
+timeToRead: number;
 }
 
 export interface LandingPageInterface<T> {
@@ -330,7 +319,7 @@ userId: string;
 title: string;
 body: string;
 image: string;
-timetoRead: number;
+timeToRead: number;
 createdAt: string;
 updatedAt: string;
 postedBy: {
@@ -342,4 +331,8 @@ postedBy: {
         createdAt: string;
         updatedAt: string;
       }
+}
+
+export interface PropsArticleCard {
+  object: PostInterface
 }

@@ -9,10 +9,10 @@ import { addComment, addReply, CommentInterface } from '../services/CommentApi';
 import { InputButton } from './InputButton';
 import { InputField } from './InputField';
 
-interface AddCommentInterface<C> {
+interface AddCommentInterface {
   width: string;
   articleId?: string;
-  commentObject?: C;
+  commentObject?: CommentInterface;
   placeholder: string;
   labelAbove: string;
   Comment: boolean;
@@ -20,7 +20,12 @@ interface AddCommentInterface<C> {
   refreshReplies?: (commentId: string) => void;
 }
 
-export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
+/**
+ * Add Comment
+ * @param props 
+ * @returns 
+ */
+export const AddComment = (props: AddCommentInterface) => {
   // const inputRef = useRef(null);
   const schema = yup.object().shape({
     comment: yup.string().required(),
@@ -31,8 +36,7 @@ export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
   });
 
   const { handleSubmit, control, setValue } = methods;
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
   if (!context) {
     return <h1>Not Working!!</h1>;
   } else {
@@ -70,7 +74,7 @@ export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         {context.loggedIn && (
-          <Box display='flex' gap={2} alignItems='flex-end'>
+          <Box display="flex" gap={2} alignItems="flex-end">
             <InputField
               name={'comment'}
               control={control}
@@ -80,9 +84,9 @@ export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
             />
             <Box
               sx={{ display: 'flex', allignItems: 'centre', marginTop: '5px' }}
-              display='flex'
+              display="flex"
             >
-              <InputButton name='Post' width='100px' />
+              <InputButton name="Post" width="100px" />
             </Box>
           </Box>
         )}

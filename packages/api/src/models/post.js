@@ -1,5 +1,6 @@
 'use strict';
 import { Model } from 'sequelize';
+import client from '../config/elasticsearch';
 export default (sequelize, DataTypes) => {
   class Posts extends Model {
     /**
@@ -48,5 +49,30 @@ export default (sequelize, DataTypes) => {
       modelName: 'Posts',
     }
   );
+  Posts.addHook(
+    'afterCreate',
+    'insertIntoElasticSearch',
+    async (post, options) => {
+      const { transaction } = options;
+      let readDataValues = await Posts.findOne({
+        where: {
+          id: post.id,
+        },
+        include: {
+          model: sequelize.models.Users,
+          as: 'postedBy',
+        },
+        transaction,
+      });
+      readDataValues.dataValues.postedBy =
+        readDataValues.dataValues.postedBy.dataValues;
+      console.log(readDataValues.dataValues);
+      await client.index({
+        index: 'posts',
+        body: readDataValues.dataValues,
+      });
+    }
+  );
+
   return Posts;
 };

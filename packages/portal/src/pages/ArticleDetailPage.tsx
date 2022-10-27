@@ -8,22 +8,27 @@ import { Comment } from '../components/Comment';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface, UserInterface } from '../interface/App';
+import { AppContextInterface } from '../interface/App';
 import { CommentInterface } from '../services/CommentApi';
 import { getComments } from '../services/LoginApi';
 
 export const ArticleDetailPage = () => {
   const { articleId } = useParams();
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+
+  const context: AppContextInterface | null = useContext(AppContext);
   const [data, setData] = useState<CommentInterface[]>([]);
 
+  /**
+   * set state with all comments
+   * @param id
+   */
   const allComments = async (id: string) => {
     const response = await getComments(id);
     setData(response.data);
   };
 
   useEffect(() => {
+    localStorage.setItem('link', `/articles/${articleId}`);
     if (articleId) {
       allComments(articleId);
     }

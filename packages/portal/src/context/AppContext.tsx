@@ -7,8 +7,7 @@ import {
   UserInterface,
 } from '../interface/App';
 
-export const AppContext =
-  createContext<AppContextInterface<UserInterface> | null>(null);
+export const AppContext = createContext<AppContextInterface | null>(null);
 export interface bodyInterface {
   token: string;
 }
@@ -26,15 +25,28 @@ export const ContextProvider = (props: { children?: React.ReactNode }) => {
 
   const baseURL: string = 'http://localhost:5000';
 
+  /**
+   * set login token
+   * @param accessToken 
+   * @param refreshToken 
+   */
   const setLoginToken = (accessToken: string, refreshToken: string) => {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
   };
 
+  /**
+   * get login token
+   * @param object 
+   * @returns 
+   */
   const getLoginToken = async (object: bodyInterface) => {
     return await axios.post(`${baseURL}/users/refresh-access`, object);
   };
 
+  /**
+   * logout token
+   */
   const logoutToken = async () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');

@@ -1,5 +1,7 @@
+import { AdvancedImage, placeholder, responsive } from '@cloudinary/react';
+import { CloudinaryImage } from '@cloudinary/url-gen';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import { Avatar, Card, CardMedia, List } from '@mui/material';
+import { Avatar, Card, List } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -13,18 +15,10 @@ import {
   AppContextInterface,
   ArticleDetailComponentInterface,
   PostInterface,
-  UserInterface,
 } from '../interface/App';
 import { parseName, postDetail } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import { CardStyle, flexContainer } from '../styles/Article/List';
-import { CloudinaryImage } from '@cloudinary/url-gen';
-import {
-  AdvancedImage,
-  lazyload,
-  responsive,
-  placeholder,
-} from '@cloudinary/react';
 
 const cat = new CloudinaryImage('fat_cat', { cloudName: 'demo' });
 
@@ -32,8 +26,12 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
   const [loading, setLoading] = useState(false);
   const [post, setPost] = useState<PostInterface>();
   const id = props.articleId;
-  const context: AppContextInterface<UserInterface> | null =
-    useContext(AppContext);
+  const context: AppContextInterface | null = useContext(AppContext);
+
+  /**
+   * Get Post
+   * @param id
+   */
   const getPost = async (id: string) => {
     try {
       setLoading(true);
@@ -133,6 +131,13 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
             cldImg={cat}
             plugins={[responsive(), placeholder()]}
           />
+          {/*<CardMedia
+          //   component="img"
+          //   height="432"
+          //   image={require(`../images/${post?.image}`)}
+          //   alt="post_detail_image"
+          //   sx={CardMediaStyle}
+          /> */}
           <Typography
             variant='h6'
             sx={{ height: 'auto', width: '856px', marginTop: '20px' }}

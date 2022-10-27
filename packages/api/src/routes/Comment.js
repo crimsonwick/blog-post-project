@@ -7,8 +7,6 @@ class CommentRouter {
     const CommentObject = new CommentController();
     router.get('/', CommentObject.getComments);
     router.post('/', CommentObject.addComment);
-    // router.put('/:id', CommentObject.updateComment);
-    // router.delete('/:id', CommentObject.deleteComment);
     router.get('/replies', CommentObject.getRepliesfromComment);
     router.post('/addReply', CommentObject.addReply);
     router.get('/:id/replies', CommentObject.getRepliesfromOneComment);
