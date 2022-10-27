@@ -75,7 +75,7 @@ const CreateArticle = () => {
           };
           await addPost(formData, config);
           setTimeout(() => {
-            navigate('/my-articles');
+            navigate('/articles');
           }, 250);
         } catch (err) {
           Alerts.error('Something went Wrong');
