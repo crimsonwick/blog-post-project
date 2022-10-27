@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import { bodyInterface } from "../context/AppContext";
 import React from 'react'
 import { Control } from 'react-hook-form'
+import { CommentInterface } from "../services/CommentApi";
 
 export interface UserInterface {
   id?: string
@@ -329,4 +330,8 @@ postedBy: {
         createdAt: string;
         updatedAt: string;
       }
+}
+
+export interface PropsArticleCard {
+  object: PostInterface
 }
