@@ -7,7 +7,7 @@ const router = express.Router();
 class PostRouter {
   checkRequests() {
     const PostObject = new PostController();
-    router.post('/', authentication, upload.single('file'), PostObject.AddPost);
+    router.post('/', authentication, upload.single('file'), PostObject.addPost);
     router.get('/search', PostObject.searchPosts);
     router.get('/:id/comments', PostObject.getRepliesfromOnePost);
     router.get('/', PostObject.getPosts);

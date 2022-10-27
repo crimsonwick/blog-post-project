@@ -53,7 +53,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  AddPost = async (req, res) => {
+  addPost = async (req, res) => {
     const file = req.file.path;
     const { userId, title, body, timetoRead } = req.body;
     try {

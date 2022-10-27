@@ -22,8 +22,6 @@ class UserRouter {
     router.post('/signup', UserObject.signUp);
     router.post('/login', UserObject.logIn);
     router.delete('/logout', UserObject.logOut);
-    router.put('/:id/post/:pid', authentication, PostObject.updatePosts);
-    // router.delete('/:id/post/:pid', authentication, PostObject.deletePosts);
     router.get(
       '/:id/posts',
       authentication,
