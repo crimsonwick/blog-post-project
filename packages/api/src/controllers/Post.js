@@ -13,12 +13,10 @@ const query = async (qLimit, qId, qCondition, qAll) => {
     const condition = qCondition;
     if (condition === '') {
       where = { userId: id };
-      console.log(where);
     } else {
       where = {
         [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
       };
-      console.log(where);
     }
   } else {
     const condition = qCondition;
@@ -36,7 +34,7 @@ const query = async (qLimit, qId, qCondition, qAll) => {
     include: [
       {
         model: Users,
-        as: 'Posted_By',
+        as: 'postedBy',
         attributes: ['email', 'avatar'],
       },
       {
@@ -354,7 +352,7 @@ export class PostController {
         include: [
           {
             model: Users,
-            as: 'Posted_By',
+            as: 'postedBy',
             attributes: ['email', 'avatar'],
           },
         ],

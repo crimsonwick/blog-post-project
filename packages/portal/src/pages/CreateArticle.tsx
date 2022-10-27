@@ -13,7 +13,6 @@ import { PostsHeader } from '../components/PostsHeader';
 import { StyledDropZone } from '../components/StyledDropZone';
 import { AppContextInterface, UserInterface } from '../interface/App';
 import { addPost } from '../services/LoginApi';
-import styles from '../styles/CreateArticle/CreateArticle.module.css';
 import { dataInterface } from '../interface/App';
 import '../styles/signup.css';
 
@@ -49,21 +48,25 @@ const CreateArticle = () => {
 
   /**
    * On Submit Function.
-   * @param data 
+   * @param data
    */
   const onSubmit = async (data: dataInterface) => {
     if (context?.postImage === null) {
       Alerts.error('Add an Image.');
     } else {
-      if (context?.postImage?.type === "image/png" || context?.postImage?.type === "image/jpg" || context?.postImage?.type === "image/jpeg") {
+      if (
+        context?.postImage?.type === 'image/png' ||
+        context?.postImage?.type === 'image/jpg' ||
+        context?.postImage?.type === 'image/jpeg'
+      ) {
         try {
           let formData = new FormData();
-          formData.append("userId", context?.userData.id as unknown as string);
-          formData.append("title", data.title);
-          formData.append("body", data.body);
-          formData.append("file", context?.postImage as unknown as string);
-          formData.append("timetoRead", data.mins as unknown as Blob);
-          Alerts.success("Post Created successfully");
+          formData.append('userId', context?.userData.id as unknown as string);
+          formData.append('title', data.title);
+          formData.append('body', data.body);
+          formData.append('file', context?.postImage as unknown as string);
+          formData.append('timetoRead', data.mins as unknown as Blob);
+          Alerts.success('Post Created successfully');
           const config = {
             headers: {
               Authorization: `Bearer ${context?.accessToken}`,
@@ -71,13 +74,13 @@ const CreateArticle = () => {
           };
           await addPost(formData, config);
           setTimeout(() => {
-            navigate("/my-articles");
+            navigate('/articles');
           }, 250);
         } catch (err) {
-          Alerts.error("Something went Wrong");
+          Alerts.error('Something went Wrong');
         }
       } else {
-        Alerts.error("We only accept png/jpeg/jpg images");
+        Alerts.error('We only accept png/jpeg/jpg images');
       }
     }
   };
@@ -86,21 +89,21 @@ const CreateArticle = () => {
     <>
       <Navbar login={true} />
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name="Create New Article" />
+        <PostsHeader name='Create New Article' />
         <Box mt={3}>
           <FormLabel
-            htmlFor="form-label-above-title"
+            htmlFor='form-label-above-title'
             sx={{ fontFamily: 'Poppins' }}
           >
             Give it a title
           </FormLabel>
         </Box>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
           {errors.title ? (
             <Box>
               <Controller
                 control={control}
-                name="title"
+                name='title'
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -117,17 +120,17 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
-              <p className="errorMsg">{errors.title.message}</p>
+              <p className='errorMsg'>{errors.title.message}</p>
             </Box>
           ) : (
             <Box>
               <Controller
                 control={control}
-                name="title"
+                name='title'
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -144,7 +147,7 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
@@ -153,7 +156,7 @@ const CreateArticle = () => {
 
           <Box mt={3}>
             <FormLabel
-              htmlFor="form-label-above-title"
+              htmlFor='form-label-above-title'
               sx={{ fontFamily: 'Poppins' }}
             >
               Min. to read
@@ -163,7 +166,7 @@ const CreateArticle = () => {
             <Box>
               <Controller
                 control={control}
-                name="mins"
+                name='mins'
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -180,17 +183,17 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
-              <p className="errorMsg"> {errors.mins.message}</p>
+              <p className='errorMsg'> {errors.mins.message}</p>
             </Box>
           ) : (
             <Box>
               <Controller
                 control={control}
-                name="mins"
+                name='mins'
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -207,7 +210,7 @@ const CreateArticle = () => {
                       marginBottom: 2.8,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
@@ -216,7 +219,7 @@ const CreateArticle = () => {
 
           <Box mt={3}>
             <FormLabel
-              htmlFor="form-label-above-title"
+              htmlFor='form-label-above-title'
               sx={{ fontFamily: 'Poppins' }}
             >
               Write something about it
@@ -227,7 +230,7 @@ const CreateArticle = () => {
             <Box>
               <Controller
                 control={control}
-                name="body"
+                name='body'
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -247,17 +250,17 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
-              <p className="errorMsg">{errors.body.message}</p>
+              <p className='errorMsg'>{errors.body.message}</p>
             </Box>
           ) : (
             <Box>
               <Controller
                 control={control}
-                name="body"
+                name='body'
                 rules={{ required: true }}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
@@ -277,7 +280,7 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
@@ -286,15 +289,12 @@ const CreateArticle = () => {
 
           <Box mt={2} mb={4}>
             <StyledDropZone />
-            {/* {context && context.postImage && (
-              <span className={styles.errorMsg}>Image is required</span>
-            )} */}
           </Box>
 
           <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
+            type='submit'
+            variant='contained'
+            color='secondary'
             fullWidth
             sx={{
               borderRadius: '25px',

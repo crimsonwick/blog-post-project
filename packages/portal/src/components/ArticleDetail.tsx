@@ -29,7 +29,6 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
   const id = props.articleId;
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
-
   const getPost = async (id: string) => {
     try {
       setLoading(true);
@@ -91,15 +90,15 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
                   src={
                     context?.dp
                       ? require(`../images/${context.dp}`)
-                      : post?.Posted_By.avatar
-                      ? require(`../images/${post?.Posted_By.avatar}`)
+                      : post?.postedBy.avatar
+                      ? require(`../images/${post?.postedBy.avatar}`)
                       : ''
                   }
                   alt='user_dp'
                 />
               </ListItemIcon>
               <ListItemText
-                primary={parseName(post?.Posted_By.email as unknown as string)}
+                primary={parseName(post?.postedBy.email as unknown as string)}
               />
             </ListItem>
             <ListItem

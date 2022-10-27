@@ -16,8 +16,6 @@ import { getComments } from '../services/LoginApi';
 
 export const ArticleDetailPage = () => {
   const { articleId } = useParams();
-  // const location = useLocation();
-  // const { object } = location.state as PostInterface;
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
   const [data, setData] = useState<CommentInterface[]>([]);

@@ -14,8 +14,6 @@ import '../styles/Article/Article.css';
 import { flexContainer } from '../styles/Article/List';
 
 export const ArticleCard = React.forwardRef((props: any, ref: any) => {
-  console.log('props::: ', props);
-  console.log('ref::: ', ref);
   return (
     <Card
       ref={ref}
@@ -132,7 +130,7 @@ export const ArticleCard = React.forwardRef((props: any, ref: any) => {
               <QueryBuilderIcon />
             </ListItemIcon>
             <ListItemText
-              primary={`${props?.object?.timetoRead} Min. To Read`}
+              primary={`${props?.object?.timeToRead} Min. To Read`}
             />
           </ListItem>
         </List>

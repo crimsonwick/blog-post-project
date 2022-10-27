@@ -139,7 +139,7 @@ export interface PostInterface
     timeToRead: number
     createdAt: string
     updatedAt: string
-    Posted_By: {
+    postedBy: {
       email: string
       avatar: string | null
     }

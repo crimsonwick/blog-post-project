@@ -79,10 +79,13 @@ function App() {
             </Route>
             <Route element={<Protected />}>
               <Route path='/create-article' element={<CreateArticle />} />
-              <Route path='/my-articles' element={<MyArticles />} />
+              <Route path='/articles' element={<MyArticles />} />
               <Route path='/account-details' element={<AccountDetails />} />
             </Route>
-            <Route path='/article-detail' element={<ArticleDetailPage />} />
+            <Route
+              path='/articles/:articleId'
+              element={<ArticleDetailPage />}
+            />
             <Route path='/*' element={<Page404 />} />
           </Routes>
         </BrowserRouter>

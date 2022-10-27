@@ -39,7 +39,7 @@ export default (sequelize, DataTypes) => {
       image: {
         type: DataTypes.STRING(1000),
       },
-      timetoRead: {
+      timeToRead: {
         type: DataTypes.INTEGER,
       },
     },

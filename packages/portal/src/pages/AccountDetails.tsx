@@ -72,15 +72,7 @@ export const AccountDetails = () => {
     if (!e.target.files) {
       return;
     }
-    // const img: ImageInterface = {
-    //   preview: URL.createObjectURL(e.target.files[0]),
-    //   data: e.target.files[0],
-    // };
-
-    // let img<File | null> = e.target.files[0];
     setImage(e.target.files[0]);
-    //console.log(image);
-    // console.log(image.data.name);
   };
 
   /**
@@ -126,7 +118,6 @@ export const AccountDetails = () => {
                 hidden
               />
             </Button>
-
             <Button
               variant='contained'
               sx={{
@@ -145,51 +136,51 @@ export const AccountDetails = () => {
               Submit
             </Button>
 
-            <br />
-            <br />
-
             {image && (
-              <div
-                style={{
-                  display: 'inline-flex',
-                  borderRadius: 2,
-                  border: '1px solid #eaeaea',
-                  marginBottom: 8,
-                  marginRight: 8,
-                  width: 100,
-                  height: 100,
-                  padding: 4,
-                  boxSizing: 'border-box',
-                }}
-              >
+              <Box mt={3}>
                 <div
-                  style={{ display: 'flex', minWidth: 0, overflow: 'hidden' }}
+                  style={{
+                    display: 'inline-flex',
+                    borderRadius: 2,
+                    border: '1px solid #eaeaea',
+                    marginBottom: 8,
+                    marginRight: 8,
+                    width: 100,
+                    height: 100,
+                    padding: 4,
+                    boxSizing: 'border-box',
+                  }}
                 >
                   <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      flexWrap: 'wrap',
-                      marginTop: 16,
-                    }}
+                    style={{ display: 'flex', minWidth: 0, overflow: 'hidden' }}
                   >
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt='image_preview'
+                    <div
                       style={{
-                        display: 'block',
-                        width: 'auto',
-                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        marginTop: 16,
                       }}
-                    />
+                    >
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt='image_preview'
+                        style={{
+                          display: 'block',
+                          width: 'auto',
+                          height: '100%',
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Box>
             )}
-            <br />
-            {image && <button onClick={removeFile()}>Remove File</button>}
-
-            <br />
+            {image && (
+              <Box mt={1}>
+                <button onClick={removeFile()}>Remove File</button>
+              </Box>
+            )}
           </Box>
         </Box>
       </Container>

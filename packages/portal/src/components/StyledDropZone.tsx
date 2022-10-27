@@ -49,7 +49,6 @@ export const StyledDropZone = () => {
   const context: AppContextInterface<UserInterface> | null =
     useContext(AppContext);
 
-
   /**
    * On Drop Function
    */
@@ -70,13 +69,12 @@ export const StyledDropZone = () => {
 
   /**
    * Removes File
-   * @param file 
-   * @returns 
+   * @param file
+   * @returns
    */
   const removeFile = (file: MyFile) => () => {
     setMyFile([]);
     context?.setPostImage(null);
-
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
