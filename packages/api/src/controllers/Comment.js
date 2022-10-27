@@ -4,16 +4,16 @@ import { ErrorHandling } from '../middleware/Errors.js';
 const { Comments, Users } = model;
 
 export class CommentController {
-  //static ->?
+  
   addComment = async (req, res) => {
     const { postId, userId, body } = req.body;
     try {
-      const addUserComment = await Comments.create({
+      const addC = await Comments.create({
         postId: postId,
         userId: userId,
         body: body,
       });
-      res.json(addUserComment);
+      res.json(addC);
     } catch (error) {
       ErrorHandling(res);
     }
@@ -21,13 +21,34 @@ export class CommentController {
 
   getComments = async (req, res) => {
     try {
-      const getAllComments = await Comments.findAll({
+      const getAll = await Comments.findAll({
         include: {
           model: Users,
           as: 'commentedBy',
         },
       });
-      res.json(getAllComments);
+      res.json(getAll);
+    } catch (error) {
+      ErrorHandling(res);
+    }
+  };
+
+  updateComment = async (req, res) => {
+    const update = { ...req.body };
+    const { id } = req.params;
+    try {
+      const updateC = await Comments.update(update, { where: { id: id } });
+      res.json(`Successfully Updated Id = ${id}`);
+    } catch (error) {
+      ErrorHandling(res);
+    }
+  };
+
+  deleteComment = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const deleteC = await Comments.destroy({ where: { id: id } });
+      res.json(`Successfully Deleted Id = ${id}`);
     } catch (error) {
       ErrorHandling(res);
     }
