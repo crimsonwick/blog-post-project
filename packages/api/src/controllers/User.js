@@ -3,8 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import model from '../models';
 import { sendEmail } from '../utils/sendMail';
-
-import { ErrorHandling } from '../middleware/Errors.js';
+import { errorHandling } from '../middleware/Errors.js';
 
 dotenv.config();
 
@@ -15,15 +14,7 @@ const { Users } = model;
 export let tokens = [];
 
 export class UserController {
-  constructor() {}
-
-  /**
-   * SignUp
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  SignUp = async (req, res) => {
+  signUp = async (req, res) => {
     const { email, password, avatar } = req.body;
     const hasedPassword = bcrypt.hashSync(password, salt);
     try {
@@ -47,25 +38,19 @@ export class UserController {
     }
   };
 
-  /**
-   * Login
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  Login = async (req, res) => {
+  logIn = async (req, res) => {
     const { email, password } = req.body;
     try {
       const user = await Users.findOne({
         where: { email: email },
       });
       if (!user) {
-        return ErrorHandling(res, 404);
+        return errorHandling(res, 404);
       }
       const dbpassword = user.password;
       bcrypt.compare(password, dbpassword).then((match) => {
         if (!match) {
-          return ErrorHandling(res, 401);
+          return errorHandling(res, 401);
         } else {
           //Authorization
           const accessToken = this.generateAccessToken({ user });
@@ -81,14 +66,14 @@ export class UserController {
         }
       });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      errorHandling(err, 500);
     }
   };
 
   /**
    * Generate Access Token
-   * @param {*} user 
-   * @returns 
+   * @param {*} user
+   * @returns
    */
   generateAccessToken = (user) => {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
@@ -97,10 +82,10 @@ export class UserController {
   };
 
   /**
-   * 
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   token = (req, res) => {
     const refreshToken = req.body.token;
@@ -120,24 +105,12 @@ export class UserController {
     );
   };
 
-  /**
-   * Logout
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  Logout = async (req, res) => {
+  logOut = async (req, res) => {
     tokens = tokens.filter((token) => token !== req.body.token);
     return res.sendStatus(204);
   };
 
-  /**
-   * Update User Avatar
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  UpdateUserAvatar = async (req, res) => {
+  updateUserAvatar = async (req, res) => {
     const userId = req.params.userId;
     let image;
     if (req.file) {
@@ -157,13 +130,7 @@ export class UserController {
     }
   };
 
-  /**
-   * Send Email to user
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  ForgetPassword = async (req, res) => {
+  forgetPassword = async (req, res) => {
     const { email } = req.body;
 
     try {
@@ -190,13 +157,7 @@ export class UserController {
     }
   };
 
-  /**
-   * Reset Password
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
-   */
-  ResetPassword = async (req, res) => {
+  resetPassword = async (req, res) => {
     try {
       const { token } = req.query;
       // Get the token from params

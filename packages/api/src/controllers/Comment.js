@@ -1,5 +1,5 @@
 import model from '../models';
-import { ErrorHandling } from '../middleware/Errors.js';
+import { errorHandling } from '../middleware/Errors.js';
 
 const { Comments, Users } = model;
 
@@ -15,7 +15,7 @@ export class CommentController {
       });
       res.json(addC);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -29,7 +29,7 @@ export class CommentController {
       });
       res.json(getAll);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -40,7 +40,7 @@ export class CommentController {
       const updateC = await Comments.update(update, { where: { id: id } });
       res.json(`Successfully Updated Id = ${id}`);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -50,7 +50,7 @@ export class CommentController {
       const deleteC = await Comments.destroy({ where: { id: id } });
       res.json(`Successfully Deleted Id = ${id}`);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
   getRepliesfromComment = async (req, res) => {
@@ -63,7 +63,7 @@ export class CommentController {
       });
       res.json(replies);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -78,7 +78,7 @@ export class CommentController {
       });
       return res.json(addReply);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -96,7 +96,7 @@ export class CommentController {
       });
       return res.json(response);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 }

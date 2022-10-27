@@ -1,6 +1,7 @@
 import model from '../models';
 import client from '../config/elasticsearch.js';
-import { ErrorHandling } from '../middleware/Errors.js';
+import { errorHandling } from '../middleware/Errors.js';
+import { uploadToCloudinary } from '../config/cloudinary';
 const { Op } = require('sequelize');
 
 const { Users, Posts, Comments } = model;
@@ -54,13 +55,15 @@ export class PostController {
    * @returns
    */
   AddPost = async (req, res) => {
+    const file = req.file.path;
     const { userId, title, body, timetoRead } = req.body;
     try {
+      const result = await uploadToCloudinary(file);
       const addNewPost = await Posts.create({
         userId: userId,
         title: title,
         body: body,
-        image: req.file.originalname,
+        image: result.url,
         timetoRead: timetoRead,
       });
       const readNewPost = await Posts.findOne({
@@ -72,22 +75,16 @@ export class PostController {
           as: 'postedBy',
         },
       });
-      const C_post = await client.index({
+      await client.index({
         index: 'posts',
         body: readNewPost,
       });
-      return res.json(C_post);
+      return res.json(result);
     } catch (error) {
       console.log(error);
     }
   };
 
-  /**
-   * Update Posts
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
   updatePosts = async (req, res) => {
     const { id, pid } = req.params;
     try {
@@ -114,7 +111,7 @@ export class PostController {
       });
       return res.json(`Updated Successfully Id = ${id}`);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -124,19 +121,6 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  deletePosts = async (req, res) => {
-    try {
-      const { id, pid } = req.params;
-      const deletePosts = await Posts.destroy({ where: { id } });
-      const D_posts = await client.delete({
-        index: 'posts',
-        id: pid,
-      });
-      return res.json(`Successfully Deleted Id = ${id}`);
-    } catch (error) {
-      ErrorHandling(res);
-    }
-  };
 
   /**
    * Search Posts
@@ -161,7 +145,7 @@ export class PostController {
       const filteredPosts = postSearched.body.hits.hits.map((o) => o._source);
       return res.json(filteredPosts);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -193,7 +177,7 @@ export class PostController {
         else return res.json(myPosts.body.hits.hits);
       }
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -230,7 +214,7 @@ export class PostController {
         }
       }
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -255,7 +239,7 @@ export class PostController {
       });
       return res.json(AllComments);
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -286,7 +270,7 @@ export class PostController {
         totalPages: totalPages,
       });
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 
@@ -451,7 +435,7 @@ export class PostController {
         totalPages: totalPages,
       });
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res);
     }
   };
 }

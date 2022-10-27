@@ -1,10 +1,10 @@
 /**
- * Error Handling Middleware
+ * Handles Error throughout the controllers
  * @param {*} res
  * @param {*} status
- * @returns
+ * @returns JSON
  */
-export const ErrorHandling = (res, status = 500) => {
+export const errorHandling = (res, status = 500) => {
   const error = { status, message: '' };
 
   switch (status) {
