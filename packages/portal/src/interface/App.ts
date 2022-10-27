@@ -205,6 +205,7 @@ export interface PostHeaderProps {
   textSize?: string
   count?: number
   name?: string
+  link?:boolean
 }
 
 export interface ProtectedInterface {

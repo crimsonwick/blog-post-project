@@ -1,7 +1,7 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { AddComment } from '../components/AddComment';
 import { ArticleDetail } from '../components/ArticleDetail';
 import { Comment } from '../components/Comment';
@@ -37,9 +37,20 @@ export const ArticleDetailPage = () => {
         <Box>
           <ArticleDetail articleId={`${articleId}`} />
         </Box>
-        <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-          <PostsHeader count={data.length} name='comments' textSize='24px' />
-        </Box>
+        {context?.loggedIn ? (
+          <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
+            <PostsHeader count={data.length} name='comments' textSize='24px' />
+          </Box>
+        ) : (
+          <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
+            <PostsHeader
+              count={data.length}
+              name='comments .'
+              textSize='24px'
+              link={true}
+            />
+          </Box>
+        )}
         <Box>
           {context?.loggedIn && (
             <AddComment

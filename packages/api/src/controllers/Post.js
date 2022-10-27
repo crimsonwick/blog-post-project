@@ -242,6 +242,7 @@ export class PostController {
    */
   getRepliesfromOnePost = async (req, res) => {
     try {
+      //TODO:applying limit offset pagination 3 comments at a
       const AllComments = await Comments.findAll({
         where: {
           postId: req.params.id,
