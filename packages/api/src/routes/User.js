@@ -1,42 +1,39 @@
-import express from 'express';
-import multer from 'multer';
-import { PostController } from '../controllers/Post.js';
-import { UserController } from '../controllers/User.js';
-import { Authentication } from '../middleware/Authentication.js';
-import { upload } from '../utils/multer.js';
+import express from 'express'
+import { PostController } from '../controllers/Post.js'
+import { UserController } from '../controllers/User.js'
+import { authentication } from '../middleware/Authentication.js'
+import { upload } from '../utils/multer.js'
 
-const router = express.Router();
+const router = express.Router()
 
 class UserRouter {
-  constructor() {}
-
   checkRequests() {
-    const UserObject = new UserController();
-    const PostObject = new PostController();
-    router.post('/refresh-access', UserObject.token);
-    router.post('/forget-password', UserObject.ForgetPassword);
-    router.put('/reset-password', UserObject.ResetPassword);
+    const UserObject = new UserController()
+    const PostObject = new PostController()
+    router.post('/refresh-access', UserObject.token)
+    router.post('/forget-password', UserObject.forgetPassword)
+    router.put('/reset-password', UserObject.resetPassword)
     router.put(
       '/:userId',
-      Authentication,
+      authentication,
       upload.single('file'),
-      UserObject.UpdateUserAvatar
-    );
-    router.post('/signup', UserObject.SignUp);
-    router.post('/login', UserObject.Login);
-    router.delete('/logout', UserObject.Logout);
-    router.put('/:id/post/:pid', Authentication, PostObject.updatePosts);
-    router.delete('/:id/post/:pid', Authentication, PostObject.deletePosts);
+      UserObject.updateUserAvatar,
+    )
+    router.post('/signup', UserObject.signUp)
+    router.post('/login', UserObject.login)
+    router.delete('/logout', UserObject.logout)
+    router.put('/:id/post/:pid', authentication, PostObject.updatePosts)
+    router.delete('/:id/post/:pid', authentication, PostObject.deletePosts)
     router.get(
       '/:id/posts',
-      Authentication,
-      PostObject.getCursorPostsOfSingleUser
-    );
-    router.get('/:id/posts/search', Authentication, PostObject.searchMyPost);
+      authentication,
+      PostObject.getCursorPostsOfSingleUser,
+    )
+    router.get('/:id/posts/search', authentication, PostObject.searchMyPost)
   }
 }
 
-const call = new UserRouter();
-call.checkRequests();
+const call = new UserRouter()
+call.checkRequests()
 
-export default router;
+export default router

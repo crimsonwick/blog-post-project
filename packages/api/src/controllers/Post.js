@@ -1,23 +1,24 @@
-import model from '../models';
-import client from '../config/elasticsearch.js';
-import { ErrorHandling } from '../middleware/Errors.js';
-const { Op } = require('sequelize');
+import model from '../models'
+import client from '../config/elasticsearch.js'
+import { errorHandling } from '../middleware/Errors.js'
+import { uploadToCloudinary } from '../config/cloudinary'
+const { Op } = require('sequelize')
 
-const { Users, Posts, Comments } = model;
+const { Users, Posts, Comments } = model
 
 export class PostController {
-  constructor() {}
-
   AddPost = async (req, res) => {
-    const { userId, title, body, timetoRead } = req.body;
+    const file = req.file.path
+    const { userId, title, body, timetoRead } = req.body
     try {
+      const result = await uploadToCloudinary(file)
       const addNewPost = await Posts.create({
         userId: userId,
         title: title,
         body: body,
-        image: req.file.originalname,
+        image: result.url,
         timetoRead: timetoRead,
-      });
+      })
       const readNewPost = await Posts.findOne({
         where: {
           id: addNewPost.id,
@@ -26,31 +27,19 @@ export class PostController {
           model: Users,
           as: 'Posted_By',
         },
-      });
-      const C_post = await client.index({
+      })
+      await client.index({
         index: 'posts',
         body: readNewPost,
-      });
-      return res.json(C_post);
+      })
+      return res.json(result)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
-
-  //    getPosts = async (req, res) => {
-  //   try {
-  //     const getAll = await client.search({
-  //       index: 'posts',
-  //     })
-  //     const posts = getAll.body.hits.hits.map((s) => s._source);
-  //     return res.json(posts);
-  //   } catch (error) {
-  //     ErrorHandling(res);
-  //   }
-  // }
+  }
 
   updatePosts = async (req, res) => {
-    const { id, pid } = req.params;
+    const { id, pid } = req.params
     try {
       const updatePost = await Posts.update(
         { ...req.body },
@@ -58,40 +47,40 @@ export class PostController {
           where: {
             id: id,
           },
-        }
-      );
+        },
+      )
       const update = await Posts.findOne({
         where: {
           id: id,
         },
-      });
-      const newValues = Object.assign(update, { ...req.body });
+      })
+      const newValues = Object.assign(update, { ...req.body })
       const U_post = await client.update({
         index: 'posts',
         id: pid,
         body: {
           doc: newValues,
         },
-      });
-      return res.json(`Updated Successfully Id = ${id}`);
+      })
+      return res.json(`Updated Successfully Id = ${id}`)
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res)
     }
-  };
+  }
 
   deletePosts = async (req, res) => {
     try {
-      const { id, pid } = req.params;
-      const deletePosts = await Posts.destroy({ where: { id: id } });
+      const { id, pid } = req.params
+      const deletePosts = await Posts.destroy({ where: { id: id } })
       const D_posts = await client.delete({
         index: 'posts',
         id: pid,
-      });
-      return res.json(`Successfully Deleted Id = ${id}`);
+      })
+      return res.json(`Successfully Deleted Id = ${id}`)
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res)
     }
-  };
+  }
 
   searchPosts = async (req, res) => {
     let query = {
@@ -104,15 +93,15 @@ export class PostController {
           },
         },
       },
-    };
-    try {
-      const postSearched = await client.search(query);
-      const filteredPosts = postSearched.body.hits.hits.map((o) => o._source);
-      return res.json(filteredPosts);
-    } catch (error) {
-      ErrorHandling(res);
     }
-  };
+    try {
+      const postSearched = await client.search(query)
+      const filteredPosts = postSearched.body.hits.hits.map((o) => o._source)
+      return res.json(filteredPosts)
+    } catch (error) {
+      errorHandling(res)
+    }
+  }
 
   myPosts = async (req, res) => {
     let query = {
@@ -122,23 +111,23 @@ export class PostController {
           match: { userId: req.params.id },
         },
       },
-    };
+    }
     try {
       const LoginDetails = await Users.findAll({
         where: {
           email: req.user.user.email,
         },
-      });
-      if (!LoginDetails) return res.json(`Un Authorized Access`);
+      })
+      if (!LoginDetails) return res.json(`Un Authorized Access`)
       else {
-        const myPosts = await client.search(query);
-        if (!myPosts) return res.json(`You haven't Posted Anything!!`);
-        else return res.json(myPosts.body.hits.hits);
+        const myPosts = await client.search(query)
+        if (!myPosts) return res.json(`You haven't Posted Anything!!`)
+        else return res.json(myPosts.body.hits.hits)
       }
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res)
     }
-  };
+  }
 
   searchMyPost = async (req, res) => {
     let query = {
@@ -148,28 +137,28 @@ export class PostController {
           match: { userId: req.params.id },
         },
       },
-    };
+    }
     try {
       const LoginDetails = await Users.findAll({
         where: {
           email: req.user.user.email,
         },
-      });
-      if (!LoginDetails) return res.json(`Un Authorized Access`);
+      })
+      if (!LoginDetails) return res.json(`Un Authorized Access`)
       else {
-        const myPosts = await client.search(query);
-        if (!myPosts) return res.json(`You haven't Posted Anything!!`);
+        const myPosts = await client.search(query)
+        if (!myPosts) return res.json(`You haven't Posted Anything!!`)
         else {
           const filtered = myPosts.body.hits.hits.filter((o) =>
-            o._source.title.includes(req.query.title)
-          );
-          return res.json(filtered);
+            o._source.title.includes(req.query.title),
+          )
+          return res.json(filtered)
         }
       }
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res)
     }
-  };
+  }
 
   getRepliesfromOnePost = async (req, res) => {
     try {
@@ -182,40 +171,40 @@ export class PostController {
           model: Users,
           as: 'Commented_By',
         },
-      });
-      return res.json(AllComments);
+      })
+      return res.json(AllComments)
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res)
     }
-  };
+  }
 
   PaginatedPosts = async (req, res) => {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
     try {
       const getAll = await client.search({
         index: 'posts',
-      });
+      })
       const getAllP = await client.search({
         index: 'posts',
         from: (page - 1) * limit,
         size: limit,
-      });
-      const totalPages = Math.ceil(getAll.length / limit);
-      const posts = getAllP.body.hits.hits.map((s) => s._source);
+      })
+      const totalPages = Math.ceil(getAll.length / limit)
+      const posts = getAllP.body.hits.hits.map((s) => s._source)
       return res.json({
         Posts: posts,
         datalength: posts.length,
         totalPosts: getAll.body.hits.hits.map((s) => s._source).length,
         totalPages: totalPages,
-      });
+      })
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res)
     }
-  };
+  }
   getPosts = async (req, res) => {
     try {
-      const limit = parseInt(req.query.limit);
+      const limit = parseInt(req.query.limit)
       if (isNaN(limit)) {
         const allPosts = await Posts.findAll({
           include: [
@@ -229,17 +218,17 @@ export class PostController {
               as: 'Comments',
             },
           ],
-        });
-        return res.json(allPosts);
+        })
+        return res.json(allPosts)
       }
 
-      const cursorValues = {};
-      cursorValues.next_page = req.query.next_page || '';
-      cursorValues.prev_page = req.query.prev_page || '';
+      const cursorValues = {}
+      cursorValues.next_page = req.query.next_page || ''
+      cursorValues.prev_page = req.query.prev_page || ''
 
-      let condition = '';
-      if (cursorValues.next_page) condition = cursorValues.next_page;
-      else if (cursorValues.prev_page) condition = cursorValues.prev_page;
+      let condition = ''
+      if (cursorValues.next_page) condition = cursorValues.next_page
+      else if (cursorValues.prev_page) condition = cursorValues.prev_page
 
       if (!condition) {
         const posts = await Posts.findAll({
@@ -256,17 +245,17 @@ export class PostController {
               as: 'Comments',
             },
           ],
-        });
-        cursorValues.prev_page = null;
-        if (posts[limit] === undefined) cursorValues.next_page = null;
+        })
+        cursorValues.prev_page = null
+        if (posts[limit] === undefined) cursorValues.next_page = null
         else {
           //*convert to plain js object
-          const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.next_page = clonePost[limit - 1].createdAt;
+          const clonePost = JSON.parse(JSON.stringify(posts))
+          cursorValues.next_page = clonePost[limit - 1].createdAt
         }
-        if (posts.length == limit + 1) posts.pop();
-        const result = [cursorValues, posts];
-        res.send(result);
+        if (posts.length == limit + 1) posts.pop()
+        const result = [cursorValues, posts]
+        res.send(result)
       } else if (condition === cursorValues.next_page) {
         const posts = await Posts.findAll({
           limit: limit + 1,
@@ -283,23 +272,23 @@ export class PostController {
               as: 'Comments',
             },
           ],
-        });
+        })
         //*next page link
-        if (posts[limit] === undefined) cursorValues.next_page = null;
+        if (posts[limit] === undefined) cursorValues.next_page = null
         else {
           //*convert to plain js object
-          const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.next_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
+          const clonePost = JSON.parse(JSON.stringify(posts))
+          cursorValues.next_page = clonePost[limit - 1].createdAt //*should be prev page when prev page link is clicked
         }
         //*prev page link
-        if (posts[0] === undefined) cursorValues.prev_page = null;
+        if (posts[0] === undefined) cursorValues.prev_page = null
         else {
-          const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.prev_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
+          const clonePost = JSON.parse(JSON.stringify(posts))
+          cursorValues.prev_page = clonePost[0].createdAt //*should be next page link when prev page link is clicked
         }
-        if (posts.length == limit + 1) posts.pop();
-        const result = [cursorValues, posts];
-        res.send(result);
+        if (posts.length == limit + 1) posts.pop()
+        const result = [cursorValues, posts]
+        res.send(result)
       } else if (condition === cursorValues.prev_page) {
         const posts = await Posts.findAll({
           limit: limit + 1,
@@ -316,24 +305,24 @@ export class PostController {
               as: 'Comments',
             },
           ],
-        });
-        if (posts[limit] === undefined) cursorValues.prev_page = null;
+        })
+        if (posts[limit] === undefined) cursorValues.prev_page = null
         else {
-          const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.prev_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
+          const clonePost = JSON.parse(JSON.stringify(posts))
+          cursorValues.prev_page = clonePost[limit - 1].createdAt //*should be prev page when prev page link is clicked
         }
-        if (posts[0] === undefined) cursorValues.next_page = null;
+        if (posts[0] === undefined) cursorValues.next_page = null
         else {
-          const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.next_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
+          const clonePost = JSON.parse(JSON.stringify(posts))
+          cursorValues.next_page = clonePost[0].createdAt //*should be next page link when prev page link is clicked
         }
-        if (posts.length == limit + 1) posts.pop();
-        const result = [cursorValues, posts];
-        res.send(result);
+        if (posts.length == limit + 1) posts.pop()
+        const result = [cursorValues, posts]
+        res.send(result)
       }
     } catch (err) {
-      console.log(err);
-      return res.json({ error: `${err}` });
+      console.log(err)
+      return res.json({ error: `${err}` })
     }
 
     // try {
@@ -343,14 +332,14 @@ export class PostController {
     //   const posts = getAll.body.hits.hits.map((s) => s._source);
     //   return res.json(posts);
     // } catch (error) {
-    //   ErrorHandling(res);
+    //   errorHandling(res);
     // }
-  };
+  }
 
   getCursorPostsOfSingleUser = async (req, res) => {
     try {
-      const limit = parseInt(req.query.limit);
-      const id = req.params.id;
+      const limit = parseInt(req.query.limit)
+      const id = req.params.id
       if (id) {
         if (isNaN(limit)) {
           const allPosts = await Posts.findAll({
@@ -366,17 +355,17 @@ export class PostController {
                 as: 'Comments',
               },
             ],
-          });
-          return res.json(allPosts);
+          })
+          return res.json(allPosts)
         }
 
-        const cursorValues = {};
-        cursorValues.next_page = req.query.next_page || '';
-        cursorValues.prev_page = req.query.prev_page || '';
+        const cursorValues = {}
+        cursorValues.next_page = req.query.next_page || ''
+        cursorValues.prev_page = req.query.prev_page || ''
 
-        let condition = '';
-        if (cursorValues.next_page) condition = cursorValues.next_page;
-        else if (cursorValues.prev_page) condition = cursorValues.prev_page;
+        let condition = ''
+        if (cursorValues.next_page) condition = cursorValues.next_page
+        else if (cursorValues.prev_page) condition = cursorValues.prev_page
 
         if (!condition) {
           const posts = await Posts.findAll({
@@ -394,17 +383,17 @@ export class PostController {
                 as: 'Comments',
               },
             ],
-          });
-          cursorValues.prev_page = null;
-          if (posts[limit] === undefined) cursorValues.next_page = null;
+          })
+          cursorValues.prev_page = null
+          if (posts[limit] === undefined) cursorValues.next_page = null
           else {
             //*convert to plain js object
-            const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.next_page = clonePost[limit - 1].createdAt;
+            const clonePost = JSON.parse(JSON.stringify(posts))
+            cursorValues.next_page = clonePost[limit - 1].createdAt
           }
-          if (posts.length == limit + 1) posts.pop();
-          const result = [cursorValues, posts];
-          res.send(result);
+          if (posts.length == limit + 1) posts.pop()
+          const result = [cursorValues, posts]
+          res.send(result)
         } else if (condition === cursorValues.next_page) {
           const posts = await Posts.findAll({
             where: {
@@ -423,23 +412,23 @@ export class PostController {
                 as: 'Comments',
               },
             ],
-          });
+          })
           //*next page link
-          if (posts[limit] === undefined) cursorValues.next_page = null;
+          if (posts[limit] === undefined) cursorValues.next_page = null
           else {
             //*convert to plain js object
-            const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.next_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
+            const clonePost = JSON.parse(JSON.stringify(posts))
+            cursorValues.next_page = clonePost[limit - 1].createdAt //*should be prev page when prev page link is clicked
           }
           //*prev page link
-          if (posts[0] === undefined) cursorValues.prev_page = null;
+          if (posts[0] === undefined) cursorValues.prev_page = null
           else {
-            const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.prev_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
+            const clonePost = JSON.parse(JSON.stringify(posts))
+            cursorValues.prev_page = clonePost[0].createdAt //*should be next page link when prev page link is clicked
           }
-          if (posts.length == limit + 1) posts.pop();
-          const result = [cursorValues, posts];
-          res.send(result);
+          if (posts.length == limit + 1) posts.pop()
+          const result = [cursorValues, posts]
+          res.send(result)
         } else if (condition === cursorValues.prev_page) {
           const posts = await Posts.findAll({
             where: {
@@ -458,36 +447,36 @@ export class PostController {
                 as: 'Comments',
               },
             ],
-          });
-          if (posts[limit] === undefined) cursorValues.prev_page = null;
+          })
+          if (posts[limit] === undefined) cursorValues.prev_page = null
           else {
-            const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.prev_page = clonePost[limit - 1].createdAt; //*should be prev page when prev page link is clicked
+            const clonePost = JSON.parse(JSON.stringify(posts))
+            cursorValues.prev_page = clonePost[limit - 1].createdAt //*should be prev page when prev page link is clicked
           }
-          if (posts[0] === undefined) cursorValues.next_page = null;
+          if (posts[0] === undefined) cursorValues.next_page = null
           else {
-            const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.next_page = clonePost[0].createdAt; //*should be next page link when prev page link is clicked
+            const clonePost = JSON.parse(JSON.stringify(posts))
+            cursorValues.next_page = clonePost[0].createdAt //*should be next page link when prev page link is clicked
           }
-          if (posts.length == limit + 1) posts.pop();
-          const result = [cursorValues, posts];
-          res.send(result);
+          if (posts.length == limit + 1) posts.pop()
+          const result = [cursorValues, posts]
+          res.send(result)
         }
       } else {
-        return res.status(404).json('User not found');
+        return res.status(404).json('User not found')
       }
     } catch (err) {
-      console.log(err);
-      return res.json({ error: `${err}` });
+      console.log(err)
+      return res.json({ error: `${err}` })
     }
-  };
+  }
   PaginatedPosts = async (req, res) => {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
     try {
       const getAll = await client.count({
         index: 'posts',
-      });
+      })
       const getAllP = await client.search({
         index: 'posts',
         body: {
@@ -495,18 +484,18 @@ export class PostController {
           size: limit,
           sort: [{ createdAt: { order: 'desc' } }],
         },
-      });
-      const totalPosts = getAll.body.count;
-      const totalPages = Math.ceil(totalPosts / limit);
-      const posts = getAllP.body.hits.hits.map((s) => s._source);
+      })
+      const totalPosts = getAll.body.count
+      const totalPages = Math.ceil(totalPosts / limit)
+      const posts = getAllP.body.hits.hits.map((s) => s._source)
       return res.json({
         Posts: posts,
         datalength: posts.length,
         totalPosts: totalPosts,
         totalPages: totalPages,
-      });
+      })
     } catch (error) {
-      ErrorHandling(res);
+      errorHandling(res)
     }
-  };
+  }
 }
