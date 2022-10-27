@@ -17,11 +17,16 @@ import {
 } from '../interface/App';
 import { parseName, postDetail } from '../services/LoginApi';
 import '../styles/Article/Article.css';
+import { CardStyle, flexContainer } from '../styles/Article/List';
+import { CloudinaryImage } from '@cloudinary/url-gen';
 import {
-  CardMediaStyle,
-  CardStyle,
-  flexContainer,
-} from '../styles/Article/List';
+  AdvancedImage,
+  lazyload,
+  responsive,
+  placeholder,
+} from '@cloudinary/react';
+
+const cat = new CloudinaryImage('fat_cat', { cloudName: 'demo' });
 
 export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
   const [loading, setLoading] = useState(false);
@@ -117,12 +122,16 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
               <ListItemText primary={`${post?.timeToRead} Min. To Read`} />
             </ListItem>
           </List>
-          <CardMedia
-            component='img'
-            height='432'
-            image={require(`../images/${post?.image}`)}
-            alt='post_detail_image'
-            sx={CardMediaStyle}
+          <AdvancedImage
+            style={{
+              height: '432px',
+              width: '856px',
+              borderRadius: '5px',
+              objectFit: 'contain',
+              margin: '10px 1px',
+            }}
+            cldImg={cat}
+            plugins={[responsive(), placeholder()]}
           />
           <Typography
             variant='h6'

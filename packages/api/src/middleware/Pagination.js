@@ -1,5 +1,5 @@
 import model from '../models';
-const { Comments } = model;
+const { Comments, Users } = model;
 
 export const paginatedResults = (model) => {
   return async (req, res, next) => {

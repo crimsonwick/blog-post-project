@@ -1,7 +1,7 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { Container } from '@mui/system';
 import { useContext, useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AddComment } from '../components/AddComment';
 import { ArticleDetail } from '../components/ArticleDetail';
 import { Comment } from '../components/Comment';
@@ -11,8 +11,6 @@ import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserInterface } from '../interface/App';
 import { CommentInterface } from '../services/CommentApi';
 import { getComments } from '../services/LoginApi';
-
-// declare function useParams<K extends string = string>(): Readonly<Params<K>>;
 
 export const ArticleDetailPage = () => {
   const { articleId } = useParams();
