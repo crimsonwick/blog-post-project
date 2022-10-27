@@ -20,6 +20,10 @@ export const ArticleDetailPage = () => {
     useContext(AppContext);
   const [data, setData] = useState<CommentInterface[]>([]);
 
+  /**
+   * set state with all comments
+   * @param id 
+   */
   const allComments = async (id: string) => {
     const response = await getComments(id);
     setData(response.data);

@@ -20,6 +20,11 @@ interface AddCommentInterface<C> {
   refreshReplies?: (commentId: string) => void;
 }
 
+/**
+ * Add Comment
+ * @param props 
+ * @returns 
+ */
 export const AddComment = (props: AddCommentInterface<CommentInterface>) => {
   // const inputRef = useRef(null);
   const schema = yup.object().shape({

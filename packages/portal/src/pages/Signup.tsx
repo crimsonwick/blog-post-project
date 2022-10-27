@@ -75,6 +75,9 @@ export const Signup = () => {
     showPassword: false,
   });
 
+  /**
+   * Handle Click Show Password
+   */
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -82,6 +85,10 @@ export const Signup = () => {
     });
   };
 
+  /**
+   * Handle Mouse Down Password
+   * @param event 
+   */
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -92,6 +99,11 @@ export const Signup = () => {
     Submitted: false,
     showMessage: false,
   });
+
+  /**
+   * On Submit
+   * @param data 
+   */
   const onSubmit = async (data: dataInterface) => {
     const responsed = await getSignUpDetails(data);
     if (responsed.data.id === undefined) {

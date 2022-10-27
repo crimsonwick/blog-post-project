@@ -73,9 +73,18 @@ export const Navbar = (props: NavbarProps) => {
       context?.setSearchMyData(response.data);
     }
   };
+
+  /**
+   * handle change
+   * @param event 
+   */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     [event.target.name] = [event.target.value];
   };
+
+  /**
+   * handle logout
+   */
   const handleLogout = () => {
     try {
       context?.logoutToken();

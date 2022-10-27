@@ -58,15 +58,28 @@ export const ChangePassword = () => {
     showPassword: false,
   });
   const location = useLocation();
+
+  /**
+   * Handle Click Show Password 
+   */
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
     });
   };
-  const handleMouseDownPassword = (event: any) => {
+
+  /**
+   * Handle Mouse down password
+   * @param event 
+   */
+  const handleMouseDownPassword = (event: any) => {  
     event.preventDefault();
   };
+
+  /**
+   * Handle Click Show Password2
+   */
   const handleClickShowPassword2 = () => {
     setValues2({
       ...values2,
