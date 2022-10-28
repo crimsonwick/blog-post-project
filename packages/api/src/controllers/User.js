@@ -219,6 +219,7 @@ export class UserController {
         }
       });
       if (password1 === password2) {
+        //TODO:move to hook
         const hashPassword = bcrypt.hashSync(password1, salt);
         // update user credentials and remove the temporary link from database before saving
         user.password = hashPassword;

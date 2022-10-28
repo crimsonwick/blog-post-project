@@ -6,6 +6,25 @@ const { Op } = require('sequelize');
 
 const { Users, Posts, Comments } = model;
 
+const reverseString = (str) => {
+  // Check input
+  if (!str || str.length < 2 || typeof str !== 'string') {
+    return 'Not valid';
+  }
+
+  // Take empty array revArray
+  const revArray = [];
+  const length = str.length - 1;
+
+  // Looping from the end
+  for (let i = length; i >= 0; i--) {
+    revArray.push(str[i]);
+  }
+
+  // Joining the array elements
+  return revArray.join('');
+};
+
 const query = async (qLimit, qId, qCondition, qAll) => {
   const limit = qLimit;
   let where = {};
@@ -54,34 +73,28 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  addPost = async (req, res) => {
+  static addPost = async (req, res) => {
     const file = req.file.path;
     const { userId, title, body, timeToRead } = req.body;
+    //*validation checks for (required) fields -> in seperate middleware
     try {
       if (file) {
         const result = await uploadToCloudinary(file);
+        let url = result.url;
+        url = reverseString(url);
+        url = url.substring(0, url.indexOf('/'));
+        url = reverseString(url);
 
         const addNewPost = await Posts.create({
+          //*spread object returned
           userId: userId,
           title: title,
           body: body,
           image: result.url,
           timeToRead: timeToRead,
         });
-        const readNewPost = await Posts.findOne({
-          where: {
-            id: addNewPost.id,
-          },
-          include: {
-            model: Users,
-            as: 'postedBy',
-          },
-        });
-        await client.index({
-          index: 'posts',
-          body: readNewPost,
-        });
-        return res.json(result);
+
+        return res.json(addNewPost);
       } else {
         res.status(404).send({
           message: 'file is empty',
@@ -157,6 +170,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
+  //*do search through ONE API
   searchMyPost = async (req, res) => {
     let query = {
       index: 'posts',

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { PostInterface } from '../interface/App';
 const baseURL: string = 'http://localhost:5000';
 
 interface LoginDetailInterface {
@@ -54,7 +55,10 @@ export const addPost = async (object: FormData, config: ConfigInterface) => {
   return await axios.post(`${baseURL}/posts`, object, config);
 };
 
-export const gettingPosts = async (config: ConfigInterface, id: string) => {
+export const gettingPosts = async (
+  config: ConfigInterface,
+  id: string
+): Promise<PostInterface> => {
   return await axios.get(`${baseURL}/users/${id}/posts`, config);
 };
 

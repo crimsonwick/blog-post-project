@@ -22,7 +22,7 @@ const cld = new Cloudinary({
     cloudName: 'ddutykcuf',
   },
 });
-const myImage = cld.image('main/Pictures.jpg');
+const myImage = cld.image('main/uploads/messi.jpg.jpg');
 
 export const ArticleCard = React.forwardRef(
   (
@@ -33,6 +33,7 @@ export const ArticleCard = React.forwardRef(
       | null
       | undefined
   ) => {
+    debugger;
     return (
       <Card
         ref={ref}
@@ -46,21 +47,8 @@ export const ArticleCard = React.forwardRef(
         }}
       >
         <AdvancedImage
-          cldImg={myImage}
+          cldImg={cld.image(`main/uploads/${props?.object?.image}`)}
           plugins={[responsive({ steps: [400, 800, 1000, 1400] })]}
-          style={{
-            height: '432px',
-            width: '856px',
-            borderRadius: '5px',
-            objectFit: 'contain',
-            margin: '10px 1px',
-          }}
-          alt='post_detail_img'
-        />
-        <img
-          src={require(`../images/${props?.object?.image}`)}
-          alt='user_image'
-          className='articleImg'
           style={{
             borderRadius: '5px',
             width: '300px',
@@ -68,6 +56,7 @@ export const ArticleCard = React.forwardRef(
             objectFit: 'contain',
             marginRight: '50px',
           }}
+          alt='article_card_img'
         />
         <Box mt={1}>
           <Chip

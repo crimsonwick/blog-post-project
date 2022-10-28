@@ -4,16 +4,15 @@ import { errorHandling } from '../middleware/Errors.js';
 const { Comments, Users } = model;
 
 export class CommentController {
-  
   addComment = async (req, res) => {
     const { postId, userId, body } = req.body;
     try {
-      const addC = await Comments.create({
+      const comment = await Comments.create({
         postId: postId,
         userId: userId,
         body: body,
       });
-      res.json(addC);
+      res.json(comment);
     } catch (error) {
       errorHandling(res);
     }
