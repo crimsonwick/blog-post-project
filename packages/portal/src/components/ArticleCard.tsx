@@ -1,18 +1,28 @@
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
-import QueryBuilderIcon from '@mui/icons-material/QueryBuilder'
-import { Avatar, Card, List } from '@mui/material'
-import Chip from '@mui/material/Chip'
-import ListItem from '@mui/material/ListItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Typography from '@mui/material/Typography'
-import { Box } from '@mui/system'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { PropsArticleCard } from '../interface/App'
-import { parseDate, parseName } from '../services/LoginApi'
-import '../styles/Article/Article.css'
-import { flexContainer } from '../styles/Article/List'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
+import { Avatar, Card, List } from '@mui/material';
+import Chip from '@mui/material/Chip';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+import { Box } from '@mui/system';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { PropsArticleCard } from '../interface/App';
+import { parseDate, parseName } from '../services/LoginApi';
+import '../styles/Article/Article.css';
+import { flexContainer } from '../styles/Article/List';
+import { AdvancedImage } from '@cloudinary/react';
+import { responsive } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
+
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: 'ddutykcuf',
+  },
+});
+const myImage = cld.image('main/Pictures.jpg');
 
 export const ArticleCard = React.forwardRef(
   (
@@ -21,10 +31,8 @@ export const ArticleCard = React.forwardRef(
       | ((instance: HTMLDivElement | null) => void)
       | React.RefObject<HTMLDivElement>
       | null
-      | undefined,
+      | undefined
   ) => {
-    console.log('props::: ', props)
-    console.log('ref::: ', ref) // cannot define type of REF
     return (
       <Card
         ref={ref}
@@ -37,10 +45,22 @@ export const ArticleCard = React.forwardRef(
           width: 'auto',
         }}
       >
+        <AdvancedImage
+          cldImg={myImage}
+          plugins={[responsive({ steps: [400, 800, 1000, 1400] })]}
+          style={{
+            height: '432px',
+            width: '856px',
+            borderRadius: '5px',
+            objectFit: 'contain',
+            margin: '10px 1px',
+          }}
+          alt='post_detail_img'
+        />
         <img
           src={require(`../images/${props?.object?.image}`)}
-          alt="user_image"
-          className="articleImg"
+          alt='user_image'
+          className='articleImg'
           style={{
             borderRadius: '5px',
             width: '300px',
@@ -51,7 +71,7 @@ export const ArticleCard = React.forwardRef(
         />
         <Box mt={1}>
           <Chip
-            label="Travel"
+            label='Travel'
             sx={{
               borderRadius: '3px',
               backgroundColor: '#F2F8F7',
@@ -67,7 +87,7 @@ export const ArticleCard = React.forwardRef(
             style={{ textDecoration: 'none', color: 'rgba(0,0,0,0.87)' }}
           >
             <Typography
-              variant="h1"
+              variant='h1'
               sx={{
                 fontFamily: 'Poppins',
                 fontWeight: '600',
@@ -83,7 +103,7 @@ export const ArticleCard = React.forwardRef(
           </Link>
           <List style={flexContainer}>
             <ListItem
-              className="user"
+              className='user'
               disablePadding={true}
               sx={{
                 borderRight: '2px solid',
@@ -95,7 +115,7 @@ export const ArticleCard = React.forwardRef(
             >
               <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
                 <Avatar
-                  alt="user display picture"
+                  alt='user display picture'
                   src={
                     props?.object?.postedBy.avatar
                       ? require(`../images/${props.object.postedBy.avatar}`)
@@ -106,12 +126,12 @@ export const ArticleCard = React.forwardRef(
               </ListItemIcon>
               <ListItemText
                 primary={parseName(
-                  (props?.object?.postedBy.email as unknown) as string,
+                  props?.object?.postedBy.email as unknown as string
                 )}
               />
             </ListItem>
             <ListItem
-              className="date"
+              className='date'
               disablePadding={true}
               sx={{
                 borderRight: '2px solid',
@@ -126,12 +146,12 @@ export const ArticleCard = React.forwardRef(
               </ListItemIcon>
               <ListItemText
                 primary={parseDate(
-                  (props?.object?.createdAt as unknown) as string,
+                  props?.object?.createdAt as unknown as string
                 )}
               />
             </ListItem>
             <ListItem
-              className="timeToRead"
+              className='timeToRead'
               disablePadding={true}
               sx={{
                 marginRight: '10px',
@@ -148,7 +168,7 @@ export const ArticleCard = React.forwardRef(
             </ListItem>
           </List>
           <Typography
-            variant="h6"
+            variant='h6'
             sx={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -161,6 +181,6 @@ export const ArticleCard = React.forwardRef(
           </Typography>
         </Box>
       </Card>
-    )
-  },
-)
+    );
+  }
+);

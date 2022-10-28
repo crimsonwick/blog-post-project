@@ -11,7 +11,7 @@ class PostRouter {
     router.get('/search', PostObject.searchPosts);
     router.get('/:id/comments', PostObject.getRepliesfromOnePost);
     router.get('/', PostObject.getPosts);
-    router.get('/:id', authentication, PostObject.getCursorPostsOfSingleUser);
+    router.get('/:id', authentication, PostObject.postDetail);
   }
 }
 

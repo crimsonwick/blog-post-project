@@ -70,8 +70,8 @@ export const refreshToken = async (body: RefreshToken) => {
   return await axios.post(`${baseURL}/users/refresh-access`, body);
 };
 
-export const postDetail = async (id: string) => {
-  return await axios.get(`${baseURL}/posts/${id}`);
+export const postDetail = async (id: string, config: ConfigInterface) => {
+  return await axios.get(`${baseURL}/posts/${id}`, config);
 };
 
 export const parseTime = (str: string) => {
@@ -182,9 +182,9 @@ export const searchMyPostsAPI = async (
 
 /**
  * Post Pagination
- * @param page 
- * @param limit 
- * @returns 
+ * @param page
+ * @param limit
+ * @returns
  */
 export const PaginationforPosts = async (page: number, limit: number) => {
   return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`);

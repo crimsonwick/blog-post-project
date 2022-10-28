@@ -1,20 +1,19 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, FormLabel, OutlinedInput } from '@mui/material'
-import Button from '@mui/material/Button'
-import { Container } from '@mui/system'
-import React, { useContext, useEffect } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import * as yup from 'yup'
-import { AppContext } from '../context/AppContext'
-import { Alerts } from '../components/Alerts'
-import { Navbar } from '../components/NavBar'
-import { PostsHeader } from '../components/PostsHeader'
-import { StyledDropZone } from '../components/StyledDropZone'
-import { AppContextInterface, UserInterface } from '../interface/App'
-import { addPost } from '../services/LoginApi'
-import { dataInterface } from '../interface/App'
-import '../styles/signup.css'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, FormLabel, OutlinedInput } from '@mui/material';
+import Button from '@mui/material/Button';
+import { Container } from '@mui/system';
+import { useContext, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+import { Alerts } from '../components/Alerts';
+import { Navbar } from '../components/NavBar';
+import { PostsHeader } from '../components/PostsHeader';
+import { StyledDropZone } from '../components/StyledDropZone';
+import { AppContext } from '../context/AppContext';
+import { AppContextInterface, dataInterface } from '../interface/App';
+import { addPost } from '../services/LoginApi';
+import '../styles/signup.css';
 
 const schema = yup
   .object({
@@ -23,10 +22,10 @@ const schema = yup
     body: yup.string().required(),
     // file: yup.mixed().required('File is required')
   })
-  .required()
+  .required();
 
 const CreateArticle = () => {
-  const context: AppContextInterface | null = useContext(AppContext)
+  const context: AppContextInterface | null = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -38,12 +37,12 @@ const CreateArticle = () => {
       mins: 0,
     },
     resolver: yupResolver(schema),
-  })
+  });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
-    localStorage.setItem('link', '/create-article')
-  }, [])
+    localStorage.setItem('link', '/create-article');
+  }, []);
 
   /**
    * On Submit Function.
@@ -51,7 +50,7 @@ const CreateArticle = () => {
    */
   const onSubmit = async (data: dataInterface) => {
     if (context?.postImage === null) {
-      Alerts.error('Add an Image.')
+      Alerts.error('Add an Image.');
     } else {
       if (
         context?.postImage?.type === 'image/png' ||
@@ -59,94 +58,82 @@ const CreateArticle = () => {
         context?.postImage?.type === 'image/jpeg'
       ) {
         try {
-          let formData = new FormData()
-          formData.append('userId', (context?.userData.id as unknown) as string)
-          formData.append('title', data.title)
-          formData.append('body', data.body)
-          formData.append('file', (context?.postImage as unknown) as string)
-          formData.append('timeToRead', (data.mins as unknown) as Blob)
-          Alerts.success('Post Created successfully')
+          let formData = new FormData();
+          formData.append('userId', context?.userData.id as unknown as string);
+          formData.append('title', data.title);
+          formData.append('body', data.body);
+          formData.append('file', context?.postImage as unknown as string);
+          formData.append('timeToRead', data.mins as unknown as Blob);
+          Alerts.success('Post Created successfully');
           const config = {
             headers: {
               Authorization: `Bearer ${context?.accessToken}`,
             },
-          }
-          await addPost(formData, config)
+          };
+          await addPost(formData, config);
           setTimeout(() => {
-            navigate('/articles')
-          }, 250)
+            navigate('/articles');
+          }, 250);
         } catch (err) {
-          Alerts.error('Something went Wrong')
+          Alerts.error('Something went Wrong');
         }
       } else {
-        Alerts.error('We only accept png/jpeg/jpg images')
+        Alerts.error('We only accept png/jpeg/jpg images');
       }
     }
-  }
+  };
 
   return (
     <>
       <Navbar login={true} />
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name="Create New Article" />
+        <PostsHeader name='Create New Article' />
         <Box mt={3}>
           <FormLabel
-            htmlFor="form-label-above-title"
+            htmlFor='form-label-above-title'
             sx={{ fontFamily: 'Poppins' }}
           >
             Give it a title
           </FormLabel>
         </Box>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
           {errors.title ? (
             <Box>
               <Controller
                 control={control}
-                name="title"
+                name='title'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
                     error
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     sx={{
                       borderRadius: 5,
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
-              <p className="errorMsg">{errors.title.message}</p>
+              <p className='errorMsg'>{errors.title.message}</p>
             </Box>
           ) : (
             <Box>
               <Controller
                 control={control}
-                name="title"
+                name='title'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     sx={{
                       borderRadius: 5,
                       marginBottom: 2.8,
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
@@ -155,7 +142,7 @@ const CreateArticle = () => {
 
           <Box mt={3}>
             <FormLabel
-              htmlFor="form-label-above-title"
+              htmlFor='form-label-above-title'
               sx={{ fontFamily: 'Poppins' }}
             >
               Min. to read
@@ -165,51 +152,39 @@ const CreateArticle = () => {
             <Box>
               <Controller
                 control={control}
-                name="mins"
+                name='mins'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
                     error
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     sx={{
                       borderRadius: 5,
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
-              <p className="errorMsg"> {errors.mins.message}</p>
+              <p className='errorMsg'> {errors.mins.message}</p>
             </Box>
           ) : (
             <Box>
               <Controller
                 control={control}
-                name="mins"
+                name='mins'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     sx={{
                       borderRadius: 5,
                       width: 700,
                       marginBottom: 2.8,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
@@ -218,7 +193,7 @@ const CreateArticle = () => {
 
           <Box mt={3}>
             <FormLabel
-              htmlFor="form-label-above-title"
+              htmlFor='form-label-above-title'
               sx={{ fontFamily: 'Poppins' }}
             >
               Write something about it
@@ -229,18 +204,12 @@ const CreateArticle = () => {
             <Box>
               <Controller
                 control={control}
-                name="body"
+                name='body'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
                     error
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     multiline
                     minRows={7}
                     maxRows={7}
@@ -249,27 +218,21 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
-              <p className="errorMsg">{errors.body.message}</p>
+              <p className='errorMsg'>{errors.body.message}</p>
             </Box>
           ) : (
             <Box>
               <Controller
                 control={control}
-                name="body"
+                name='body'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     multiline
                     minRows={7}
                     maxRows={7}
@@ -279,7 +242,7 @@ const CreateArticle = () => {
                       width: 700,
                       marginTop: 1,
                     }}
-                    color="secondary"
+                    color='secondary'
                   />
                 )}
               />
@@ -291,9 +254,9 @@ const CreateArticle = () => {
           </Box>
 
           <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
+            type='submit'
+            variant='contained'
+            color='secondary'
             fullWidth
             sx={{
               borderRadius: '25px',
@@ -310,7 +273,7 @@ const CreateArticle = () => {
         </Box>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default CreateArticle
+export default CreateArticle;

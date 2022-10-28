@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { AdvancedImage, placeholder, responsive } from '@cloudinary/react'
 import { CloudinaryImage } from '@cloudinary/url-gen'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
@@ -11,6 +12,22 @@ import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/AppContext'
+=======
+import { AdvancedImage, placeholder, responsive } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { CloudinaryImage } from '@cloudinary/url-gen';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { Avatar, Card, List } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import Chip from '@mui/material/Chip';
+import CircularProgress from '@mui/material/CircularProgress';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+import { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../context/AppContext';
+>>>>>>> feature/cloudinary-fe
 import {
   AppContextInterface,
   ArticleDetailComponentInterface,
@@ -20,7 +37,17 @@ import { parseName, postDetail } from '../services/LoginApi'
 import '../styles/Article/Article.css'
 import { CardStyle, flexContainer } from '../styles/Article/List'
 
+<<<<<<< HEAD
 const cat = new CloudinaryImage('fat_cat', { cloudName: 'demo' })
+=======
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: 'ddutykcuf',
+  },
+});
+
+const myImage = cld.image('main/Pictures.jpg');
+>>>>>>> feature/cloudinary-fe
 
 export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
   const [loading, setLoading] = useState(false)
@@ -36,8 +63,18 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
     try {
       setLoading(true)
       if (id) {
+<<<<<<< HEAD
         const response = await postDetail(id)
         setPost(response.data)
+=======
+        const config = {
+          headers: {
+            Authorization: `Bearer ${context?.accessToken}`,
+          },
+        };
+        const response = await postDetail(id, config);
+        setPost(response.data);
+>>>>>>> feature/cloudinary-fe
       }
       setLoading(false)
     } catch (err) {
@@ -121,6 +158,8 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
             </ListItem>
           </List>
           <AdvancedImage
+            cldImg={myImage}
+            plugins={[responsive({ steps: [400, 800, 1000, 1400] })]}
             style={{
               height: '432px',
               width: '856px',
@@ -128,16 +167,8 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
               objectFit: 'contain',
               margin: '10px 1px',
             }}
-            cldImg={cat}
-            plugins={[responsive(), placeholder()]}
+            alt='post_detail_img'
           />
-          {/*<CardMedia
-          //   component="img"
-          //   height="432"
-          //   image={require(`../images/${post?.image}`)}
-          //   alt="post_detail_image"
-          //   sx={CardMediaStyle}
-          /> */}
           <Typography
             variant="h6"
             sx={{ height: 'auto', width: '856px', marginTop: '20px' }}

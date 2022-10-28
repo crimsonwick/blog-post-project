@@ -1,29 +1,30 @@
-import model from '../models'
-import client from '../config/elasticsearch.js'
-import { errorHandling } from '../middleware/Errors.js'
-import { uploadToCloudinary } from '../config/cloudinary'
-const { Op } = require('sequelize')
+import model from '../models';
+import client from '../config/elasticsearch.js';
+import { errorHandling } from '../middleware/Errors.js';
+import { uploadToCloudinary } from '../config/cloudinary';
+const { Op } = require('sequelize');
 
-const { Users, Posts, Comments } = model
+const { Users, Posts, Comments } = model;
 
 const query = async (qLimit, qId, qCondition, qAll) => {
-  const limit = qLimit
-  let where = {}
+  const limit = qLimit;
+  let where = {};
   if (!qAll) {
-    const id = qId
-    const condition = qCondition
+    const id = qId;
+    const condition = qCondition;
     if (condition === '') {
+      where = { userId: id };
     } else {
       where = {
         [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
-      }
+      };
     }
   } else {
-    const condition = qCondition
+    const condition = qCondition;
     if (condition === '') {
-      where = {}
+      where = {};
     } else {
-      where = { createdAt: { [Op.gt]: condition } }
+      where = { createdAt: { [Op.gt]: condition } };
     }
   }
 
@@ -42,9 +43,9 @@ const query = async (qLimit, qId, qCondition, qAll) => {
         as: 'Comments',
       },
     ],
-  })
-  return posts
-}
+  });
+  return posts;
+};
 
 export class PostController {
   /**
@@ -54,11 +55,11 @@ export class PostController {
    * @returns
    */
   addPost = async (req, res) => {
-    const file = req.file.path
-    const { userId, title, body, timeToRead } = req.body
+    const file = req.file.path;
+    const { userId, title, body, timeToRead } = req.body;
     try {
       if (file) {
-        const result = await uploadToCloudinary(file)
+        const result = await uploadToCloudinary(file);
 
         const addNewPost = await Posts.create({
           userId: userId,
@@ -66,7 +67,7 @@ export class PostController {
           body: body,
           image: result.url,
           timeToRead: timeToRead,
-        })
+        });
         const readNewPost = await Posts.findOne({
           where: {
             id: addNewPost.id,
@@ -75,21 +76,21 @@ export class PostController {
             model: Users,
             as: 'postedBy',
           },
-        })
+        });
         await client.index({
           index: 'posts',
           body: readNewPost,
-        })
-        return res.json(result)
+        });
+        return res.json(result);
       } else {
         res.status(404).send({
           message: 'file is empty',
-        })
+        });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   /**
    * Search Posts
@@ -108,15 +109,15 @@ export class PostController {
           },
         },
       },
-    }
+    };
     try {
-      const postSearched = await client.search(query)
-      const filteredPosts = postSearched.body.hits.hits.map((o) => o._source)
-      return res.json(filteredPosts)
+      const postSearched = await client.search(query);
+      const filteredPosts = postSearched.body.hits.hits.map((o) => o._source);
+      return res.json(filteredPosts);
     } catch (error) {
-      errorHandling(res)
+      errorHandling(res);
     }
-  }
+  };
 
   /**
    * Returns a single user's posts
@@ -132,23 +133,23 @@ export class PostController {
           match: { userId: req.params.id },
         },
       },
-    }
+    };
     try {
       const LoginDetails = await Users.findAll({
         where: {
           email: req.user.user.email,
         },
-      })
-      if (!LoginDetails) return res.json(`Un Authorized Access`)
+      });
+      if (!LoginDetails) return res.json(`Un Authorized Access`);
       else {
-        const myPosts = await client.search(query)
-        if (!myPosts) return res.json(`You haven't Posted Anything!!`)
-        else return res.json(myPosts.body.hits.hits)
+        const myPosts = await client.search(query);
+        if (!myPosts) return res.json(`You haven't Posted Anything!!`);
+        else return res.json(myPosts.body.hits.hits);
       }
     } catch (error) {
-      errorHandling(res)
+      errorHandling(res);
     }
-  }
+  };
 
   /**
    * Searching in user's MyArticles Page
@@ -164,28 +165,28 @@ export class PostController {
           match: { userId: req.params.id },
         },
       },
-    }
+    };
     try {
       const LoginDetails = await Users.findAll({
         where: {
           email: req.user.user.email,
         },
-      })
-      if (!LoginDetails) return res.json(`Un Authorized Access`)
+      });
+      if (!LoginDetails) return res.json(`Un Authorized Access`);
       else {
-        const myPosts = await client.search(query)
-        if (!myPosts) return res.json(`You haven't Posted Anything!!`)
+        const myPosts = await client.search(query);
+        if (!myPosts) return res.json(`You haven't Posted Anything!!`);
         else {
           const filtered = myPosts.body.hits.hits.filter((object) =>
-            object._source.title.includes(req.query.title),
-          )
-          return res.json(filtered)
+            object._source.title.includes(req.query.title)
+          );
+          return res.json(filtered);
         }
       }
     } catch (error) {
-      errorHandling(res)
+      errorHandling(res);
     }
-  }
+  };
 
   /**
    * Returns Replies for a single post
@@ -205,12 +206,12 @@ export class PostController {
           model: Users,
           as: 'commentedBy',
         },
-      })
-      return res.json(AllComments)
+      });
+      return res.json(AllComments);
     } catch (error) {
-      errorHandling(res)
+      errorHandling(res);
     }
-  }
+  };
   /**
    * Gets Posts
    * @param {*} req
@@ -219,54 +220,54 @@ export class PostController {
    */
   getPosts = async (req, res) => {
     try {
-      const limit = parseInt(req.query.limit) || 4
-      const all = true
-      const id = 0
+      const limit = parseInt(req.query.limit) || 4;
+      const all = true;
+      const id = 0;
 
-      const cursorValues = {}
-      cursorValues.next_page = req.query.next_page || ''
-      cursorValues.prev_page = req.query.prev_page || ''
+      const cursorValues = {};
+      cursorValues.next_page = req.query.next_page || '';
+      cursorValues.prev_page = req.query.prev_page || '';
 
-      let condition = ''
-      if (cursorValues.next_page) condition = cursorValues.next_page
-      else if (cursorValues.prev_page) condition = cursorValues.prev_page
+      let condition = '';
+      if (cursorValues.next_page) condition = cursorValues.next_page;
+      else if (cursorValues.prev_page) condition = cursorValues.prev_page;
 
       if (!condition) {
-        const posts = await query(limit, id, condition, all)
-        cursorValues.prev_page = null
-        if (posts[limit] === undefined) cursorValues.next_page = null
+        const posts = await query(limit, id, condition, all);
+        cursorValues.prev_page = null;
+        if (posts[limit] === undefined) cursorValues.next_page = null;
         else {
           //*convert to plain js object
-          const clonePost = JSON.parse(JSON.stringify(posts))
-          cursorValues.next_page = clonePost[limit - 1].createdAt
+          const clonePost = JSON.parse(JSON.stringify(posts));
+          cursorValues.next_page = clonePost[limit - 1].createdAt;
         }
-        if (posts.length == limit + 1) posts.pop()
-        const result = [cursorValues, posts]
-        res.send(result)
+        if (posts.length == limit + 1) posts.pop();
+        const result = [cursorValues, posts];
+        res.send(result);
       } else if (condition === cursorValues.next_page) {
-        const posts = await query(limit, id, condition, all)
-        if (posts[limit] === undefined) cursorValues.next_page = null
+        const posts = await query(limit, id, condition, all);
+        if (posts[limit] === undefined) cursorValues.next_page = null;
         else {
-          const clonePost = JSON.parse(JSON.stringify(posts))
-          cursorValues.next_page = clonePost[limit - 1].createdAt
+          const clonePost = JSON.parse(JSON.stringify(posts));
+          cursorValues.next_page = clonePost[limit - 1].createdAt;
         }
-        if (posts[0] === undefined) cursorValues.prev_page = null
+        if (posts[0] === undefined) cursorValues.prev_page = null;
         else {
-          const clonePost = JSON.parse(JSON.stringify(posts))
-          cursorValues.prev_page = clonePost[0].createdAt
+          const clonePost = JSON.parse(JSON.stringify(posts));
+          cursorValues.prev_page = clonePost[0].createdAt;
         }
-        if (posts.length == limit + 1) posts.pop()
-        const result = [cursorValues, posts]
-        res.send(result)
+        if (posts.length == limit + 1) posts.pop();
+        const result = [cursorValues, posts];
+        res.send(result);
       }
     } catch (err) {
-      console.log(err)
-      return res.json({ error: err.message })
+      console.log(err);
+      return res.json({ error: err.message });
     }
-  }
+  };
 
   postDetail = async (req, res) => {
-    const id = req.params.id
+    const id = req.params.id;
 
     try {
       const post = await Posts.findOne({
@@ -278,13 +279,13 @@ export class PostController {
             attributes: ['email', 'avatar'],
           },
         ],
-      })
-      return res.status(200).json(post)
+      });
+      return res.status(200).json(post);
     } catch (err) {
-      console.log(err)
-      res.status(500).json({ error: err })
+      console.log(err);
+      res.status(500).json({ error: err });
     }
-  }
+  };
 
   /**
    *  Get Cursor Posts of Single User
@@ -294,50 +295,50 @@ export class PostController {
    */
   getCursorPostsOfSingleUser = async (req, res) => {
     try {
-      const limit = parseInt(req.query.limit) || 4
-      const id = req.params.id
+      const limit = parseInt(req.query.limit) || 4;
+      const id = req.params.id;
       if (id) {
-        let cursorValues = {}
-        cursorValues.next_page = req.query.next_page || ''
-        cursorValues.prev_page = req.query.prev_page || ''
+        let cursorValues = {};
+        cursorValues.next_page = req.query.next_page || '';
+        cursorValues.prev_page = req.query.prev_page || '';
 
-        let condition = ''
-        if (cursorValues.next_page) condition = cursorValues.next_page
-        else if (cursorValues.prev_page) condition = cursorValues.prev_page
+        let condition = '';
+        if (cursorValues.next_page) condition = cursorValues.next_page;
+        else if (cursorValues.prev_page) condition = cursorValues.prev_page;
 
         if (!condition) {
-          const posts = await query(limit, id, condition)
-          cursorValues.prev_page = null
-          if (posts[limit] === undefined) cursorValues.next_page = null
+          const posts = await query(limit, id, condition);
+          cursorValues.prev_page = null;
+          if (posts[limit] === undefined) cursorValues.next_page = null;
           else {
             //*convert to plain js object
-            const clonePost = JSON.parse(JSON.stringify(posts))
-            cursorValues.next_page = clonePost[limit - 1].createdAt
+            const clonePost = JSON.parse(JSON.stringify(posts));
+            cursorValues.next_page = clonePost[limit - 1].createdAt;
           }
-          if (posts.length == limit + 1) posts.pop()
-          const result = [cursorValues, posts]
-          res.send(result)
+          if (posts.length == limit + 1) posts.pop();
+          const result = [cursorValues, posts];
+          res.send(result);
         } else if (condition === cursorValues.next_page) {
-          const posts = await query(limit, id, condition)
-          if (posts[limit] === undefined) cursorValues.next_page = null
+          const posts = await query(limit, id, condition);
+          if (posts[limit] === undefined) cursorValues.next_page = null;
           else {
-            const clonePost = JSON.parse(JSON.stringify(posts))
-            cursorValues.next_page = clonePost[limit - 1].createdAt
+            const clonePost = JSON.parse(JSON.stringify(posts));
+            cursorValues.next_page = clonePost[limit - 1].createdAt;
           }
-          if (posts[0] === undefined) cursorValues.prev_page = null
+          if (posts[0] === undefined) cursorValues.prev_page = null;
           else {
-            const clonePost = JSON.parse(JSON.stringify(posts))
-            cursorValues.prev_page = clonePost[0].createdAt
+            const clonePost = JSON.parse(JSON.stringify(posts));
+            cursorValues.prev_page = clonePost[0].createdAt;
           }
-          if (posts.length == limit + 1) posts.pop()
-          const result = [cursorValues, posts]
-          res.send(result)
+          if (posts.length == limit + 1) posts.pop();
+          const result = [cursorValues, posts];
+          res.send(result);
         }
       } else {
-        return res.status(404).json('User not found')
+        return res.status(404).json('User Not Found!!!');
       }
     } catch (err) {
-      return res.json({ error: err.message })
+      return res.json({ error: err.message });
     }
-  }
+  };
 }
