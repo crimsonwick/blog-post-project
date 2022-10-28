@@ -13,10 +13,10 @@ cloudinary.config({
 
 export const uploadToCloudinary = async (locaFilePath) => {
   const mainFolderName = 'main'
-  const filePathOnCloudinary = mainFolderName + '/Pictures'
+  const filePathOnCloudinary = mainFolderName + '/' + locaFilePath
 
   return cloudinary.uploader
-    .upload(locaFilePath, { public_id: filePathOnCloudinary })
+    .upload(locaFilePath, { public_id: filePathOnCloudinary, overwrite: false })
     .then((result) => {
       fs.unlinkSync(locaFilePath)
 

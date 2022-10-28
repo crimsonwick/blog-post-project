@@ -1,8 +1,8 @@
-import { AxiosResponse } from "axios";
-import { bodyInterface } from "../context/AppContext";
+import { AxiosResponse } from 'axios'
+import { bodyInterface } from '../context/AppContext'
 import React from 'react'
 import { Control } from 'react-hook-form'
-import { CommentInterface } from "../services/CommentApi";
+import { CommentInterface } from '../services/CommentApi'
 
 export interface UserInterface {
   id?: string
@@ -61,27 +61,27 @@ export interface SearchMyDataInterface {
 }
 
 export interface AppContextInterface {
-    dp: string;
-    setDp: React.Dispatch<React.SetStateAction<string>>;
-    setUserData: React.Dispatch<React.SetStateAction<UserInterface>>;
-    userData: UserInterface;
-    setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
-    setRefreshToken: React.Dispatch<React.SetStateAction<string | null>>;
-    accessToken: string | null;
-    refreshToken: string | null;
-    loggedIn: boolean | null;
-    setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-    searchData: SearchDataInterface[] | undefined;
-    setSearchData: React.Dispatch<React.SetStateAction<SearchDataInterface[]>>;
-    searchMyData: SearchMyDataInterface[] | undefined;
-    setSearchMyData: React.Dispatch<React.SetStateAction<SearchMyDataInterface[]>>;
-    cursorPaginationLink: string;
-    setCursorPaginationLink: React.Dispatch<React.SetStateAction<string>>;
-    postImage: File | null | Blob;
-    setPostImage: React.Dispatch<React.SetStateAction<File | null | Blob>>;
-    getLoginToken: (object: bodyInterface) => Promise<AxiosResponse<any, any>>;
-    setLoginToken: (accessToken: string,refreshToken: string) => void;
-    logoutToken: () => void;
+  dp: string
+  setDp: React.Dispatch<React.SetStateAction<string>>
+  setUserData: React.Dispatch<React.SetStateAction<UserInterface>>
+  userData: UserInterface
+  setAccessToken: React.Dispatch<React.SetStateAction<string | null>>
+  setRefreshToken: React.Dispatch<React.SetStateAction<string | null>>
+  accessToken: string | null
+  refreshToken: string | null
+  loggedIn: boolean | null
+  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
+  searchData: SearchDataInterface[] | undefined
+  setSearchData: React.Dispatch<React.SetStateAction<SearchDataInterface[]>>
+  searchMyData: SearchMyDataInterface[] | undefined
+  setSearchMyData: React.Dispatch<React.SetStateAction<SearchMyDataInterface[]>>
+  cursorPaginationLink: string
+  setCursorPaginationLink: React.Dispatch<React.SetStateAction<string>>
+  postImage: File | null | Blob
+  setPostImage: React.Dispatch<React.SetStateAction<File | null | Blob>>
+  getLoginToken: (object: bodyInterface) => Promise<AxiosResponse<any, any>>
+  setLoginToken: (accessToken: string, refreshToken: string) => void
+  logoutToken: () => void
 }
 
 export interface FormDataInterface {
@@ -117,22 +117,20 @@ export interface ArticleDetailInterface {
   }
 }
 
-
-export interface PostInterface 
-  {
-    id: string
-    userId: string
-    title: string
-    body: string
-    image: string
-    timeToRead: number
-    createdAt: string
-    updatedAt: string
-    postedBy: {
-      email: string
-      avatar: string | null
-    }
+export interface PostInterface {
+  id: string
+  userId: string
+  title: string
+  body: string
+  image: string
+  timeToRead: number
+  createdAt: string
+  updatedAt: string
+  postedBy: {
+    email: string
+    avatar: string | null
   }
+}
 
 export interface PostsAll {
   id: string
@@ -194,15 +192,15 @@ export interface PostHeaderProps {
   textSize?: string
   count?: number
   name?: string
-  link?:boolean
+  link?: boolean
 }
 
 export interface ProtectedInterface {
   Component?: React.ReactNode
 }
 
-export interface ProtectedLoginInterface{
-  pathname: string;
+export interface ProtectedLoginInterface {
+  pathname: string
 }
 
 export interface ColorInterface {
@@ -248,89 +246,89 @@ export interface MyFile {
   preview: string
   name: string
 }
-export interface DataObject{
-    email: string;
-  }
-export interface ImageInterface{
-    preview: string | React.FormEvent<HTMLInputElement>;
-    data: File | string;
+export interface DataObject {
+  email: string
+}
+export interface ImageInterface {
+  preview: string | React.FormEvent<HTMLInputElement>
+  data: File | string
 }
 
 export interface PostInterface {
-    object?: {
-        id: string;
-    userId: string;
-    title: string;
-    body: string;
-    image: string;
-    timeToRead: number;
-    createdAt: string;
-    updatedAt: string;
+  object?: {
+    id: string
+    userId: string
+    title: string
+    body: string
+    image: string
+    timeToRead: number
+    createdAt: string
+    updatedAt: string
     postedBy: {
-            id : string;
-            email: string;
-            password: string;
-            avatar : string | null;
-            resetLink: string;
-            createdAt: string;
-            updatedAt: string;
-          }
+      id: string
+      email: string
+      password: string
+      avatar: string | null
+      resetLink: string
+      createdAt: string
+      updatedAt: string
     }
+  }
 }
 
 export interface PostsAll {
-        id: string;
-    userId?: string;
-    title?: string;
-    body?: string;
-    image?: string;
-    timeToRead?: number;
-    createdAt?: string;
-    updatedAt?: string;
-    postedBy: {
-            id : string;
-            email: string;
-            password: string;
-            avatar : string | null;
-            resetLink: string;
-            createdAt: string;
-            updatedAt: string;
-          }
+  id: string
+  userId?: string
+  title?: string
+  body?: string
+  image?: string
+  timeToRead?: number
+  createdAt?: string
+  updatedAt?: string
+  postedBy: {
+    id: string
+    email: string
+    password: string
+    avatar: string | null
+    resetLink: string
+    createdAt: string
+    updatedAt: string
+  }
 }
 
 export interface PostsAdd {
-userId: string;
-title: string;
-body: string;
-image: string;
-timeToRead: number;
+  userId: string
+  title: string
+  body: string
+  image: string
+  timeToRead: number
 }
 
 export interface LandingPageInterface<T> {
-    Posts: T[];
-    datalength: number;
-    totalPosts: number;
-    totalPages: number;
+  Posts: T[]
+  datalength: number
+  totalPosts: number
+  totalPages: number
 }
 
-export interface PostInterfaceForLandingPage{
-    id: string;
-userId: string;
-title: string;
-body: string;
-image: string;
-timeToRead: number;
-createdAt: string;
-updatedAt: string;
-postedBy: {
-        id : string;
-        email: string;
-        password: string;
-        avatar : string | null;
-        resetLink: string;
-        createdAt: string;
-        updatedAt: string;
-      }
+export interface PostInterfaceForLandingPage {
+  id: string
+  userId: string
+  title: string
+  body: string
+  image: string
+  timeToRead: number
+  createdAt: string
+  updatedAt: string
+  postedBy: {
+    id: string
+    email: string
+    password: string
+    avatar: string | null
+    resetLink: string
+    createdAt: string
+    updatedAt: string
+  }
 }
 
 export interface PropsArticleCard {

@@ -1,15 +1,23 @@
-import multer from 'multer';
-import dotenv from 'dotenv';
+import multer from 'multer'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads');
+export const upload = multer({
+  storage: multer.diskStorage({
+    destination: './uploads',
+    filename: function (req, file, cb) {
+      cb(null, file.originalname)
+    },
+  }),
+  fileFilter: (req, file, cb) => {
+    const whitelist = ['image/png', 'image/jpeg', 'image/jpg']
+    if (!whitelist.includes(file.mimetype)) {
+      return cb('file is not allowed')
+    }
+
+    cb(null, true)
   },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
+})
 
-export const upload = multer({ storage: storage });
+//export const upload = multer({ storage: storage });

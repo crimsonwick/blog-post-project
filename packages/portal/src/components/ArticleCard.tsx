@@ -1,18 +1,18 @@
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
-import { Avatar, Card, List } from '@mui/material';
-import Chip from '@mui/material/Chip';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
-import { Box } from '@mui/system';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { PropsArticleCard } from '../interface/App';
-import { parseDate, parseName } from '../services/LoginApi';
-import '../styles/Article/Article.css';
-import { flexContainer } from '../styles/Article/List';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import QueryBuilderIcon from '@mui/icons-material/QueryBuilder'
+import { Avatar, Card, List } from '@mui/material'
+import Chip from '@mui/material/Chip'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Typography from '@mui/material/Typography'
+import { Box } from '@mui/system'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { PropsArticleCard } from '../interface/App'
+import { parseDate, parseName } from '../services/LoginApi'
+import '../styles/Article/Article.css'
+import { flexContainer } from '../styles/Article/List'
 
 export const ArticleCard = React.forwardRef(
   (
@@ -21,10 +21,10 @@ export const ArticleCard = React.forwardRef(
       | ((instance: HTMLDivElement | null) => void)
       | React.RefObject<HTMLDivElement>
       | null
-      | undefined
+      | undefined,
   ) => {
-    console.log('props::: ', props);
-    console.log('ref::: ', ref); // cannot define type of REF
+    console.log('props::: ', props)
+    console.log('ref::: ', ref) // cannot define type of REF
     return (
       <Card
         ref={ref}
@@ -106,7 +106,7 @@ export const ArticleCard = React.forwardRef(
               </ListItemIcon>
               <ListItemText
                 primary={parseName(
-                  props?.object?.postedBy.email as unknown as string
+                  (props?.object?.postedBy.email as unknown) as string,
                 )}
               />
             </ListItem>
@@ -126,7 +126,7 @@ export const ArticleCard = React.forwardRef(
               </ListItemIcon>
               <ListItemText
                 primary={parseDate(
-                  props?.object?.createdAt as unknown as string
+                  (props?.object?.createdAt as unknown) as string,
                 )}
               />
             </ListItem>
@@ -161,6 +161,6 @@ export const ArticleCard = React.forwardRef(
           </Typography>
         </Box>
       </Card>
-    );
-  }
-);
+    )
+  },
+)

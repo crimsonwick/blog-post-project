@@ -1,32 +1,32 @@
-import { AdvancedImage, placeholder, responsive } from '@cloudinary/react';
-import { CloudinaryImage } from '@cloudinary/url-gen';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import { Avatar, Card, List } from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
-import { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../context/AppContext';
+import { AdvancedImage, placeholder, responsive } from '@cloudinary/react'
+import { CloudinaryImage } from '@cloudinary/url-gen'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import { Avatar, Card, List } from '@mui/material'
+import Backdrop from '@mui/material/Backdrop'
+import Chip from '@mui/material/Chip'
+import CircularProgress from '@mui/material/CircularProgress'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Typography from '@mui/material/Typography'
+import { useContext, useEffect, useState } from 'react'
+import { AppContext } from '../context/AppContext'
 import {
   AppContextInterface,
   ArticleDetailComponentInterface,
   PostInterface,
-} from '../interface/App';
-import { parseName, postDetail } from '../services/LoginApi';
-import '../styles/Article/Article.css';
-import { CardStyle, flexContainer } from '../styles/Article/List';
+} from '../interface/App'
+import { parseName, postDetail } from '../services/LoginApi'
+import '../styles/Article/Article.css'
+import { CardStyle, flexContainer } from '../styles/Article/List'
 
-const cat = new CloudinaryImage('fat_cat', { cloudName: 'demo' });
+const cat = new CloudinaryImage('fat_cat', { cloudName: 'demo' })
 
 export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
-  const [loading, setLoading] = useState(false);
-  const [post, setPost] = useState<PostInterface>();
-  const id = props.articleId;
-  const context: AppContextInterface | null = useContext(AppContext);
+  const [loading, setLoading] = useState(false)
+  const [post, setPost] = useState<PostInterface>()
+  const id = props.articleId
+  const context: AppContextInterface | null = useContext(AppContext)
 
   /**
    * Get Post
@@ -34,27 +34,27 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
    */
   const getPost = async (id: string) => {
     try {
-      setLoading(true);
+      setLoading(true)
       if (id) {
-        const response = await postDetail(id);
-        setPost(response.data);
+        const response = await postDetail(id)
+        setPost(response.data)
       }
-      setLoading(false);
+      setLoading(false)
     } catch (err) {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    getPost(id);
-  }, [id]);
+    getPost(id)
+  }, [id])
 
   return (
     <>
       {post && (
         <Card sx={CardStyle}>
           <Chip
-            label='Travel'
+            label="Travel"
             sx={{
               borderRadius: '3px',
               backgroundColor: '#F2F8F7',
@@ -64,7 +64,7 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
             }}
           />
           <Typography
-            variant='h1'
+            variant="h1"
             sx={{
               fontFamily: 'Poppins',
               fontWeight: '600',
@@ -79,7 +79,7 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
           </Typography>
           <List style={flexContainer}>
             <ListItem
-              className='user'
+              className="user"
               disablePadding={true}
               sx={{
                 borderColor: 'gray',
@@ -97,15 +97,15 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
                       ? require(`../images/${post?.postedBy.avatar}`)
                       : ''
                   }
-                  alt='user_dp'
+                  alt="user_dp"
                 />
               </ListItemIcon>
               <ListItemText
-                primary={parseName(post?.postedBy.email as unknown as string)}
+                primary={parseName((post?.postedBy.email as unknown) as string)}
               />
             </ListItem>
             <ListItem
-              className='timeToRead'
+              className="timeToRead"
               sx={{
                 borderLeft: '2px solid',
                 borderColor: 'gray',
@@ -139,7 +139,7 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
           //   sx={CardMediaStyle}
           /> */}
           <Typography
-            variant='h6'
+            variant="h6"
             sx={{ height: 'auto', width: '856px', marginTop: '20px' }}
           >
             {post?.body}
@@ -150,8 +150,8 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
       >
-        <CircularProgress color='inherit' />
+        <CircularProgress color="inherit" />
       </Backdrop>
     </>
-  );
-};
+  )
+}
