@@ -6,20 +6,21 @@ const { Op } = require('sequelize');
 
 const { Users, Posts, Comments } = model;
 
-const query = async (qLimit, qId, qCondition, qAll) => {
-  const limit = qLimit;
+const query = async (queryLimit, queryId, queryCondition, queryAll) => {
+  const limit = queryLimit;
   let where = {};
-  if (!qAll) {
-    const id = qId;
-    const condition = qCondition;
+  if (!queryAll) {
+    const id = queryId;
+    const condition = queryCondition;
     if (condition === '') {
+      where = { userId: id };
     } else {
       where = {
         [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
       };
     }
   } else {
-    const condition = qCondition;
+    const condition = queryCondition;
     if (condition === '') {
       where = {};
     } else {
@@ -55,7 +56,7 @@ export class PostController {
    */
   addPost = async (req, res) => {
     const file = req.file.path;
-    const { userId, title, body, timetoRead } = req.body;
+    const { userId, title, body, timeToRead } = req.body;
     try {
       const result = await uploadToCloudinary(file);
       const addNewPost = await Posts.create({
@@ -63,7 +64,7 @@ export class PostController {
         title: title,
         body: body,
         image: result.url,
-        timetoRead: timetoRead,
+        timeToRead: timeToRead,
       });
       const readNewPost = await Posts.findOne({
         where: {
@@ -217,36 +218,36 @@ export class PostController {
       const id = 0;
 
       const cursorValues = {};
-      cursorValues.next_page = req.query.next_page || '';
-      cursorValues.prev_page = req.query.prev_page || '';
+      cursorValues.nextPage = req.query.nextPage || '';
+      cursorValues.prevPage = req.query.prevPage || '';
 
       let condition = '';
-      if (cursorValues.next_page) condition = cursorValues.next_page;
-      else if (cursorValues.prev_page) condition = cursorValues.prev_page;
+      if (cursorValues.nextPage) condition = cursorValues.nextPage;
+      else if (cursorValues.prevPage) condition = cursorValues.prevPage;
 
       if (!condition) {
         const posts = await query(limit, id, condition, all);
-        cursorValues.prev_page = null;
-        if (posts[limit] === undefined) cursorValues.next_page = null;
+        cursorValues.prevPage = null;
+        if (posts[limit] === undefined) cursorValues.nextPage = null;
         else {
           //*convert to plain js object
           const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.next_page = clonePost[limit - 1].createdAt;
+          cursorValues.nextPage = clonePost[limit - 1].createdAt;
         }
         if (posts.length == limit + 1) posts.pop();
         const result = [cursorValues, posts];
         res.send(result);
-      } else if (condition === cursorValues.next_page) {
+      } else if (condition === cursorValues.nextPage) {
         const posts = await query(limit, id, condition, all);
-        if (posts[limit] === undefined) cursorValues.next_page = null;
+        if (posts[limit] === undefined) cursorValues.nextPage = null;
         else {
           const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.next_page = clonePost[limit - 1].createdAt;
+          cursorValues.nextPage = clonePost[limit - 1].createdAt;
         }
-        if (posts[0] === undefined) cursorValues.prev_page = null;
+        if (posts[0] === undefined) cursorValues.prevPage = null;
         else {
           const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.prev_page = clonePost[0].createdAt;
+          cursorValues.prevPage = clonePost[0].createdAt;
         }
         if (posts.length == limit + 1) posts.pop();
         const result = [cursorValues, posts];
@@ -291,36 +292,36 @@ export class PostController {
       const id = req.params.id;
       if (id) {
         let cursorValues = {};
-        cursorValues.next_page = req.query.next_page || '';
-        cursorValues.prev_page = req.query.prev_page || '';
+        cursorValues.nextPage = req.query.nextPage || '';
+        cursorValues.prevPage = req.query.prevPage || '';
 
         let condition = '';
-        if (cursorValues.next_page) condition = cursorValues.next_page;
-        else if (cursorValues.prev_page) condition = cursorValues.prev_page;
+        if (cursorValues.nextPage) condition = cursorValues.nextPage;
+        else if (cursorValues.prevPage) condition = cursorValues.prevPage;
 
         if (!condition) {
           const posts = await query(limit, id, condition);
-          cursorValues.prev_page = null;
-          if (posts[limit] === undefined) cursorValues.next_page = null;
+          cursorValues.prevPage = null;
+          if (posts[limit] === undefined) cursorValues.nextPage = null;
           else {
             //*convert to plain js object
             const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.next_page = clonePost[limit - 1].createdAt;
+            cursorValues.nextPage = clonePost[limit - 1].createdAt;
           }
           if (posts.length == limit + 1) posts.pop();
           const result = [cursorValues, posts];
           res.send(result);
-        } else if (condition === cursorValues.next_page) {
+        } else if (condition === cursorValues.nextPage) {
           const posts = await query(limit, id, condition);
-          if (posts[limit] === undefined) cursorValues.next_page = null;
+          if (posts[limit] === undefined) cursorValues.nextPage = null;
           else {
             const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.next_page = clonePost[limit - 1].createdAt;
+            cursorValues.nextPage = clonePost[limit - 1].createdAt;
           }
-          if (posts[0] === undefined) cursorValues.prev_page = null;
+          if (posts[0] === undefined) cursorValues.prevPage = null;
           else {
             const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.prev_page = clonePost[0].createdAt;
+            cursorValues.prevPage = clonePost[0].createdAt;
           }
           if (posts.length == limit + 1) posts.pop();
           const result = [cursorValues, posts];

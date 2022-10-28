@@ -16,7 +16,7 @@ const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
     axios({
       method: 'GET',
       url: 'http://localhost:5000/posts',
-      params: { limit: query, next_page: pageLink },
+      params: { limit: query, nextPage: pageLink },
     })
       .then((res) => {
         console.log('API WAS CALLED');
@@ -25,9 +25,9 @@ const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
             ...new Set([...prevPosts, ...res.data[1].map((p: object) => p)]),
           ];
         });
-        setHasMore(res.data[0].next_page !== null);
+        setHasMore(res.data[0].nextPage !== null);
         setLoading(false);
-        cursor.current = res.data[0].next_page;
+        cursor.current = res.data[0].nextPage;
         console.log(res.data);
       })
       .catch((e) => {

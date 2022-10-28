@@ -157,8 +157,14 @@ export const searchAPI = async (title: string) => {
   return await axios.get(`${baseURL}/posts/search?title=${title}`);
 };
 
-export const getComments = async (id: string) => {
-  return await axios.get(`${baseURL}/posts/${id}/comments`);
+export const getComments = async (
+  id: string,
+  commentCursor: number,
+  limit: number
+) => {
+  return await axios.get(
+    `${baseURL}/posts/${id}/comments/fetchMoreComments?commentCursor=${commentCursor}&limit=${limit}`
+  );
 };
 
 export const getReply = async (id: string) => {
@@ -182,9 +188,9 @@ export const searchMyPostsAPI = async (
 
 /**
  * Post Pagination
- * @param page 
- * @param limit 
- * @returns 
+ * @param page
+ * @param limit
+ * @returns
  */
 export const PaginationforPosts = async (page: number, limit: number) => {
   return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`);

@@ -38,7 +38,11 @@ export const ArticleCard = React.forwardRef(
         }}
       >
         <img
-          src={require(`../images/${props?.object?.image}`)}
+          src={
+            props?.object?.image.slice(0, 4) === 'http'
+              ? props?.object?.image
+              : require(`../images/${props?.object?.image}`)
+          }
           alt="user_image"
           className="articleImg"
           style={{

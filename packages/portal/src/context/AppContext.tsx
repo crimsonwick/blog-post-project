@@ -27,8 +27,8 @@ export const ContextProvider = (props: { children?: React.ReactNode }) => {
 
   /**
    * set login token
-   * @param accessToken 
-   * @param refreshToken 
+   * @param accessToken
+   * @param refreshToken
    */
   const setLoginToken = (accessToken: string, refreshToken: string) => {
     localStorage.setItem('accessToken', accessToken);
@@ -37,8 +37,8 @@ export const ContextProvider = (props: { children?: React.ReactNode }) => {
 
   /**
    * get login token
-   * @param object 
-   * @returns 
+   * @param object
+   * @returns
    */
   const getLoginToken = async (object: bodyInterface) => {
     return await axios.post(`${baseURL}/users/refresh-access`, object);
@@ -51,6 +51,7 @@ export const ContextProvider = (props: { children?: React.ReactNode }) => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('login');
+    localStorage.removeItem('userDetails');
     setAccessToken(null);
     setRefreshToken(null);
   };
