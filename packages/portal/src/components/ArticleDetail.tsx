@@ -1,4 +1,5 @@
 import { AdvancedImage, placeholder, responsive } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { Avatar, Card, List } from '@mui/material';
@@ -20,7 +21,13 @@ import { parseName, postDetail } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import { CardStyle, flexContainer } from '../styles/Article/List';
 
-const cat = new CloudinaryImage('fat_cat', { cloudName: 'demo' });
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: 'ddutykcuf',
+  },
+});
+
+const myImage = cld.image('main/Pictures.jpg');
 
 export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
   const [loading, setLoading] = useState(false);
@@ -36,7 +43,12 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
     try {
       setLoading(true);
       if (id) {
-        const response = await postDetail(id);
+        const config = {
+          headers: {
+            Authorization: `Bearer ${context?.accessToken}`,
+          },
+        };
+        const response = await postDetail(id, config);
         setPost(response.data);
       }
       setLoading(false);
@@ -121,6 +133,8 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
             </ListItem>
           </List>
           <AdvancedImage
+            cldImg={myImage}
+            plugins={[responsive({ steps: [400, 800, 1000, 1400] })]}
             style={{
               height: '432px',
               width: '856px',
@@ -128,16 +142,8 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
               objectFit: 'contain',
               margin: '10px 1px',
             }}
-            cldImg={cat}
-            plugins={[responsive(), placeholder()]}
+            alt='post_detail_img'
           />
-          {/*<CardMedia
-          //   component="img"
-          //   height="432"
-          //   image={require(`../images/${post?.image}`)}
-          //   alt="post_detail_image"
-          //   sx={CardMediaStyle}
-          /> */}
           <Typography
             variant='h6'
             sx={{ height: 'auto', width: '856px', marginTop: '20px' }}

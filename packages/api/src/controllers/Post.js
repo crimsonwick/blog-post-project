@@ -13,6 +13,7 @@ const query = async (qLimit, qId, qCondition, qAll) => {
     const id = qId;
     const condition = qCondition;
     if (condition === '') {
+      where = { userId: id };
     } else {
       where = {
         [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
@@ -55,7 +56,7 @@ export class PostController {
    */
   addPost = async (req, res) => {
     const file = req.file.path;
-    const { userId, title, body, timetoRead } = req.body;
+    const { userId, title, body, timeToRead } = req.body;
     try {
       const result = await uploadToCloudinary(file);
       const addNewPost = await Posts.create({
@@ -63,7 +64,7 @@ export class PostController {
         title: title,
         body: body,
         image: result.url,
-        timetoRead: timetoRead,
+        timeToRead: timeToRead,
       });
       const readNewPost = await Posts.findOne({
         where: {
@@ -327,7 +328,7 @@ export class PostController {
           res.send(result);
         }
       } else {
-        return res.status(404).json('User not found');
+        return res.status(404).json('User Not Found!!!');
       }
     } catch (err) {
       return res.json({ error: err.message });

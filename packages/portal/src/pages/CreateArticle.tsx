@@ -2,18 +2,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, FormLabel, OutlinedInput } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Container } from '@mui/system';
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { AppContext } from '../context/AppContext';
 import { Alerts } from '../components/Alerts';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { StyledDropZone } from '../components/StyledDropZone';
-import { AppContextInterface, UserInterface } from '../interface/App';
+import { AppContext } from '../context/AppContext';
+import { AppContextInterface, dataInterface } from '../interface/App';
 import { addPost } from '../services/LoginApi';
-import { dataInterface } from '../interface/App';
 import '../styles/signup.css';
 
 const schema = yup
@@ -104,16 +103,10 @@ const CreateArticle = () => {
                 control={control}
                 name='title'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
                     error
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     sx={{
                       borderRadius: 5,
                       width: 700,
@@ -131,15 +124,9 @@ const CreateArticle = () => {
                 control={control}
                 name='title'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     sx={{
                       borderRadius: 5,
                       marginBottom: 2.8,
@@ -167,16 +154,10 @@ const CreateArticle = () => {
                 control={control}
                 name='mins'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
                     error
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     sx={{
                       borderRadius: 5,
                       width: 700,
@@ -194,15 +175,9 @@ const CreateArticle = () => {
                 control={control}
                 name='mins'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     sx={{
                       borderRadius: 5,
                       width: 700,
@@ -231,16 +206,10 @@ const CreateArticle = () => {
                 control={control}
                 name='body'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
                     error
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     multiline
                     minRows={7}
                     maxRows={7}
@@ -261,15 +230,9 @@ const CreateArticle = () => {
                 control={control}
                 name='body'
                 rules={{ required: true }}
-                render={({
-                  field: { onChange, onBlur, value, name, ref },
-                  fieldState: { isTouched, isDirty, error },
-                  formState,
-                }) => (
+                render={({ field }) => (
                   <OutlinedInput
-                    onBlur={onBlur} // notify when input is touched
-                    onChange={onChange} // send value to hook form
-                    inputRef={ref}
+                    {...field}
                     multiline
                     minRows={7}
                     maxRows={7}
