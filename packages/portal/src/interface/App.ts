@@ -2,7 +2,6 @@ import { AxiosResponse } from 'axios'
 import { bodyInterface } from '../context/AppContext'
 import React from 'react'
 import { Control } from 'react-hook-form'
-import { CommentInterface } from '../services/CommentApi'
 
 export interface UserInterface {
   id?: string
@@ -84,23 +83,9 @@ export interface AppContextInterface {
   logoutToken: () => void
 }
 
-export interface FormDataInterface {
-  id: string | Blob
-  email?: string
-  password?: string
-  avatar?: string | null
-  resetLink?: string
-  createdAt?: string
-  updatedAt?: string
-}
 
-export interface ImageInterface {
-  preview: string | React.FormEvent<HTMLInputElement>
-  data: File | string
-}
-
-export interface ArticleDetailInterface {
-  object?: {
+export interface PostInterface 
+  {
     id: string
     userId: string
     title: string
@@ -110,58 +95,16 @@ export interface ArticleDetailInterface {
     createdAt: string
     updatedAt: string
     postedBy: {
-      id: string
       email: string
       avatar: string | null
     }
   }
-}
-
-export interface PostInterface {
-  id: string
-  userId: string
-  title: string
-  body: string
-  image: string
-  timeToRead: number
-  createdAt: string
-  updatedAt: string
-  postedBy: {
-    email: string
-    avatar: string | null
-  }
-}
-
-export interface PostsAll {
-  id: string
-  userId?: string
-  title?: string
-  body?: string
-  image?: string
-  timeToRead?: number
-  createdAt?: string
-  updatedAt?: string
-  postedBy: {
-    id: string
-    email: string
-    password: string
-    avatar: string | null
-    resetLink: string
-    createdAt: string
-    updatedAt: string
-  }
-}
-
 export interface PostsAdd {
   userId: string
   title: string
   body: string
   image: string
   timeToRead: number
-}
-
-export interface DataObject {
-  email: string
 }
 
 export interface HeaderInterface {
@@ -209,33 +152,6 @@ export interface ColorInterface {
   isFocused: boolean
 }
 
-export interface LandingPageInterface<T> {
-  Posts: T[]
-  datalength: number
-  totalPosts: number
-  totalPages: number
-}
-
-export interface PostInterfaceForLandingPage {
-  id: string
-  userId: string
-  title: string
-  body: string
-  image: string
-  timeToRead: number
-  createdAt: string
-  updatedAt: string
-  postedBy: {
-    id: string
-    email: string
-    password: string
-    avatar: string | null
-    resetLink: string
-    createdAt: string
-    updatedAt: string
-  }
-}
-
 export interface dataInterface {
   title: string
   mins: number
@@ -246,90 +162,9 @@ export interface MyFile {
   preview: string
   name: string
 }
-export interface DataObject {
-  email: string
-}
-export interface ImageInterface {
-  preview: string | React.FormEvent<HTMLInputElement>
-  data: File | string
-}
-
-export interface PostInterface {
-  object?: {
-    id: string
-    userId: string
-    title: string
-    body: string
-    image: string
-    timeToRead: number
-    createdAt: string
-    updatedAt: string
-    postedBy: {
-      id: string
-      email: string
-      password: string
-      avatar: string | null
-      resetLink: string
-      createdAt: string
-      updatedAt: string
-    }
+export interface DataObject{
+    email: string;
   }
-}
-
-export interface PostsAll {
-  id: string
-  userId?: string
-  title?: string
-  body?: string
-  image?: string
-  timeToRead?: number
-  createdAt?: string
-  updatedAt?: string
-  postedBy: {
-    id: string
-    email: string
-    password: string
-    avatar: string | null
-    resetLink: string
-    createdAt: string
-    updatedAt: string
-  }
-}
-
-export interface PostsAdd {
-  userId: string
-  title: string
-  body: string
-  image: string
-  timeToRead: number
-}
-
-export interface LandingPageInterface<T> {
-  Posts: T[]
-  datalength: number
-  totalPosts: number
-  totalPages: number
-}
-
-export interface PostInterfaceForLandingPage {
-  id: string
-  userId: string
-  title: string
-  body: string
-  image: string
-  timeToRead: number
-  createdAt: string
-  updatedAt: string
-  postedBy: {
-    id: string
-    email: string
-    password: string
-    avatar: string | null
-    resetLink: string
-    createdAt: string
-    updatedAt: string
-  }
-}
 
 export interface PropsArticleCard {
   object: PostInterface

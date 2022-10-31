@@ -5,12 +5,12 @@ import { FormLabel, InputAdornment, OutlinedInput } from '@mui/material';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { Box, Container } from '@mui/system';
-import axios from 'axios';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
+import customAxios from '../auth/useAxios';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
 // import styles from '../styles/ChangePassword/ChangePassword.module.css';
@@ -60,7 +60,7 @@ export const ChangePassword = () => {
   const location = useLocation();
 
   /**
-   * Handle Click Show Password 
+   * Handle Click Show Password
    */
   const handleClickShowPassword = () => {
     setValues({
@@ -71,9 +71,9 @@ export const ChangePassword = () => {
 
   /**
    * Handle Mouse down password
-   * @param event 
+   * @param event
    */
-  const handleMouseDownPassword = (event: any) => {  
+  const handleMouseDownPassword = (event: any) => {
     event.preventDefault();
   };
 
@@ -86,27 +86,21 @@ export const ChangePassword = () => {
       showPassword: !values2.showPassword,
     });
   };
- 
- 
- /**
-  * On Submit Function
-  * @param data 
-  */
+
+  /**
+   * On Submit Function
+   * @param data
+   */
   const onSubmit = async (data: { password1: string; password2: string }) => {
     try {
       errors.password1 ? setMessage(false) : setMessage(true);
       setMessage(true);
       const unparsedToken = location.search;
       const token = unparsedToken.slice(7, unparsedToken.length);
-      const url = `http://localhost:5000/users/reset-password`;
+      const url = `/users/reset-password`;
       console.log(data, 'correct data');
-      const options = {
-        method: 'PUT',
-        url: url,
-        params: { token: `${token}` },
-        data: { password1: data.password1, password2: data.password2 },
-      };
-      const response = await axios(options);
+      const newData = { password1: data.password1, password2: data.password2 };
+      const response = await customAxios.put(`${url}/token=${token}`, newData);
       if (response.data) {
         console.log(message);
         Alerts.success('Password Updated');
@@ -117,8 +111,8 @@ export const ChangePassword = () => {
     }
   };
   return (
-    <Container maxWidth='sm' sx={{ marginTop: '10em' }}>
-      <Header heading='Change Password' />
+    <Container maxWidth="sm" sx={{ marginTop: '10em' }}>
+      <Header heading="Change Password" />
       <form onSubmit={handleSubmit(onSubmit)}>
         {errors.password1 ? (
           <Box mt={2}>
@@ -127,11 +121,11 @@ export const ChangePassword = () => {
             </FormLabel>
             <Controller
               control={control}
-              name='password1'
+              name="password1"
               render={({ field }) => (
                 <OutlinedInput
                   error
-                  autoComplete='new-password'
+                  autoComplete="new-password"
                   color={'secondary'}
                   type={values.showPassword ? 'text' : 'password'}
                   {...field}
@@ -140,14 +134,14 @@ export const ChangePassword = () => {
                     fontFamily: 'Poppins',
                     width: '100%',
                   }}
-                  placeholder='Enter your password'
+                  placeholder="Enter your password"
                   endAdornment={
-                    <InputAdornment position='end'>
+                    <InputAdornment position="end">
                       <IconButton
-                        aria-label='toggle password visibility'
+                        aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        edge='end'
+                        edge="end"
                       >
                         {values.showPassword ? (
                           <VisibilityOff />
@@ -160,7 +154,7 @@ export const ChangePassword = () => {
                 />
               )}
             />
-            <p className='errorMsg'>{errors.password1.message}</p>
+            <p className="errorMsg">{errors.password1.message}</p>
           </Box>
         ) : (
           <Box mt={2}>
@@ -169,10 +163,10 @@ export const ChangePassword = () => {
             </FormLabel>
             <Controller
               control={control}
-              name='password1'
+              name="password1"
               render={({ field }) => (
                 <OutlinedInput
-                  autoComplete='new-password'
+                  autoComplete="new-password"
                   color={'secondary'}
                   type={values.showPassword ? 'text' : 'password'}
                   {...field}
@@ -181,14 +175,14 @@ export const ChangePassword = () => {
                     fontFamily: 'Poppins',
                     width: '100%',
                   }}
-                  placeholder='Enter your password'
+                  placeholder="Enter your password"
                   endAdornment={
-                    <InputAdornment position='end'>
+                    <InputAdornment position="end">
                       <IconButton
-                        aria-label='toggle password visibility'
+                        aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        edge='end'
+                        edge="end"
                       >
                         {values.showPassword ? (
                           <VisibilityOff />
@@ -213,11 +207,11 @@ export const ChangePassword = () => {
           <Box>
             <Controller
               control={control}
-              name='password2'
+              name="password2"
               render={({ field }) => (
                 <OutlinedInput
                   error
-                  autoComplete='new-password'
+                  autoComplete="new-password"
                   color={'secondary'}
                   type={values2.showPassword ? 'text' : 'password'}
                   {...field}
@@ -226,14 +220,14 @@ export const ChangePassword = () => {
                     fontFamily: 'Poppins',
                     width: '100%',
                   }}
-                  placeholder='Enter your password'
+                  placeholder="Enter your password"
                   endAdornment={
-                    <InputAdornment position='end'>
+                    <InputAdornment position="end">
                       <IconButton
-                        aria-label='toggle password visibility'
+                        aria-label="toggle password visibility"
                         onClick={handleClickShowPassword2}
                         onMouseDown={handleMouseDownPassword}
-                        edge='end'
+                        edge="end"
                       >
                         {values2.showPassword ? (
                           <VisibilityOff />
@@ -246,16 +240,16 @@ export const ChangePassword = () => {
                 />
               )}
             />
-            <p className='errorMsg'>{errors.password2.message}</p>
+            <p className="errorMsg">{errors.password2.message}</p>
           </Box>
         ) : (
           <Box>
             <Controller
               control={control}
-              name='password2'
+              name="password2"
               render={({ field }) => (
                 <OutlinedInput
-                  autoComplete='new-password'
+                  autoComplete="new-password"
                   color={'secondary'}
                   type={values2.showPassword ? 'text' : 'password'}
                   {...field}
@@ -264,14 +258,14 @@ export const ChangePassword = () => {
                     fontFamily: 'Poppins',
                     width: '100%',
                   }}
-                  placeholder='Enter your password'
+                  placeholder="Enter your password"
                   endAdornment={
-                    <InputAdornment position='end'>
+                    <InputAdornment position="end">
                       <IconButton
-                        aria-label='toggle password visibility'
+                        aria-label="toggle password visibility"
                         onClick={handleClickShowPassword2}
                         onMouseDown={handleMouseDownPassword}
-                        edge='end'
+                        edge="end"
                       >
                         {values2.showPassword ? (
                           <VisibilityOff />
@@ -287,9 +281,9 @@ export const ChangePassword = () => {
           </Box>
         )}
         <Button
-          type='submit'
-          variant='contained'
-          color='secondary'
+          type="submit"
+          variant="contained"
+          color="secondary"
           fullWidth
           sx={{
             borderRadius: '25px',

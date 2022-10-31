@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface, UserInterface } from '../interface/App';
+import { AppContextInterface } from '../interface/App';
 import { parseName } from '../services/LoginApi';
 import { styled } from '@mui/material/styles';
 

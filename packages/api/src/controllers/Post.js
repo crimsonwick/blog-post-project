@@ -25,12 +25,12 @@ const reverseString = (str) => {
   return revArray.join('');
 };
 
-const query = async (qLimit, qId, qCondition, qAll) => {
-  const limit = qLimit;
+const query = async (queryLimit, queryId, queryCondition, queryAll) => {
+  const limit = queryLimit;
   let where = {};
-  if (!qAll) {
-    const id = qId;
-    const condition = qCondition;
+  if (!queryAll) {
+    const id = queryId;
+    const condition = queryCondition;
     if (condition === '') {
       where = { userId: id };
     } else {
@@ -39,7 +39,7 @@ const query = async (qLimit, qId, qCondition, qAll) => {
       };
     }
   } else {
-    const condition = qCondition;
+    const condition = queryCondition;
     if (condition === '') {
       where = {};
     } else {
@@ -111,7 +111,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  searchPosts = async (req, res) => {
+  static searchPosts = async (req, res) => {
     let query = {
       index: 'posts',
       body: {
@@ -133,45 +133,12 @@ export class PostController {
   };
 
   /**
-   * Returns a single user's posts
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
-  myPosts = async (req, res) => {
-    let query = {
-      index: 'posts',
-      body: {
-        query: {
-          match: { userId: req.params.id },
-        },
-      },
-    };
-    try {
-      const LoginDetails = await Users.findAll({
-        where: {
-          email: req.user.user.email,
-        },
-      });
-      if (!LoginDetails) return res.json(`Un Authorized Access`);
-      else {
-        const myPosts = await client.search(query);
-        if (!myPosts) return res.json(`You haven't Posted Anything!!`);
-        else return res.json(myPosts.body.hits.hits);
-      }
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
-
-  /**
    * Searching in user's MyArticles Page
    * @param {*} req
    * @param {*} res
    * @returns
    */
-  //*do search through ONE API
-  searchMyPost = async (req, res) => {
+  static searchMyPost = async (req, res) => {
     let query = {
       index: 'posts',
       body: {
@@ -208,7 +175,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  getRepliesfromOnePost = async (req, res) => {
+  static getRepliesfromOnePost = async (req, res) => {
     try {
       //TODO:applying limit offset pagination 3 comments at a
       const AllComments = await Comments.findAll({
@@ -226,13 +193,14 @@ export class PostController {
       errorHandling(res);
     }
   };
+
   /**
    * Gets Posts
    * @param {*} req
    * @param {*} res
    * @returns
    */
-  getPosts = async (req, res) => {
+  static getPosts = async (req, res) => {
     try {
       const limit = parseInt(req.query.limit) || 4;
       const all = true;
@@ -246,26 +214,26 @@ export class PostController {
 
       if (!condition) {
         const posts = await query(limit, id, condition, all);
-        cursorValues.prev_page = null;
-        if (posts[limit] === undefined) cursorValues.next_page = null;
+        cursorValues.prevPage = null;
+        if (posts[limit] === undefined) cursorValues.nextPage = null;
         else {
           const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.next_page = clonePost[limit - 1].createdAt;
+          cursorValues.nextPage = clonePost[limit - 1].createdAt;
         }
         if (posts.length == limit + 1) posts.pop();
         const result = [cursorValues, posts];
         res.send(result);
-      } else if (condition === cursorValues.next_page) {
+      } else if (condition === cursorValues.nextPage) {
         const posts = await query(limit, id, condition, all);
-        if (posts[limit] === undefined) cursorValues.next_page = null;
+        if (posts[limit] === undefined) cursorValues.nextPage = null;
         else {
           const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.next_page = clonePost[limit - 1].createdAt;
+          cursorValues.nextPage = clonePost[limit - 1].createdAt;
         }
-        if (posts[0] === undefined) cursorValues.prev_page = null;
+        if (posts[0] === undefined) cursorValues.prevPage = null;
         else {
           const clonePost = JSON.parse(JSON.stringify(posts));
-          cursorValues.prev_page = clonePost[0].createdAt;
+          cursorValues.prevPage = clonePost[0].createdAt;
         }
         if (posts.length == limit + 1) posts.pop();
         const result = [cursorValues, posts];
@@ -277,7 +245,7 @@ export class PostController {
     }
   };
 
-  postDetail = async (req, res) => {
+  static postDetail = async (req, res) => {
     const id = req.params.id;
 
     try {
@@ -304,42 +272,42 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  getCursorPostsOfSingleUser = async (req, res) => {
+  static getCursorPostsOfSingleUser = async (req, res) => {
     try {
       const limit = parseInt(req.query.limit) || 4;
       const id = req.params.id;
       if (id) {
         let cursorValues = {};
-        cursorValues.next_page = req.query.next_page || '';
-        cursorValues.prev_page = req.query.prev_page || '';
+        cursorValues.nextPage = req.query.nextPage || '';
+        cursorValues.prevPage = req.query.prevPage || '';
 
         let condition = '';
-        if (cursorValues.next_page) condition = cursorValues.next_page;
-        else if (cursorValues.prev_page) condition = cursorValues.prev_page;
+        if (cursorValues.nextPage) condition = cursorValues.nextPage;
+        else if (cursorValues.prevPage) condition = cursorValues.prevPage;
 
         if (!condition) {
           const posts = await query(limit, id, condition);
-          cursorValues.prev_page = null;
-          if (posts[limit] === undefined) cursorValues.next_page = null;
+          cursorValues.prevPage = null;
+          if (posts[limit] === undefined) cursorValues.nextPage = null;
           else {
             //*convert to plain js object
             const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.next_page = clonePost[limit - 1].createdAt;
+            cursorValues.nextPage = clonePost[limit - 1].createdAt;
           }
           if (posts.length == limit + 1) posts.pop();
           const result = [cursorValues, posts];
           res.send(result);
-        } else if (condition === cursorValues.next_page) {
+        } else if (condition === cursorValues.nextPage) {
           const posts = await query(limit, id, condition);
-          if (posts[limit] === undefined) cursorValues.next_page = null;
+          if (posts[limit] === undefined) cursorValues.nextPage = null;
           else {
             const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.next_page = clonePost[limit - 1].createdAt;
+            cursorValues.nextPage = clonePost[limit - 1].createdAt;
           }
-          if (posts[0] === undefined) cursorValues.prev_page = null;
+          if (posts[0] === undefined) cursorValues.prevPage = null;
           else {
             const clonePost = JSON.parse(JSON.stringify(posts));
-            cursorValues.prev_page = clonePost[0].createdAt;
+            cursorValues.prevPage = clonePost[0].createdAt;
           }
           if (posts.length == limit + 1) posts.pop();
           const result = [cursorValues, posts];

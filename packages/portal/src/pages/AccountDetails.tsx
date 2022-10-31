@@ -1,13 +1,13 @@
 import { Button } from '@mui/material';
 import { Box, Container } from '@mui/system';
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+import authAxios from '../auth/authAxios';
 import { Alerts } from '../components/Alerts';
 import { BasicTable } from '../components/BasicTable';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface, UserInterface } from '../interface/App';
+import { AppContextInterface } from '../interface/App';
 import { parseJwt } from '../services/LoginApi';
 
 export const AccountDetails = () => {
@@ -49,16 +49,7 @@ export const AccountDetails = () => {
         const parsetoken = parseJwt(context.accessToken);
         const user = parsetoken.user;
         context.setUserData(user);
-        const config = {
-          headers: {
-            Authorization: `Bearer ${context.accessToken}`,
-          },
-        };
-        const response = await axios.put(
-          `http://localhost:5000/users/${user.id}`,
-          formData,
-          config
-        );
+        const response = await authAxios.put(`/users/${user.id}`, formData);
         if (response.data) {
           context.setDp(response.data.image);
           Alerts.success('Dp uploaded');

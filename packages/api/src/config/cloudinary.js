@@ -35,17 +35,6 @@ export const uploadToCloudinary = async (locaFilePath) => {
           result.responsive_breakpoints.map((obj) => console.log(obj))
         );
       }
-      // overwrite: false,
-      // responsive_breakpoints: {
-      //   create_derived: true,
-      //   bytes_step: 20000,
-      //   min_width: 200,
-      //   max_width: 1000,
-      //   transformation: {
-      //     crop: 'fill',
-      //     aspect_ratio: '16:9',
-      //     gravity: 'auto',
-      //   },
     )
     .then((result) => {
       fs.unlinkSync(locaFilePath);

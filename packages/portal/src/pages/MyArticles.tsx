@@ -12,21 +12,17 @@ export const MyArticles = () => {
   const context: AppContextInterface | null = useContext(AppContext);
   const limit = 4;
   const [link, setLink] = useState('');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  };
   const userId = JSON.parse(localStorage.getItem('userDetails') || '{}')
     .id as unknown as string;
 
   const { posts, hasMore, loading, cursor, error } =
-    useInfiniteScrollOnMyArticles(limit, link, userId, config);
+    useInfiniteScrollOnMyArticles(limit, link, userId);
 
   const observer: React.MutableRefObject<IntersectionObserver | undefined> =
     useRef();
   const lastPost = useCallback(
     (node: any) => {
+      // cannot define type of node
       if (loading) return;
       if (observer.current) observer.current?.disconnect();
       observer.current = new IntersectionObserver((entries) => {

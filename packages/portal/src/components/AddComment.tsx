@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface, UserInterface } from '../interface/App';
+import { AppContextInterface } from '../interface/App';
 import { addComment, addReply, CommentInterface } from '../services/CommentApi';
 import { InputButton } from './InputButton';
 import { InputField } from './InputField';
@@ -22,8 +22,8 @@ interface AddCommentInterface {
 
 /**
  * Add Comment
- * @param props 
- * @returns 
+ * @param props
+ * @returns
  */
 export const AddComment = (props: AddCommentInterface) => {
   // const inputRef = useRef(null);

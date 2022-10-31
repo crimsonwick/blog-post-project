@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { Container } from '@mui/system';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -17,14 +17,18 @@ export const ArticleDetailPage = () => {
 
   const context: AppContextInterface | null = useContext(AppContext);
   const [data, setData] = useState<CommentInterface[]>([]);
+  const [commentCursor, setCommentCursor] = useState(1);
+  const [next, setNext] = useState(true);
 
   /**
    * set state with all comments
    * @param id
    */
   const allComments = async (id: string) => {
-    const response = await getComments(id);
-    setData(response.data);
+    const response = await getComments(id, commentCursor, 3);
+    setData([...data, ...response.data.results]);
+    setCommentCursor(commentCursor + 1);
+    response.data.next ? setNext(true) : setNext(false);
   };
 
   useEffect(() => {
@@ -42,14 +46,14 @@ export const ArticleDetailPage = () => {
         </Box>
         {context?.loggedIn ? (
           <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-            <PostsHeader count={data.length} name='comments' textSize='24px' />
+            <PostsHeader count={data.length} name="comments" textSize="24px" />
           </Box>
         ) : (
           <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
             <PostsHeader
               count={data.length}
-              name='comments .'
-              textSize='24px'
+              name="comments ."
+              textSize="24px"
               link={true}
             />
           </Box>
@@ -57,10 +61,10 @@ export const ArticleDetailPage = () => {
         <Box>
           {context?.loggedIn && (
             <AddComment
-              width='1000px'
+              width="1000px"
               articleId={`${articleId}`}
-              placeholder='Write a comment...'
-              labelAbove='Add Comment'
+              placeholder="Write a comment..."
+              labelAbove="Add Comment"
               refreshComment={allComments}
               Comment={true}
             />
@@ -71,6 +75,27 @@ export const ArticleDetailPage = () => {
             data.map((o) => {
               return <Comment key={o.id} object={o} />;
             })}
+        </Box>
+        <Box mt={5} mb={5} display="flex" alignItems="center">
+          {next && (
+            <Button
+              onClick={() => {
+                allComments(articleId as unknown as string);
+              }}
+              variant="outlined"
+              color="secondary"
+              sx={{
+                fontWeight: '600',
+                textTransform: 'capitalize',
+                borderRadius: '18px',
+                marginLeft: '280px',
+                padding: '4px',
+                width: '300px',
+              }}
+            >
+              Load More Comments
+            </Button>
+          )}
         </Box>
       </Container>
     </>

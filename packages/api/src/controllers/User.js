@@ -1,9 +1,9 @@
-import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import model from '../models';
-import { sendEmail } from '../utils/sendMail';
-import { errorHandling } from '../middleware/Errors.js';
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import model from "../models";
+import { sendEmail } from "../utils/sendMail";
+import { errorHandling } from "../middleware/Errors.js";
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ export class UserController {
    * @param {*} res
    * @returns
    */
-  signUp = async (req, res) => {
+  static signUp = async (req, res) => {
     const { email, password, avatar } = req.body;
     const hasedPassword = bcrypt.hashSync(password, salt);
     try {
@@ -50,7 +50,7 @@ export class UserController {
    * @param {*} res
    * @returns
    */
-  logIn = async (req, res) => {
+  static logIn = async (req, res) => {
     const { email, password } = req.body;
     try {
       const user = await Users.findOne({
@@ -87,7 +87,7 @@ export class UserController {
    * @param {*} user
    * @returns
    */
-  generateAccessToken = (user) => {
+  static generateAccessToken = (user) => {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: process.env.EXPIRES_IN,
     });
@@ -99,7 +99,7 @@ export class UserController {
    * @param {*} res
    * @returns
    */
-  token = (req, res) => {
+  static token = (req, res) => {
     const refreshToken = req.body.token;
     if (refreshToken == null) return res.sendStatus(404);
     if (!tokens.includes(refreshToken)) return res.sendStatus(403);
@@ -123,7 +123,7 @@ export class UserController {
    * @param {*} res
    * @returns
    */
-  logOut = async (req, res) => {
+  static logOut = async (req, res) => {
     tokens = tokens.filter((token) => token !== req.body.token);
     return res.sendStatus(204);
   };
@@ -134,7 +134,7 @@ export class UserController {
    * @param {*} res
    * @returns
    */
-  updateUserAvatar = async (req, res) => {
+  static updateUserAvatar = async (req, res) => {
     const userId = req.params.userId;
     let image;
     if (req.file) {
@@ -160,7 +160,7 @@ export class UserController {
    * @param {*} res
    * @returns
    */
-  forgetPassword = async (req, res) => {
+  static forgetPassword = async (req, res) => {
     const { email } = req.body;
 
     try {
@@ -170,18 +170,18 @@ export class UserController {
       });
       // if there is no user send back an error
       if (!user) {
-        return res.status(404).json({ error: 'Invalid email' });
+        return res.status(404).json({ error: "Invalid email" });
       }
       // otherwise we need to create a temporary token that expires in 10 mins
       const resetLink = jwt.sign({ user: user.email }, resetSecret, {
-        expiresIn: '1200s',
+        expiresIn: "1200s",
       });
       user.resetLink = resetLink;
       await user.save();
 
       // we'll define this function below
       sendEmail(user, resetLink);
-      return res.status(200).json({ message: 'Check your email' });
+      return res.status(200).json({ message: "Check your email" });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -193,7 +193,7 @@ export class UserController {
    * @param {*} res
    * @returns
    */
-  resetPassword = async (req, res) => {
+   static  resetPassword = async (req, res) => {
     try {
       const { token } = req.query;
       // Get the token from params
@@ -210,12 +210,12 @@ export class UserController {
       if (!user) {
         return res
           .status(400)
-          .json({ message: 'We could not find a match for this link' });
+          .json({ message: "We could not find a match for this link" });
       }
 
       jwt.verify(token, resetSecret, (error) => {
         if (error) {
-          return res.status(400).json({ message: 'token is invalid' });
+          return res.status(400).json({ message: "token is invalid" });
         }
       });
       if (password1 === password2) {
@@ -225,7 +225,7 @@ export class UserController {
         user.password = hashPassword;
         user.resetLink = null;
         await user.save();
-        return res.status(200).json({ message: 'Password updated' });
+        return res.status(200).json({ message: "Password updated" });
       }
     } catch (error) {
       res.status(500).json({ message: error.message });

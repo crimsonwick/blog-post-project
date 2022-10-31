@@ -4,12 +4,11 @@ const router = express.Router();
 
 class CommentRouter {
   checkRequests() {
-    const CommentObject = new CommentController();
-    router.get('/', CommentObject.getComments);
-    router.post('/', CommentObject.addComment);
-    router.get('/replies', CommentObject.getRepliesfromComment);
-    router.post('/addReply', CommentObject.addReply);
-    router.get('/:id/replies', CommentObject.getRepliesfromOneComment);
+    router.get('/', CommentController.getComments);
+    router.post('/', CommentController.addComment);
+    router.get('/replies', CommentController.getRepliesfromComment);
+    router.post('/addReply', CommentController.addReply);
+    router.get('/:id/replies', CommentController.getRepliesfromOneComment);
   }
 }
 

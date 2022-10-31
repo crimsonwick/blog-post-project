@@ -1,8 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, FormLabel, OutlinedInput } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Container } from '@mui/system';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -13,9 +15,6 @@ import { StyledDropZone } from '../components/StyledDropZone';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface, dataInterface } from '../interface/App';
 import { addPost } from '../services/LoginApi';
-import { useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import '../styles/signup.css';
 
 const schema = yup
@@ -69,12 +68,8 @@ const CreateArticle = () => {
           formData.append('file', context?.postImage as unknown as string);
           formData.append('timeToRead', data.mins as unknown as Blob);
           Alerts.success('Post Created successfully');
-          const config = {
-            headers: {
-              Authorization: `Bearer ${context?.accessToken}`,
-            },
-          };
-          await addPost(formData, config);
+
+          await addPost(formData);
           setTimeout(() => {
             navigate('/articles');
             setLoading(false);

@@ -1,13 +1,11 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import authAxios from '../auth/authAxios';
 import { PostInterface } from '../interface/App';
-import { ConfigInterface } from '../services/LoginApi';
 
 const useInfiniteScrollOnMyArticles = (
   query: number,
   pageLink: string,
-  id: string,
-  headers: ConfigInterface
+  id: string
 ) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -20,22 +18,21 @@ const useInfiniteScrollOnMyArticles = (
     setLoading(true);
     setError(false);
     if (typeof id === 'string') {
-      axios({
-        method: 'GET',
-        url: `http://localhost:5000/users/${id}/posts`,
-        params: { limit: query, next_page: pageLink },
-        headers: headers.headers,
-      })
+      authAxios
+        .get(`/users/${id}/posts?limit=${query}&nextPage=${pageLink}`)
         .then((res) => {
           console.log('API WAS CALLED');
           setPosts((prevPosts) => {
             return [
-              ...new Set([...prevPosts, ...res.data[1].map((p: object) => p)]),
+              ...new Set([
+                ...prevPosts,
+                ...res.data[1].map((p: PostInterface) => p),
+              ]),
             ];
           });
-          setHasMore(res.data[0].next_page !== null);
+          setHasMore(res.data[0].nextPage !== null);
           setLoading(false);
-          cursor.current = res.data[0].next_page;
+          cursor.current = res.data[0].nextPage;
           console.log(res.data);
         })
         .catch((e) => {
