@@ -1,13 +1,11 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import authAxios from '../auth/authAxios';
 import { PostInterface } from '../interface/App';
-import { ConfigInterface } from '../services/LoginApi';
 
 const useInfiniteScrollOnMyArticles = (
   query: number,
   pageLink: string,
-  id: string,
-  headers: ConfigInterface
+  id: string
 ) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -20,12 +18,8 @@ const useInfiniteScrollOnMyArticles = (
     setLoading(true);
     setError(false);
     if (typeof id === 'string') {
-      axios({
-        method: 'GET',
-        url: `http://localhost:5000/users/${id}/posts`,
-        params: { limit: query, nextPage: pageLink },
-        headers: headers.headers,
-      })
+      authAxios
+        .get(`/users/${id}/posts?limit=${query}&nextPage=${pageLink}`)
         .then((res) => {
           console.log('API WAS CALLED');
           setPosts((prevPosts) => {

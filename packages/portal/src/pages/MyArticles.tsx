@@ -7,21 +7,16 @@ import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import useInfiniteScrollOnMyArticles from '../components/useInfiniteScrollOnMyArticles';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface, UserInterface } from '../interface/App';
+import { AppContextInterface } from '../interface/App';
 export const MyArticles = () => {
   const context: AppContextInterface | null = useContext(AppContext);
   const limit = 4;
   const [link, setLink] = useState('');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  };
   const userId = JSON.parse(localStorage.getItem('userDetails') || '{}')
     .id as unknown as string;
 
   const { posts, hasMore, loading, cursor, error } =
-    useInfiniteScrollOnMyArticles(limit, link, userId, config);
+    useInfiniteScrollOnMyArticles(limit, link, userId);
 
   const observer: React.MutableRefObject<IntersectionObserver | undefined> =
     useRef();

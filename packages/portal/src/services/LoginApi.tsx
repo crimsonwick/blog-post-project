@@ -1,5 +1,5 @@
-import axios from 'axios';
-const baseURL: string = 'http://localhost:5000';
+import authAxios from '../auth/authAxios';
+import customAxios from '../auth/useAxios';
 
 interface LoginDetailInterface {
   email?: string;
@@ -23,11 +23,11 @@ interface RefreshToken {
 }
 
 export const getLoginDetails = async (object: LoginDetailInterface) => {
-  return await axios.post(`${baseURL}/users/login`, object);
+  return await customAxios.post(`/users/login`, object);
 };
 
 export const getSignUpDetails = async (object: LoginDetailInterface) => {
-  return await axios.post(`${baseURL}/users/signup`, object);
+  return await customAxios.post(`/users/signup`, object);
 };
 
 export const parseJwt = (token: string) => {
@@ -50,28 +50,28 @@ export const parseJwt = (token: string) => {
   }
 };
 
-export const addPost = async (object: FormData, config: ConfigInterface) => {
-  return await axios.post(`${baseURL}/posts`, object, config);
+export const addPost = async (object: FormData) => {
+  return await authAxios.post(`/posts`, object);
 };
 
-export const gettingPosts = async (config: ConfigInterface, id: string) => {
-  return await axios.get(`${baseURL}/users/${id}/posts`, config);
+export const gettingPosts = async (id: string) => {
+  return await authAxios.get(`/users/${id}/posts`);
 };
 
 export const allPostsComing = async () => {
-  return await axios.get(`${baseURL}/posts`);
+  return await customAxios.get(`/posts`);
 };
 
 export const logout = async (body: LogoutInterface) => {
-  return await axios.delete(`${baseURL}/users/logout`, body);
+  return await customAxios.delete(`/users/logout`, body);
 };
 
 export const refreshToken = async (body: RefreshToken) => {
-  return await axios.post(`${baseURL}/users/refresh-access`, body);
+  return await customAxios.post(`/users/refresh-access`, body);
 };
 
 export const postDetail = async (id: string) => {
-  return await axios.get(`${baseURL}/posts/${id}`);
+  return await customAxios.get(`/posts/${id}`);
 };
 
 export const parseTime = (str: string) => {
@@ -154,7 +154,7 @@ export const parseDate = (str: string) => {
 };
 
 export const searchAPI = async (title: string) => {
-  return await axios.get(`${baseURL}/posts/search?title=${title}`);
+  return await customAxios.get(`/posts/search?title=${title}`);
 };
 
 export const getComments = async (
@@ -162,36 +162,19 @@ export const getComments = async (
   commentCursor: number,
   limit: number
 ) => {
-  return await axios.get(
-    `${baseURL}/posts/${id}/comments/fetchMoreComments?commentCursor=${commentCursor}&limit=${limit}`
+  return await customAxios.get(
+    `/posts/${id}/comments/fetchMoreComments?commentCursor=${commentCursor}&limit=${limit}`
   );
 };
 
 export const getReply = async (id: string) => {
-  return await axios.get(`${baseURL}/comments/${id}/replies`);
+  return await customAxios.get(`/comments/${id}/replies`);
 };
 
 export const parseName = (str: string) => {
   let nameField = str.split('@');
   return nameField[0];
 };
-export const searchMyPostsAPI = async (
-  title: string,
-  id: string,
-  config: ConfigInterface
-) => {
-  return await axios.get(
-    `${baseURL}/users/${id}/posts/search?title=${title}`,
-    config
-  );
-};
-
-/**
- * Post Pagination
- * @param page
- * @param limit
- * @returns
- */
-export const PaginationforPosts = async (page: number, limit: number) => {
-  return await axios.get(`${baseURL}/paginations?page=${page}&limit=${limit}`);
+export const searchMyPostsAPI = async (title: string, id: string) => {
+  return await authAxios.get(`/users/${id}/posts/search?title=${title}`);
 };

@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const baseURL: string = 'http://localhost:5000';
+import customAxios from '../auth/useAxios';
 
 export interface CommentInterface {
   id: string;
@@ -33,17 +31,17 @@ export interface AddReplyInterface extends AddCommentFunctionInterface {
 export const getCommentByPostId = async (
   id: string
 ): Promise<CommentInterface[]> => {
-  return await axios.get(`${baseURL}/comments/${id}`);
+  return await customAxios.get(`/comments/${id}`);
 };
 
 export const addComment = async (
   object: AddCommentFunctionInterface
 ): Promise<CommentInterface> => {
-  return await axios.post(`${baseURL}/comments`, object);
+  return await customAxios.post(`/comments`, object);
 };
 
 export const addReply = async (
   object: AddReplyInterface
 ): Promise<CommentInterface> => {
-  return await axios.post(`${baseURL}/comments/addReply`, object);
+  return await customAxios.post(`/comments/addReply`, object);
 };
