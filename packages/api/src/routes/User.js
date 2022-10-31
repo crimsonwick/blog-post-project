@@ -8,26 +8,28 @@ const router = express.Router();
 
 class UserRouter {
   checkRequests() {
-    const UserObject = new UserController();
-    const PostObject = new PostController();
-    router.post('/refresh-access', UserObject.token);
-    router.post('/forget-password', UserObject.forgetPassword);
-    router.put('/reset-password', UserObject.resetPassword);
+    router.post('/refresh-access', UserController.token);
+    router.post('/forget-password', UserController.forgetPassword);
+    router.put('/reset-password', UserController.resetPassword);
     router.put(
       '/:userId',
       authentication,
       upload.single('file'),
       UserController.updateUserAvatar
     );
-    router.post('/signup', UserObject.signUp);
-    router.post('/login', UserObject.logIn);
-    router.delete('/logout', UserObject.logOut);
+    router.post('/signup', UserController.signUp);
+    router.post('/login', UserController.logIn);
+    router.delete('/logout', UserController.logOut);
     router.get(
       '/:id/posts',
       authentication,
-      PostObject.getCursorPostsOfSingleUser
+      PostController.getCursorPostsOfSingleUser
     );
-    router.get('/:id/posts/search', authentication, PostObject.searchMyPost);
+    router.get(
+      '/:id/posts/search',
+      authentication,
+      PostController.searchMyPost
+    );
   }
 }
 
