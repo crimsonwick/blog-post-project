@@ -85,6 +85,7 @@ export class PostController {
         url = url.substring(0, url.indexOf('/'));
         url = reverseString(url);
 
+        // const pathname = new URL(url).pathname
         const addNewPost = await Posts.create({
           //*spread object returned
           userId: userId,

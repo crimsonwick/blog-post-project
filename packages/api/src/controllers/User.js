@@ -1,15 +1,14 @@
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-import model from "../models";
-import { sendEmail } from "../utils/sendMail";
-import { errorHandling } from "../middleware/Errors.js";
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import model from '../models';
+import { sendEmail } from '../utils/sendMail';
+import { errorHandling } from '../middleware/Errors.js';
 
 dotenv.config();
 
 const resetSecret = process.env.RESET_PASSWORD_KEY;
 
-const salt = bcrypt.genSaltSync(10);
 const { Users } = model;
 export let tokens = [];
 
@@ -22,7 +21,6 @@ export class UserController {
    */
   static signUp = async (req, res) => {
     const { email, password, avatar } = req.body;
-    const hasedPassword = bcrypt.hashSync(password, salt);
     try {
       const checkAccount = await Users.findOne({
         where: {
@@ -33,7 +31,7 @@ export class UserController {
       else {
         const userArray = {
           email: email,
-          password: hasedPassword,
+          password: password,
           avatar: avatar,
         };
         const newUser = await Users.create(userArray);
@@ -62,7 +60,9 @@ export class UserController {
       const dbpassword = user.password;
       bcrypt.compare(password, dbpassword).then((match) => {
         if (!match) {
-          return errorHandling(res, 401);
+          return res.json({
+            message: 'Wrong Credentials',
+          });
         } else {
           //Authorization
           const accessToken = this.generateAccessToken({ user });
@@ -170,18 +170,18 @@ export class UserController {
       });
       // if there is no user send back an error
       if (!user) {
-        return res.status(404).json({ error: "Invalid email" });
+        return res.status(404).json({ error: 'Invalid email' });
       }
       // otherwise we need to create a temporary token that expires in 10 mins
       const resetLink = jwt.sign({ user: user.email }, resetSecret, {
-        expiresIn: "1200s",
+        expiresIn: '1200s',
       });
       user.resetLink = resetLink;
       await user.save();
 
       // we'll define this function below
       sendEmail(user, resetLink);
-      return res.status(200).json({ message: "Check your email" });
+      return res.status(200).json({ message: 'Check your email' });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -193,11 +193,11 @@ export class UserController {
    * @param {*} res
    * @returns
    */
-   static  resetPassword = async (req, res) => {
+  static resetPassword = async (req, res) => {
     try {
       const { token } = req.query;
       // Get the token from params
-      const { password1, password2 } = req.body;
+      const { password, confirmPassword } = req.body;
       const resetLink = token;
 
       const user = await Users.findOne({
@@ -210,22 +210,19 @@ export class UserController {
       if (!user) {
         return res
           .status(400)
-          .json({ message: "We could not find a match for this link" });
+          .json({ message: 'We could not find a match for this link' });
       }
 
       jwt.verify(token, resetSecret, (error) => {
         if (error) {
-          return res.status(400).json({ message: "token is invalid" });
+          return res.status(400).json({ message: 'token is invalid' });
         }
       });
-      if (password1 === password2) {
-        //TODO:move to hook
-        const hashPassword = bcrypt.hashSync(password1, salt);
-        // update user credentials and remove the temporary link from database before saving
-        user.password = hashPassword;
+      if (password === confirmPassword) {
+        user.password = password;
         user.resetLink = null;
         await user.save();
-        return res.status(200).json({ message: "Password updated" });
+        return res.status(200).json({ message: 'Password updated' });
       }
     } catch (error) {
       res.status(500).json({ message: error.message });

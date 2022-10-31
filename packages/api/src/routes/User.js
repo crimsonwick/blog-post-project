@@ -1,35 +1,33 @@
-import express from "express";
-import { PostController } from "../controllers/Post.js";
-import { UserController } from "../controllers/User.js";
-import { authentication } from "../middleware/Authentication.js";
-import { upload } from "../utils/multer.js";
+import express from 'express';
+import { PostController } from '../controllers/Post.js';
+import { UserController } from '../controllers/User.js';
+import { authentication } from '../middleware/Authentication.js';
+import { upload } from '../utils/multer.js';
 
 const router = express.Router();
 
 class UserRouter {
   checkRequests() {
-    router.post("/refresh-access", UserController.token);
-    router.post("/forget-password", UserController.forgetPassword);
-    router.put("/reset-password", UserController.resetPassword);
+    const UserObject = new UserController();
+    const PostObject = new PostController();
+    router.post('/refresh-access', UserObject.token);
+    router.post('/forget-password', UserObject.forgetPassword);
+    router.put('/reset-password', UserObject.resetPassword);
     router.put(
-      "/:userId",
+      '/:userId',
       authentication,
-      upload.single("file"),
+      upload.single('file'),
       UserController.updateUserAvatar
     );
-    router.post("/signup", UserController.signUp);
-    router.post("/login", UserController.logIn);
-    router.delete("/logout", UserController.logOut);
+    router.post('/signup', UserObject.signUp);
+    router.post('/login', UserObject.logIn);
+    router.delete('/logout', UserObject.logOut);
     router.get(
-      "/:id/posts",
+      '/:id/posts',
       authentication,
-      PostController.getCursorPostsOfSingleUser
+      PostObject.getCursorPostsOfSingleUser
     );
-    router.get(
-      "/:id/posts/search",
-      authentication,
-      PostController.searchMyPost
-    );
+    router.get('/:id/posts/search', authentication, PostObject.searchMyPost);
   }
 }
 
