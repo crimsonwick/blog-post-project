@@ -1,5 +1,5 @@
-import { AdvancedImage, placeholder, responsive } from '@cloudinary/react';
-import { CloudinaryImage } from '@cloudinary/url-gen';
+import { AdvancedImage, responsive } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { Avatar, Card, List } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
@@ -19,7 +19,6 @@ import {
 import { parseName, postDetail } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import { CardStyle, flexContainer } from '../styles/Article/List';
-import { Cloudinary } from '@cloudinary/url-gen';
 
 const cld = new Cloudinary({
   cloud: {
@@ -42,12 +41,7 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
     try {
       setLoading(true);
       if (id) {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${context?.accessToken}`,
-          },
-        };
-        const response = await postDetail(id, config);
+        const response = await postDetail(id);
         setPost(response.data);
       }
       setLoading(false);
@@ -134,14 +128,12 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
           </List>
           <AdvancedImage
             style={{
-              height: '432px',
-              width: '856px',
               borderRadius: '5px',
               objectFit: 'contain',
               margin: '10px 1px',
             }}
-            cldImg={cld.image(`main/uploads/${post?.image}`)}
-            plugins={[responsive(), placeholder()]}
+            cldImg={cld.image(`main/${post?.image}`)}
+            plugins={[responsive({ steps: 100 })]}
           />
           <Typography
             variant='h6'

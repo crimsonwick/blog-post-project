@@ -1,3 +1,5 @@
+import { AdvancedImage, responsive } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import { Avatar, Card, List } from '@mui/material';
@@ -13,16 +15,12 @@ import { PropsArticleCard } from '../interface/App';
 import { parseDate, parseName } from '../services/LoginApi';
 import '../styles/Article/Article.css';
 import { flexContainer } from '../styles/Article/List';
-import { AdvancedImage } from '@cloudinary/react';
-import { responsive } from '@cloudinary/react';
-import { Cloudinary } from '@cloudinary/url-gen';
 
 const cld = new Cloudinary({
   cloud: {
     cloudName: 'ddutykcuf',
   },
 });
-const myImage = cld.image('main/uploads/messi.jpg.jpg');
 
 export const ArticleCard = React.forwardRef(
   (
@@ -33,7 +31,6 @@ export const ArticleCard = React.forwardRef(
       | null
       | undefined
   ) => {
-    debugger;
     return (
       <Card
         ref={ref}
@@ -47,8 +44,8 @@ export const ArticleCard = React.forwardRef(
         }}
       >
         <AdvancedImage
-          cldImg={cld.image(`main/uploads/${props?.object?.image}`)}
-          plugins={[responsive({ steps: [400, 800, 1000, 1400] })]}
+          cldImg={cld.image(`main/${props?.object?.image}`)}
+          plugins={[responsive({ steps: 100 })]}
           style={{
             borderRadius: '5px',
             width: '300px',

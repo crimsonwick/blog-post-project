@@ -53,24 +53,28 @@ export default (sequelize, DataTypes) => {
     'afterCreate',
     'insertIntoElasticSearch',
     async (post, options) => {
-      const { transaction } = options;
-      let readDataValues = await Posts.findOne({
-        where: {
-          id: post.id,
-        },
-        include: {
-          model: sequelize.models.Users,
-          as: 'postedBy',
-        },
-        transaction,
-      });
-      readDataValues.dataValues.postedBy =
-        readDataValues.dataValues.postedBy.dataValues;
-      console.log(readDataValues.dataValues);
-      await client.index({
-        index: 'posts',
-        body: readDataValues.dataValues,
-      });
+      try {
+        const { transaction } = options;
+        let readDataValues = await Posts.findOne({
+          where: {
+            id: post.id,
+          },
+          include: {
+            model: sequelize.models.Users,
+            as: 'postedBy',
+          },
+          transaction,
+        });
+        readDataValues.dataValues.postedBy =
+          readDataValues.dataValues.postedBy.dataValues;
+        console.log(readDataValues.dataValues);
+        await client.index({
+          index: 'posts',
+          body: readDataValues.dataValues,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   );
 

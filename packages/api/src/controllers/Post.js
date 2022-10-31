@@ -90,7 +90,7 @@ export class PostController {
           userId: userId,
           title: title,
           body: body,
-          image: result.url,
+          image: url,
           timeToRead: timeToRead,
         });
 
@@ -240,18 +240,15 @@ export class PostController {
 
       const cursorValues = {};
       cursorValues.next_page = req.query.next_page || '';
-      cursorValues.prev_page = req.query.prev_page || '';
 
       let condition = '';
       if (cursorValues.next_page) condition = cursorValues.next_page;
-      else if (cursorValues.prev_page) condition = cursorValues.prev_page;
 
       if (!condition) {
         const posts = await query(limit, id, condition, all);
         cursorValues.prev_page = null;
         if (posts[limit] === undefined) cursorValues.next_page = null;
         else {
-          //*convert to plain js object
           const clonePost = JSON.parse(JSON.stringify(posts));
           cursorValues.next_page = clonePost[limit - 1].createdAt;
         }

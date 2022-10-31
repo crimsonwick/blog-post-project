@@ -13,6 +13,9 @@ import { StyledDropZone } from '../components/StyledDropZone';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface, dataInterface } from '../interface/App';
 import { addPost } from '../services/LoginApi';
+import { useState } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import '../styles/signup.css';
 
 const schema = yup
@@ -20,11 +23,11 @@ const schema = yup
     title: yup.string().required(),
     mins: yup.number().positive().typeError('must be a number').required(),
     body: yup.string().required(),
-    // file: yup.mixed().required('File is required')
   })
   .required();
 
 const CreateArticle = () => {
+  const [loading, setLoading] = useState(false);
   const context: AppContextInterface | null = useContext(AppContext);
   const {
     control,
@@ -58,6 +61,7 @@ const CreateArticle = () => {
         context?.postImage?.type === 'image/jpeg'
       ) {
         try {
+          setLoading(true);
           let formData = new FormData();
           formData.append('userId', context?.userData.id as unknown as string);
           formData.append('title', data.title);
@@ -73,6 +77,7 @@ const CreateArticle = () => {
           await addPost(formData, config);
           setTimeout(() => {
             navigate('/articles');
+            setLoading(false);
           }, 250);
         } catch (err) {
           Alerts.error('Something went Wrong');
@@ -88,192 +93,204 @@ const CreateArticle = () => {
       <Navbar login={true} />
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name='Create New Article' />
-        <Box mt={3}>
-          <FormLabel
-            htmlFor='form-label-above-title'
-            sx={{ fontFamily: 'Poppins' }}
-          >
-            Give it a title
-          </FormLabel>
-        </Box>
-        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
-          {errors.title ? (
-            <Box>
-              <Controller
-                control={control}
-                name='title'
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <OutlinedInput
-                    error
-                    {...field}
-                    sx={{
-                      borderRadius: 5,
-                      width: 700,
-                      marginTop: 1,
-                    }}
-                    color='secondary'
-                  />
-                )}
-              />
-              <p className='errorMsg'>{errors.title.message}</p>
+        {!loading ? (
+          <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+            <Box mt={3}>
+              <FormLabel
+                htmlFor='form-label-above-title'
+                sx={{
+                  display: 'flex',
+                  fontFamily: 'Poppins',
+                  marginTop: '3px',
+                }}
+              >
+                Give it a title
+              </FormLabel>
             </Box>
-          ) : (
-            <Box>
-              <Controller
-                control={control}
-                name='title'
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <OutlinedInput
-                    {...field}
-                    sx={{
-                      borderRadius: 5,
-                      marginBottom: 2.8,
-                      width: 700,
-                      marginTop: 1,
-                    }}
-                    color='secondary'
-                  />
-                )}
-              />
-            </Box>
-          )}
+            {errors.title ? (
+              <Box>
+                <Controller
+                  control={control}
+                  name='title'
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <OutlinedInput
+                      error
+                      {...field}
+                      sx={{
+                        borderRadius: 5,
+                        width: 700,
+                        marginTop: 1,
+                      }}
+                      color='secondary'
+                    />
+                  )}
+                />
+                <p className='errorMsg'>{errors.title.message}</p>
+              </Box>
+            ) : (
+              <Box>
+                <Controller
+                  control={control}
+                  name='title'
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <OutlinedInput
+                      {...field}
+                      sx={{
+                        borderRadius: 5,
+                        marginBottom: 2.8,
+                        width: 700,
+                        marginTop: 1,
+                      }}
+                      color='secondary'
+                    />
+                  )}
+                />
+              </Box>
+            )}
 
-          <Box mt={3}>
-            <FormLabel
-              htmlFor='form-label-above-title'
-              sx={{ fontFamily: 'Poppins' }}
+            <Box mt={3}>
+              <FormLabel
+                htmlFor='form-label-above-title'
+                sx={{ fontFamily: 'Poppins' }}
+              >
+                Min. to read
+              </FormLabel>
+            </Box>
+            {errors.mins ? (
+              <Box>
+                <Controller
+                  control={control}
+                  name='mins'
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <OutlinedInput
+                      error
+                      {...field}
+                      sx={{
+                        borderRadius: 5,
+                        width: 700,
+                        marginTop: 1,
+                      }}
+                      color='secondary'
+                    />
+                  )}
+                />
+                <p className='errorMsg'> {errors.mins.message}</p>
+              </Box>
+            ) : (
+              <Box>
+                <Controller
+                  control={control}
+                  name='mins'
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <OutlinedInput
+                      {...field}
+                      sx={{
+                        borderRadius: 5,
+                        width: 700,
+                        marginBottom: 2.8,
+                        marginTop: 1,
+                      }}
+                      color='secondary'
+                    />
+                  )}
+                />
+              </Box>
+            )}
+
+            <Box mt={3}>
+              <FormLabel
+                htmlFor='form-label-above-title'
+                sx={{ fontFamily: 'Poppins' }}
+              >
+                Write something about it
+              </FormLabel>
+            </Box>
+
+            {errors.body ? (
+              <Box>
+                <Controller
+                  control={control}
+                  name='body'
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <OutlinedInput
+                      error
+                      {...field}
+                      multiline
+                      minRows={7}
+                      maxRows={7}
+                      sx={{
+                        borderRadius: 5,
+                        width: 700,
+                        marginTop: 1,
+                      }}
+                      color='secondary'
+                    />
+                  )}
+                />
+                <p className='errorMsg'>{errors.body.message}</p>
+              </Box>
+            ) : (
+              <Box>
+                <Controller
+                  control={control}
+                  name='body'
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <OutlinedInput
+                      {...field}
+                      multiline
+                      minRows={7}
+                      maxRows={7}
+                      sx={{
+                        borderRadius: 5,
+                        marginBottom: 2.8,
+                        width: 700,
+                        marginTop: 1,
+                      }}
+                      color='secondary'
+                    />
+                  )}
+                />
+              </Box>
+            )}
+
+            <Box mt={2} mb={4}>
+              <StyledDropZone />
+            </Box>
+
+            <Button
+              type='submit'
+              variant='contained'
+              color='secondary'
+              fullWidth
+              sx={{
+                borderRadius: '25px',
+                fontFamily: ['Poppins', 'serif'].join(','),
+                fontSize: 18,
+                width: '705px',
+                height: '56px',
+                textTransform: 'capitalize',
+                fontWeight: 'bold',
+              }}
             >
-              Min. to read
-            </FormLabel>
+              Publish Article
+            </Button>
           </Box>
-          {errors.mins ? (
-            <Box>
-              <Controller
-                control={control}
-                name='mins'
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <OutlinedInput
-                    error
-                    {...field}
-                    sx={{
-                      borderRadius: 5,
-                      width: 700,
-                      marginTop: 1,
-                    }}
-                    color='secondary'
-                  />
-                )}
-              />
-              <p className='errorMsg'> {errors.mins.message}</p>
-            </Box>
-          ) : (
-            <Box>
-              <Controller
-                control={control}
-                name='mins'
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <OutlinedInput
-                    {...field}
-                    sx={{
-                      borderRadius: 5,
-                      width: 700,
-                      marginBottom: 2.8,
-                      marginTop: 1,
-                    }}
-                    color='secondary'
-                  />
-                )}
-              />
-            </Box>
-          )}
-
-          <Box mt={3}>
-            <FormLabel
-              htmlFor='form-label-above-title'
-              sx={{ fontFamily: 'Poppins' }}
-            >
-              Write something about it
-            </FormLabel>
-          </Box>
-
-          {errors.body ? (
-            <Box>
-              <Controller
-                control={control}
-                name='body'
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <OutlinedInput
-                    error
-                    {...field}
-                    multiline
-                    minRows={7}
-                    maxRows={7}
-                    sx={{
-                      borderRadius: 5,
-                      width: 700,
-                      marginTop: 1,
-                    }}
-                    color='secondary'
-                  />
-                )}
-              />
-              <p className='errorMsg'>{errors.body.message}</p>
-            </Box>
-          ) : (
-            <Box>
-              <Controller
-                control={control}
-                name='body'
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <OutlinedInput
-                    {...field}
-                    multiline
-                    minRows={7}
-                    maxRows={7}
-                    sx={{
-                      borderRadius: 5,
-                      marginBottom: 2.8,
-                      width: 700,
-                      marginTop: 1,
-                    }}
-                    color='secondary'
-                  />
-                )}
-              />
-            </Box>
-          )}
-
-          <Box mt={2} mb={4}>
-            <StyledDropZone />
-          </Box>
-
-          <Button
-            type='submit'
-            variant='contained'
-            color='secondary'
-            fullWidth
-            sx={{
-              borderRadius: '25px',
-              fontFamily: ['Poppins', 'serif'].join(','),
-              fontSize: 18,
-              width: '705px',
-              height: '56px',
-              textTransform: 'capitalize',
-              fontWeight: 'bold',
-            }}
+        ) : (
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={loading}
           >
-            Publish Article
-          </Button>
-        </Box>
+            <CircularProgress color='inherit' />
+          </Backdrop>
+        )}
       </Container>
     </>
   );
 };
-
 export default CreateArticle;
