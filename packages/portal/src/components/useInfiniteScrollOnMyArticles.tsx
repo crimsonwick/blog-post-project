@@ -19,20 +19,17 @@ const useInfiniteScrollOnMyArticles = (
     setError(false);
     if (typeof id === 'string') {
       authAxios
-        .get(`/users/${id}/posts?limit=${query}&nextPage=${pageLink}`)
+        .get(`/users/${id}/posts`)
         .then((res) => {
           console.log('API WAS CALLED');
           setPosts((prevPosts) => {
             return [
-              ...new Set([
-                ...prevPosts,
-                ...res.data[1].map((p: PostInterface) => p),
-              ]),
+              ...new Set([...prevPosts, ...res.data[1].map((p: object) => p)]),
             ];
           });
-          setHasMore(res.data[0].nextPage !== null);
+          setHasMore(res.data[0].next_page !== null);
           setLoading(false);
-          cursor.current = res.data[0].nextPage;
+          cursor.current = res.data[0].next_page;
           console.log(res.data);
         })
         .catch((e) => {

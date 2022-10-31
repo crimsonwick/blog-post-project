@@ -67,14 +67,15 @@ const CreateArticle = () => {
           formData.append('body', data.body);
           formData.append('file', context?.postImage as unknown as string);
           formData.append('timeToRead', data.mins as unknown as Blob);
-          Alerts.success('Post Created successfully');
-
-          await addPost(formData);
-          setTimeout(() => {
-            navigate('/articles');
-            setLoading(false);
-          }, 250);
-        } catch (err) {
+          const response = await addPost(formData);
+          console.log(response);
+          if (response.status >= 200 && response.status < 400) {
+            Alerts.success('Post Created successfully');
+            setTimeout(() => {
+              navigate('/articles');
+            }, 250);
+          }
+        } catch (error) {
           Alerts.error('Something went Wrong');
         }
       } else {

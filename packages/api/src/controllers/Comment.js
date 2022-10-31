@@ -4,6 +4,31 @@ import { errorHandling } from '../middleware/Errors.js';
 const { Comments, Users } = model;
 
 export class CommentController {
+  /**
+   * Returns Replies for a single post
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
+  static getRepliesfromOnePost = async (req, res) => {
+    try {
+      //TODO:applying limit offset pagination 3 comments at a
+      const AllComments = await Comments.findAll({
+        where: {
+          postId: req.params.id,
+          parentId: null,
+        },
+        include: {
+          model: Users,
+          as: 'commentedBy',
+        },
+      });
+      return res.json(AllComments);
+    } catch (error) {
+      errorHandling(res);
+    }
+  };
+
   static addComment = async (req, res) => {
     const { postId, userId, body } = req.body;
     try {

@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 import customAxios from '../auth/useAxios';
-import { PostInterface } from '../interface/App';
+import { CursorInterface, PostInterface } from '../interface/App';
 
 const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [posts, setPosts] = useState<PostInterface[]>([]);
   const [hasMore, setHasMore] = useState(false);
-  const cursor = useRef<any>();
+  const cursor = useRef<CursorInterface>();
 
   useEffect(() => {
     localStorage.setItem('link', '/');
     setLoading(true);
     setError(false);
     customAxios
-      .get(`/post?limit=${query}&nextPage=${pageLink}`)
+      .get(`/posts?limit=${query}&next_page=${pageLink}`)
       .then((res) => {
         console.log('API WAS CALLED');
         setPosts((prevPosts) => {
@@ -25,9 +25,9 @@ const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
             ]),
           ];
         });
-        setHasMore(res.data[0].nextPage !== null);
+        setHasMore(res.data[0].next_page !== null);
         setLoading(false);
-        cursor.current = res.data[0].nextPage;
+        cursor.current = res.data[0].next_page;
         console.log(res.data);
       })
       .catch((e) => {

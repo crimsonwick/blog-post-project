@@ -21,8 +21,7 @@ export const MyArticles = () => {
   const observer: React.MutableRefObject<IntersectionObserver | undefined> =
     useRef();
   const lastPost = useCallback(
-    (node: any) => {
-      // cannot define type of node
+    (node: Element | null) => {
       if (loading) return;
       if (observer.current) observer.current?.disconnect();
       observer.current = new IntersectionObserver((entries) => {
@@ -32,7 +31,7 @@ export const MyArticles = () => {
         }
       });
       if (node) observer.current.observe(node);
-      console.log(node);
+      console.log(`Node Type => ${node}`);
     },
     [loading, hasMore, cursor]
   );
