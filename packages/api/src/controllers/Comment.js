@@ -5,7 +5,7 @@ const { Comments, Users } = model;
 
 export class CommentController {
   
-  addComment = async (req, res) => {
+  static addComment = async (req, res) => {
     const { postId, userId, body } = req.body;
     try {
       const addC = await Comments.create({
@@ -19,7 +19,7 @@ export class CommentController {
     }
   };
 
-  getComments = async (req, res) => {
+  static getComments = async (req, res) => {
     try {
       const getAll = await Comments.findAll({
         include: {
@@ -33,7 +33,7 @@ export class CommentController {
     }
   };
 
-  updateComment = async (req, res) => {
+  static updateComment = async (req, res) => {
     const update = { ...req.body };
     const { id } = req.params;
     try {
@@ -44,7 +44,7 @@ export class CommentController {
     }
   };
 
-  deleteComment = async (req, res) => {
+  static deleteComment = async (req, res) => {
     const { id } = req.params;
     try {
       const deleteC = await Comments.destroy({ where: { id: id } });
@@ -53,7 +53,7 @@ export class CommentController {
       errorHandling(res);
     }
   };
-  getRepliesfromComment = async (req, res) => {
+  static getRepliesfromComment = async (req, res) => {
     try {
       const replies = await Comments.findAll({
         include: {
@@ -67,7 +67,7 @@ export class CommentController {
     }
   };
 
-  addReply = async (req, res) => {
+  static addReply = async (req, res) => {
     const { userId, postId, parentId, body } = req.body;
     try {
       const addReply = await Comments.create({
@@ -82,7 +82,7 @@ export class CommentController {
     }
   };
 
-  getRepliesfromOneComment = async (req, res) => {
+  static getRepliesfromOneComment = async (req, res) => {
     const { id } = req.params;
     try {
       const response = await Comments.findAll({

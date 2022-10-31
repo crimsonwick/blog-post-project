@@ -54,7 +54,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  addPost = async (req, res) => {
+  static addPost = async (req, res) => {
     const file = req.file.path;
     const { userId, title, body, timeToRead } = req.body;
     try {
@@ -91,7 +91,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  searchPosts = async (req, res) => {
+  static searchPosts = async (req, res) => {
     let query = {
       index: 'posts',
       body: {
@@ -118,7 +118,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  searchMyPost = async (req, res) => {
+  static searchMyPost = async (req, res) => {
     let query = {
       index: 'posts',
       body: {
@@ -155,7 +155,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  getRepliesfromOnePost = async (req, res) => {
+  static getRepliesfromOnePost = async (req, res) => {
     try {
       //TODO:applying limit offset pagination 3 comments at a
       const AllComments = await Comments.findAll({
@@ -179,7 +179,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  getPosts = async (req, res) => {
+  static getPosts = async (req, res) => {
     try {
       const limit = parseInt(req.query.limit) || 4;
       const all = true;
@@ -227,7 +227,7 @@ export class PostController {
     }
   };
 
-  postDetail = async (req, res) => {
+  static postDetail = async (req, res) => {
     const id = req.params.id;
 
     try {
@@ -254,7 +254,7 @@ export class PostController {
    * @param {*} res
    * @returns
    */
-  getCursorPostsOfSingleUser = async (req, res) => {
+  static getCursorPostsOfSingleUser = async (req, res) => {
     try {
       const limit = parseInt(req.query.limit) || 4;
       const id = req.params.id;
