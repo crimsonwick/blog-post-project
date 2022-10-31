@@ -4,7 +4,6 @@ const router = express.Router();
 
 class CommentRouter {
   checkRequests() {
-    // const CommentObject = new CommentController();
     router.get('/', CommentController.getComments);
     router.post('/', CommentController.addComment);
     router.get('/replies', CommentController.getRepliesfromComment);
