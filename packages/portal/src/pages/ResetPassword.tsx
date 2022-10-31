@@ -1,29 +1,29 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import { Box } from '@mui/material';
-import FormLabel from '@mui/material/FormLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import axios from 'axios';
-import { default as React } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import YupPassword from 'yup-password';
-import { Alerts } from '../components/Alerts';
-import { Header } from '../components/Header';
-import '../styles/signup.css';
-YupPassword(yup);
+import { yupResolver } from '@hookform/resolvers/yup'
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import { Box } from '@mui/material'
+import FormLabel from '@mui/material/FormLabel'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import axios from 'axios'
+import { default as React } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import * as yup from 'yup'
+import YupPassword from 'yup-password'
+import { Alerts } from '../components/Alerts'
+import { Header } from '../components/Header'
+import '../styles/signup.css'
+YupPassword(yup)
 const schema = yup
   .object({
     email: yup.string().email().required(),
   })
-  .required();
+  .required()
 interface dataInterface {
-  email: string;
+  email: string
 }
 export const ResetPassword = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const {
     control,
     handleSubmit,
@@ -33,30 +33,29 @@ export const ResetPassword = () => {
       email: '',
     },
     resolver: yupResolver(schema),
-  });
+  })
 
   /**
    * OnSubmit Function
-   * @param data 
+   * @param data
    */
   const onSubmit = async (data: dataInterface) => {
     try {
-      const url = 'http://localhost:5000/users/forget-password';
-      console.log(data, 'correct data');
+      const url = 'http://localhost:5000/users/forget-password'
       const options = {
         method: 'POST',
         url: url,
         data: { email: data.email },
-      };
-      const response = await axios(options);
+      }
+      const response = await axios(options)
       if (response) {
-        Alerts.success('Mail is sent');
-        navigate('/login');
+        Alerts.success('Mail is sent')
+        navigate('/login')
       }
     } catch (err) {
-      Alerts.error(' Email not Found');
+      Alerts.error(' Email not Found')
     }
-  };
+  }
   return (
     <Container maxWidth="sm" sx={{ marginTop: '10em' }}>
       <Header heading="Reset Password" />
@@ -115,5 +114,5 @@ export const ResetPassword = () => {
         </Button>
       </form>
     </Container>
-  );
-};
+  )
+}

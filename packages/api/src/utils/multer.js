@@ -19,5 +19,3 @@ export const upload = multer({
     cb(null, true)
   },
 })
-
-//export const upload = multer({ storage: storage });

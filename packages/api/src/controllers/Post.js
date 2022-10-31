@@ -3,6 +3,7 @@ import client from '../config/elasticsearch.js'
 import { errorHandling } from '../middleware/Errors.js'
 import { uploadToCloudinary } from '../config/cloudinary'
 const { Op } = require('sequelize')
+import URL from 'url'
 
 const { Users, Posts, Comments } = model
 
@@ -59,7 +60,9 @@ export class PostController {
     try {
       if (file) {
         const result = await uploadToCloudinary(file)
+        const url = result
 
+        // const pathname = new URL(url).pathname
         const addNewPost = await Posts.create({
           userId: userId,
           title: title,

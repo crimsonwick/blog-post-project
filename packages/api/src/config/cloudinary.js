@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import Path from 'path'
 dotenv.config()
 const cloudinary = require('cloudinary').v2
 
@@ -13,8 +14,8 @@ cloudinary.config({
 
 export const uploadToCloudinary = async (locaFilePath) => {
   const mainFolderName = 'main'
-  const filePathOnCloudinary = mainFolderName + '/' + locaFilePath
-
+  const filePathOnCloudinary =
+    mainFolderName + '/' + Path.parse(locaFilePath).name
   return cloudinary.uploader
     .upload(locaFilePath, { public_id: filePathOnCloudinary, overwrite: false })
     .then((result) => {
