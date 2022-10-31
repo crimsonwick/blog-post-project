@@ -59,15 +59,9 @@ export const Navbar = (props: NavbarProps) => {
       const response = await searchAPI(target.value);
       context?.setSearchData(response.data);
     } else {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${context?.accessToken}`,
-        },
-      };
       const response = await searchMyPostsAPI(
         target.value,
-        context?.userData.id as unknown as string,
-        config
+        context?.userData.id as unknown as string
       );
       context?.setSearchMyData(response.data);
     }
@@ -75,7 +69,7 @@ export const Navbar = (props: NavbarProps) => {
 
   /**
    * handle change
-   * @param event 
+   * @param event
    */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     [event.target.name] = [event.target.value];

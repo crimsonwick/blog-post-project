@@ -1,52 +1,50 @@
-import model from '../models';
-const { Comments, Users } = model;
+export const getData = (req, res) => {
+  const data = res.paginatedResults;
+  return res.json(data);
+};
 
-export const paginatedResults = (model) => {
+export function PaginatedResults(model, associatedModel, alias) {
   return async (req, res, next) => {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit) || 3;
+    const commentCursor = parseInt(req.query.commentCursor);
+    const limit = parseInt(req.query.limit);
 
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
+    const startIndex = (commentCursor - 1) * limit;
+    const endIndex = commentCursor * limit;
 
     const results = {};
 
-    const allComments = await Comments.findAll({
+    const { count, rows } = await model.findAndCountAll({
       where: {
-        postId: req.params.id,
         parentId: null,
+        postId: req.params.id,
       },
+      offset: startIndex,
+      limit: limit,
       include: {
-        model: Users,
-        as: 'commentedBy',
+        model: associatedModel,
+        as: alias,
       },
     });
-    return res.json(allComments);
 
-    if (endIndex < (await Comments.findAll())) {
+    if (endIndex < count) {
       results.next = {
-        page: page + 1,
+        commentCursor: commentCursor + 1,
         limit: limit,
       };
     }
 
     if (startIndex > 0) {
       results.previous = {
-        page: page - 1,
+        commentCursor: commentCursor - 1,
         limit: limit,
       };
     }
-
     try {
-      results.results = await model
-        .findAll()
-        .limit(limit)
-        .skip(startIndex)
-        .exec();
+      results.results = await rows;
       res.paginatedResults = results;
       next();
     } catch (e) {
       res.status(500).json({ message: e.message });
     }
   };
-};
+}

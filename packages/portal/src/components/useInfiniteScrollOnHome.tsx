@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import customAxios from '../auth/useAxios';
 import { PostInterface } from '../interface/App';
 
 const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
@@ -13,11 +14,8 @@ const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
     localStorage.setItem('link', '/');
     setLoading(true);
     setError(false);
-    axios({
-      method: 'GET',
-      url: 'http://localhost:5000/posts',
-      params: { limit: query, next_page: pageLink },
-    })
+    customAxios
+      .get(`/post?limit=${query}&nextPage=${pageLink}`)
       .then((res) => {
         console.log('API WAS CALLED');
         setPosts((prevPosts) => {
@@ -25,9 +23,9 @@ const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
             ...new Set([...prevPosts, ...res.data[1].map((p: object) => p)]),
           ];
         });
-        setHasMore(res.data[0].next_page !== null);
+        setHasMore(res.data[0].nextPage !== null);
         setLoading(false);
-        cursor.current = res.data[0].next_page;
+        cursor.current = res.data[0].nextPage;
         console.log(res.data);
       })
       .catch((e) => {

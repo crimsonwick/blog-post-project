@@ -4,7 +4,6 @@ import Container from '@mui/material/Container';
 import { Box } from '@mui/material';
 import FormLabel from '@mui/material/FormLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import axios from 'axios';
 import { default as React } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +12,7 @@ import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
 import '../styles/signup.css';
+import customAxios from '../auth/useAxios';
 YupPassword(yup);
 const schema = yup
   .object({
@@ -37,18 +37,14 @@ export const ResetPassword = () => {
 
   /**
    * OnSubmit Function
-   * @param data 
+   * @param data
    */
   const onSubmit = async (data: dataInterface) => {
     try {
-      const url = 'http://localhost:5000/users/forget-password';
+      const url = '/users/forget-password';
       console.log(data, 'correct data');
-      const options = {
-        method: 'POST',
-        url: url,
-        data: { email: data.email },
-      };
-      const response = await axios(options);
+      const newData = { email: data.email };
+      const response = await customAxios.post(`${url}`, newData);
       if (response) {
         Alerts.success('Mail is sent');
         navigate('/login');
