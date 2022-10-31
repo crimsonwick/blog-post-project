@@ -5,7 +5,7 @@ import { FormLabel, InputAdornment, OutlinedInput } from '@mui/material';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { Box, Container } from '@mui/system';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -73,7 +73,9 @@ export const ChangePassword = () => {
    * Handle Mouse down password
    * @param event
    */
-  const handleMouseDownPassword = (event: any) => {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
   };
 

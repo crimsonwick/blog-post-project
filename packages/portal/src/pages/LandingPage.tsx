@@ -22,13 +22,14 @@ export const Home = () => {
   const observer: React.MutableRefObject<IntersectionObserver | undefined> =
     useRef();
   const lastPost = useCallback(
-    (node: any) => {
+    (node: Element | null) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
+          const linkValue = cursor.current as unknown as string;
           console.log('Visible');
-          setLink(cursor?.current);
+          setLink(linkValue);
         }
       });
       if (node) observer.current.observe(node);

@@ -66,7 +66,8 @@ const CreateArticle = () => {
           formData.append('file', context?.postImage as unknown as string);
           formData.append('timeToRead', data.mins as unknown as Blob);
           const response = await addPost(formData);
-          if (response.status <= 400) {
+          console.log(response);
+          if (response.status >= 200 && response.status < 400) {
             Alerts.success('Post Created successfully');
             setTimeout(() => {
               navigate('/articles');

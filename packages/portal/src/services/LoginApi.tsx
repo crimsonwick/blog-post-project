@@ -157,7 +157,7 @@ export const getComments = async (
   limit: number
 ) => {
   return await customAxios.get(
-    `/posts/${id}/comments/fetchMoreComments?commentCursor=${commentCursor}&limit=${limit}`
+    `/posts/${id}/comments/fetch-comments?commentCursor=${commentCursor}&limit=${limit}`
   );
 };
 

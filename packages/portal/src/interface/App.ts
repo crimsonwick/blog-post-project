@@ -13,6 +13,10 @@ export interface UserInterface {
   updatedAt?: string
 }
 
+export interface CursorInterface {
+    current: string;
+}
+
 export interface SearchDataInterface {
   id: string
   userId: string
