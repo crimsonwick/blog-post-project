@@ -24,7 +24,7 @@ export const ArticleCard = React.forwardRef(
       | undefined
   ) => {
     console.log('props::: ', props);
-    console.log('ref::: ', ref); // cannot define type of REF
+    console.log('ref::: ', ref);
     return (
       <Card
         ref={ref}

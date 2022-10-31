@@ -113,38 +113,6 @@ export class PostController {
   };
 
   /**
-   * Returns a single user's posts
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
-  myPosts = async (req, res) => {
-    let query = {
-      index: 'posts',
-      body: {
-        query: {
-          match: { userId: req.params.id },
-        },
-      },
-    };
-    try {
-      const LoginDetails = await Users.findAll({
-        where: {
-          email: req.user.user.email,
-        },
-      });
-      if (!LoginDetails) return res.json(`Un Authorized Access`);
-      else {
-        const myPosts = await client.search(query);
-        if (!myPosts) return res.json(`You haven't Posted Anything!!`);
-        else return res.json(myPosts.body.hits.hits);
-      }
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
-
-  /**
    * Searching in user's MyArticles Page
    * @param {*} req
    * @param {*} res

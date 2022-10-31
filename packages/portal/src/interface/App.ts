@@ -83,39 +83,6 @@ export interface AppContextInterface {
     logoutToken: () => void;
 }
 
-export interface FormDataInterface {
-  id: string | Blob
-  email?: string
-  password?: string
-  avatar?: string | null
-  resetLink?: string
-  createdAt?: string
-  updatedAt?: string
-}
-
-export interface ImageInterface {
-  preview: string | React.FormEvent<HTMLInputElement>
-  data: File | string
-}
-
-export interface ArticleDetailInterface {
-  object?: {
-    id: string
-    userId: string
-    title: string
-    body: string
-    image: string
-    timeToRead: number
-    createdAt: string
-    updatedAt: string
-    postedBy: {
-      id: string
-      email: string
-      avatar: string | null
-    }
-  }
-}
-
 
 export interface PostInterface 
   {
@@ -132,37 +99,12 @@ export interface PostInterface
       avatar: string | null
     }
   }
-
-export interface PostsAll {
-  id: string
-  userId?: string
-  title?: string
-  body?: string
-  image?: string
-  timeToRead?: number
-  createdAt?: string
-  updatedAt?: string
-  postedBy: {
-    id: string
-    email: string
-    password: string
-    avatar: string | null
-    resetLink: string
-    createdAt: string
-    updatedAt: string
-  }
-}
-
 export interface PostsAdd {
   userId: string
   title: string
   body: string
   image: string
   timeToRead: number
-}
-
-export interface DataObject {
-  email: string
 }
 
 export interface HeaderInterface {
@@ -200,41 +142,10 @@ export interface ProtectedInterface {
   Component?: React.ReactNode
 }
 
-export interface ProtectedLoginInterface{
-  pathname: string;
-}
-
 export interface ColorInterface {
   isDragAccept: boolean
   isDragReject: boolean
   isFocused: boolean
-}
-
-export interface LandingPageInterface<T> {
-  Posts: T[]
-  datalength: number
-  totalPosts: number
-  totalPages: number
-}
-
-export interface PostInterfaceForLandingPage {
-  id: string
-  userId: string
-  title: string
-  body: string
-  image: string
-  timeToRead: number
-  createdAt: string
-  updatedAt: string
-  postedBy: {
-    id: string
-    email: string
-    password: string
-    avatar: string | null
-    resetLink: string
-    createdAt: string
-    updatedAt: string
-  }
 }
 
 export interface dataInterface {
@@ -250,87 +161,6 @@ export interface MyFile {
 export interface DataObject{
     email: string;
   }
-export interface ImageInterface{
-    preview: string | React.FormEvent<HTMLInputElement>;
-    data: File | string;
-}
-
-export interface PostInterface {
-    object?: {
-        id: string;
-    userId: string;
-    title: string;
-    body: string;
-    image: string;
-    timeToRead: number;
-    createdAt: string;
-    updatedAt: string;
-    postedBy: {
-            id : string;
-            email: string;
-            password: string;
-            avatar : string | null;
-            resetLink: string;
-            createdAt: string;
-            updatedAt: string;
-          }
-    }
-}
-
-export interface PostsAll {
-        id: string;
-    userId?: string;
-    title?: string;
-    body?: string;
-    image?: string;
-    timeToRead?: number;
-    createdAt?: string;
-    updatedAt?: string;
-    postedBy: {
-            id : string;
-            email: string;
-            password: string;
-            avatar : string | null;
-            resetLink: string;
-            createdAt: string;
-            updatedAt: string;
-          }
-}
-
-export interface PostsAdd {
-userId: string;
-title: string;
-body: string;
-image: string;
-timeToRead: number;
-}
-
-export interface LandingPageInterface<T> {
-    Posts: T[];
-    datalength: number;
-    totalPosts: number;
-    totalPages: number;
-}
-
-export interface PostInterfaceForLandingPage{
-    id: string;
-userId: string;
-title: string;
-body: string;
-image: string;
-timeToRead: number;
-createdAt: string;
-updatedAt: string;
-postedBy: {
-        id : string;
-        email: string;
-        password: string;
-        avatar : string | null;
-        resetLink: string;
-        createdAt: string;
-        updatedAt: string;
-      }
-}
 
 export interface PropsArticleCard {
   object: PostInterface

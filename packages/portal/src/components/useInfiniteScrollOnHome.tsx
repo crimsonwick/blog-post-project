@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import customAxios from '../auth/useAxios';
 import { PostInterface } from '../interface/App';
@@ -20,7 +19,10 @@ const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
         console.log('API WAS CALLED');
         setPosts((prevPosts) => {
           return [
-            ...new Set([...prevPosts, ...res.data[1].map((p: object) => p)]),
+            ...new Set([
+              ...prevPosts,
+              ...res.data[1].map((p: PostInterface) => p),
+            ]),
           ];
         });
         setHasMore(res.data[0].nextPage !== null);

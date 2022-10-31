@@ -6,12 +6,6 @@ interface LoginDetailInterface {
   password?: string;
 }
 
-export interface ConfigInterface {
-  headers?: {
-    Authorization?: string;
-  };
-}
-
 interface LogoutInterface {
   data?: {
     token?: string;

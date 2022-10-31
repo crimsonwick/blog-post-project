@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { createContext, useState } from 'react';
+import customAxios from '../auth/useAxios';
 import {
   AppContextInterface,
   SearchDataInterface,
@@ -23,8 +23,6 @@ export const ContextProvider = (props: { children?: React.ReactNode }) => {
   const [cursorPaginationLink, setCursorPaginationLink] = useState<string>('');
   const [postImage, setPostImage] = useState<Blob | File | null>(null);
 
-  const baseURL: string = 'http://localhost:5000';
-
   /**
    * set login token
    * @param accessToken
@@ -41,7 +39,7 @@ export const ContextProvider = (props: { children?: React.ReactNode }) => {
    * @returns
    */
   const getLoginToken = async (object: bodyInterface) => {
-    return await axios.post(`${baseURL}/users/refresh-access`, object);
+    return await customAxios.post(`/users/refresh-access`, object);
   };
 
   /**

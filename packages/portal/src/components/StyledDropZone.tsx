@@ -2,12 +2,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { AppContext } from '../context/AppContext';
-import {
-  AppContextInterface,
-  UserInterface,
-  ColorInterface,
-  MyFile,
-} from '../interface/App';
+import { AppContextInterface, ColorInterface, MyFile } from '../interface/App';
 import '../styles/StyledDropZone.css';
 
 const getColor = (props: ColorInterface) => {

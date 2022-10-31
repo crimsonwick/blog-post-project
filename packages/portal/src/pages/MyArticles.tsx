@@ -22,6 +22,7 @@ export const MyArticles = () => {
     useRef();
   const lastPost = useCallback(
     (node: any) => {
+      // cannot define type of node
       if (loading) return;
       if (observer.current) observer.current?.disconnect();
       observer.current = new IntersectionObserver((entries) => {

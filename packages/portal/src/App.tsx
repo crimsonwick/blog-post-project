@@ -6,7 +6,7 @@ import WebFont from 'webfontloader';
 import { CloseButton, SnackbarUtilsConfiguration } from './components/Alerts';
 import { Protected, Public } from './components/Protected';
 import { AppContext } from './context/AppContext';
-import { AppContextInterface, UserInterface } from './interface/App';
+import { AppContextInterface } from './interface/App';
 import { AccountDetails } from './pages/AccountDetails';
 import { ArticleDetailPage } from './pages/ArticleDetailPage';
 import ChangePassword from './pages/ChangePassword';
@@ -71,10 +71,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route element={<Public />}>
-              <Route path='/login' element={<Login />} />
-              <Route path='/signup' element={<Signup />} />
-              <Route path='/reset-password' element={<ResetPassword />} />
-              <Route path='/change-password' element={<ChangePassword />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/change-password" element={<ChangePassword />} />
             </Route>
             <Route element={<Protected />}>
               <Route path="/create-article" element={<CreateArticle />} />
