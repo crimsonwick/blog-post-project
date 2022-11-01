@@ -19,6 +19,7 @@ export const ArticleDetailPage = () => {
   const [data, setData] = useState<CommentInterface[]>([]);
   const [commentCursor, setCommentCursor] = useState(1);
   const [next, setNext] = useState(true);
+  const [count, setCount] = useState(0);
 
   /**
    * set state with all comments
@@ -28,6 +29,7 @@ export const ArticleDetailPage = () => {
     const response = await getComments(id, commentCursor, 3);
     setData([...data, ...response.data.results]);
     setCommentCursor(commentCursor + 1);
+    setCount(response.data.count);
     response.data.next ? setNext(true) : setNext(false);
   };
 
@@ -46,12 +48,12 @@ export const ArticleDetailPage = () => {
         </Box>
         {context?.loggedIn ? (
           <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-            <PostsHeader count={data.length} name='comments' textSize='24px' />
+            <PostsHeader count={count} name='comments' textSize='24px' />
           </Box>
         ) : (
           <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
             <PostsHeader
-              count={data.length}
+              count={count}
               name='comments .'
               textSize='24px'
               link={true}

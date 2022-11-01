@@ -41,6 +41,7 @@ export function PaginatedComments(model, associatedModel, alias) {
     }
     try {
       results.results = await rows;
+      results.count = count;
       res.paginatedResults = results;
       next();
     } catch (e) {
