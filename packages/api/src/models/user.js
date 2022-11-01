@@ -1,5 +1,6 @@
 'use strict';
 import { Model } from 'sequelize';
+import bcrypt from 'bcryptjs';
 export default (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
@@ -35,5 +36,10 @@ export default (sequelize, DataTypes) => {
       modelName: 'Users',
     }
   );
+  Users.addHook('beforeValidate', 'hashPassword', async (user, options) => {
+    const salt = bcrypt.genSaltSync(10);
+    const hashPassword = bcrypt.hashSync(user.password, salt);
+    user.password = hashPassword;
+  });
   return Users;
 };

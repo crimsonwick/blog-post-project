@@ -102,7 +102,7 @@ export const ChangePassword = () => {
       const url = `/users/reset-password`;
       console.log(data, 'correct data');
       const newData = { password1: data.password1, password2: data.password2 };
-      const response = await customAxios.put(`${url}/token=${token}`, newData);
+      const response = await customAxios.put(`${url}?token=${token}`, newData);
       if (response.data) {
         console.log(message);
         Alerts.success('Password Updated');
