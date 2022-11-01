@@ -39,9 +39,9 @@ export const MyArticles = () => {
   return (
     <>
       {context?.loggedIn ? (
-        <Navbar login={true} isMyActive={true} />
+        <Navbar login={true} isArticlesLinkActive={true} />
       ) : (
-        <Navbar isMyActive={true} />
+        <Navbar isArticlesLinkActive={true} />
       )}
       <Container sx={{ marginY: 10 }}>
         <PostsHeader name='My Articles' />

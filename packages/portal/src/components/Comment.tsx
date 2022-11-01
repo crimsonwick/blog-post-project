@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
-import { CommentInterface } from '../services/CommentApi';
+import { CommentInterface } from '../interface/App';
 import { getReply, parseName, parseTime } from '../services/LoginApi';
 import { AddComment } from './AddComment';
 
@@ -24,7 +24,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
 
   /**
    * Get Replies of a certain comment using it's ID
-   * @param commentId 
+   * @param commentId
    */
   const getReplies = async (commentId: string) => {
     const response = await getReply(commentId);
@@ -58,7 +58,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
                       ? require(`../images/${props.object.commentedBy.avatar}`)
                       : ''
                   }
-                  alt="user_dp"
+                  alt='user_dp'
                 />
               </ListItemIcon>
               <ListItemText sx={{ marginRight: '10px' }}>
@@ -75,7 +75,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
           {!replies
             ? reply.length > 0 && (
                 <Button
-                  variant="text"
+                  variant='text'
                   onClick={() => {
                     setReplies(!replies);
                   }}
@@ -86,7 +86,7 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
               )
             : reply.length > 0 && (
                 <Button
-                  variant="text"
+                  variant='text'
                   onClick={() => {
                     setReplies(!replies);
                   }}
@@ -101,11 +101,11 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
               })
             : null}
           <AddComment
-            width="550px"
+            width='550px'
             commentObject={props.object}
             refreshReplies={getReplies}
             Comment={false}
-            labelAbove="Add Reply"
+            labelAbove='Add Reply'
             placeholder={`Reply to ${parseName(
               props.object.commentedBy.email
             )}...`}

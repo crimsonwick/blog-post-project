@@ -13,7 +13,10 @@ import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { StyledDropZone } from '../components/StyledDropZone';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface, dataInterface } from '../interface/App';
+import {
+  AppContextInterface,
+  CreateArticleDataInterface,
+} from '../interface/App';
 import { addPost } from '../services/LoginApi';
 import '../styles/signup.css';
 
@@ -50,7 +53,7 @@ const CreateArticle = () => {
    * On Submit Function.
    * @param data
    */
-  const onSubmit = async (data: dataInterface) => {
+  const onSubmit = async (data: CreateArticleDataInterface) => {
     if (context?.postImage === null) {
       Alerts.error('Add an Image.');
     } else {

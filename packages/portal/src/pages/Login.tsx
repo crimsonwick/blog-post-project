@@ -19,17 +19,12 @@ import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface } from '../interface/App';
+import { AppContextInterface, LoginDataInterface } from '../interface/App';
 import { getLoginDetails, parseJwt, refreshToken } from '../services/LoginApi';
 import styles from '../styles/Login/Login.module.css';
 import '../styles/signup.css';
 
 YupPassword(yup);
-
-interface dataInterface {
-  email: string;
-  password: string;
-}
 
 const schema = yup
   .object({
@@ -89,7 +84,7 @@ export const Login = () => {
    * On Submit Function
    * @param data
    */
-  const onSubmit = async (data: dataInterface) => {
+  const onSubmit = async (data: LoginDataInterface) => {
     try {
       const response = await getLoginDetails(data);
       console.log(' i am in submit handler,', response);

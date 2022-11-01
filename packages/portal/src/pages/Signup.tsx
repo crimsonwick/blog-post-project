@@ -15,6 +15,10 @@ import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
 import { InputButton } from '../components/InputButton';
 import { getSignUpDetails } from '../services/LoginApi';
+import {
+  SignupDataInterface,
+  SignupUseReducerInterface,
+} from '../interface/App';
 import '../styles/signup.css';
 import { theme } from '../themes/theme';
 YupPassword(yup);
@@ -26,16 +30,8 @@ enum MessageActionKind {
 interface MessageAction {
   type: MessageActionKind;
 }
-interface StateInterface {
-  Submitted: boolean;
-  showMessage: boolean;
-}
-interface dataInterface {
-  email: string;
-  password: string;
-}
 
-const reducer = (state: StateInterface, action: MessageAction) => {
+const reducer = (state: SignupUseReducerInterface, action: MessageAction) => {
   switch (action.type) {
     case MessageActionKind.FAILED:
       return { Submitted: !state.Submitted, showMessage: state.showMessage };
@@ -87,7 +83,7 @@ export const Signup = () => {
 
   /**
    * Handle Mouse Down Password
-   * @param event 
+   * @param event
    */
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -102,9 +98,9 @@ export const Signup = () => {
 
   /**
    * On Submit
-   * @param data 
+   * @param data
    */
-  const onSubmit = async (data: dataInterface) => {
+  const onSubmit = async (data: SignupDataInterface) => {
     const responsed = await getSignUpDetails(data);
     if (responsed.data.id === undefined) {
       dispatch({ type: MessageActionKind.FAILED });

@@ -41,13 +41,13 @@ export const Home = () => {
   return (
     <>
       {context?.loggedIn ? (
-        <Navbar login={true} mainPage={true} isNavActive={true} />
+        <Navbar login={true} mainPage={true} isHomeLinkActive={true} />
       ) : (
-        <Navbar mainPage={true} isNavActive={true} />
+        <Navbar mainPage={true} isHomeLinkActive={true} />
       )}
 
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name="Recent Posts" />
+        <PostsHeader name='Recent Posts' />
         {posts && context?.searchData?.length === 0 ? (
           <Box mt={5}>
             {posts.map((post, index) => {
@@ -58,7 +58,7 @@ export const Home = () => {
             })}
             {loading && <Loader />}
             {error && (
-              <Typography sx={{ marginTop: '20px' }} align="center">
+              <Typography sx={{ marginTop: '20px' }} align='center'>
                 Error occured in loading post...
               </Typography>
             )}
@@ -69,7 +69,7 @@ export const Home = () => {
           })
         )}
         {!loading && !hasMore && (
-          <Typography sx={{ marginTop: '20px' }} align="center">
+          <Typography sx={{ marginTop: '20px' }} align='center'>
             No more articles to show...
           </Typography>
         )}

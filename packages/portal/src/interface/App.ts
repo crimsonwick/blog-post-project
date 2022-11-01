@@ -156,7 +156,7 @@ export interface ColorInterface {
   isFocused: boolean
 }
 
-export interface dataInterface {
+export interface CreateArticleDataInterface {
   title: string
   mins: number
   body: string
@@ -172,4 +172,70 @@ export interface DataObject{
 
 export interface PropsArticleCard {
   object: PostInterface
+}
+
+export interface LoginDataInterface {
+  email: string;
+  password: string;
+}
+
+export interface ResetPasswordDataInterface {
+  email: string;
+}
+
+export interface SignupDataInterface {
+  email: string;
+  password: string;
+}
+
+export interface SignupUseReducerInterface {
+  Submitted: boolean;
+  showMessage: boolean;
+}
+
+export interface NavBarProps {
+  mainPage?: boolean;
+  login?: boolean;
+  isHomeLinkActive?: boolean | null;
+  isArticlesLinkActive?: boolean | null;
+}
+
+export interface CommentInterface {
+  id: string;
+  postId: string;
+  userId: string;
+  parentId?: string | null;
+  body: string;
+  createdAt: string;
+  updatedAt: string;
+  commentedBy?: {
+    id: string;
+    email: string;
+    password: string;
+    avatar: string;
+    resetLink: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+export interface AddCommentFunctionInterface {
+  postId?: string;
+  userId?: string;
+  body: string;
+}
+
+export interface AddReplyInterface extends AddCommentFunctionInterface {
+  parentId: string;
+}
+
+export interface AddCommentInterface {
+  width: string;
+  articleId?: string;
+  commentObject?: CommentInterface;
+  placeholder: string;
+  labelAbove: string;
+  Comment: boolean;
+  refreshComment?: (id: string) => void;
+  refreshReplies?: (commentId: string) => void;
 }

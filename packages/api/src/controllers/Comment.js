@@ -5,14 +5,13 @@ const { Comments, Users } = model;
 
 export class CommentController {
   /**
-   * Returns Replies for a single post
+   * Returns All Comments for a single post
    * @param {*} req
    * @param {*} res
    * @returns
    */
   static getRepliesfromOnePost = async (req, res) => {
     try {
-      //TODO:applying limit offset pagination 3 comments at a
       const AllComments = await Comments.findAll({
         where: {
           postId: req.params.id,
@@ -29,6 +28,11 @@ export class CommentController {
     }
   };
 
+  /**
+   *Adds Comment on Post
+   * @param {*} req
+   * @param {*} res
+   */
   static addComment = async (req, res) => {
     const { postId, userId, body } = req.body;
     try {
@@ -43,6 +47,11 @@ export class CommentController {
     }
   };
 
+  /**
+   *Returns All Comments alongwith User of the comment
+   * @param {*} req
+   * @param {*} res
+   */
   static getComments = async (req, res) => {
     try {
       const getAll = await Comments.findAll({
@@ -57,26 +66,11 @@ export class CommentController {
     }
   };
 
-  static updateComment = async (req, res) => {
-    const update = { ...req.body };
-    const { id } = req.params;
-    try {
-      const updateC = await Comments.update(update, { where: { id: id } });
-      res.json(`Successfully Updated Id = ${id}`);
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
-
-  static deleteComment = async (req, res) => {
-    const { id } = req.params;
-    try {
-      const deleteC = await Comments.destroy({ where: { id: id } });
-      res.json(`Successfully Deleted Id = ${id}`);
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   */
   static getRepliesfromComment = async (req, res) => {
     try {
       const replies = await Comments.findAll({
@@ -91,6 +85,12 @@ export class CommentController {
     }
   };
 
+  /**
+   *Adds Reply on a comment storing the parent ID of comment
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
   static addReply = async (req, res) => {
     const { userId, postId, parentId, body } = req.body;
     try {
@@ -106,6 +106,12 @@ export class CommentController {
     }
   };
 
+  /**
+   *Returns Replies Of a Single Comment
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
   static getRepliesfromOneComment = async (req, res) => {
     const { id } = req.params;
     try {

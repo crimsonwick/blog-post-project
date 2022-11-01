@@ -22,7 +22,12 @@ import { theme } from './themes/theme';
 function App() {
   const context: AppContextInterface | null = useContext(AppContext);
 
-  const gets = async () => {
+  /**
+   * upon refresh checks weather user state is lost and access/refresh
+   * token still in local storage => calls refresh token api and sets
+   * token again in state and local storage both
+   */
+  const restoreTokenOnRefresh = async () => {
     context?.setAccessToken(localStorage.getItem('accessToken'));
     context?.setRefreshToken(localStorage.getItem('refreshToken'));
     context?.setLoggedIn(true);
@@ -46,7 +51,7 @@ function App() {
       localStorage.getItem('accessToken') &&
       localStorage.getItem('refreshToken')
     ) {
-      gets();
+      restoreTokenOnRefresh();
     }
     WebFont.load({
       google: {
@@ -71,10 +76,10 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route element={<Public />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/change-password" element={<ChangePassword />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/signup' element={<Signup />} />
+              <Route path='/reset-password' element={<ResetPassword />} />
+              <Route path='/change-password' element={<ChangePassword />} />
             </Route>
             <Route element={<Protected />}>
               <Route path='/create-article' element={<CreateArticle />} />

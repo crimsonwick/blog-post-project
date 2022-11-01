@@ -11,6 +11,7 @@ import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
+import { ResetPasswordDataInterface } from '../interface/App';
 import '../styles/signup.css';
 YupPassword(yup);
 const schema = yup
@@ -18,9 +19,7 @@ const schema = yup
     email: yup.string().email().required(),
   })
   .required();
-interface dataInterface {
-  email: string;
-}
+
 export const ResetPassword = () => {
   const navigate = useNavigate();
   const {
@@ -38,7 +37,7 @@ export const ResetPassword = () => {
    * OnSubmit Function
    * @param data
    */
-  const onSubmit = async (data: dataInterface) => {
+  const onSubmit = async (data: ResetPasswordDataInterface) => {
     try {
       const url = 'http://localhost:5000/users/forget-password';
       const options = {

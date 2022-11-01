@@ -4,21 +4,10 @@ import { useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface } from '../interface/App';
-import { addComment, addReply, CommentInterface } from '../services/CommentApi';
+import { AddCommentInterface, AppContextInterface } from '../interface/App';
+import { addComment, addReply } from '../services/CommentApi';
 import { InputButton } from './InputButton';
 import { InputField } from './InputField';
-
-interface AddCommentInterface {
-  width: string;
-  articleId?: string;
-  commentObject?: CommentInterface;
-  placeholder: string;
-  labelAbove: string;
-  Comment: boolean;
-  refreshComment?: (id: string) => void;
-  refreshReplies?: (commentId: string) => void;
-}
 
 /**
  * Add Comment
@@ -26,7 +15,6 @@ interface AddCommentInterface {
  * @returns
  */
 export const AddComment = (props: AddCommentInterface) => {
-  // const inputRef = useRef(null);
   const schema = yup.object().shape({
     comment: yup.string().required(),
   });
@@ -74,7 +62,7 @@ export const AddComment = (props: AddCommentInterface) => {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         {context.loggedIn && (
-          <Box display="flex" gap={2} alignItems="flex-end">
+          <Box display='flex' gap={2} alignItems='flex-end'>
             <InputField
               name={'comment'}
               control={control}
@@ -84,9 +72,9 @@ export const AddComment = (props: AddCommentInterface) => {
             />
             <Box
               sx={{ display: 'flex', allignItems: 'centre', marginTop: '5px' }}
-              display="flex"
+              display='flex'
             >
-              <InputButton name="Post" width="100px" />
+              <InputButton name='Post' width='100px' />
             </Box>
           </Box>
         )}
