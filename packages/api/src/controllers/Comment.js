@@ -56,27 +56,6 @@ export class CommentController {
       errorHandling(res);
     }
   };
-
-  static updateComment = async (req, res) => {
-    const update = { ...req.body };
-    const { id } = req.params;
-    try {
-      const updateC = await Comments.update(update, { where: { id: id } });
-      res.json(`Successfully Updated Id = ${id}`);
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
-
-  static deleteComment = async (req, res) => {
-    const { id } = req.params;
-    try {
-      const deleteC = await Comments.destroy({ where: { id: id } });
-      res.json(`Successfully Deleted Id = ${id}`);
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
   static getRepliesfromComment = async (req, res) => {
     try {
       const replies = await Comments.findAll({

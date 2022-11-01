@@ -6,7 +6,6 @@ class CommentRouter {
   checkRequests() {
     router.get('/', CommentController.getComments);
     router.post('/', CommentController.addComment);
-    router.get('/replies', CommentController.getRepliesfromComment);
     router.post('/addReply', CommentController.addReply);
     router.get('/:id/replies', CommentController.getRepliesfromOneComment);
   }
