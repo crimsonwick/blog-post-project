@@ -153,7 +153,7 @@ export const Navbar = (props: NavBarProps) => {
             </Button>
           )}
           {!props.login && (
-            <div>
+            <Box>
               <Button
                 component={Link}
                 to='/login'
@@ -171,10 +171,10 @@ export const Navbar = (props: NavBarProps) => {
               >
                 Sign Up
               </Button>
-            </div>
+            </Box>
           )}
           {props.login && (
-            <div>
+            <Box>
               <Tooltip title='Account settings'>
                 <IconButton
                   onClick={handleClick}
@@ -264,7 +264,7 @@ export const Navbar = (props: NavBarProps) => {
                   </MenuItem>
                 </Link>
               </Menu>
-            </div>
+            </Box>
           )}
         </Toolbar>
       </AppBar>
