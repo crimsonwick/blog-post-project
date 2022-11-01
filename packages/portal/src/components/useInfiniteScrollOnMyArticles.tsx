@@ -19,7 +19,7 @@ const useInfiniteScrollOnMyArticles = (
     setError(false);
     if (typeof id === 'string') {
       authAxios
-        .get(`/users/${id}/posts`)
+        .get(`/users/${id}/posts?limit=${query}&next_page=${pageLink}`)
         .then((res) => {
           console.log('API WAS CALLED');
           setPosts((prevPosts) => {

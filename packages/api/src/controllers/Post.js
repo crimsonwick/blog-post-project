@@ -35,7 +35,7 @@ const query = async (queryLimit, queryId, queryCondition, queryAll) => {
       where = { userId: id };
     } else {
       where = {
-        [Op.and]: [{ createdAt: { [Op.gt]: condition } }, { userId: id }],
+        [Op.and]: [{ createdAt: { [Op.lt]: condition } }, { userId: id }],
       };
     }
   } else {
@@ -43,14 +43,14 @@ const query = async (queryLimit, queryId, queryCondition, queryAll) => {
     if (condition === '') {
       where = {};
     } else {
-      where = { createdAt: { [Op.gt]: condition } };
+      where = { createdAt: { [Op.lt]: condition } };
     }
   }
 
   const posts = await Posts.findAll({
     where: where,
     limit: limit + 1,
-    order: [['createdAt', 'ASC']],
+    order: [['createdAt', 'DESC']],
     include: [
       {
         model: Users,
@@ -262,7 +262,6 @@ export class PostController {
           cursorValues.prevPage = null;
           if (posts[limit] === undefined) cursorValues.next_page = null;
           else {
-            //*convert to plain js object
             const clonePost = JSON.parse(JSON.stringify(posts));
             cursorValues.next_page = clonePost[limit - 1].createdAt;
           }

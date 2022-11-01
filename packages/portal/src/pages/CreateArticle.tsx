@@ -36,7 +36,7 @@ const CreateArticle = () => {
     defaultValues: {
       title: '',
       body: '',
-      mins: 0,
+      mins: 1,
     },
     resolver: yupResolver(schema),
   });
