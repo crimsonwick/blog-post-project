@@ -1,9 +1,9 @@
+import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import { errorHandling } from '../middleware/Errors.js';
 import model from '../models';
 import { sendEmail } from '../utils/sendMail';
-import { errorHandling } from '../middleware/Errors.js';
 
 dotenv.config();
 
@@ -200,9 +200,7 @@ export class UserController {
       const resetLink = token;
 
       const user = await Users.findOne({
-        where: {
-          resetLink,
-        },
+        where: { resetLink: resetLink },
       });
 
       // if there is no user, send back an error

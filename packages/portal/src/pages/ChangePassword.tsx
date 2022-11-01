@@ -13,6 +13,7 @@ import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
+import customAxios from '../auth/useAxios';
 import '../styles/signup.css';
 YupPassword(yup);
 const schema = yup
@@ -104,16 +105,11 @@ export const ChangePassword = () => {
       const token = unparsedToken.slice(7, unparsedToken.length);
       const url = `http://localhost:5000/users/reset-password`;
       console.log(data, 'correct data');
-      const options = {
-        method: 'PUT',
-        url: url,
-        params: { token: `${token}` },
-        data: {
-          password: data.password,
-          confirmPassword: data.confirmPassword,
-        },
+      const newData = {
+        password: data.password,
+        confirmPassword: data.confirmPassword,
       };
-      const response = await axios(options);
+      const response = await customAxios.put(`${url}?token=${token}`, newData);
       if (response.data) {
         console.log(message);
         Alerts.success('Password Updated');
