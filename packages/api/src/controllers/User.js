@@ -20,7 +20,7 @@ export class UserController {
    * @returns
    */
   static signUp = async (req, res) => {
-    const { email, password, avatar } = req.body;
+    const { email, password } = req.body;
     try {
       const checkAccount = await Users.findOne({
         where: {
@@ -32,7 +32,6 @@ export class UserController {
         const userArray = {
           email: email,
           password: password,
-          avatar: avatar,
         };
         const newUser = await Users.create(userArray);
         return res.json(newUser.dataValues);
