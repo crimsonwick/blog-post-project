@@ -1,6 +1,6 @@
 'use strict';
-import bcrypt from 'bcryptjs';
 import { Model } from 'sequelize';
+import bcrypt from 'bcryptjs';
 export default (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {

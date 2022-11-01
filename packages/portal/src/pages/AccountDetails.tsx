@@ -23,12 +23,13 @@ export const AccountDetails = () => {
    * @returns
    */
   const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    debugger;
     e.preventDefault();
     if (context) {
       try {
         let formData = new FormData();
         if (image) {
-          formData.append('file', image); //?.data);
+          formData.append('file', image);
         }
 
         if (
@@ -46,6 +47,7 @@ export const AccountDetails = () => {
         if (!context.accessToken) {
           return;
         }
+        debugger;
         const parsetoken = parseJwt(context.accessToken);
         const user = parsetoken.user;
         context.setUserData(user);

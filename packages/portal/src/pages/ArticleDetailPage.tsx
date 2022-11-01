@@ -38,7 +38,7 @@ export const ArticleDetailPage = () => {
     if (articleId) {
       allComments(articleId);
     }
-  }, []);
+  }, [allComments]);
   return (
     <>
       {context?.loggedIn ? <Navbar login={true} /> : <Navbar />}

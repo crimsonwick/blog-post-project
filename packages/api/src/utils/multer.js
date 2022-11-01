@@ -5,7 +5,7 @@ dotenv.config();
 
 export const upload = multer({
   storage: multer.diskStorage({
-    destination: './uploads',
+    destination: '../portal/src/images',
     filename: function (req, file, cb) {
       cb(null, file.originalname);
     },
@@ -15,7 +15,6 @@ export const upload = multer({
     if (!whitelist.includes(file.mimetype)) {
       return cb('file is not allowed');
     }
-
     cb(null, true);
   },
 });
