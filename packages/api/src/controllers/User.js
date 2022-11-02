@@ -1,9 +1,10 @@
-import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { HashingPassword } from '../middleware/HashPassword.js';
 import { errorHandling } from '../middleware/Errors.js';
 import model from '../models';
 import { sendEmail } from '../utils/sendMail';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ export class UserController {
    */
   static signUp = async (req, res) => {
     const { email, password } = req.body;
+    const hasedPassword = HashingPassword(password);
     try {
       const checkAccount = await Users.findOne({
         where: {
@@ -31,7 +33,7 @@ export class UserController {
       else {
         const userArray = {
           email: email,
-          password: password,
+          password: hasedPassword,
         };
         const newUser = await Users.create(userArray);
         return res.json(newUser.dataValues);
@@ -59,9 +61,7 @@ export class UserController {
       const dbpassword = user.password;
       bcrypt.compare(password, dbpassword).then((match) => {
         if (!match) {
-          return res.json({
-            message: 'Wrong Credentials',
-          });
+          return errorHandling(res, 401);
         } else {
           //Authorization
           const accessToken = this.generateAccessToken({ user });
@@ -77,7 +77,7 @@ export class UserController {
         }
       });
     } catch (err) {
-      errorHandling(err, 500);
+      console.log(err);
     }
   };
 
@@ -198,25 +198,26 @@ export class UserController {
       // Get the token from params
       const { password, confirmPassword } = req.body;
       const resetLink = token;
-
       const user = await Users.findOne({
-        where: { resetLink: resetLink },
+        where: {
+          resetLink,
+        },
       });
-
       // if there is no user, send back an error
       if (!user) {
         return res
           .status(400)
           .json({ message: 'We could not find a match for this link' });
       }
-
       jwt.verify(token, resetSecret, (error) => {
         if (error) {
           return res.status(400).json({ message: 'token is invalid' });
         }
       });
       if (password === confirmPassword) {
-        user.password = password;
+        const hashPassword = HashingPassword(password);
+        // update user credentials and remove the temporary link from database before saving
+        user.password = hashPassword;
         user.resetLink = null;
         await user.save();
         return res.status(200).json({ message: 'Password updated' });

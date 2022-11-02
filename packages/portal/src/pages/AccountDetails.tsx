@@ -47,11 +47,11 @@ export const AccountDetails = () => {
         if (!context.accessToken) {
           return;
         }
-        debugger;
         const parsetoken = parseJwt(context.accessToken);
         const user = parsetoken.user;
         context.setUserData(user);
         const response = await authAxios.put(`/users/${user.id}`, formData);
+        console.log('response.data::: ', response.data);
         if (response.data) {
           context.setDp(response.data.image);
           Alerts.success('Dp uploaded');
