@@ -1,11 +1,11 @@
-'use strict';
-import bcrypt from 'bcryptjs';
-import { Model } from 'sequelize';
+'use strict'
+// import bcrypt from 'bcryptjs'
+import { Model } from 'sequelize'
 export default (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
-      Users.hasMany(models.Posts, { foreignKey: 'userId', as: 'Posts' });
-      Users.hasMany(models.Comments, { foreignKey: 'userId', as: 'Comments' });
+      Users.hasMany(models.Posts, { foreignKey: 'userId', as: 'Posts' })
+      Users.hasMany(models.Comments, { foreignKey: 'userId', as: 'Comments' })
     }
   }
   Users.init(
@@ -34,14 +34,14 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Users',
-    }
-  );
+    },
+  )
 
-  Users.addHook('beforeSave', 'hashChangePassword', async (user, options) => {
-    user.password =
-      user.password && user.password != ''
-        ? bcrypt.hashSync(user.password, 10)
-        : '';
-  });
-  return Users;
-};
+  // Users.addHook('beforeSave', 'hashChangePassword', async (user, options) => {
+  //   user.password =
+  //     user.password && user.password != ''
+  //       ? bcrypt.hashSync(user.password, 10)
+  //       : '';
+  // });
+  return Users
+}
