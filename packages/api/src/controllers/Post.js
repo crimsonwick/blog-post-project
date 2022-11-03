@@ -84,70 +84,6 @@ export class PostController {
       console.log(error);
     }
   };
-
-  /**
-   * Search Posts
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
-  static searchPosts = async (req, res) => {
-    let query = {
-      index: 'posts',
-      body: {
-        query: {
-          query_string: {
-            query: req.query.title,
-            default_field: '*',
-          },
-        },
-      },
-    };
-    try {
-      const postSearched = await client.search(query);
-      const filteredPosts = postSearched.body.hits.hits.map((o) => o._source);
-      return res.json(filteredPosts);
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
-
-  /**
-   * Searching in user's MyArticles Page
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
-  static searchMyPost = async (req, res) => {
-    let query = {
-      index: 'posts',
-      body: {
-        query: {
-          match: { userId: req.params.id },
-        },
-      },
-    };
-    try {
-      const LoginDetails = await Users.findAll({
-        where: {
-          email: req.user.user.email,
-        },
-      });
-      if (!LoginDetails) return res.json(`Un Authorized Access`);
-      else {
-        const myPosts = await client.search(query);
-        if (!myPosts) return res.json(`You haven't Posted Anything!!`);
-        else {
-          const filtered = myPosts.body.hits.hits.filter((object) =>
-            object._source.title.includes(req.query.title)
-          );
-          return res.json(filtered);
-        }
-      }
-    } catch (error) {
-      errorHandling(res);
-    }
-  };
   /**
    * Gets Posts
    * @param {*} req
@@ -197,7 +133,6 @@ export class PostController {
       return res.json({ error: err.message });
     }
   };
-
   static postDetail = async (req, res) => {
     const id = req.params.id;
 
@@ -218,7 +153,6 @@ export class PostController {
       res.status(500).json({ error: err });
     }
   };
-
   /**
    *  Get Cursor Posts of Single User
    * @param {*} req
@@ -270,6 +204,13 @@ export class PostController {
       return res.json({ error: err.message });
     }
   };
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * queries elasticsearch and returns search result
+   *  for both home and myarticles page
+   */
   static searchQueryFor = async (req, res) => {
     let query = {};
     let filtered = [];
