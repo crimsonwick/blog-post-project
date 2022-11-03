@@ -1,8 +1,9 @@
+import { AdvancedImage } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 import Logout from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -15,13 +16,10 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface } from '../interface/App';
+import { AppContextInterface, NavBarProps } from '../interface/App';
 import { searchAPI, searchMyPostsAPI } from '../services/LoginApi';
 import { Search, SearchIconWrapper, StyledInputBase } from '../styles/NavBar';
 import { Alerts } from './Alerts';
-import { NavBarProps } from '../interface/App';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { AdvancedImage } from '@cloudinary/react';
 
 export const Navbar = (props: NavBarProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

@@ -2,7 +2,7 @@ import { AdvancedImage, responsive } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
-import { Avatar, Card, List } from '@mui/material';
+import { Card, List } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
