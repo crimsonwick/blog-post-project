@@ -1,5 +1,4 @@
 'use strict'
-// import bcrypt from 'bcryptjs'
 import { Model } from 'sequelize'
 export default (sequelize, DataTypes) => {
   class Users extends Model {
@@ -37,11 +36,5 @@ export default (sequelize, DataTypes) => {
     },
   )
 
-  // Users.addHook('beforeSave', 'hashChangePassword', async (user, options) => {
-  //   user.password =
-  //     user.password && user.password != ''
-  //       ? bcrypt.hashSync(user.password, 10)
-  //       : '';
-  // });
   return Users
 }

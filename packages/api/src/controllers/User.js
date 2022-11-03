@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import { errorHandling } from '../middleware/Errors.js'
 import { successHandling } from '../middleware/Success'
-
 import model from '../models'
 import { sendEmail } from '../utils/sendMail'
 import { hashPassword } from '../utils/hashPassword'
@@ -198,21 +197,23 @@ export class UserController {
   static resetPassword = async (req, res) => {
     const { token } = req.query
     // Get the token from params
-    const { password, confirmPassword } = req.body
     const encryptedPassword = await hashPassword(password)
-    const resetLink = token
     try {
+      const { token } = req.query
+      // Get the token from params
+      const { password, confirmPassword } = req.body
+      const resetLink = token
       const user = await Users.findOne({
-        where: { resetLink: resetLink },
+        where: {
+          resetLink,
+        },
       })
-
       // if there is no user, send back an error
       if (!user) {
         return res
           .status(400)
           .json({ message: 'We could not find a match for this link' })
       }
-
       jwt.verify(token, resetSecret, (error) => {
         if (error) {
           return res.json(errorHandling(401))

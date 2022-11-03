@@ -25,13 +25,6 @@ export const AddComment = (props: AddCommentInterface) => {
 
   const { handleSubmit, control, setValue } = methods;
   const context: AppContextInterface | null = useContext(AppContext);
-  if (!context) {
-    return <h1>Not Working!!</h1>;
-  } else {
-    if (context.userData === undefined) {
-      return <h1>Not Working!!</h1>;
-    }
-  }
 
   /**
    * Onsubmit Function
@@ -39,15 +32,17 @@ export const AddComment = (props: AddCommentInterface) => {
    */
   const onSubmit = async (data: { comment: string }) => {
     setValue('comment', '');
-    if (context.accessToken && props.Comment && props.articleId) {
+    if (context?.accessToken && props.Comment && props.articleId) {
       await addComment({
         postId: props.articleId,
         userId: context.userData.id,
         body: data.comment,
       });
-      if (props.refreshComment) props.refreshComment(props.articleId);
+      if (props.refreshComment) {
+        props.refreshComment(props.articleId);
+      }
     }
-    if (context.accessToken && !props.Comment && props.commentObject) {
+    if (context?.accessToken && !props.Comment && props.commentObject) {
       await addReply({
         userId: context.userData.id,
         postId: props.commentObject.postId,
@@ -61,8 +56,8 @@ export const AddComment = (props: AddCommentInterface) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {context.loggedIn && (
-          <Box display='flex' gap={2} alignItems='flex-end'>
+        {context?.loggedIn && (
+          <Box display="flex" gap={2} alignItems="flex-end">
             <InputField
               name={'comment'}
               control={control}
@@ -72,9 +67,9 @@ export const AddComment = (props: AddCommentInterface) => {
             />
             <Box
               sx={{ display: 'flex', allignItems: 'centre', marginTop: '5px' }}
-              display='flex'
+              display="flex"
             >
-              <InputButton name='Post' width='100px' />
+              <InputButton name="Post" width="100px" />
             </Box>
           </Box>
         )}
