@@ -14,7 +14,7 @@ export interface UserInterface {
 }
 
 export interface CursorInterface {
-    current: string;
+  current: string
 }
 
 export interface SearchDataInterface {
@@ -87,22 +87,20 @@ export interface AppContextInterface {
   logoutToken: () => void
 }
 
-
-export interface PostInterface 
-  {
-    id: string
-    userId: string
-    title: string
-    body: string
-    image: string
-    timeToRead: number
-    createdAt: string
-    updatedAt: string
-    postedBy: {
-      email: string
-      avatar: string | null
-    }
+export interface PostInterface {
+  id: string
+  userId: string
+  title: string
+  body: string
+  image: string
+  timeToRead: number
+  createdAt: string
+  updatedAt: string
+  postedBy: {
+    email: string
+    avatar: string | null
   }
+}
 export interface PostsAdd {
   userId: string
   title: string
@@ -166,76 +164,78 @@ export interface MyFile {
   preview: string
   name: string
 }
-export interface DataObject{
-    email: string;
-  }
+export interface DataObject {
+  email: string
+}
 
 export interface PropsArticleCard {
   object: PostInterface
 }
 
 export interface LoginDataInterface {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 export interface ResetPasswordDataInterface {
-  email: string;
+  email: string
 }
 
 export interface SignupDataInterface {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 export interface SignupUseReducerInterface {
-  Submitted: boolean;
-  showMessage: boolean;
+  Submitted: boolean
+  showMessage: boolean
 }
 
 export interface NavBarProps {
-  mainPage?: boolean;
-  login?: boolean;
-  isHomeLinkActive?: boolean | null;
-  isArticlesLinkActive?: boolean | null;
+  mainPage?: boolean
+  login?: boolean
+  isHomeLinkActive?: boolean | null
+  isArticlesLinkActive?: boolean | null
+  isArticleDetail?: boolean | null
+  isCreateArticle?: boolean | null
 }
 
 export interface CommentInterface {
-  id: string;
-  postId: string;
-  userId: string;
-  parentId?: string | null;
-  body: string;
-  createdAt: string;
-  updatedAt: string;
+  id: string
+  postId: string
+  userId: string
+  parentId?: string | null
+  body: string
+  createdAt: string
+  updatedAt: string
   commentedBy?: {
-    id: string;
-    email: string;
-    password: string;
-    avatar: string;
-    resetLink: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+    id: string
+    email: string
+    password: string
+    avatar: string
+    resetLink: string
+    createdAt: string
+    updatedAt: string
+  }
 }
 
 export interface AddCommentFunctionInterface {
-  postId?: string;
-  userId?: string;
-  body: string;
+  postId?: string
+  userId?: string
+  body: string
 }
 
 export interface AddReplyInterface extends AddCommentFunctionInterface {
-  parentId: string;
+  parentId: string
 }
 
 export interface AddCommentInterface {
-  width: string;
-  articleId?: string;
-  commentObject?: CommentInterface;
-  placeholder: string;
-  labelAbove: string;
-  Comment: boolean;
-  refreshComment?: (id: string) => void;
-  refreshReplies?: (commentId: string) => void;
+  width: string
+  articleId?: string
+  commentObject?: CommentInterface
+  placeholder: string
+  labelAbove: string
+  Comment: boolean
+  refreshComment?: (id: string) => void
+  refreshReplies?: (commentId: string) => void
 }

@@ -1,24 +1,24 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, FormLabel, OutlinedInput } from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import { Container } from '@mui/system';
-import { useContext, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { Alerts } from '../components/Alerts';
-import { Navbar } from '../components/NavBar';
-import { PostsHeader } from '../components/PostsHeader';
-import { StyledDropZone } from '../components/StyledDropZone';
-import { AppContext } from '../context/AppContext';
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Box, FormLabel, OutlinedInput } from '@mui/material'
+import Backdrop from '@mui/material/Backdrop'
+import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
+import { Container } from '@mui/system'
+import { useContext, useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import * as yup from 'yup'
+import { Alerts } from '../components/Alerts'
+import { Navbar } from '../components/NavBar'
+import { PostsHeader } from '../components/PostsHeader'
+import { StyledDropZone } from '../components/StyledDropZone'
+import { AppContext } from '../context/AppContext'
 import {
   AppContextInterface,
   CreateArticleDataInterface,
-} from '../interface/App';
-import { addPost } from '../services/LoginApi';
-import '../styles/signup.css';
+} from '../interface/App'
+import { addPost } from '../services/LoginApi'
+import '../styles/signup.css'
 
 const schema = yup
   .object({
@@ -26,11 +26,11 @@ const schema = yup
     mins: yup.number().positive().typeError('must be a number').required(),
     body: yup.string().required(),
   })
-  .required();
+  .required()
 
 const CreateArticle = () => {
-  const [loading, setLoading] = useState(false);
-  const context: AppContextInterface | null = useContext(AppContext);
+  const [loading, setLoading] = useState(false)
+  const context: AppContextInterface | null = useContext(AppContext)
   const {
     control,
     handleSubmit,
@@ -42,12 +42,12 @@ const CreateArticle = () => {
       mins: 1,
     },
     resolver: yupResolver(schema),
-  });
+  })
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   useEffect(() => {
-    localStorage.setItem('link', '/create-article');
-  }, []);
+    localStorage.setItem('link', '/create-article')
+  }, [])
 
   /**
    * On Submit Function.
@@ -55,7 +55,7 @@ const CreateArticle = () => {
    */
   const onSubmit = async (data: CreateArticleDataInterface) => {
     if (context?.postImage === null) {
-      Alerts.error('Add an Image.');
+      Alerts.error('Add an Image.')
     } else {
       if (
         context?.postImage?.type === 'image/png' ||
@@ -63,40 +63,40 @@ const CreateArticle = () => {
         context?.postImage?.type === 'image/jpeg'
       ) {
         try {
-          setLoading(true);
-          let formData = new FormData();
-          formData.append('userId', context?.userData.id as unknown as string);
-          formData.append('title', data.title);
-          formData.append('body', data.body);
-          formData.append('file', context?.postImage as unknown as string);
-          formData.append('timeToRead', data.mins as unknown as Blob);
-          const response = await addPost(formData);
-          console.log(response);
+          setLoading(true)
+          let formData = new FormData()
+          formData.append('userId', (context?.userData.id as unknown) as string)
+          formData.append('title', data.title)
+          formData.append('body', data.body)
+          formData.append('file', (context?.postImage as unknown) as string)
+          formData.append('timeToRead', (data.mins as unknown) as Blob)
+          const response = await addPost(formData)
+          console.log(response)
           if (response.status >= 200 && response.status < 400) {
-            Alerts.success('Post Created successfully');
+            Alerts.success('Post Created successfully')
             setTimeout(() => {
-              navigate('/articles');
-            }, 250);
+              navigate('/articles')
+            }, 250)
           }
         } catch (error) {
-          Alerts.error('Something went Wrong');
+          Alerts.error('Something went Wrong')
         }
       } else {
-        Alerts.error('We only accept png/jpeg/jpg images');
+        Alerts.error('We only accept png/jpeg/jpg images')
       }
     }
-  };
+  }
 
   return (
     <>
-      <Navbar login={true} />
+      <Navbar login={true} isCreateArticle={true} />
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name='Create New Article' />
+        <PostsHeader name="Create New Article" />
         {!loading ? (
-          <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+          <Box component="form" onSubmit={handleSubmit(onSubmit)}>
             <Box mt={3}>
               <FormLabel
-                htmlFor='form-label-above-title'
+                htmlFor="form-label-above-title"
                 sx={{
                   display: 'flex',
                   fontFamily: 'Poppins',
@@ -110,7 +110,7 @@ const CreateArticle = () => {
               <Box>
                 <Controller
                   control={control}
-                  name='title'
+                  name="title"
                   rules={{ required: true }}
                   render={({ field }) => (
                     <OutlinedInput
@@ -121,17 +121,17 @@ const CreateArticle = () => {
                         width: 700,
                         marginTop: 1,
                       }}
-                      color='secondary'
+                      color="secondary"
                     />
                   )}
                 />
-                <p className='errorMsg'>{errors.title.message}</p>
+                <p className="errorMsg">{errors.title.message}</p>
               </Box>
             ) : (
               <Box>
                 <Controller
                   control={control}
-                  name='title'
+                  name="title"
                   rules={{ required: true }}
                   render={({ field }) => (
                     <OutlinedInput
@@ -142,7 +142,7 @@ const CreateArticle = () => {
                         width: 700,
                         marginTop: 1,
                       }}
-                      color='secondary'
+                      color="secondary"
                     />
                   )}
                 />
@@ -151,7 +151,7 @@ const CreateArticle = () => {
 
             <Box mt={3}>
               <FormLabel
-                htmlFor='form-label-above-title'
+                htmlFor="form-label-above-title"
                 sx={{ fontFamily: 'Poppins' }}
               >
                 Min. to read
@@ -161,7 +161,7 @@ const CreateArticle = () => {
               <Box>
                 <Controller
                   control={control}
-                  name='mins'
+                  name="mins"
                   rules={{ required: true }}
                   render={({ field }) => (
                     <OutlinedInput
@@ -172,17 +172,17 @@ const CreateArticle = () => {
                         width: 700,
                         marginTop: 1,
                       }}
-                      color='secondary'
+                      color="secondary"
                     />
                   )}
                 />
-                <p className='errorMsg'> {errors.mins.message}</p>
+                <p className="errorMsg"> {errors.mins.message}</p>
               </Box>
             ) : (
               <Box>
                 <Controller
                   control={control}
-                  name='mins'
+                  name="mins"
                   rules={{ required: true }}
                   render={({ field }) => (
                     <OutlinedInput
@@ -193,7 +193,7 @@ const CreateArticle = () => {
                         marginBottom: 2.8,
                         marginTop: 1,
                       }}
-                      color='secondary'
+                      color="secondary"
                     />
                   )}
                 />
@@ -202,7 +202,7 @@ const CreateArticle = () => {
 
             <Box mt={3}>
               <FormLabel
-                htmlFor='form-label-above-title'
+                htmlFor="form-label-above-title"
                 sx={{ fontFamily: 'Poppins' }}
               >
                 Write something about it
@@ -213,7 +213,7 @@ const CreateArticle = () => {
               <Box>
                 <Controller
                   control={control}
-                  name='body'
+                  name="body"
                   rules={{ required: true }}
                   render={({ field }) => (
                     <OutlinedInput
@@ -227,17 +227,17 @@ const CreateArticle = () => {
                         width: 700,
                         marginTop: 1,
                       }}
-                      color='secondary'
+                      color="secondary"
                     />
                   )}
                 />
-                <p className='errorMsg'>{errors.body.message}</p>
+                <p className="errorMsg">{errors.body.message}</p>
               </Box>
             ) : (
               <Box>
                 <Controller
                   control={control}
-                  name='body'
+                  name="body"
                   rules={{ required: true }}
                   render={({ field }) => (
                     <OutlinedInput
@@ -251,7 +251,7 @@ const CreateArticle = () => {
                         width: 700,
                         marginTop: 1,
                       }}
-                      color='secondary'
+                      color="secondary"
                     />
                   )}
                 />
@@ -263,9 +263,9 @@ const CreateArticle = () => {
             </Box>
 
             <Button
-              type='submit'
-              variant='contained'
-              color='secondary'
+              type="submit"
+              variant="contained"
+              color="secondary"
               fullWidth
               sx={{
                 borderRadius: '25px',
@@ -285,11 +285,11 @@ const CreateArticle = () => {
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={loading}
           >
-            <CircularProgress color='inherit' />
+            <CircularProgress color="inherit" />
           </Backdrop>
         )}
       </Container>
     </>
-  );
-};
-export default CreateArticle;
+  )
+}
+export default CreateArticle

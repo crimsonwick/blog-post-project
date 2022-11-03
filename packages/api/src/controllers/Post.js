@@ -127,7 +127,7 @@ export class PostController {
       const filteredPosts = postSearched.body.hits.hits.map((o) => o._source)
       return res.json(filteredPosts)
     } catch (error) {
-      errorHandling(res)
+      console.log(error)
     }
   }
 
