@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import { errorHandling } from '../middleware/Errors.js'
+import { successHandling } from '../middleware/Success'
+
 import model from '../models'
 import { sendEmail } from '../utils/sendMail'
 import { hashPassword } from '../utils/hashPassword'
@@ -29,7 +31,7 @@ export class UserController {
           email: email,
         },
       })
-      if (checkAccount) return res.json(`${email} Account Already Exists`)
+      if (checkAccount) return res.json(errorHandling(404))
       else {
         const userArray = {
           email: email,
@@ -57,14 +59,12 @@ export class UserController {
         where: { email: email },
       })
       if (!user) {
-        return errorHandling(res, 404)
+        return res.json(errorHandling(403))
       }
       const dbpassword = user.password
       bcrypt.compare(password, dbpassword).then((match) => {
         if (!match) {
-          return res.json({
-            message: 'Wrong Credentials',
-          })
+          return res.json(errorHandling(401))
         } else {
           //Authorization
           const accessToken = this.generateAccessToken({ user })
@@ -79,8 +79,8 @@ export class UserController {
           })
         }
       })
-    } catch (err) {
-      errorHandling(err, 500)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -103,20 +103,21 @@ export class UserController {
    */
   static token = (req, res) => {
     const refreshToken = req.body.token
-    if (refreshToken == null) return res.sendStatus(404)
-    if (!tokens.includes(refreshToken)) return res.sendStatus(403)
-    jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
-      (error, user) => {
-        if (error) return res.sendStatus(403)
-        const accessToken = this.generateAccessToken({
-          email: user.email,
-          password: user.password,
-        })
-        res.json({ accessToken: accessToken })
-      },
-    )
+    if (refreshToken == null || !tokens.includes(refreshToken)) {
+      return res.sendStatus(403)
+    } else
+      jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        (error, user) => {
+          if (error) return res.json(errorHandling(404))
+          const accessToken = this.generateAccessToken({
+            email: user.email,
+            password: user.password,
+          })
+          res.json({ accessToken: accessToken })
+        },
+      )
   }
 
   /**
@@ -142,7 +143,7 @@ export class UserController {
     if (req.file) {
       image = req.file.originalname
     } else {
-      return res.sendStatus(404)
+      return res.json(errorHandling(404))
     }
 
     try {
@@ -150,9 +151,8 @@ export class UserController {
       user.avatar = image
       await user.save()
       return res.json({ image: image })
-    } catch (err) {
-      console.log(err)
-      res.sendStatus(500)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -172,7 +172,7 @@ export class UserController {
       })
       // if there is no user send back an error
       if (!user) {
-        return res.status(404).json({ error: 'Invalid email' })
+        return res.json(errorHandling(403))
       }
       // otherwise we need to create a temporary token that expires in 10 mins
       const resetLink = jwt.sign({ user: user.email }, resetSecret, {
@@ -183,9 +183,9 @@ export class UserController {
 
       // we'll define this function below
       sendEmail(user, resetLink)
-      return res.status(200).json({ message: 'Check your email' })
+      return res.json(successHandling(200))
     } catch (error) {
-      return res.status(500).json({ message: error.message })
+      console.log(error)
     }
   }
 
@@ -215,17 +215,17 @@ export class UserController {
 
       jwt.verify(token, resetSecret, (error) => {
         if (error) {
-          return res.status(400).json({ message: 'token is invalid' })
+          return res.json(errorHandling(401))
         }
       })
       if (password === confirmPassword) {
         user.password = encryptedPassword
         user.resetLink = null
         await user.save()
-        return res.status(200).json({ message: 'Password updated' })
+        return res.json(successHandling(201))
       }
     } catch (error) {
-      res.status(500).json({ message: error.message })
+      console.log(error)
     }
   }
 }

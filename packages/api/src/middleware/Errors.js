@@ -4,30 +4,25 @@
  * @param {*} status
  * @returns JSON
  */
-export const errorHandling = (res, status = 500) => {
-  const error = { status, message: '' };
+export const errorHandling = (status) => {
+  const error = { message: '' }
 
   switch (status) {
     case 400:
-      error.status = 400;
-      error.message = 'Bad request';
-      break;
+      error.message = 'Bad request'
+      break
     case 401:
-      error.status = 401;
-      error.message = 'Invalid Authentication Credentials';
-      break;
+      error.message = 'Invalid Authentication Credentials'
+      break
     case 402:
-      error.status = 402;
-      error.message = 'Payment Required';
-      break;
+      error.message = 'Account alredy exist'
+      break
     case 403:
-      error.status = 403;
-      error.message = 'Forbidden response';
+      error.message = 'User Not Found'
+    case 404:
+      error.message = 'Something bad occur'
     default:
-      404;
-      error.status = 404;
-      error.message = 'User Not Found';
   }
 
-  return error;
-};
+  return error.message
+}
