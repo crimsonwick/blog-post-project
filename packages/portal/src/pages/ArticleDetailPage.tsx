@@ -8,8 +8,7 @@ import { Comment } from '../components/Comment';
 import { Navbar } from '../components/NavBar';
 import { PostsHeader } from '../components/PostsHeader';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface } from '../interface/App';
-import { CommentInterface } from '../interface/App';
+import { AppContextInterface, CommentInterface } from '../interface/App';
 import { getComments } from '../services/LoginApi';
 
 export const ArticleDetailPage = () => {
@@ -33,12 +32,20 @@ export const ArticleDetailPage = () => {
     response.data.next ? setNext(true) : setNext(false);
   };
 
+  const refreshComments = async (id: string) => {
+    const response = await getComments(id, 1, 3);
+    setData([...response.data.results]);
+    setCommentCursor(2);
+    setCount(response.data.count);
+    response.data.next ? setNext(true) : setNext(false);
+  };
+
   useEffect(() => {
     localStorage.setItem('link', `/articles/${articleId}`);
     if (articleId) {
       allComments(articleId);
     }
-  }, [allComments]);
+  }, []);
   return (
     <>
       {context?.loggedIn ? <Navbar login={true} /> : <Navbar />}
@@ -48,14 +55,14 @@ export const ArticleDetailPage = () => {
         </Box>
         {context?.loggedIn ? (
           <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-            <PostsHeader count={count} name='comments' textSize='24px' />
+            <PostsHeader count={count} name="comments" textSize="24px" />
           </Box>
         ) : (
           <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
             <PostsHeader
               count={count}
-              name='comments .'
-              textSize='24px'
+              name="comments ."
+              textSize="24px"
               link={true}
             />
           </Box>
@@ -63,11 +70,11 @@ export const ArticleDetailPage = () => {
         <Box>
           {context?.loggedIn && (
             <AddComment
-              width='1000px'
+              width="1000px"
               articleId={articleId}
-              placeholder='Write a comment...'
-              labelAbove='Add Comment'
-              refreshComment={allComments}
+              placeholder="Write a comment..."
+              labelAbove="Add Comment"
+              refreshComment={refreshComments}
               Comment={true}
             />
           )}
@@ -78,14 +85,14 @@ export const ArticleDetailPage = () => {
               return <Comment key={o.id} object={o} />;
             })}
         </Box>
-        <Box mt={5} mb={5} display='flex' alignItems='center'>
+        <Box mt={5} mb={5} display="flex" alignItems="center">
           {next && (
             <Button
               onClick={() => {
                 allComments(articleId as unknown as string);
               }}
-              variant='outlined'
-              color='secondary'
+              variant="outlined"
+              color="secondary"
               sx={{
                 fontWeight: '600',
                 textTransform: 'capitalize',
