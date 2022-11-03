@@ -3,27 +3,9 @@ import client from '../config/elasticsearch.js';
 import { errorHandling } from '../middleware/Errors.js';
 import { uploadToCloudinary } from '../config/cloudinary';
 const { Op } = require('sequelize');
+import { parseCloudinaryUrl } from '../utils/cloudinaryHelper';
 
 const { Users, Posts, Comments } = model;
-
-const reverseString = (str) => {
-  // Check input
-  if (!str || str.length < 2 || typeof str !== 'string') {
-    return 'Not valid';
-  }
-
-  // Take empty array revArray
-  const revArray = [];
-  const length = str.length - 1;
-
-  // Looping from the end
-  for (let i = length; i >= 0; i--) {
-    revArray.push(str[i]);
-  }
-
-  // Joining the array elements
-  return revArray.join('');
-};
 
 const query = async (queryLimit, queryId, queryCondition, queryAll) => {
   const limit = queryLimit;
@@ -80,10 +62,7 @@ export class PostController {
     try {
       if (file) {
         const result = await uploadToCloudinary(file);
-        let url = result.url;
-        url = reverseString(url);
-        url = url.substring(0, url.indexOf('/'));
-        url = reverseString(url);
+        let url = parseCloudinaryUrl(result.url);
 
         // const pathname = new URL(url).pathname
         const addNewPost = await Posts.create({
