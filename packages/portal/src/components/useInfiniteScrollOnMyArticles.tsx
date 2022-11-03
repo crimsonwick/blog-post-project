@@ -11,7 +11,7 @@ const useInfiniteScrollOnMyArticles = (
   const [error, setError] = useState(false);
   const [posts, setPosts] = useState<PostInterface[]>([]);
   const [hasMore, setHasMore] = useState(false);
-  const cursor = useRef<any>();
+  const cursor = useRef<{ current?: string }>();
 
   useEffect(() => {
     localStorage.setItem('link', '/articles');
@@ -24,7 +24,10 @@ const useInfiniteScrollOnMyArticles = (
           console.log('API WAS CALLED');
           setPosts((prevPosts) => {
             return [
-              ...new Set([...prevPosts, ...res.data[1].map((p: object) => p)]),
+              ...new Set([
+                ...prevPosts,
+                ...res.data[1].map((p: PostInterface) => p),
+              ]),
             ];
           });
           setHasMore(res.data[0].next_page !== null);

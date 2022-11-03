@@ -2,6 +2,7 @@ import express from 'express';
 import { PostController } from '../controllers/Post.js';
 import { UserController } from '../controllers/User.js';
 import { authentication } from '../middleware/Authentication.js';
+import { getSearchData, SearchFor } from '../middleware/SearchFor.js';
 import { upload } from '../utils/multer.js';
 
 const router = express.Router();
@@ -28,7 +29,8 @@ class UserRouter {
     router.get(
       '/:id/posts/search',
       authentication,
-      PostController.searchMyPost
+      SearchFor('My-articles'),
+      PostController.searchQueryFor
     );
   }
 }

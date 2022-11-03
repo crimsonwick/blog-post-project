@@ -291,4 +291,50 @@ export class PostController {
       return res.json({ error: err.message });
     }
   };
+  static searchQueryFor = async (req, res) => {
+    let query = {};
+    let filtered = [];
+    if (req.type === 'My-articles') {
+      query = {
+        index: 'posts',
+        body: {
+          query: {
+            match: { userId: req.params.id },
+          },
+        },
+      };
+      const LoginDetails = await Users.findAll({
+        where: {
+          email: req.user.user.email,
+        },
+      });
+      if (!LoginDetails) return `Un Authorized Access`;
+      else {
+        const myPosts = await client.search(query);
+        if (!myPosts) return `You haven't Posted Anything!!`;
+        else {
+          filtered = myPosts.body.hits.hits.filter((object) =>
+            object._source.title.includes(req.query.title)
+          );
+        }
+      }
+      return res.json(filtered);
+    } else {
+      let query = {
+        index: 'posts',
+        body: {
+          query: {
+            query_string: {
+              query: req.query.title,
+              default_field: '*',
+            },
+          },
+        },
+      };
+
+      const postSearched = await client.search(query);
+      filtered = postSearched.body.hits.hits.map((o) => o._source);
+      return res.json(filtered);
+    }
+  };
 }

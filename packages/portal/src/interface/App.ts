@@ -82,7 +82,7 @@ export interface AppContextInterface {
   setCursorPaginationLink: React.Dispatch<React.SetStateAction<string>>
   postImage: File | null | Blob
   setPostImage: React.Dispatch<React.SetStateAction<File | null | Blob>>
-  getLoginToken: (object: bodyInterface) => Promise<AxiosResponse<any, any>>
+  getLoginToken: (object: bodyInterface) => Promise<AxiosResponse<any,any>>
   setLoginToken: (accessToken: string, refreshToken: string) => void
   logoutToken: () => void
 }
