@@ -49,3 +49,34 @@ export const uploadToCloudinary = async (locaFilePath) => {
       return { message: 'Fail' };
     });
 };
+
+export const uploadDp = async (locaFilePath) => {
+  const mainFolderName = 'main';
+  const filePathOnCloudinary =
+    mainFolderName + '/' + Path.parse(locaFilePath).name;
+  return cloudinary.uploader
+    .upload(
+      locaFilePath,
+      {
+        public_id: filePathOnCloudinary,
+      },
+      (error, result) => {
+        console.log(result);
+        console.log(
+          result.responsive_breakpoints.map((obj) => console.log(obj))
+        );
+      }
+    )
+    .then((result) => {
+      fs.unlinkSync(locaFilePath);
+      return {
+        message: 'Success',
+        url: result.url,
+      };
+    })
+    .catch((error) => {
+      fs.unlinkSync(locaFilePath);
+      console.log(error);
+      return { message: 'Fail' };
+    });
+};
