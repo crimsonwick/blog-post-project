@@ -55,14 +55,14 @@ export const ArticleDetailPage = () => {
         </Box>
         {context?.loggedIn ? (
           <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
-            <PostsHeader count={count} name="comments" textSize="24px" />
+            <PostsHeader count={count} name='comments' textSize='24px' />
           </Box>
         ) : (
           <Box sx={{ marginTop: '72px', marginBottom: '24px' }}>
             <PostsHeader
               count={count}
-              name="comments ."
-              textSize="24px"
+              name='comments .'
+              textSize='24px'
               link={true}
             />
           </Box>
@@ -70,10 +70,10 @@ export const ArticleDetailPage = () => {
         <Box>
           {context?.loggedIn && (
             <AddComment
-              width="1000px"
+              width='1000px'
               articleId={articleId}
-              placeholder="Write a comment..."
-              labelAbove="Add Comment"
+              placeholder='Write a comment...'
+              labelAbove='Add Comment'
               refreshComment={refreshComments}
               Comment={true}
             />
@@ -85,14 +85,14 @@ export const ArticleDetailPage = () => {
               return <Comment key={o.id} object={o} />;
             })}
         </Box>
-        <Box mt={5} mb={5} display="flex" alignItems="center">
+        <Box mt={5} mb={5} display='flex' alignItems='center'>
           {next && (
             <Button
               onClick={() => {
                 allComments(articleId as unknown as string);
               }}
-              variant="outlined"
-              color="secondary"
+              variant='outlined'
+              color='secondary'
               sx={{
                 fontWeight: '600',
                 textTransform: 'capitalize',
