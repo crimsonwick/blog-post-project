@@ -1,33 +1,33 @@
-"use strict";
+'use strict';
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.createTable("Comments", {
+  await queryInterface.createTable('Comments', {
     id: {
       allowNull: false,
-      defaultValue: Sequelize.fn("uuid_generate_v4"),
+      defaultValue: Sequelize.fn('uuid_generate_v4'),
       primaryKey: true,
       type: Sequelize.UUID,
     },
     postId: {
       type: Sequelize.UUID,
       references: {
-        model: "Posts",
-        key: "id",
+        model: 'Posts',
+        key: 'id',
       },
       allowNull: false,
     },
     userId: {
       type: Sequelize.UUID,
       references: {
-        model: "Users",
-        key: "id",
+        model: 'Users',
+        key: 'id',
       },
       allowNull: false,
     },
     parentId: {
       type: Sequelize.UUID,
       references: {
-        model: "Comments",
-        key: "id",
+        model: 'Comments',
+        key: 'id',
       },
       defaultValue: null,
     },
@@ -46,5 +46,5 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 export async function down(queryInterface, Sequelize) {
-  await queryInterface.dropTable("Comments");
+  await queryInterface.dropTable('Comments');
 }

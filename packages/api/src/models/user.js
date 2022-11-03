@@ -1,10 +1,10 @@
-'use strict'
-import { Model } from 'sequelize'
+'use strict';
+import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
-      Users.hasMany(models.Posts, { foreignKey: 'userId', as: 'Posts' })
-      Users.hasMany(models.Comments, { foreignKey: 'userId', as: 'Comments' })
+      Users.hasMany(models.Posts, { foreignKey: 'userId', as: 'Posts' });
+      Users.hasMany(models.Comments, { foreignKey: 'userId', as: 'Comments' });
     }
   }
   Users.init(
@@ -33,8 +33,8 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Users',
-    },
-  )
+    }
+  );
 
-  return Users
-}
+  return Users;
+};

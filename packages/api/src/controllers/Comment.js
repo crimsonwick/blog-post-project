@@ -1,14 +1,13 @@
-import model from '../models'
+import model from '../models';
 // import { errorHandling } from '../middleware/Errors.js'
 
-const { Comments, Users } = model
+const { Comments, Users } = model;
 
 export class CommentController {
   /**
-   * Returns All Comments for a single post
    * @param {*} req
    * @param {*} res
-   * @returns
+   * @returns All Comments for a single post
    */
   static getRepliesfromOnePost = async (req, res) => {
     try {
@@ -21,36 +20,34 @@ export class CommentController {
           model: Users,
           as: 'commentedBy',
         },
-      })
-      return res.json(AllComments)
+      });
+      return res.json(AllComments);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-
+  };
   /**
    *Adds Comment on Post
    * @param {*} req
    * @param {*} res
    */
   static addComment = async (req, res) => {
-    const { postId, userId, body } = req.body
+    const { postId, userId, body } = req.body;
     try {
       const comment = await Comments.create({
         postId: postId,
         userId: userId,
         body: body,
-      })
-      res.json(comment)
+      });
+      res.json(comment);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-
+  };
   /**
-   *Returns All Comments alongwith User of the comment
    * @param {*} req
    * @param {*} res
+   * @returns All Comments alongwith User of the comment
    */
   static getComments = async (req, res) => {
     try {
@@ -59,15 +56,13 @@ export class CommentController {
           model: Users,
           as: 'commentedBy',
         },
-      })
-      res.json(getAll)
+      });
+      res.json(getAll);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-
+  };
   /**
-   *
    * @param {*} req
    * @param {*} res
    */
@@ -78,42 +73,38 @@ export class CommentController {
           model: Comments,
           as: 'Replies',
         },
-      })
-      res.json(replies)
+      });
+      res.json(replies);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-
+  };
   /**
    *Adds Reply on a comment storing the parent ID of comment
    * @param {*} req
    * @param {*} res
-   * @returns
    */
   static addReply = async (req, res) => {
-    const { userId, postId, parentId, body } = req.body
+    const { userId, postId, parentId, body } = req.body;
     try {
       const addReply = await Comments.create({
         userId: userId,
         postId: postId,
         parentId: parentId,
         body: body,
-      })
-      return res.json(addReply)
+      });
+      return res.json(addReply);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-
+  };
   /**
-   *Returns Replies Of a Single Comment
    * @param {*} req
    * @param {*} res
-   * @returns
+   * @returns Replies Of a Single Comment
    */
   static getRepliesfromOneComment = async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
     try {
       const response = await Comments.findAll({
         where: {
@@ -123,10 +114,10 @@ export class CommentController {
           model: Users,
           as: 'commentedBy',
         },
-      })
-      return res.json(response)
+      });
+      return res.json(response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 }

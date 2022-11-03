@@ -9,8 +9,11 @@ import { PostsHeader } from '../components/PostsHeader';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface } from '../interface/App';
 import { parseJwt } from '../services/LoginApi';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const AccountDetails = () => {
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const context: AppContextInterface | null = useContext(AppContext);
   useEffect(() => {
@@ -44,8 +47,10 @@ export const AccountDetails = () => {
       const parsetoken = parseJwt(context?.accessToken as string);
       const user = parsetoken.user;
       context?.setUserData(user);
+      setLoading(true);
       const response = await authAxios.put(`/users/${user.id}`, formData);
       console.log('response.data::: ', response.data);
+      setLoading(false);
       if (response) {
         context?.setDp(response.data.image);
         Alerts.success('Dp uploaded');
@@ -84,96 +89,108 @@ export const AccountDetails = () => {
         <BasicTable />
         <Box mt={7}>
           <PostsHeader name='Change Display Picture' />
-          <Box component='form' onSubmit={handleSubmit}>
-            <Button
-              variant='contained'
-              component='label'
-              sx={{
-                borderRadius: '20px',
-                width: '12%',
-                fontFamily: ['Poppins', 'serif'].join(','),
-                fontSize: 18,
-                marginTop: '25px',
-                height: '56px',
-                textTransform: 'capitalize',
-                fontWeight: 'bold',
-              }}
-              color='secondary'
-            >
-              Upload
-              <input
-                type='file'
-                name='file'
-                onChange={handleFileChange}
-                hidden
-              />
-            </Button>
+          {!loading && (
+            <Box component='form' onSubmit={handleSubmit}>
+              <Button
+                variant='contained'
+                component='label'
+                sx={{
+                  borderRadius: '20px',
+                  width: '12%',
+                  fontFamily: ['Poppins', 'serif'].join(','),
+                  fontSize: 18,
+                  marginTop: '25px',
+                  height: '56px',
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                }}
+                color='secondary'
+              >
+                Upload
+                <input
+                  type='file'
+                  name='file'
+                  onChange={handleFileChange}
+                  hidden
+                />
+              </Button>
 
-            <Button
-              variant='contained'
-              sx={{
-                borderRadius: '20px',
-                marginLeft: '10px',
-                width: '12%',
-                fontFamily: ['Poppins', 'serif'].join(','),
-                fontSize: 18,
-                marginTop: '25px',
-                height: '56px',
-                textTransform: 'capitalize',
-                fontWeight: 'bold',
-              }}
-              type='submit'
-            >
-              Submit
-            </Button>
+              <Button
+                variant='contained'
+                sx={{
+                  borderRadius: '20px',
+                  marginLeft: '10px',
+                  width: '12%',
+                  fontFamily: ['Poppins', 'serif'].join(','),
+                  fontSize: 18,
+                  marginTop: '25px',
+                  height: '56px',
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                }}
+                type='submit'
+              >
+                Submit
+              </Button>
 
-            {image && (
-              <Box mt={3}>
-                <div
-                  style={{
-                    display: 'inline-flex',
-                    borderRadius: 2,
-                    border: '1px solid #eaeaea',
-                    marginBottom: 8,
-                    marginRight: 8,
-                    width: 100,
-                    height: 100,
-                    padding: 4,
-                    boxSizing: 'border-box',
-                  }}
-                >
+              {image && (
+                <Box mt={3}>
                   <div
-                    style={{ display: 'flex', minWidth: 0, overflow: 'hidden' }}
+                    style={{
+                      display: 'inline-flex',
+                      borderRadius: 2,
+                      border: '1px solid #eaeaea',
+                      marginBottom: 8,
+                      marginRight: 8,
+                      width: 100,
+                      height: 100,
+                      padding: 4,
+                      boxSizing: 'border-box',
+                    }}
                   >
                     <div
                       style={{
                         display: 'flex',
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                        marginTop: 16,
+                        minWidth: 0,
+                        overflow: 'hidden',
                       }}
                     >
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt='image_preview'
+                      <div
                         style={{
-                          display: 'block',
-                          width: 'auto',
-                          height: '100%',
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          marginTop: 16,
                         }}
-                      />
+                      >
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt='image_preview'
+                          style={{
+                            display: 'block',
+                            width: 'auto',
+                            height: '100%',
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Box>
-            )}
+                </Box>
+              )}
 
-            {image && (
-              <Box mt={1}>
-                <button onClick={removeFile()}>Remove File</button>
-              </Box>
-            )}
-          </Box>
+              {image && (
+                <Box mt={1}>
+                  <button onClick={removeFile()}>Remove File</button>
+                </Box>
+              )}
+            </Box>
+          )}
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={loading}
+          >
+            <CircularProgress color='inherit' />
+          </Backdrop>
         </Box>
       </Container>
     </>

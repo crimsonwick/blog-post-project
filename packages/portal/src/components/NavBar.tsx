@@ -1,91 +1,99 @@
-import Logout from '@mui/icons-material/Logout'
-import SearchIcon from '@mui/icons-material/Search'
-import { Box, Typography } from '@mui/material'
-import AppBar from '@mui/material/AppBar'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import Toolbar from '@mui/material/Toolbar'
-import Tooltip from '@mui/material/Tooltip'
-import * as React from 'react'
-import { useContext, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { AppContext } from '../context/AppContext'
-import { AppContextInterface } from '../interface/App'
-import { searchAPI, searchMyPostsAPI } from '../services/LoginApi'
-import { Search, SearchIconWrapper, StyledInputBase } from '../styles/NavBar'
-import { Alerts } from './Alerts'
-import { NavBarProps } from '../interface/App'
+import Logout from '@mui/icons-material/Logout';
+import SearchIcon from '@mui/icons-material/Search';
+import { Box, Typography } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import * as React from 'react';
+import { useContext, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { AppContext } from '../context/AppContext';
+import { AppContextInterface } from '../interface/App';
+import { searchAPI, searchMyPostsAPI } from '../services/LoginApi';
+import { Search, SearchIconWrapper, StyledInputBase } from '../styles/NavBar';
+import { Alerts } from './Alerts';
+import { NavBarProps } from '../interface/App';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { AdvancedImage } from '@cloudinary/react';
 
 export const Navbar = (props: NavBarProps) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const context: AppContextInterface | null = useContext(AppContext)
-  const open = Boolean(anchorEl)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const context: AppContextInterface | null = useContext(AppContext);
+  const open = Boolean(anchorEl);
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: 'ddutykcuf',
+    },
+  });
 
   /**
    * Handle Click Function
    * @param event
    */
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   /**
    * Handle Close Function
    */
   const handleClose = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   /**
    * Handle Key Down Function
    * @param event
    */
   const handleKeyDown = async (
-    event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const target = event.target as HTMLInputElement
+    const target = event.target as HTMLInputElement;
     if (props.mainPage) {
-      const response = await searchAPI(target.value)
-      context?.setSearchData(response.data)
+      const response = await searchAPI(target.value);
+      context?.setSearchData(response.data);
     } else {
       const response = await searchMyPostsAPI(
         target.value,
-        (context?.userData.id as unknown) as string,
-      )
-      context?.setSearchMyData(response.data)
+        context?.userData.id as unknown as string
+      );
+      context?.setSearchMyData(response.data);
     }
-  }
+  };
 
   /**
    * handle change
    * @param event
    */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    ;[event.target.name] = [event.target.value]
-  }
+    [event.target.name] = [event.target.value];
+  };
 
   /**
    * handle logout
    */
   const handleLogout = () => {
     try {
-      context?.logoutToken()
-      console.log(`revoking token: ${context?.refreshToken}`)
-      context?.setLoggedIn(false)
-      context?.setDp('')
-      Alerts.success('Logged out Successfully')
+      context?.logoutToken();
+      console.log(`revoking token: ${context?.refreshToken}`);
+      context?.setLoggedIn(false);
+      context?.setDp('');
+      Alerts.success('Logged out Successfully');
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
   return (
     <>
-      <AppBar position="sticky" style={{ background: '#FFFFFF' }}>
+      <AppBar position='sticky' style={{ background: '#FFFFFF' }}>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
             <Typography
@@ -93,8 +101,8 @@ export const Navbar = (props: NavBarProps) => {
               style={
                 props.isHomeLinkActive ? { color: 'black' } : { color: 'grey' }
               }
-              to="/"
-              variant="h6"
+              to='/'
+              variant='h6'
               sx={{
                 marginLeft: '5px',
                 textTransform: 'capitalize',
@@ -111,8 +119,8 @@ export const Navbar = (props: NavBarProps) => {
                     ? { color: 'black' }
                     : { color: 'grey' }
                 }
-                to="/articles"
-                variant="h6"
+                to='/articles'
+                variant='h6'
                 sx={{
                   marginLeft: '15px',
                   textTransform: 'capitalize',
@@ -132,7 +140,7 @@ export const Navbar = (props: NavBarProps) => {
 
               <StyledInputBase
                 sx={{ color: '#111111' }}
-                placeholder="Search…"
+                placeholder='Search…'
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
@@ -142,9 +150,9 @@ export const Navbar = (props: NavBarProps) => {
           {props.login && (
             <Button
               component={Link}
-              to="/create-article"
-              variant="contained"
-              color="secondary"
+              to='/create-article'
+              variant='contained'
+              color='secondary'
               sx={{
                 fontWeight: '600',
                 textTransform: 'capitalize',
@@ -158,18 +166,18 @@ export const Navbar = (props: NavBarProps) => {
             <Box>
               <Button
                 component={Link}
-                to="/login"
-                variant="contained"
-                color="primary"
+                to='/login'
+                variant='contained'
+                color='primary'
                 sx={{ marginRight: '10px' }}
               >
                 Login
               </Button>
               <Button
                 component={Link}
-                to="/signup"
-                variant="contained"
-                color="secondary"
+                to='/signup'
+                variant='contained'
+                color='secondary'
               >
                 Sign Up
               </Button>
@@ -177,31 +185,25 @@ export const Navbar = (props: NavBarProps) => {
           )}
           {props.login && (
             <Box>
-              <Tooltip title="Account settings">
+              <Tooltip title='Account settings'>
                 <IconButton
                   onClick={handleClick}
-                  size="small"
+                  size='small'
                   sx={{ ml: 2 }}
                   aria-controls={open ? 'account-menu' : undefined}
-                  aria-haspopup="true"
+                  aria-haspopup='true'
                   aria-expanded={open ? 'true' : undefined}
                 >
-                  <Avatar
-                    alt="user display picture"
-                    src={
-                      context?.dp
-                        ? require(`../images/${context?.dp}`)
-                        : context?.userData.avatar
-                        ? require(`../images/${context?.userData.avatar}`)
-                        : ''
-                    }
-                    sx={{ width: 32, height: 32 }}
+                  <AdvancedImage
+                    cldImg={cld.image(`main/${context?.dp}`)}
+                    style={{ width: 32, height: 32 }}
+                    alt='dp'
                   />
                 </IconButton>
               </Tooltip>
               <Menu
                 anchorEl={anchorEl}
-                id="account-menu"
+                id='account-menu'
                 open={open}
                 onClose={handleClose}
                 onClick={handleClose}
@@ -235,32 +237,27 @@ export const Navbar = (props: NavBarProps) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
                 <Link
-                  to="/account-details"
+                  to='/account-details'
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
                   <MenuItem>
-                    <Avatar
-                      alt="user display picture"
-                      src={
-                        context?.dp
-                          ? require(`../images/${context.dp}`)
-                          : context?.userData.avatar
-                          ? require(`../images/${context.userData.avatar}`)
-                          : ''
-                      }
+                    <AdvancedImage
+                      cldImg={cld.image(`main/${context?.dp}`)}
+                      style={{ width: 32, height: 32 }}
+                      alt='dp'
                     />
                     My account
                   </MenuItem>
                 </Link>
                 <Divider />
                 <Link
-                  to="/"
+                  to='/'
                   style={{ textDecoration: 'none', color: 'black' }}
                   onClick={handleLogout}
                 >
                   <MenuItem>
                     <ListItemIcon>
-                      <Logout fontSize="small" />
+                      <Logout fontSize='small' />
                     </ListItemIcon>
                     Logout
                   </MenuItem>
@@ -271,5 +268,5 @@ export const Navbar = (props: NavBarProps) => {
         </Toolbar>
       </AppBar>
     </>
-  )
-}
+  );
+};

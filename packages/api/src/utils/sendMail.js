@@ -1,11 +1,11 @@
-import dotenv from 'dotenv'
-import sgMail from '@sendgrid/mail'
-const sendGridKey = process.env.SENDGRID_KEY
+import dotenv from 'dotenv';
+import sgMail from '@sendgrid/mail';
+const sendGridKey = process.env.SENDGRID_KEY;
 
-dotenv.config()
+dotenv.config();
 
 export const sendEmail = (user, token) => {
-  sgMail.setApiKey(sendGridKey)
+  sgMail.setApiKey(sendGridKey);
 
   const msg = {
     to: user.email,
@@ -14,7 +14,7 @@ export const sendEmail = (user, token) => {
     dynamicTemplateData: {
       clientUrl: `${process.env.CLIENT_URL}/change-password?token=${token}`,
     },
-  }
+  };
 
-  sgMail.send(msg)
-}
+  sgMail.send(msg);
+};

@@ -99,14 +99,11 @@ export const ArticleCard = React.forwardRef(
               }}
             >
               <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
-                <Avatar
-                  alt='user display picture'
-                  src={
-                    props?.object?.postedBy.avatar
-                      ? require(`../images/${props.object.postedBy.avatar}`)
-                      : ''
-                  }
-                  sx={{ width: 32, height: 32 }}
+                <AdvancedImage
+                  cldImg={cld.image(`main/${props?.object?.postedBy.avatar}`)}
+                  style={{ width: 32, height: 32 }}
+                  sx={{ width: 32, height: 32, borderRadius: 5 }}
+                  alt='dp'
                 />
               </ListItemIcon>
               <ListItemText

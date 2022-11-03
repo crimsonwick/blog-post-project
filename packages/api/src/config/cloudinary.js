@@ -62,9 +62,6 @@ export const uploadDp = async (locaFilePath) => {
       },
       (error, result) => {
         console.log(result);
-        console.log(
-          result.responsive_breakpoints.map((obj) => console.log(obj))
-        );
       }
     )
     .then((result) => {

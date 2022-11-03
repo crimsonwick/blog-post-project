@@ -3,7 +3,7 @@ export const getData = (req, res) => {
   return res.json(data);
 };
 
-export function PaginatedComments(model, associatedModel, alias) {
+export const PaginatedComments = (model, associatedModel, alias) => {
   return async (req, res, next) => {
     const commentCursor = parseInt(req.query.commentCursor);
     const limit = parseInt(req.query.limit);
@@ -48,4 +48,4 @@ export function PaginatedComments(model, associatedModel, alias) {
       res.status(500).json({ message: e.message });
     }
   };
-}
+};

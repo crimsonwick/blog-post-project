@@ -1,17 +1,17 @@
-"use strict";
+'use strict';
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.createTable("Posts", {
+  await queryInterface.createTable('Posts', {
     id: {
       allowNull: false,
-      defaultValue: Sequelize.fn("uuid_generate_v4"),
+      defaultValue: Sequelize.fn('uuid_generate_v4'),
       primaryKey: true,
       type: Sequelize.UUID,
     },
     userId: {
       type: Sequelize.UUID,
       references: {
-        model: "Users",
-        key: "id",
+        model: 'Users',
+        key: 'id',
       },
       allowNull: false,
     },
@@ -38,5 +38,5 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 export async function down(queryInterface, Sequelize) {
-  await queryInterface.dropTable("Posts");
+  await queryInterface.dropTable('Posts');
 }
