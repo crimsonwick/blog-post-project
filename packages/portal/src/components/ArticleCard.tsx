@@ -21,7 +21,6 @@ const cld = new Cloudinary({
     cloudName: 'ddutykcuf',
   },
 });
-
 export const ArticleCard = React.forwardRef(
   (
     props: PropsArticleCard,
