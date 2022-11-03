@@ -3,10 +3,10 @@ import { createTheme, ThemeOptions } from '@mui/material/styles';
 interface CustomThemeOptions extends ThemeOptions {
   palette: {
     [key: string]: any;
-  },
+  };
   typography: {
     [key: string]: any;
-  }
+  };
 }
 
 const options: CustomThemeOptions = {
@@ -23,6 +23,6 @@ const options: CustomThemeOptions = {
   typography: {
     fontFamily: 'Poppins',
   },
-}
+};
 
 export const theme = createTheme(options);

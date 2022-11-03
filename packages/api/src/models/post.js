@@ -67,7 +67,6 @@ export default (sequelize, DataTypes) => {
         });
         readDataValues.dataValues.postedBy =
           readDataValues.dataValues.postedBy.dataValues;
-        console.log(readDataValues.dataValues);
         await client.index({
           index: 'posts',
           body: readDataValues.dataValues,

@@ -13,7 +13,7 @@ export const MyArticles = () => {
   const limit = 4;
   const [link, setLink] = useState('');
   const userId = JSON.parse(localStorage.getItem('userDetails') || '{}')
-    .id as unknown as string;
+    .id as string;
 
   const { posts, hasMore, loading, cursor, error } =
     useInfiniteScrollOnMyArticles(limit, link, userId);
@@ -27,7 +27,7 @@ export const MyArticles = () => {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           console.log('Visible');
-          setLink(cursor.current);
+          setLink(cursor?.current as string);
         }
       });
       if (node) observer.current.observe(node);
@@ -44,7 +44,7 @@ export const MyArticles = () => {
         <Navbar isArticlesLinkActive={true} />
       )}
       <Container sx={{ marginY: 10 }}>
-        <PostsHeader name='My Articles' />
+        <PostsHeader name="My Articles" />
 
         {posts && context?.searchMyData?.length === 0 ? (
           <Box mt={5}>
@@ -56,7 +56,7 @@ export const MyArticles = () => {
             })}
             {loading && <Loader />}
             {error && (
-              <Typography sx={{ marginTop: '20px' }} align='center'>
+              <Typography sx={{ marginTop: '20px' }} align="center">
                 Error occured in loading post...
               </Typography>
             )}
@@ -69,7 +69,7 @@ export const MyArticles = () => {
           })
         )}
         {!loading && !hasMore && (
-          <Typography sx={{ marginTop: '20px' }} align='center'>
+          <Typography sx={{ marginTop: '20px' }} align="center">
             No more articles to show...
           </Typography>
         )}

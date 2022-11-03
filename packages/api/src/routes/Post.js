@@ -3,6 +3,7 @@ import { CommentController } from '../controllers/Comment.js';
 import { PostController } from '../controllers/Post.js';
 import { authentication } from '../middleware/Authentication.js';
 import { getData, PaginatedComments } from '../middleware/Pagination.js';
+import { getSearchData, SearchFor } from '../middleware/SearchFor.js';
 import model from '../models';
 import { upload } from '../utils/multer.js';
 
@@ -17,7 +18,11 @@ class PostRouter {
       upload.single('file'),
       PostController.addPost
     );
-    router.get('/search', PostController.searchPosts);
+    router.get(
+      '/search',
+      SearchFor('LandingPage'),
+      PostController.searchQueryFor
+    );
     router.get('/:id/comments', CommentController.getRepliesfromOnePost);
     router.get('/', PostController.getPosts);
     router.get('/:id', PostController.postDetail);

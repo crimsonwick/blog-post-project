@@ -3,27 +3,9 @@ import client from '../config/elasticsearch.js'
 import { errorHandling } from '../middleware/Errors.js'
 import { uploadToCloudinary } from '../config/cloudinary'
 const { Op } = require('sequelize')
+import { parseCloudinaryUrl } from '../utils/cloudinaryHelper'
 
 const { Users, Posts, Comments } = model
-
-const reverseString = (str) => {
-  // Check input
-  if (!str || str.length < 2 || typeof str !== 'string') {
-    return 'Not valid'
-  }
-
-  // Take empty array revArray
-  const revArray = []
-  const length = str.length - 1
-
-  // Looping from the end
-  for (let i = length; i >= 0; i--) {
-    revArray.push(str[i])
-  }
-
-  // Joining the array elements
-  return revArray.join('')
-}
 
 const query = async (queryLimit, queryId, queryCondition, queryAll) => {
   const limit = queryLimit
@@ -80,10 +62,7 @@ export class PostController {
     try {
       if (file) {
         const result = await uploadToCloudinary(file)
-        let url = result.url
-        url = reverseString(url)
-        url = url.substring(0, url.indexOf('/'))
-        url = reverseString(url)
+        let url = parseCloudinaryUrl(result.url)
 
         // const pathname = new URL(url).pathname
         const addNewPost = await Posts.create({
@@ -104,69 +83,6 @@ export class PostController {
     }
   }
 
-  /**
-   * Search Posts
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
-  static searchPosts = async (req, res) => {
-    let query = {
-      index: 'posts',
-      body: {
-        query: {
-          query_string: {
-            query: req.query.title,
-            default_field: '*',
-          },
-        },
-      },
-    }
-    try {
-      const postSearched = await client.search(query)
-      const filteredPosts = postSearched.body.hits.hits.map((o) => o._source)
-      return res.json(filteredPosts)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  /**
-   * Searching in user's MyArticles Page
-   * @param {*} req
-   * @param {*} res
-   * @returns
-   */
-  static searchMyPost = async (req, res) => {
-    let query = {
-      index: 'posts',
-      body: {
-        query: {
-          match: { userId: req.params.id },
-        },
-      },
-    }
-    try {
-      const LoginDetails = await Users.findAll({
-        where: {
-          email: req.user.user.email,
-        },
-      })
-      if (!LoginDetails) return res.json(errorHandling(401))
-      else {
-        const myPosts = await client.search(query)
-        if (!myPosts) return res.json(`You haven't Posted Anything!!`)
-        else {
-          const filtered = myPosts.body.hits.hits.filter((object) =>
-            object._source.title.includes(req.query.title),
-          )
-          return res.json(filtered)
-        }
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
   /**
    * Gets Posts
    * @param {*} req
@@ -285,6 +201,51 @@ export class PostController {
       }
     } catch (error) {
       console.log(error)
+    }
+  }
+  static searchQueryFor = async (req, res) => {
+    let query = {}
+    let filtered = []
+    if (req.type === 'My-articles') {
+      query = {
+        index: 'posts',
+        body: {
+          query: {
+            match: { userId: req.params.id },
+          },
+        },
+      }
+      const LoginDetails = await Users.findAll({
+        where: {
+          email: req.user.user.email,
+        },
+      })
+      if (!LoginDetails) return `Un Authorized Access`
+      else {
+        const myPosts = await client.search(query)
+        if (!myPosts) return `You haven't Posted Anything!!`
+        else {
+          filtered = myPosts.body.hits.hits.filter((object) =>
+            object._source.title.includes(req.query.title),
+          )
+        }
+      }
+      return res.json(filtered)
+    } else {
+      let query = {
+        index: 'posts',
+        body: {
+          query: {
+            query_string: {
+              query: req.query.title,
+              default_field: '*',
+            },
+          },
+        },
+      }
+      const postSearched = await client.search(query)
+      filtered = postSearched.body.hits.hits.map((o) => o._source)
+      return res.json(filtered)
     }
   }
 }
