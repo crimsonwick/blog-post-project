@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
-import { bodyInterface } from '../context/AppContext'
 import React from 'react'
 import { Control } from 'react-hook-form'
+import { bodyInterface } from '../context/AppContext'
 
 export interface UserInterface {
   id?: string

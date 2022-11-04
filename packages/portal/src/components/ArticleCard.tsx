@@ -1,9 +1,9 @@
 import { AdvancedImage, responsive } from '@cloudinary/react';
-import Avatar from '@mui/material/Avatar';
 import { Cloudinary } from '@cloudinary/url-gen';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import { Card, List } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';

@@ -6,7 +6,7 @@ export const Protected: React.FC<ProtectedInterface> = () => {
   return localStorage.getItem('accessToken') ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" />
+    <Navigate to='/login' />
   );
 };
 

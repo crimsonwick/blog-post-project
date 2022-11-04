@@ -5,15 +5,14 @@ import { FormLabel, InputAdornment, OutlinedInput } from '@mui/material';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { Box, Container } from '@mui/system';
-import axios from 'axios';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
+import customAxios from '../auth/useAxios';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
-import customAxios from '../auth/useAxios';
 import '../styles/signup.css';
 YupPassword(yup);
 const schema = yup

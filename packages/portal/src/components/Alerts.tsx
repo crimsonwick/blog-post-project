@@ -6,7 +6,6 @@ import {
   useSnackbar,
   VariantType,
 } from 'notistack';
-import React from 'react';
 
 let useSnackbarRef: ProviderContext;
 
@@ -30,8 +29,8 @@ type CloseButtonInterface = {
 export const CloseButton = ({ id }: CloseButtonInterface) => {
   const { closeSnackbar } = useSnackbar();
   return (
-    <IconButton color="inherit" size="small" onClick={() => closeSnackbar(id)}>
-      <CloseIcon fontSize="small" />
+    <IconButton color='inherit' size='small' onClick={() => closeSnackbar(id)}>
+      <CloseIcon fontSize='small' />
     </IconButton>
   );
 };

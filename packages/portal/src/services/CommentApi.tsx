@@ -1,8 +1,8 @@
 import customAxios from '../auth/useAxios';
 import {
-  CommentInterface,
   AddCommentFunctionInterface,
   AddReplyInterface,
+  CommentInterface,
 } from '../interface/App';
 
 export const getCommentByPostId = async (

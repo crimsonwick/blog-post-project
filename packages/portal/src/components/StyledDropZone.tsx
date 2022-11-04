@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { AppContext } from '../context/AppContext';
@@ -58,7 +58,7 @@ export const StyledDropZone = () => {
       );
       context?.setPostImage(file);
     },
-    [context, myFile]
+    [context]
   );
 
   /**

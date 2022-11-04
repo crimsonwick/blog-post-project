@@ -1,4 +1,6 @@
 import { Button } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Box, Container } from '@mui/system';
 import React, { useContext, useEffect, useState } from 'react';
 import authAxios from '../auth/authAxios';
@@ -9,8 +11,6 @@ import { PostsHeader } from '../components/PostsHeader';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface } from '../interface/App';
 import { parseJwt } from '../services/LoginApi';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 
 export const AccountDetails = () => {
   const [loading, setLoading] = useState(false);

@@ -14,11 +14,11 @@ import YupPassword from 'yup-password';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
 import { InputButton } from '../components/InputButton';
-import { getSignUpDetails } from '../services/LoginApi';
 import {
   SignupDataInterface,
   SignupUseReducerInterface,
 } from '../interface/App';
+import { getSignUpDetails } from '../services/LoginApi';
 import '../styles/signup.css';
 import { theme } from '../themes/theme';
 YupPassword(yup);

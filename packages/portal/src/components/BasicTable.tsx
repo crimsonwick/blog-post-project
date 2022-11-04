@@ -1,4 +1,5 @@
 import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,7 +10,6 @@ import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface } from '../interface/App';
 import { parseName } from '../services/LoginApi';
-import { styled } from '@mui/material/styles';
 
 /**
  * Returns created data from parameters
@@ -51,7 +51,7 @@ export const BasicTable = () => {
   return (
     <React.Fragment>
       <TableContainer component={Paper} elevation={2}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableBody>
             {rows &&
               rows.map((row) => (
@@ -59,10 +59,10 @@ export const BasicTable = () => {
                   key={row.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {row.name}
                   </TableCell>
-                  <TableCell align="left">{row.details}</TableCell>
+                  <TableCell align='left'>{row.details}</TableCell>
                 </StyledTableRow>
               ))}
           </TableBody>

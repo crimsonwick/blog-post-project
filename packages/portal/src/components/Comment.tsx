@@ -1,3 +1,5 @@
+import { AdvancedImage } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 import {
   Button,
   Card,
@@ -7,14 +9,12 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { CommentInterface } from '../interface/App';
 import { getReply, parseName, parseTime } from '../services/LoginApi';
 import { AddComment } from './AddComment';
-import { AdvancedImage } from '@cloudinary/react';
-import { Cloudinary } from '@cloudinary/url-gen';
-import Avatar from '@mui/material/Avatar';
 
 interface CommentComponentInterface<C> {
   object: C;

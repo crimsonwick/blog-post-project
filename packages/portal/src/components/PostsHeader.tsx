@@ -1,6 +1,6 @@
-import { Divider, Typography, Box } from '@mui/material';
-import { PostHeaderProps } from '../interface/App';
+import { Box, Divider, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { PostHeaderProps } from '../interface/App';
 
 export const PostsHeader = (props: PostHeaderProps) => {
   const customSize = props.textSize;

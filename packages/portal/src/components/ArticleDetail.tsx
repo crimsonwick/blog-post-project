@@ -9,10 +9,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../context/AppContext';
+import { useEffect, useState } from 'react';
 import {
-  AppContextInterface,
   ArticleDetailComponentInterface,
   PostInterface,
 } from '../interface/App';
@@ -30,7 +28,6 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
   const [loading, setLoading] = useState(false);
   const [post, setPost] = useState<PostInterface>();
   const id = props.articleId;
-  const context: AppContextInterface | null = useContext(AppContext);
 
   /**
    * Get Post

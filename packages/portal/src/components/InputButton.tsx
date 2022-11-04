@@ -1,13 +1,12 @@
-import { Button } from '@mui/material'
-import React from 'react'
-import { InputButtonInterface } from '../interface/App'
+import { Button } from '@mui/material';
+import { InputButtonInterface } from '../interface/App';
 
 export const InputButton = (props: InputButtonInterface) => {
-  const customWidth = props.width
+  const customWidth = props.width;
   return (
     <Button
-      type="submit"
-      variant="contained"
+      type='submit'
+      variant='contained'
       sx={{
         width: customWidth || '100%',
         fontFamily: ['Poppins', 'serif'].join(','),
@@ -18,9 +17,9 @@ export const InputButton = (props: InputButtonInterface) => {
         textTransform: 'capitalize',
         fontWeight: 'bold',
       }}
-      color="secondary"
+      color='secondary'
     >
       {props.name}
     </Button>
-  )
-}
+  );
+};
