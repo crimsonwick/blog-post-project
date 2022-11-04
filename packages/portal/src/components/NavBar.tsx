@@ -1,3 +1,4 @@
+import Avatar from '@mui/material/Avatar';
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
 import Logout from '@mui/icons-material/Logout';
@@ -89,6 +90,8 @@ export const Navbar = (props: NavBarProps) => {
       console.log(err);
     }
   };
+
+  console.log('context.dp:::::', context?.dp);
   return (
     <>
       <AppBar position='sticky' style={{ background: '#FFFFFF' }}>
@@ -192,11 +195,19 @@ export const Navbar = (props: NavBarProps) => {
                   aria-haspopup='true'
                   aria-expanded={open ? 'true' : undefined}
                 >
-                  <AdvancedImage
-                    cldImg={cld.image(`main/${context?.dp}`)}
-                    style={{ width: 32, height: 32 }}
-                    alt='dp'
-                  />
+                  {context?.dp ? (
+                    <AdvancedImage
+                      cldImg={cld.image(`main/uploads/${context?.dp}`)}
+                      style={{ width: 32, height: 32, borderRadius: '50%' }}
+                      alt='dp'
+                    />
+                  ) : (
+                    <Avatar
+                      src={''}
+                      alt='dp'
+                      sx={{ width: 32, height: 32, borderRadius: '50%' }}
+                    />
+                  )}
                 </IconButton>
               </Tooltip>
               <Menu
@@ -239,11 +250,20 @@ export const Navbar = (props: NavBarProps) => {
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
                   <MenuItem>
-                    <AdvancedImage
-                      cldImg={cld.image(`main/${context?.dp}`)}
-                      style={{ width: 32, height: 32 }}
-                      alt='dp'
-                    />
+                    {context?.dp ? (
+                      <AdvancedImage
+                        cldImg={cld.image(`main/uploads/${context?.dp}`)}
+                        style={{
+                          width: 32,
+                          height: 32,
+                          borderRadius: '50%',
+                          marginRight: '7px',
+                        }}
+                        alt='dp'
+                      />
+                    ) : (
+                      <Avatar src={''} alt='dp' />
+                    )}
                     My account
                   </MenuItem>
                 </Link>

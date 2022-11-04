@@ -95,16 +95,19 @@ export const ArticleDetail = (props: ArticleDetailComponentInterface) => {
               }}
             >
               <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
-                <Avatar
-                  src={
-                    context?.dp
-                      ? require(`../images/${context.dp}`)
-                      : post?.postedBy.avatar
-                      ? require(`../images/${post?.postedBy.avatar}`)
-                      : ''
-                  }
-                  alt='user_dp'
-                />
+                {post?.postedBy.avatar ? (
+                  <AdvancedImage
+                    cldImg={cld.image(`main/uploads/${post?.postedBy.avatar}`)}
+                    style={{ width: 32, height: 32, borderRadius: '50%' }}
+                    alt='dp'
+                  />
+                ) : (
+                  <Avatar
+                    src={''}
+                    alt='dp'
+                    sx={{ width: 32, height: 32, borderRadius: '50%' }}
+                  />
+                )}
               </ListItemIcon>
               <ListItemText
                 primary={parseName(post?.postedBy.email as unknown as string)}

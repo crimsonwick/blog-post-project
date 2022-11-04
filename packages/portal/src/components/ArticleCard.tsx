@@ -1,4 +1,5 @@
 import { AdvancedImage, responsive } from '@cloudinary/react';
+import Avatar from '@mui/material/Avatar';
 import { Cloudinary } from '@cloudinary/url-gen';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
@@ -99,12 +100,21 @@ export const ArticleCard = React.forwardRef(
               }}
             >
               <ListItemIcon sx={{ minWidth: 'auto', marginRight: '12px' }}>
-                <AdvancedImage
-                  cldImg={cld.image(`main/${props?.object?.postedBy.avatar}`)}
-                  style={{ width: 32, height: 32 }}
-                  sx={{ width: 32, height: 32, borderRadius: 5 }}
-                  alt='dp'
-                />
+                {props?.object?.postedBy.avatar ? (
+                  <AdvancedImage
+                    cldImg={cld.image(
+                      `main/uploads/${props?.object?.postedBy.avatar}`
+                    )}
+                    style={{ width: 32, height: 32, borderRadius: '50%' }}
+                    alt='dp'
+                  />
+                ) : (
+                  <Avatar
+                    src={''}
+                    alt='dp'
+                    sx={{ width: 32, height: 32, borderRadius: '50%' }}
+                  />
+                )}
               </ListItemIcon>
               <ListItemText
                 primary={parseName(

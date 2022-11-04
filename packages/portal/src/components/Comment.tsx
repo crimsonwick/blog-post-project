@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Card,
   List,
@@ -9,14 +8,23 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CommentInterface } from '../interface/App';
 import { getReply, parseName, parseTime } from '../services/LoginApi';
 import { AddComment } from './AddComment';
+import { AdvancedImage } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
+import Avatar from '@mui/material/Avatar';
 
 interface CommentComponentInterface<C> {
   object: C;
 }
+
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: 'ddutykcuf',
+  },
+});
 
 export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
   const [replies, setReplies] = useState<boolean>(false);
@@ -52,14 +60,21 @@ export const Comment = (props: CommentComponentInterface<CommentInterface>) => {
           <List>
             <ListItem>
               <ListItemIcon>
-                <Avatar
-                  src={
-                    props.object.commentedBy.avatar
-                      ? require(`../images/${props.object.commentedBy.avatar}`)
-                      : ''
-                  }
-                  alt='user_dp'
-                />
+                {props?.object?.commentedBy.avatar ? (
+                  <AdvancedImage
+                    cldImg={cld.image(
+                      `main/uploads/${props?.object?.commentedBy.avatar}`
+                    )}
+                    style={{ width: 32, height: 32, borderRadius: '50%' }}
+                    alt='dp'
+                  />
+                ) : (
+                  <Avatar
+                    src={''}
+                    alt='dp'
+                    sx={{ width: 32, height: 32, borderRadius: '50%' }}
+                  />
+                )}
               </ListItemIcon>
               <ListItemText sx={{ marginRight: '10px' }}>
                 {parseName(props.object.commentedBy.email)}

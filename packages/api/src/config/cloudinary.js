@@ -18,6 +18,7 @@ export const uploadToCloudinary = async (locaFilePath) => {
     .upload(
       locaFilePath,
       {
+        overwrite: false,
         responsive_breakpoints: [
           {
             create_derived: false,
@@ -53,11 +54,12 @@ export const uploadToCloudinary = async (locaFilePath) => {
 export const uploadDp = async (locaFilePath) => {
   const mainFolderName = 'main';
   const filePathOnCloudinary =
-    mainFolderName + '/' + Path.parse(locaFilePath).name;
+    mainFolderName + '/uploads/' + Path.parse(locaFilePath).name;
   return cloudinary.uploader
     .upload(
       locaFilePath,
       {
+        overwrite: false,
         public_id: filePathOnCloudinary,
       },
       (error, result) => {
