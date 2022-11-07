@@ -49,7 +49,6 @@ export const ContextProvider = (props: { children?: React.ReactNode }) => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('login');
-    localStorage.removeItem('userDetails');
     setAccessToken(null);
     setRefreshToken(null);
   };
