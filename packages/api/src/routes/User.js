@@ -7,6 +7,7 @@ import { upload } from '../utils/multer.js';
 const router = express.Router();
 class UserRouter {
   checkRequests() {
+    router.get('/:id', UserController.userDetail);
     router.post('/refresh-access', UserController.token);
     router.post('/forget-password', UserController.forgetPassword);
     router.put('/reset-password', UserController.resetPassword);

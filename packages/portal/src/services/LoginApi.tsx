@@ -68,6 +68,10 @@ export const postDetail = async (id: string) => {
   return await customAxios.get(`/posts/${id}`);
 };
 
+export const userDetail = async (id: string) => {
+  return await customAxios.get(`users/${id}`);
+};
+
 export const parseTime = (str: string) => {
   let incomingDate = new Date(str);
   let currentDate = new Date();
@@ -165,9 +169,11 @@ export const getReply = async (id: string) => {
   return await customAxios.get(`/comments/${id}/replies`);
 };
 
-export const parseName = (str: string) => {
-  let nameField = str.split('@');
-  return nameField[0];
+export const parseName = (str: string | undefined) => {
+  if (typeof str === 'string') {
+    let nameField = str.split('@');
+    return nameField[0];
+  }
 };
 export const searchMyPostsAPI = async (title: string, id: string) => {
   return await authAxios.get(`/users/${id}/posts/search?title=${title}`);

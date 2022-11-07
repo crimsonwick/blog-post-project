@@ -8,9 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
-import { AppContextInterface } from '../interface/App';
+import { AppContextInterface, UserDetailInterface } from '../interface/App';
 import { parseName } from '../services/LoginApi';
-
+import { userDetail } from '../services/LoginApi';
+import { useEffect, useState } from 'react';
 /**
  * Returns created data from parameters
  * @param name
@@ -26,16 +27,29 @@ function createData(
 
 export const BasicTable = () => {
   const context: AppContextInterface | null = useContext(AppContext);
-  if (!context) {
-    return <h1> Not Working</h1>;
-  } else {
-    if (!context.userData.id || !context.userData.email) {
-      return <h1> Not Working</h1>;
+  const [data, setData] = useState<UserDetailInterface>();
+  const [loading, setLoading] = useState(false);
+
+  const getUser = async (id: string) => {
+    try {
+      setLoading(true);
+      if (id) {
+        const response = await userDetail(id);
+        setData(response.data);
+      }
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
     }
-  }
+  };
+
+  useEffect(() => {
+    getUser(JSON.parse(localStorage.getItem('userDetails') || '{}').id);
+  }, []);
+
   const rows = [
-    context && createData('Username', parseName(context.userData.email)),
-    context && createData('Email', context.userData.email),
+    context && createData('Username', parseName(data?.email) as string),
+    context && createData('Email', data?.email as string),
   ];
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -56,13 +70,13 @@ export const BasicTable = () => {
             {rows &&
               rows.map((row) => (
                 <StyledTableRow
-                  key={row.name}
+                  key={row?.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component='th' scope='row'>
-                    {row.name}
+                    {row?.name}
                   </TableCell>
-                  <TableCell align='left'>{row.details}</TableCell>
+                  <TableCell align='left'>{row?.details}</TableCell>
                 </StyledTableRow>
               ))}
           </TableBody>

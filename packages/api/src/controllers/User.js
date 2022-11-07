@@ -220,4 +220,24 @@ export class UserController {
       console.log(error);
     }
   };
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns details of user
+   */
+  static userDetail = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      const user = await Users.findOne({
+        where: { id },
+        attributes: ['email', 'avatar'],
+      });
+      return res.status(200).json(user);
+    } catch (error) {
+      console.log(error);
+      res.status(500);
+    }
+  };
 }

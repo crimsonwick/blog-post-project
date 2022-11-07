@@ -11,7 +11,6 @@ const router = express.Router();
 const { Users, Comments } = model;
 class PostRouter {
   checkRequests() {
-    router.get('/:id');
     router.post(
       '/',
       authentication,

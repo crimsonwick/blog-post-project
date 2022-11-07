@@ -46,14 +46,17 @@ export const AccountDetails = () => {
       }
       const parsetoken = parseJwt(context?.accessToken as string);
       const user = parsetoken.user;
+      const userId = JSON.parse(localStorage.getItem('userDetails') || '{}').id;
+      console.log(userId);
       context?.setUserData(user);
       setLoading(true);
-      const response = await authAxios.put(`/users/${user.id}`, formData);
+      const response = await authAxios.put(`/users/${userId}`, formData);
       console.log('response.data::: ', response.data);
       setLoading(false);
       if (response) {
         context?.setDp(response.data.image);
         setImage(null);
+        localStorage.setItem('avatar', JSON.stringify(response.data.image));
         Alerts.success('Dp uploaded');
       }
     } catch (err) {

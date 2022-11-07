@@ -70,7 +70,6 @@ const CreateArticle = () => {
           formData.append('body', data.body);
           formData.append('file', context?.postImage as unknown as string);
           formData.append('timeToRead', data.mins as unknown as Blob);
-          debugger;
           const response = await addPost(formData);
           console.log(response);
           if (response.status >= 200 && response.status < 400) {

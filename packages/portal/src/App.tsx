@@ -42,6 +42,7 @@ function App() {
     context?.setUserData(
       JSON.parse(localStorage.getItem('userDetails') || '{}')
     );
+    context?.setDp(JSON.parse(localStorage.getItem('avatar') || '{}'));
     localStorage.setItem('login', response?.data.accessToken);
   };
 

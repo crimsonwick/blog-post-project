@@ -13,6 +13,11 @@ export interface UserInterface {
   updatedAt?: string
 }
 
+export interface UserDetailInterface {
+  email: string
+  avatar: string
+}
+
 export interface CursorInterface {
   current: string
 }
