@@ -19,7 +19,6 @@ import {
 } from '../interface/App';
 import { addPost } from '../services/LoginApi';
 import '../styles/signup.css';
-
 const schema = yup
   .object({
     title: yup.string().required(),
@@ -27,8 +26,8 @@ const schema = yup
     body: yup.string().required(),
   })
   .required();
-
 const CreateArticle = () => {
+  const userId = JSON.parse(localStorage.getItem('uuid') || '{}');
   const [loading, setLoading] = useState(false);
   const context: AppContextInterface | null = useContext(AppContext);
   const {
@@ -43,12 +42,10 @@ const CreateArticle = () => {
     },
     resolver: yupResolver(schema),
   });
-
   const navigate = useNavigate();
   useEffect(() => {
     localStorage.setItem('link', '/create-article');
   }, []);
-
   /**
    * On Submit Function.
    * @param data
@@ -65,7 +62,7 @@ const CreateArticle = () => {
         try {
           setLoading(true);
           let formData = new FormData();
-          formData.append('userId', context?.userData.id as unknown as string);
+          formData.append('userId', userId as unknown as string);
           formData.append('title', data.title);
           formData.append('body', data.body);
           formData.append('file', context?.postImage as unknown as string);
@@ -86,7 +83,6 @@ const CreateArticle = () => {
       }
     }
   };
-
   return (
     <>
       <Navbar login={true} isCreateArticle={true} />
@@ -148,7 +144,6 @@ const CreateArticle = () => {
                 />
               </Box>
             )}
-
             <Box mt={3}>
               <FormLabel
                 htmlFor='form-label-above-title'
@@ -199,7 +194,6 @@ const CreateArticle = () => {
                 />
               </Box>
             )}
-
             <Box mt={3}>
               <FormLabel
                 htmlFor='form-label-above-title'
@@ -208,7 +202,6 @@ const CreateArticle = () => {
                 Write something about it
               </FormLabel>
             </Box>
-
             {errors.body ? (
               <Box>
                 <Controller
@@ -257,11 +250,9 @@ const CreateArticle = () => {
                 />
               </Box>
             )}
-
             <Box mt={2} mb={4}>
               <StyledDropZone />
             </Box>
-
             <Button
               type='submit'
               variant='contained'

@@ -12,8 +12,8 @@ export const MyArticles = () => {
   const context: AppContextInterface | null = useContext(AppContext);
   const limit = 4;
   const [link, setLink] = useState('');
-  const userId = JSON.parse(localStorage.getItem('userDetails') || '{}')
-    .id as string;
+
+  const userId = JSON.parse(localStorage.getItem('uuid') || '{}');
 
   const { posts, hasMore, loading, cursor, error } =
     useInfiniteScrollOnMyArticles(limit, link, userId);
