@@ -37,13 +37,14 @@ export const Home = () => {
     },
     [loading, hasMore, cursor]
   );
+  console.log('context.loggedIn:::', context?.loggedIn);
 
   return (
     <>
       {context?.loggedIn ? (
         <Navbar login={true} mainPage={true} isHomeLinkActive={true} />
       ) : (
-        <Navbar mainPage={true} isHomeLinkActive={true} />
+        <Navbar login={false} mainPage={true} isHomeLinkActive={true} />
       )}
 
       <Container sx={{ marginY: 10 }}>

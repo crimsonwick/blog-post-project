@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import customAxios from '../auth/useAxios';
+import customAxios from '../interceptor/useAxios';
 import { CursorInterface, PostInterface } from '../interface/App';
 
 const useInfiniteScrollOnHome = (query: number, pageLink: string) => {

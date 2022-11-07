@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import customAxios from '../auth/useAxios';
+import customAxios from '../interceptor/useAxios';
 import {
   AppContextInterface,
   SearchDataInterface,
@@ -17,7 +17,7 @@ export const ContextProvider = (props: { children?: React.ReactNode }) => {
   const [userData, setUserData] = useState<UserInterface>({});
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [searchData, setSearchData] = useState<SearchDataInterface[]>([]);
   const [searchMyData, setSearchMyData] = useState<SearchMyDataInterface[]>([]);
   const [cursorPaginationLink, setCursorPaginationLink] = useState<string>('');

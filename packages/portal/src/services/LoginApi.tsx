@@ -1,5 +1,5 @@
-import authAxios from '../auth/authAxios';
-import customAxios from '../auth/useAxios';
+import authAxios from '../interceptor/authAxios';
+import customAxios from '../interceptor/useAxios';
 
 interface LoginDetailInterface {
   email?: string;

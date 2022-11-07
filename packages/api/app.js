@@ -16,8 +16,6 @@ class App {
   createServerFunction() {
     this.app.use(cors());
     this.app.use(express.json({ extended: true }));
-    this.app.use(express.static(__dirname + '/public'));
-    this.app.use('/uploads', express.static('uploads'));
     this.app.use('/users', User);
     this.app.use('/posts', Post);
     this.app.use('/comments', Comment);

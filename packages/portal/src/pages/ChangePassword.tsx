@@ -10,7 +10,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
-import customAxios from '../auth/useAxios';
+import customAxios from '../interceptor/useAxios';
 import { Alerts } from '../components/Alerts';
 import { Header } from '../components/Header';
 import '../styles/signup.css';
@@ -97,7 +97,6 @@ export const ChangePassword = () => {
     confirmPassword: string;
   }) => {
     try {
-      // console.log('??????????????????????????????????')
       errors.password ? setMessage(false) : setMessage(true);
       setMessage(true);
       const unparsedToken = location.search;
@@ -308,4 +307,5 @@ export const ChangePassword = () => {
     </Container>
   );
 };
+
 export default ChangePassword;

@@ -1,4 +1,4 @@
-import customAxios from '../auth/useAxios';
+import customAxios from '../interceptor/useAxios';
 import {
   AddCommentFunctionInterface,
   AddReplyInterface,

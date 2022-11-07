@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import authAxios from '../auth/authAxios';
+import authAxios from '../interceptor/authAxios';
 import { PostInterface } from '../interface/App';
 
 const useInfiniteScrollOnMyArticles = (

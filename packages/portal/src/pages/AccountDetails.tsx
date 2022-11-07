@@ -3,7 +3,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box, Container } from '@mui/system';
 import React, { useContext, useEffect, useState } from 'react';
-import authAxios from '../auth/authAxios';
+import authAxios from '../interceptor/authAxios';
 import { Alerts } from '../components/Alerts';
 import { BasicTable } from '../components/BasicTable';
 import { Navbar } from '../components/NavBar';
@@ -53,6 +53,7 @@ export const AccountDetails = () => {
       setLoading(false);
       if (response) {
         context?.setDp(response.data.image);
+        setImage(null);
         Alerts.success('Dp uploaded');
       }
     } catch (err) {
@@ -163,15 +164,17 @@ export const AccountDetails = () => {
                           marginTop: 16,
                         }}
                       >
-                        <img
-                          src={URL.createObjectURL(image)}
-                          alt='image_preview'
-                          style={{
-                            display: 'block',
-                            width: 'auto',
-                            height: '100%',
-                          }}
-                        />
+                        {image && (
+                          <img
+                            src={URL.createObjectURL(image)}
+                            alt='image_preview'
+                            style={{
+                              display: 'block',
+                              width: 'auto',
+                              height: '100%',
+                            }}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
