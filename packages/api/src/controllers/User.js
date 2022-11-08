@@ -186,13 +186,11 @@ export class UserController {
    * @returns
    */
   static resetPassword = async (req, res) => {
-    const { token } = req.query;
     // Get the token from params
+    const { token } = req.query;
+    const { password, confirmPassword } = req.body;
     const encryptedPassword = await hashPassword(password);
     try {
-      const { token } = req.query;
-      // Get the token from params
-      const { password, confirmPassword } = req.body;
       const resetLink = token;
       const user = await Users.findOne({
         where: {
@@ -220,6 +218,7 @@ export class UserController {
       console.log(error);
     }
   };
+
   /**
    *
    * @param {*} req

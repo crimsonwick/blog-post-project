@@ -46,7 +46,7 @@ export const AccountDetails = () => {
       }
       const parsetoken = parseJwt(context?.accessToken as string);
       const user = parsetoken.user;
-      const userId = JSON.parse(localStorage.getItem('userDetails') || '{}').id;
+      const userId = JSON.parse(localStorage.getItem('uuid') || '{}');
       console.log(userId);
       context?.setUserData(user);
       setLoading(true);

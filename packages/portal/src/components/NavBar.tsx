@@ -91,6 +91,7 @@ export const Navbar = (props: NavBarProps) => {
     }
   };
 
+  console.log('context.dp:::', context?.dp);
   return (
     <>
       <AppBar position='sticky' style={{ background: '#FFFFFF' }}>
