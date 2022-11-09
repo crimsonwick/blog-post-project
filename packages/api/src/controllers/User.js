@@ -87,7 +87,7 @@ export class UserController {
    */
   static generateAccessToken = (user) => {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: process.env.EXPIRES_IN,
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
     });
   };
   /**
@@ -110,6 +110,7 @@ export class UserController {
             email: user.email,
             password: user.password,
           });
+          console.log('access token refreshed::: ', accessToken);
           res.json({ accessToken: accessToken });
         }
       );
@@ -218,7 +219,6 @@ export class UserController {
       console.log(error);
     }
   };
-
   /**
    *
    * @param {*} req
