@@ -11,8 +11,19 @@ import { PostsHeader } from '../components/PostsHeader';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface } from '../interface/App';
 import { parseJwt } from '../services/LoginApi';
+import Avatar from '@mui/material/Avatar';
+import { AdvancedImage } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 
 export const AccountDetails = () => {
+
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: 'ddutykcuf',
+    },
+  });
+
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const context: AppContextInterface | null = useContext(AppContext);
@@ -86,15 +97,33 @@ export const AccountDetails = () => {
   return (
     <>
       <Navbar login={true} mainPage={false} />
-      <Container sx={{ marginY: 10 }}>
-        <Box mb={3}>
+      <Container sx={{ marginY: 2 }}>
+        <Box mb={2}>
           <PostsHeader name='Account Details' />
         </Box>
         <BasicTable />
-        <Box mt={7}>
+        <Box mt={2}>
           <PostsHeader name='Change Display Picture' />
           {!loading && (
             <Box component='form' onSubmit={handleSubmit}>
+              
+              
+                  <Box mt={3}>
+                  {context?.dp ? (
+                    <AdvancedImage
+                      cldImg={cld.image(`main/uploads/${context?.dp}`)}
+                      style={{ width: 286, height: 286, borderRadius: '50%' }}
+                      alt='dp'
+                    />
+                  ) : (
+                    <Avatar
+                      src={''}
+                      alt='dp'
+                      sx={{ width: 286, height: 286, borderRadius: '50%' }}
+                    />
+                  )}
+                  </Box>
+              
               <Button
                 variant='contained'
                 component='label'

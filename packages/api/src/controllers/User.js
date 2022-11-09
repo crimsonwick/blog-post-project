@@ -1,13 +1,13 @@
-import bcrypt from 'bcryptjs';
-import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
-import { uploadDp } from '../config/cloudinary.js';
-import { errorHandling } from '../middleware/Errors.js';
-import { successHandling } from '../middleware/Success';
-import model from '../models';
-import { hashPassword } from '../utils/hashPassword';
-import { sendEmail } from '../utils/sendMail';
-import { parseCloudinaryUrl } from '../utils/cloudinaryHelper';
+import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import { uploadDp } from "../config/cloudinary.js";
+import { errorHandling } from "../middleware/Errors.js";
+import { successHandling } from "../middleware/Success";
+import model from "../models";
+import { hashPassword } from "../utils/hashPassword";
+import { sendEmail } from "../utils/sendMail";
+import { parseCloudinaryUrl } from "../utils/cloudinaryHelper";
 dotenv.config();
 const resetSecret = process.env.RESET_PASSWORD_KEY;
 const { Users } = model;
@@ -167,7 +167,7 @@ export class UserController {
       }
       // otherwise we need to create a temporary token that expires in 10 mins
       const resetLink = jwt.sign({ user: user.email }, resetSecret, {
-        expiresIn: '1200s',
+        expiresIn: "1200s",
       });
       user.resetLink = resetLink;
       await user.save();
@@ -186,13 +186,11 @@ export class UserController {
    * @returns
    */
   static resetPassword = async (req, res) => {
-    const { token } = req.query;
     // Get the token from params
+    const { token } = req.query;
+    const { password, confirmPassword } = req.body;
     const encryptedPassword = await hashPassword(password);
     try {
-      const { token } = req.query;
-      // Get the token from params
-      const { password, confirmPassword } = req.body;
       const resetLink = token;
       const user = await Users.findOne({
         where: {
@@ -203,7 +201,7 @@ export class UserController {
       if (!user) {
         return res
           .status(400)
-          .json({ message: 'We could not find a match for this link' });
+          .json({ message: "We could not find a match for this link" });
       }
       jwt.verify(token, resetSecret, (error) => {
         if (error) {
@@ -232,7 +230,7 @@ export class UserController {
     try {
       const user = await Users.findOne({
         where: { id },
-        attributes: ['email', 'avatar'],
+        attributes: ["email", "avatar"],
       });
       return res.status(200).json(user);
     } catch (error) {
