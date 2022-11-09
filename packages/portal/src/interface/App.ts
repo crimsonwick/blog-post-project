@@ -138,6 +138,10 @@ export interface ArticleDetailComponentInterface {
   articleId: string
 }
 
+export interface BasicTableComponentInterface{
+  userId: string
+}
+
 export interface PostHeaderProps {
   textSize?: string
   count?: number

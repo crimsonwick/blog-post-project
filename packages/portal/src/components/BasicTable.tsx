@@ -1,3 +1,4 @@
+import { Backdrop, CircularProgress } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -5,13 +6,10 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 import { AppContextInterface, UserDetailInterface } from '../interface/App';
-import { parseName } from '../services/LoginApi';
-import { userDetail } from '../services/LoginApi';
-import { useEffect, useState } from 'react';
+import { parseName, userDetail } from '../services/LoginApi';
 /**
  * Returns created data from parameters
  * @param name
@@ -29,9 +27,11 @@ export const BasicTable = () => {
   const context: AppContextInterface | null = useContext(AppContext);
   const [data, setData] = useState<UserDetailInterface>();
   const [loading, setLoading] = useState(false);
+  const id = JSON.parse(localStorage.getItem('uuid') || '{}');
 
   const getUser = async (id: string) => {
     try {
+      debugger;
       setLoading(true);
       if (id) {
         const response = await userDetail(id);
@@ -44,9 +44,9 @@ export const BasicTable = () => {
   };
 
   useEffect(() => {
-    getUser(JSON.parse(localStorage.getItem('uuid') || '{}').id);
-  }, []);
-  debugger;
+    getUser(id);
+  }, [id]);
+
   const rows = [
     context && createData('Username', parseName(data?.email) as string),
     context && createData('Email', data?.email as string),
@@ -62,8 +62,8 @@ export const BasicTable = () => {
   }));
 
   return (
-    <React.Fragment>
-      <TableContainer component={Paper} elevation={2}>
+    <TableContainer component={Paper} elevation={2}>
+      {data && (
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableBody>
             {rows &&
@@ -80,7 +80,13 @@ export const BasicTable = () => {
               ))}
           </TableBody>
         </Table>
-      </TableContainer>
-    </React.Fragment>
+      )}
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
+    </TableContainer>
   );
 };

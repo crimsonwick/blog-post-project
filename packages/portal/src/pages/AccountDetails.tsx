@@ -14,10 +14,10 @@ import { parseJwt } from '../services/LoginApi';
 import Avatar from '@mui/material/Avatar';
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
+import { useParams } from 'react-router-dom';
 
 export const AccountDetails = () => {
-
-
+  const { userId } = useParams();
   const cld = new Cloudinary({
     cloud: {
       cloudName: 'ddutykcuf',
@@ -28,7 +28,7 @@ export const AccountDetails = () => {
   const [image, setImage] = useState<File | null>(null);
   const context: AppContextInterface | null = useContext(AppContext);
   useEffect(() => {
-    localStorage.setItem('link', '/account-details');
+    localStorage.setItem('link', `/account-details/${userId}`);
   }, []);
 
   /**
@@ -110,24 +110,22 @@ export const AccountDetails = () => {
           <PostsHeader name='Change Display Picture' />
           {!loading && (
             <Box component='form' onSubmit={handleSubmit}>
-              
-              
-                  <Box mt={3}>
-                  {context?.dp ? (
-                    <AdvancedImage
-                      cldImg={cld.image(`main/uploads/${context?.dp}`)}
-                      style={{ width: 286, height: 286, borderRadius: '50%' }}
-                      alt='dp'
-                    />
-                  ) : (
-                    <Avatar
-                      src={''}
-                      alt='dp'
-                      sx={{ width: 286, height: 286, borderRadius: '50%' }}
-                    />
-                  )}
-                  </Box>
-              
+              <Box mt={3}>
+                {context?.dp ? (
+                  <AdvancedImage
+                    cldImg={cld.image(`main/uploads/${context?.dp}`)}
+                    style={{ width: 286, height: 286, borderRadius: '50%' }}
+                    alt='dp'
+                  />
+                ) : (
+                  <Avatar
+                    src={''}
+                    alt='dp'
+                    sx={{ width: 286, height: 286, borderRadius: '50%' }}
+                  />
+                )}
+              </Box>
+
               <Button
                 variant='contained'
                 component='label'
