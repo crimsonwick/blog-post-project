@@ -31,7 +31,6 @@ export const BasicTable = () => {
 
   const getUser = async (id: string) => {
     try {
-      debugger;
       setLoading(true);
       if (id) {
         const response = await userDetail(id);
