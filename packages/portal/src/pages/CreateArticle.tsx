@@ -68,15 +68,19 @@ const CreateArticle = () => {
           formData.append('file', context?.postImage as unknown as string);
           formData.append('timeToRead', data.mins as unknown as Blob);
           const response = await addPost(formData);
-          console.log(response);
+          console.log('response:::', response);
           if (response.status >= 200 && response.status < 400) {
             Alerts.success('Post Created successfully');
             setTimeout(() => {
               navigate('/articles');
             }, 250);
           }
-        } catch (error) {
-          Alerts.error('Something went Wrong');
+        } catch (error: any) {
+          if (error && error?.request && error?.request?.status === 401) {
+            Alerts.error('Session Expired. Please refresh to continue');
+            setLoading(false);
+          }
+          console.log(error);
         }
       } else {
         Alerts.error('We only accept png/jpeg/jpg images');

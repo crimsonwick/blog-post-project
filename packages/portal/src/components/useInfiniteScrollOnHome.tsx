@@ -31,6 +31,7 @@ const useInfiniteScrollOnHome = (query: number, pageLink: string) => {
         console.log(res.data);
       })
       .catch((e) => {
+        debugger;
         setError(true);
         console.log(e);
       });

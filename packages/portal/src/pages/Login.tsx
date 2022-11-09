@@ -104,6 +104,7 @@ export const Login = () => {
         context?.setUserData(parsetoken.user);
         localStorage.setItem('login', response.data.accessToken);
         localStorage.setItem('uuid', JSON.stringify(parsetoken.user.id));
+        localStorage.setItem('avatar', JSON.stringify(parsetoken.user.avatar));
         context?.setDp(parsetoken.user.avatar);
         if (checkBox) {
           const responseRefreshToken = response.data.refreshToken;

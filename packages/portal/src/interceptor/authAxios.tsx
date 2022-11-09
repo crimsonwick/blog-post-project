@@ -7,13 +7,10 @@ const authAxios = axios.create({
   },
 });
 
-authAxios.interceptors.response.use(
-  (res) => {
-    return res;
-  },
-  (error) => {
-    Promise.reject(error);
-  }
-);
+authAxios.interceptors.response.use((res) => {
+  console.log('localStorage Token::: ', localStorage.getItem('accessToken'));
+  if (res.status === 401) return res;
+  return res;
+});
 
 export default authAxios;

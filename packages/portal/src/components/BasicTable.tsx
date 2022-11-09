@@ -44,9 +44,9 @@ export const BasicTable = () => {
   };
 
   useEffect(() => {
-    getUser(JSON.parse(localStorage.getItem('userDetails') || '{}').id);
+    getUser(JSON.parse(localStorage.getItem('uuid') || '{}').id);
   }, []);
-
+  debugger;
   const rows = [
     context && createData('Username', parseName(data?.email) as string),
     context && createData('Email', data?.email as string),
@@ -56,7 +56,6 @@ export const BasicTable = () => {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     '&:last-child td, &:last-child th': {
       border: 0,
     },

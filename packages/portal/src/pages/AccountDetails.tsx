@@ -57,7 +57,7 @@ export const AccountDetails = () => {
       }
       const parsetoken = parseJwt(context?.accessToken as string);
       const user = parsetoken.user;
-      const userId = JSON.parse(localStorage.getItem('userDetails') || '{}').id;
+      const userId = JSON.parse(localStorage.getItem('uuid') || '{}');
       console.log(userId);
       context?.setUserData(user);
       setLoading(true);
@@ -70,8 +70,12 @@ export const AccountDetails = () => {
         localStorage.setItem('avatar', JSON.stringify(response.data.image));
         Alerts.success('Dp uploaded');
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error: any) {
+      if (error && error?.request && error?.request?.status === 401) {
+        Alerts.error('Session Expired. Please refresh to continue');
+        setLoading(false);
+      }
+      console.log(error);
     }
   };
   /**
