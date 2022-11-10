@@ -57,15 +57,6 @@ export const uploadDp = async (locaFilePath) => {
         locaFilePath,
         {
           overwrite: false,
-          responsive_breakpoints: [
-            {
-              create_derived: false,
-              bytes_step: 20000,
-              min_width: 200,
-              max_width: 1000,
-              max_images: 20,
-            },
-          ],
           public_id: filePathOnCloudinary,
         },
         (err, url) => {
