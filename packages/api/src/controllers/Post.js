@@ -214,32 +214,23 @@ export class PostController {
     let query = {};
     let filtered = [];
     if (req.type === 'My-articles') {
+      if (req.user.user === undefined) return res.sendStatus(401);
       query = {
         index: 'posts',
         body: {
           query: {
-            match: { userId: req.params.id },
+            match: { userId: req.user.user.id },
           },
         },
       };
-      const LoginDetails = await Users.findAll({
-        where: {
-          email: req.user.user.email,
-        },
-      });
-      if (!LoginDetails) return `Un Authorized Access`;
-      else {
-        const myPosts = await client.search(query);
-        if (!myPosts) return `You haven't Posted Anything!!`;
-        else {
-          filtered = myPosts.body.hits.hits.filter((object) =>
-            object._source.title.includes(req.query.title)
-          );
-        }
-      }
+
+      const myPosts = await client.search(query);
+      filtered = myPosts.body.hits.hits.filter((object) =>
+        object._source.title.includes(req.query.title)
+      );
       return res.json(filtered);
     } else {
-      let query = {
+      query = {
         index: 'posts',
         body: {
           query: {

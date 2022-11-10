@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import authAxios from '../interceptor/authAxios';
 import { PostInterface } from '../interface/App';
 import { Alerts } from '../components/Alerts';
-import { useNavigate } from 'react-router-dom';
 
 const useInfiniteScrollOnMyArticles = (
   query: number,
@@ -38,9 +37,11 @@ const useInfiniteScrollOnMyArticles = (
           console.log(res.data);
         })
         .catch((e) => {
-          setError(true);
-          Alerts.error('Session Expired. Please refresh to continue');
-          setLoading(false);
+          if (e?.response?.status === 401) {
+            setError(true);
+            Alerts.error('Session Expired. Please refresh to continue');
+            setLoading(false);
+          }
           console.log(e);
         });
     }

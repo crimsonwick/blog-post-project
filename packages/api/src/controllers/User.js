@@ -70,6 +70,7 @@ export class UserController {
             process.env.REFRESH_TOKEN_SECRET
           );
           tokens.push(refreshToken);
+          console.log('accessToken:::', accessToken);
           return res.json({
             accessToken: accessToken,
             refreshToken: refreshToken,
