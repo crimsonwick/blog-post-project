@@ -1,6 +1,7 @@
 # blog-post-project
 
-**Training Project on my first coding job. August - October 2022.**
+**Training Project on my first coding job. August - October 2022.**  
+[Figma Link](https://www.figma.com/file/UtP0GuthZFuX58vCytu2kU/Kwanso-Blog?type=design&node-id=764-2&mode=design)
 
 This project involves a website built using PERN stack. A team of 4 people, with 2 frond end developers and 2 back end developers will be working on it. I mainly worked as a frontend dev on this project to learn React.  
 Breakdown of tasks done by myself on this project:  
